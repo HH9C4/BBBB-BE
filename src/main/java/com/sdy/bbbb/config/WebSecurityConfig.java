@@ -32,7 +32,7 @@ public class WebSecurityConfig {
 
     private final JwtUtil jwtUtil;
 
-    private final AuthenticationEntryPointException authenticationEntryPointException;
+//    private final AuthenticationEntryPointException authenticationEntryPointException;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -74,16 +74,17 @@ public class WebSecurityConfig {
         http.csrf().disable();
 
         //oauth2 로그인을 처리하는 메소드
-        http.oauth2Login();
+//        http.oauth2Login();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPointException);
+//        http.exceptionHandling()
+//                .authenticationEntryPoint(authenticationEntryPointException);
 
         http.authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/posts/**").permitAll()
                 .anyRequest().authenticated() //permitAll을 제외한 API는 모두 인증 필요
 
 
@@ -92,30 +93,30 @@ public class WebSecurityConfig {
                 .and()
                 .addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
-        http.csrf()
-                .ignoringAntMatchers("/user/**");
+//        http.csrf()
+//                .ignoringAntMatchers("/user/**");
 
-        http
-                .authorizeHttpRequests((authz) -> authz
-                        // image 폴더를 login 없이 허용
-                        .antMatchers("/images/**").permitAll()
-                        // css 폴더를 login 없이 허용
-                        .antMatchers("/css/**").permitAll()
-                        // 회원 관리 처리 API 전부를 login 없이 허용
-                        .antMatchers("/user/**").permitAll()
-                        // 어떤 요청이든 '인증'
-                        .anyRequest().authenticated()
-                )
-                // 로그인 기능 허용
-                .formLogin()
-                .loginPage("/user/login")
-                .defaultSuccessUrl("/")
-                .failureUrl("/user/login?error")
-                .permitAll()
-                .and()
-                //로그아웃 기능 허용
-                .logout()
-                .permitAll();
+//        http
+//                .authorizeHttpRequests((authz) -> authz
+//                        // image 폴더를 login 없이 허용
+//                        .antMatchers("/images/**").permitAll()
+//                        // css 폴더를 login 없이 허용
+//                        .antMatchers("/css/**").permitAll()
+//                        // 회원 관리 처리 API 전부를 login 없이 허용
+//                        .antMatchers("/user/**").permitAll()
+//                        // 어떤 요청이든 '인증'
+//                        .anyRequest().authenticated()
+//                )
+//                // 로그인 기능 허용
+//                .formLogin()
+//                .loginPage("/user/login")
+//                .defaultSuccessUrl("/")
+//                .failureUrl("/user/login?error")
+//                .permitAll()
+//                .and()
+//                //로그아웃 기능 허용
+//                .logout()
+//                .permitAll();
 
         return http.build();
 

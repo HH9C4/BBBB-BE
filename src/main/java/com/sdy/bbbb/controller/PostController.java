@@ -1,5 +1,6 @@
 package com.sdy.bbbb.controller;
 
+import com.sdy.bbbb.config.UserDetailsImpl;
 import com.sdy.bbbb.dto.request.PostRequestDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.dto.response.PostResponseDto;

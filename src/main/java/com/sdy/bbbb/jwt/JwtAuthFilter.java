@@ -1,6 +1,7 @@
 package com.sdy.bbbb.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -51,7 +52,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         response.setStatus(status.value());
         response.setContentType("application/json");
         try {
-            String json = new ObjectMapper().writeValueAsString(new GlobalResponseDto(msg, status.value()));
+            String json = new ObjectMapper().writeValueAsString(new GlobalResponseDto(msg, "",""));
             response.getWriter().write(json);
         } catch (Exception e) {
             log.error(e.getMessage());

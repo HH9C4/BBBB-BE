@@ -28,7 +28,7 @@ public class PostResponseDto {
 
     public PostResponseDto(Post post, Account account, List<String> imageUrl, boolean isLiked) {
         this.postId = post.getId();
-        this.accountName = account.getName();
+        this.accountName = account.getUsername();
         this.imageUrl = imageUrl;
         this.content = post.getContent();
         this.category = post.getCategory();

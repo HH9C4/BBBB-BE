@@ -25,7 +25,7 @@ public class PostService {
 
     @Transactional
     //게시글 작성
-    public GlobalResponseDto<PostResponseDto> createPost(PostRequestDto postRequestDto, Account currentAccount) {
+    public GlobalResponseDto<String> createPost(PostRequestDto postRequestDto, Account currentAccount) {
         Post post = new Post(postRequestDto, currentAccount);
         //쿼리 두번 보다 한번으로 하는게 낫겠쥐?
 
@@ -68,15 +68,15 @@ public class PostService {
         return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
     }
 
-    @Transactional(readOnly = true)
-    public GlobalResponseDto<PostResponseDto> getOnePost() {
-
-    }
+//    @Transactional(readOnly = true)
+//    public GlobalResponseDto<PostResponseDto> getOnePost() {
+//
+//    }
 
 
     @Transactional
     //게시글 수정
-    public GlobalResponseDto<PostResponseDto> updatePost(Long postId, PostRequestDto postRequestDto, Account currentAccount) {
+    public GlobalResponseDto<String> updatePost(Long postId, PostRequestDto postRequestDto, Account currentAccount) {
         //어차피 쓸거 일단 찾아
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFound));
         //작성자 일치여부 확인
@@ -114,7 +114,7 @@ public class PostService {
 
     @Transactional
     //게시글 삭제
-    public GlobalResponseDto<PostResponseDto> deletePost(Long postId, Account currentAccount) {
+    public GlobalResponseDto<String> deletePost(Long postId, Account currentAccount) {
         //어차피 쓸거 일단 찾아
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFound));
         //작성자 일치여부 확인
