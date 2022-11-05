@@ -1,4 +1,10 @@
 package com.sdy.bbbb.exception;
 
-public enum CustomException {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
+public class CustomException extends RuntimeException{
+    ErrorCode errorCode;
 }
