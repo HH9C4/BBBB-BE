@@ -18,6 +18,7 @@ public class Comment {
     private String comment;
     private String accountName;
     private LocalDateTime time = LocalDateTime.now();
+    private boolean isChecked;
     @ManyToOne
     @JoinColumn
     private Account account;
