@@ -28,16 +28,16 @@ public class Post extends TimeStamped{
     private String content;
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     @JsonIgnore
-    private List<Comment> commentList;
-    @OneToMany(mappedBy = "post")
+    private List<Comment> commentList = new ArrayList<>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     @JsonIgnore
-    private List<Like> likeList;
+    private List<Like> likeList = new ArrayList<>();
 
     @Column(nullable = false)
-    private int commentCount = commentList.size();
+    private int commentCount;
 
     @Column(nullable = false)
-    private int likeCount = likeList.size();
+    private int likeCount;
 
     @Column(nullable = false)
     private int views;
@@ -49,6 +49,8 @@ public class Post extends TimeStamped{
         this.content = postRequestDto.getContent();
         this.account = account;
         this.gu = postRequestDto.getGu();
+        this.commentCount = commentList.size();
+        this.likeCount = likeList.size();
     }
 
     public void update(PostRequestDto postRequestDto) {
