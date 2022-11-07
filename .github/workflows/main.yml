@@ -15,6 +15,7 @@ jobs:
 
     # 1) 워크플로우 실행 전 기본적으로 체크아웃 필요
     - uses: actions/checkout@v3
+  
 
     # 2) JDK 11 버전 설치, 다른 JDK 버전을 사용한다면 수정 필요
     - name: Set up JDK 11
@@ -22,6 +23,9 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
+        
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
 
     # 3) Gradle 사용. arguments 를 붙이면 뒤에 그대로 실행된다고 생각하면 됨
     # 이 워크플로우는 gradle clean build 를 수행함
