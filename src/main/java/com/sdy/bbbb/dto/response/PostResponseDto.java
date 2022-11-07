@@ -12,10 +12,9 @@ import java.util.List;
 public class PostResponseDto {
     private Long postId;
     private String accountName;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<String> imageUrl;
     private String content;
-    private String category;
+    private String tag;
     private String gu;
     private Integer likeCount;
     private Boolean isLiked;
@@ -23,20 +22,34 @@ public class PostResponseDto {
     private String createdAt;
     private String modifiedAt;
 
-//    @JsonInclude(JsonInclude.Include.NON_NULL)
-//    private Comment comment;
+
 
     public PostResponseDto(Post post, Account account, List<String> imageUrl, boolean isLiked) {
         this.postId = post.getId();
         this.accountName = account.getUsername();
         this.imageUrl = imageUrl;
         this.content = post.getContent();
-        this.category = post.getCategory();
         this.gu = post.getGu();
+        this.tag = post.getTag();
         this.likeCount = post.getLikeCount();
         this.isLiked = isLiked;
         this.views = post.getViews();
         this.createdAt = Chrono.timesAgo(post.getCreatedAt());
         this.modifiedAt = Chrono.timesAgo(post.getModifiedAt());
     }
+
+    //이미지 없을 경우?? 어차피 빈배열일테니 필요없다.
+//    public PostResponseDto(Post post, Account account, boolean isLiked) {
+//        this.postId = post.getId();
+//        this.accountName = account.getUsername();
+//        this.imageUrl = null;
+//        this.content = post.getContent();
+//        this.gu = post.getGu();
+//        this.tag = post.getTag();
+//        this.likeCount = post.getLikeCount();
+//        this.isLiked = isLiked;
+//        this.views = post.getViews();
+//        this.createdAt = Chrono.timesAgo(post.getCreatedAt());
+//        this.modifiedAt = Chrono.timesAgo(post.getModifiedAt());
+//    }
 }

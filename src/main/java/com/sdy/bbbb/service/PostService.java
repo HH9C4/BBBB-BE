@@ -2,6 +2,7 @@ package com.sdy.bbbb.service;
 
 import com.sdy.bbbb.dto.request.PostRequestDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
+import com.sdy.bbbb.dto.response.OnePostResponseDto;
 import com.sdy.bbbb.dto.response.PostResponseDto;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.Image;
@@ -24,7 +25,7 @@ public class PostService {
     private final ImageRepository imageRepository;
 
     @Transactional
-    //게시글 작성
+    //게시글 생성
     public GlobalResponseDto<String> createPost(PostRequestDto postRequestDto, Account currentAccount) {
         Post post = new Post(postRequestDto, currentAccount);
         //쿼리 두번 보다 한번으로 하는게 낫겠쥐?
@@ -33,11 +34,12 @@ public class PostService {
         if (postRequestDto.getImageUrl() != null) {
             List<String> imgUrlList = postRequestDto.getImageUrl();
             List<Image> imageList = new ArrayList<>();
-            for(String imgUrl : imgUrlList) {
-                Image image = new Image(post,imgUrl);
+            for (String imgUrl : imgUrlList) {
+                Image image = new Image(post, imgUrl);
                 imageList.add(image);
                 imageRepository.save(image);
             }
+            //굳이 set 해줘야하나??
             post.setImageList(imageList);
         }
 
@@ -51,58 +53,61 @@ public class PostService {
         List<Post> postList;
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 
-        if (sort.equals("new")){
+        if (sort.equals("new")) {
             postList = postRepository.findPostsByGuOrderByCreatedAtDesc(gu);
-        }else if (sort.equals("hot")){
+        } else if (sort.equals("hot")) {
             postList = postRepository.findPostsByGuOrderByLikeCountDesc(gu);
-        }else{
-            postList = postRepository.findPostsByGuAndCategoryOrderByCreatedAt(gu, sort);
+        } else {
+            throw new CustomException(ErrorCode.NotFound);//잘못된 요청
         }
-        for(Post post : postList){
-            List<String> imageUrl = new ArrayList<>();
-            for(Image img : post.getImageList()){
-                imageUrl.add(img.getImageUrl());
-            }
-            postResponseDtoList.add(new PostResponseDto(post, currentAccount, imageUrl, false));
+
+        //사진 url로 변경하기
+        for (Post post : postList) {
+//
+            postResponseDtoList.add(new PostResponseDto(post, currentAccount, getImgUrl(post), false));
         }
         return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
     }
 
-//    @Transactional(readOnly = true)
-//    public GlobalResponseDto<PostResponseDto> getOnePost() {
-//
-//    }
+    //게시글 상세 조회
+    @Transactional(readOnly = true)
+    public GlobalResponseDto<OnePostResponseDto> getOnePost(Long postId, Account currentAccount) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFound));
+        //이미지 추출 함수로, DTO에 있는게 나을까?
 
+        return GlobalResponseDto.ok("조회 성공",new OnePostResponseDto(post, currentAccount, getImgUrl(post), false));
+    }
 
-    @Transactional
     //게시글 수정
+    @Transactional
     public GlobalResponseDto<String> updatePost(Long postId, PostRequestDto postRequestDto, Account currentAccount) {
         //어차피 쓸거 일단 찾아
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFound));
         //작성자 일치여부 확인
-        if(!post.getAccount().getId().equals(currentAccount.getId())) throw new CustomException(ErrorCode.NotMatch);//에러코드 수정
+        checkPostAuthor(post, currentAccount);
+
         //이미지 수정
         //삭제할 이미지 있다면
-        if(postRequestDto.getDeleteUrl() != null){
+        if (postRequestDto.getDeleteUrl() != null) {
             List<String> imageUrlList = postRequestDto.getDeleteUrl();
-            for(String imageUrl : imageUrlList) {
+            for (String imageUrl : imageUrlList) {
                 if (imageRepository.existsByImageUrl(imageUrl)) {
                     imageRepository.deleteByImageUrl(imageUrl);
-                }else{
+                } else {
                     throw new CustomException(ErrorCode.NotFound);
                 }
             }
         }
         //추가할 이미지 있다면
-        if(postRequestDto.getImageUrl() != null){
+        if (postRequestDto.getImageUrl() != null) {
             List<String> imageUrlList = postRequestDto.getImageUrl();
-            for(String imageUrl : imageUrlList) {
+            for (String imageUrl : imageUrlList) {
                 if (!(imageRepository.existsByImageUrl(imageUrl))) {
                     Image image = new Image(post, imageUrl);
                     //테스트시 꼼꼼히 보자
                     post.getImageList().add(image);
                     imageRepository.save(image);
-                }else {
+                } else {
                     throw new CustomException(ErrorCode.AlreadyExists);
                 }
             }
@@ -112,24 +117,32 @@ public class PostService {
         return GlobalResponseDto.ok("게시글 수정이 완료되었습니다.", null);
     }
 
-    @Transactional
     //게시글 삭제
+    @Transactional
     public GlobalResponseDto<String> deletePost(Long postId, Account currentAccount) {
         //어차피 쓸거 일단 찾아
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFound));
         //작성자 일치여부 확인
-        if(!post.getAccount().getId().equals(currentAccount.getId())) throw new CustomException(ErrorCode.NotMatch);//에러코드 수정
+        checkPostAuthor(post, currentAccount);
 
         postRepository.delete(post);
         return GlobalResponseDto.ok("게시글 삭제가 완료되었습니다.", null);
     }
 
+    //이미지 추출
+    public List<String> getImgUrl(Post post){
+        List<String> imageUrl = new ArrayList<>();
+        for(Image img : post.getImageList()){
+            imageUrl.add(img.getImageUrl());
+        }
+        return imageUrl;
+    }
 
-
-    //굳이??
-//    public boolean checkPostAuthor(Long postId, Account currentAccount) {
-//        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFound));
-//        return post.getAccount().getId().equals(currentAccount.getId());
-//    }
+    //작성자 확인
+    public void checkPostAuthor(Post post, Account currentAccount) {
+        if (!post.getAccount().getId().equals(currentAccount.getId())){
+            throw new CustomException(ErrorCode.NotMatch);
+        }
+    }
 
 }
