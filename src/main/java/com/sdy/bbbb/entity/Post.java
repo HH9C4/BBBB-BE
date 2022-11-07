@@ -39,6 +39,7 @@ public class Post extends TimeStamped{
     @Column(nullable = false)
     private int views;
 
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Comment> commentList;
 
