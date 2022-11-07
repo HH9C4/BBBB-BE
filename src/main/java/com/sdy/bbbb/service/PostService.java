@@ -10,6 +10,7 @@ import com.sdy.bbbb.entity.Post;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.repository.ImageRepository;
+import com.sdy.bbbb.repository.LikeRepository;
 import com.sdy.bbbb.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,8 @@ import java.util.List;
 public class PostService {
     private final PostRepository postRepository;
     private final ImageRepository imageRepository;
+
+    private final LikeRepository likeRepository;
 
     @Transactional
     //게시글 생성
@@ -61,21 +64,23 @@ public class PostService {
             throw new CustomException(ErrorCode.NotFound);//잘못된 요청
         }
 
-        //사진 url로 변경하기
         for (Post post : postList) {
-//
-            postResponseDtoList.add(new PostResponseDto(post, currentAccount, getImgUrl(post), false));
+            //좋아요 확인
+
+            postResponseDtoList.add(new PostResponseDto(post, currentAccount, getImgUrl(post), amILiked(post, currentAccount)));
         }
         return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
     }
 
     //게시글 상세 조회
-    @Transactional(readOnly = true)
+    @Transactional
     public GlobalResponseDto<OnePostResponseDto> getOnePost(Long postId, Account currentAccount) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFound));
+
+        post.setViews(post.getViews() + 1);
         //이미지 추출 함수로, DTO에 있는게 나을까?
 
-        return GlobalResponseDto.ok("조회 성공",new OnePostResponseDto(post, currentAccount, getImgUrl(post), false));
+        return GlobalResponseDto.ok("조회 성공",new OnePostResponseDto(post, currentAccount, getImgUrl(post), amILiked(post, currentAccount)));
     }
 
     //게시글 수정
@@ -143,6 +148,11 @@ public class PostService {
         if (!post.getAccount().getId().equals(currentAccount.getId())){
             throw new CustomException(ErrorCode.NotMatch);
         }
+    }
+
+    //좋아요 여부
+    public boolean amILiked(Post post, Account currentAccount) {
+        return likeRepository.existsByPostAndAccount(post, currentAccount);
     }
 
 }
