@@ -1,5 +1,6 @@
 package com.sdy.bbbb.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sdy.bbbb.dto.request.PostRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,8 +42,9 @@ public class Post extends TimeStamped{
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Comment> commentList;
 
-//    @OneToMany(mappedBy = "post")
-//    private List<Like> likeList;
+    @OneToMany(mappedBy = "post")
+    @JsonIgnore
+    private List<Like> likeList;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Image> imageList = new ArrayList();
