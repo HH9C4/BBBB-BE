@@ -21,20 +21,20 @@ public class Account extends TimeStamped {
     // nullable: null 허용 여부
     // unique: 중복 허용 여부 (false 일때 중복 허용)
     @Column(nullable = false, unique = true)
-    private String username = "장윤서";
+    private String username;
 
     @Column(nullable = false)
-    private String password = "123";
+    private String password ;
 
     @Column(nullable = false, unique = true)
-    private String email = "dbstj214@naver.com";
+    private String email;
 
 //    @Column(nullable = false)
 //    @Enumerated(value = EnumType.STRING)
 //    private UserRoleEnum role;
 
     @Column(unique = true)
-    private Long kakaoId = 1L;
+    private Long kakaoId;
 
     @Column(nullable = true)
     private String gender;
