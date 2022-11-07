@@ -10,4 +10,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findPostsByGuOrderByCreatedAtDesc(String gu);
     List<Post> findPostsByGuOrderByLikeCountDesc(String gu);
     Optional<Post> findById(Long id);
+
+    List<Post> findPostsByAccount_Id(Long accountId);
 }

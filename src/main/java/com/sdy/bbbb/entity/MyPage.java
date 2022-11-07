@@ -14,4 +14,8 @@ public class MyPage {
     @OneToOne
     @JoinColumn(name = "accountId")
     private Account account;
+
+//    @OneToMany
+//    @JoinColumn(name = "gu")
+//    private Gu gu;
 }

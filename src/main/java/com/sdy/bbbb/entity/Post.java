@@ -45,7 +45,7 @@ public class Post extends TimeStamped{
 
     @OneToMany(mappedBy = "post")
     @JsonIgnore
-    private List<Like> likeList;
+    private List<Like> likeList = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Image> imageList = new ArrayList();
