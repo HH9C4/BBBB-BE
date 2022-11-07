@@ -17,35 +17,30 @@ public class Post extends TimeStamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Account account;
-
     @Column(nullable = false)
     private String gu;
-
     @Column
     private String tag;
     @Column(nullable = false)
     private String content;
-
-    @Column(nullable = false)
-    private int commentCount;
-
-    @Column(nullable = false)
-    private int likeCount;
-
-    @Column(nullable = false)
-    private int views;
-
-
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private List<Comment> commentList;
-
     @OneToMany(mappedBy = "post")
     @JsonIgnore
     private List<Like> likeList;
+
+    @Column(nullable = false)
+    private int commentCount = commentList.size();
+
+    @Column(nullable = false)
+    private int likeCount = likeList.size();
+
+    @Column(nullable = false)
+    private int views;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Image> imageList = new ArrayList();
