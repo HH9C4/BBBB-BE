@@ -42,6 +42,9 @@ public class Account extends TimeStamped {
     @Column(nullable = true)
     private String ageRange;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name="myPageId")
+    private MyPage myPage;
 
     public Account(String username, String password, String email, Long kakaoId) {
         this.username = username;
