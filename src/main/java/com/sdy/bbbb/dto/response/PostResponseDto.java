@@ -38,6 +38,18 @@ public class PostResponseDto {
         this.modifiedAt = Chrono.timesAgo(post.getModifiedAt());
     }
 
+    public PostResponseDto(Post post, Account account) {
+        this.postId = post.getId();
+        this.accountName = account.getUsername();
+        this.content = post.getContent();
+        this.gu = post.getGu();
+        this.tag = post.getTag();
+        this.likeCount = post.getLikeCount();
+        this.views = post.getViews();
+        this.createdAt = Chrono.timesAgo(post.getCreatedAt());
+        this.modifiedAt = Chrono.timesAgo(post.getModifiedAt());
+    }
+
     //이미지 없을 경우?? 어차피 빈배열일테니 필요없다.
 //    public PostResponseDto(Post post, Account account, boolean isLiked) {
 //        this.postId = post.getId();
