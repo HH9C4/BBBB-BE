@@ -21,9 +21,6 @@ public class Post extends TimeStamped{
     @ManyToOne(fetch = FetchType.LAZY)
     private Account account;
 
-//    @JoinColumn(nullable = false)
-//    @ManyToOne
-//    private Gu gu;
 
     @Column(nullable = false)
     private String gu;
