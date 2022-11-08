@@ -37,5 +37,4 @@ public class PostResponseDto {
         this.createdAt = Chrono.timesAgo(post.getCreatedAt());
         this.modifiedAt = Chrono.timesAgo(post.getModifiedAt());
     }
-
 }

@@ -142,8 +142,9 @@ public class AccountService {
                 .get("nickname").asText();
         String email = jsonNode.get("kakao_account")
                 .get("email").asText();
-
-        return new KakaoUserInfoDto(id, nickname, email);
+        String profileImage = jsonNode.get("profile_image")
+                .get("profileImage").asText();
+        return new KakaoUserInfoDto(id, nickname, email, profileImage);
     }
 
     private Account registerKakaoUserIfNeeded(KakaoUserInfoDto kakaoUserInfo) {
@@ -173,7 +174,10 @@ public class AccountService {
                 // role: 일반 사용자
 //                UserRoleEnum role = UserRoleEnum.USER;
 
-                kakaoUser = new Account(nickname, encodedPassword, email, kakaoId);
+                // 프로필 사진 가져오기
+                String profileImage = kakaoUserInfo.getProfileImage();
+
+                kakaoUser = new Account(nickname, encodedPassword, email, profileImage, kakaoId);
             }
 
             accountRepository.save(kakaoUser);
