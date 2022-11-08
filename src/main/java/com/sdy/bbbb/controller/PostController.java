@@ -9,9 +9,13 @@ import com.sdy.bbbb.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -22,11 +26,13 @@ public class PostController {
     private final PostService postService;
 
     //게시글 생성
-    @PostMapping
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
-    public GlobalResponseDto<String> createPost(@RequestBody PostRequestDto postRequestDto,
-                                                @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return postService.createPost(postRequestDto, userDetails.getAccount());
+    public GlobalResponseDto<String> createPost(@RequestPart PostRequestDto postRequestDto,
+                                                @RequestPart(required = false) List<MultipartFile> multipartFile,
+                                                @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
+
+        return postService.createPost(postRequestDto, multipartFile, userDetails.getAccount());
     }
 
     //게시글 조회
@@ -48,8 +54,9 @@ public class PostController {
     @ResponseStatus(HttpStatus.CREATED)
     public GlobalResponseDto<String> updatePost(@PathVariable Long postId,
                                                 @RequestBody PostRequestDto postRequestDto,
-                                                @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return postService.updatePost(postId, postRequestDto, userDetails.getAccount());
+                                                @RequestPart(required = false) List<MultipartFile> multipartFile,
+                                                @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
+        return postService.updatePost(postId, postRequestDto, multipartFile, userDetails.getAccount());
     }
 
     //게시글 삭제

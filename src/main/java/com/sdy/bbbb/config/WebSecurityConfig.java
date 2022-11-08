@@ -70,6 +70,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
+
         http.cors();
         http.csrf().disable();
 
@@ -85,7 +86,9 @@ public class WebSecurityConfig {
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/posts/**").permitAll()
-                .anyRequest().permitAll() //permitAll을 제외한 API는 모두 인증 필요
+                .anyRequest().permitAll()
+//                .anyRequest().authenticated() //permitAll을 제외한 API는 모두 인증 필요
+
 
 
 
