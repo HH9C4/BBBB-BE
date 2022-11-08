@@ -30,8 +30,8 @@ public class CommentService {
         // request받은 댓글, 게시글, 유저정보
         commentRepository.save(comment);
         // 댓글 저장
-        post.getCommentList().add(comment); // getter 최대한 안쓰기 -> 메소드 만들기
-        // 34번줄 성우님과 상의 (게시글 GET 메소드시 업데이트 or 댓글 생성시 자동 업데이트 -> 댓글 생성시 업데이트 댓글 카운트도 생각)
+        post.getCommentList().add(comment);
+        // 게시글에도 저장
         return GlobalResponseDto.created("댓글이 생성되었습니다");
     }
     @Transactional
