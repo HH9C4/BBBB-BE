@@ -145,7 +145,7 @@ public class PostService {
 
     //등록 할 이미지가 있다면 사용
     public void createImageIfNotNull(List<MultipartFile> multipartFile, Post post) throws IOException {
-        if (multipartFile != null){
+        if (multipartFile != null && multipartFile.size() != 0){
             List<Image> imageList = new ArrayList<>();
             for (MultipartFile imgFile : multipartFile) {
                 Image image = new Image(post, s3Uploader.uploadFiles(imgFile, "dir1"));
