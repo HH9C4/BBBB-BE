@@ -26,4 +26,5 @@ public class MyPage {
     public MyPage(Account kakaoUser) {
         this.account = kakaoUser;
     }
+
 }

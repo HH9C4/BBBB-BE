@@ -31,15 +31,11 @@ public class Account extends TimeStamped {
     @Column(nullable = false, unique = true)
     private String email;
 
-//    @Column(nullable = false)
-//    @Enumerated(value = EnumType.STRING)
-//    private UserRoleEnum role;
-
     @Column(unique = true)
     private Long kakaoId;
 
-//    @Column(nullable = true)
-//    private String profileImage;
+    @Column(nullable = true)
+    private String profileImage;
 
     @Column(nullable = true)
     private String gender;
@@ -60,12 +56,11 @@ public class Account extends TimeStamped {
     @OneToMany(mappedBy = "account")
     List<Like> likes = new ArrayList<>();
 
-    public Account(String accountName, String password, String email, Long kakaoId) {
-        this.accountName = accountName;
+    public Account(String nickname, String password, String email, String profileImage, Long kakaoId) {
+        this.accountName = nickname;
         this.password = password;
         this.email = email;
-//        this.role = role;
-//        this.profileImage = profileImage;
+        this.profileImage = profileImage;
         this.kakaoId = kakaoId;
     }
 }
