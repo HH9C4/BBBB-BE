@@ -39,7 +39,7 @@ public class CommentService {
         Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFound));
         // 예외코드 아직 안만듬 -> 댓글 없으면 예외처리 (댓글을 찾을 수 없습니다)
-        if (comment.getAccount() != account) {
+        if (!comment.getAccount().getId().equals(account.getId())) {
             throw new CustomException(ErrorCode.NotFound);
         }// 댓글 작성자 아니면 에러코드 (작성자가 아닙니다)
         commentRepository.delete(comment);

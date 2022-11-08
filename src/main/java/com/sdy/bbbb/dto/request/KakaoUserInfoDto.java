@@ -15,4 +15,8 @@ public class KakaoUserInfoDto {
 
     private String profileImage;
 
+    private String gender;
+
+    private String ageRange;
+
 }

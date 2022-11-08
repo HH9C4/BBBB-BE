@@ -84,9 +84,7 @@ public class AccountService {
         //토큰을 header에 넣어서 클라이언트에게 전달하기
         setHeader(response, tokenDto);
 
-
-
-        return GlobalResponseDto.ok(kakaoUserInfo.getNickname() + "님 환영합니다.", "accountName :" + kakaoUserInfo.getNickname());
+        return GlobalResponseDto.ok(kakaoUserInfo.getNickname() + "님 환영합니다.", new LoginResponseDto(kakaoUser));
     }
 
     private void setHeader(HttpServletResponse response, TokenDto tokenDto) {
@@ -150,7 +148,11 @@ public class AccountService {
                 .get("email").asText();
         String profileImage = jsonNode.get("kakao_account")
                 .get("profile").get("profile_image_url").asText();
-        return new KakaoUserInfoDto(id, nickname, email, profileImage);
+        String gender = jsonNode.get("kakao_account")
+                .get("gender").asText();
+        String ageRange = jsonNode.get("kakao_account")
+                .get("age_range").asText();
+        return new KakaoUserInfoDto(id, nickname, email, profileImage, gender, ageRange);
     }
 
     private Account registerKakaoUserIfNeeded(KakaoUserInfoDto kakaoUserInfo) {
