@@ -30,7 +30,11 @@ public class LikeService {
         }else {
         Like like = new Like(post, liketLevel, account);
         likeRepository.save(like);
+        // 좋아요 저장
         post.getLikeList().add(like);
+        // 게시글 좋아요 추가
+        post.setLikeCount(post.getLikeList().size());
+        // 게시글 좋아요 수 변경
         return true;
         }
     }
@@ -43,6 +47,9 @@ public class LikeService {
         Optional<Like> foundLike = likeRepository.findByPostAndAccount(post, account);
         if (foundLike.isPresent()){
             likeRepository.delete(foundLike.get());
+            // 좋아요 삭제
+            post.setLikeCount(post.getLikeList().size());
+            // 게시글 좋아요 수 변경
             return false;
         }else {
             throw new CustomException(ErrorCode.NotFound);
