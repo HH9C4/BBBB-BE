@@ -13,4 +13,5 @@ public class PostRequestDto {
     private List<String> deleteUrl;
     @NotBlank
     private String gu;
+    private String tag;
 }

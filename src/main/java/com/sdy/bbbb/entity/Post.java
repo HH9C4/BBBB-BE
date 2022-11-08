@@ -49,6 +49,7 @@ public class Post extends TimeStamped{
         this.content = postRequestDto.getContent();
         this.account = account;
         this.gu = postRequestDto.getGu();
+        this.tag = postRequestDto.getTag();
         this.commentCount = commentList.size();
         this.likeCount = likeList.size();
     }

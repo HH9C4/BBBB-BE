@@ -32,7 +32,7 @@ public class PostService {
     public GlobalResponseDto<String> createPost(PostRequestDto postRequestDto, Account currentAccount) {
         Post post = new Post(postRequestDto, currentAccount);
         //쿼리 두번 보다 한번으로 하는게 낫겠쥐?
-
+        postRepository.save(post);
         //이미지 있다면
         if (postRequestDto.getImageUrl() != null) {
             List<String> imgUrlList = postRequestDto.getImageUrl();
@@ -46,7 +46,7 @@ public class PostService {
             post.setImageList(imageList);
         }
 
-        postRepository.save(post);
+
         return GlobalResponseDto.created("게시글이 등록 되었습니다.");
     }
 
@@ -59,7 +59,7 @@ public class PostService {
         if (sort.equals("new")) {
             postList = postRepository.findPostsByGuOrderByCreatedAtDesc(gu);
         } else if (sort.equals("hot")) {
-            postList = postRepository.findPostsByGuOrderByLikeCountDesc(gu);
+            postList = postRepository.findPostsByGuOrderByLikeCountDescCreatedAtDesc(gu);
         } else {
             throw new CustomException(ErrorCode.NotFound);//잘못된 요청
         }
