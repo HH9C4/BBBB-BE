@@ -32,6 +32,20 @@ public class WebSecurityConfig {
 
     private final JwtUtil jwtUtil;
 
+    private static final String[] PERMIT_URL_ARRAY = {
+/* swagger v2 */
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+/* swagger v3 */
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+    }; // swagger 열어주기
+
 //    private final AuthenticationEntryPointException authenticationEntryPointException;
 
     @Bean
@@ -84,6 +98,7 @@ public class WebSecurityConfig {
 
         http.authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
+                .antMatchers(PERMIT_URL_ARRAY).permitAll() //swagger 열어주기
                 .antMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/posts/**").permitAll()
                 .anyRequest().permitAll()

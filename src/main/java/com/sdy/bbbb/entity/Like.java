@@ -13,6 +13,7 @@ public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String liketLevel;
     @ManyToOne
     @JoinColumn
     private Account account;
@@ -20,9 +21,10 @@ public class Like {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    public Like(Post post, Account account){
+    public Like(Post post, String liketLevel, Account account){
         this.post = post;
         this.account = account;
+        this.liketLevel = liketLevel;
     }
 
 
