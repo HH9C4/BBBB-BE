@@ -19,7 +19,7 @@ public class LikeService {
     private final LikeRepository likeRepository;
     private final PostRepository postRepository;
     @Transactional
-    public boolean createLike(Long postId, Account account){
+    public boolean createLike(Long postId, String liketLevel, Account account){
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFound));
         //게시글 없으면 에러처리
@@ -28,7 +28,7 @@ public class LikeService {
             throw new CustomException(ErrorCode.NotFound);
             // 좋아요 정보가 있는 상태 예외 처리 -> 예외코드 만들어야함 (혹시 몰라서 일단 예외처리)
         }else {
-        Like like = new Like(post, account);
+        Like like = new Like(post, liketLevel, account);
         likeRepository.save(like);
         post.getLikeList().add(like);
         return true;

@@ -1,6 +1,7 @@
 package com.sdy.bbbb.controller;
 
 import com.sdy.bbbb.config.UserDetailsImpl;
+import com.sdy.bbbb.dto.request.LikeRequestDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.service.LikeService;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,9 @@ public class LikeController {
 
     @PostMapping
     public boolean createLike(@PathVariable Long postId,
+                              @ModelAttribute LikeRequestDto requestDto,
                               @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return likeService.createLike(postId, userDetails.getAccount());
+        return likeService.createLike(postId, requestDto.getLiketLevel(),  userDetails.getAccount());
     }
     @DeleteMapping
     public boolean deleteLike(@PathVariable Long postId,
