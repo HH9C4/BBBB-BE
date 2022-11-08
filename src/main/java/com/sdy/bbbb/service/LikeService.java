@@ -29,6 +29,7 @@ public class LikeService {
             throw new CustomException(ErrorCode.NotFound);
             // 좋아요 정보가 있는 상태 예외 처리 -> 예외코드 만들어야함 (혹시 몰라서 일단 예외처리)
         }else {
+
             Like like = new Like(post, liketLevel, account);
             likeRepository.save(like);
             // 좋아요 저장
@@ -39,6 +40,7 @@ public class LikeService {
             postRepository.save(post);
             // 게시글 저장
         return GlobalResponseDto.created("success Likes!");
+
         }
     }
 

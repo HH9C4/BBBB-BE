@@ -12,4 +12,6 @@ import javax.validation.constraints.NotBlank;
 public class CommentRequestDto {
     @NotBlank
     private String comment;
+    @NotBlank
+    private String commentLevel;
 }
