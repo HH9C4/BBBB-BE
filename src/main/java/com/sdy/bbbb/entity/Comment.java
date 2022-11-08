@@ -19,8 +19,7 @@ public class Comment extends TimeStamped{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String comment;
-    private String accountName;
-    private LocalDateTime time = LocalDateTime.now();
+    private String commentLevel;
     private boolean isChecked;
     @ManyToOne
     @JoinColumn
@@ -34,10 +33,7 @@ public class Comment extends TimeStamped{
     public Comment(CommentRequestDto requestDto, Post post, Account account) {
         this.account = account;
         this.post = post;
-        this.accountName=account.getAccountName();
         this.comment = requestDto.getComment();
-    }
-    public CommentResponseDto responseDto(){
-        return new CommentResponseDto(this.id, this.accountName, this.comment, this.time);
+        this.commentLevel = requestDto.getCommentLevel();
     }
 }

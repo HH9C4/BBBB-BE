@@ -22,7 +22,7 @@ public class CommentService {
     private final PostRepository postRepository;
 
     @Transactional
-    public GlobalResponseDto<CommentResponseDto> createComment(CommentRequestDto requestDto, Long postId, Account account){
+    public GlobalResponseDto createComment(Long postId, CommentRequestDto requestDto, Account account){
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFound));
         // 예외 코드 아직 안만듬 -> 게시글 없으면 예외 처리 (게시글을 찾을 수 없습니다)
@@ -31,9 +31,15 @@ public class CommentService {
         commentRepository.save(comment);
         // 댓글 저장
         post.getCommentList().add(comment);
-        // 게시글에도 저장
+        // 게시글에 추가
+        post.setCommentCount(post.getCommentList().size());
+        // 게시글에 달린 댓글 수 변경
+        postRepository.save(post);
+        // 게시글 저장
+
         return GlobalResponseDto.created("댓글이 생성되었습니다");
     }
+  
     @Transactional
     public GlobalResponseDto deleteComment(Long id, Account account) {
         Comment comment = commentRepository.findById(id).orElseThrow(

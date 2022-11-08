@@ -7,6 +7,7 @@ import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.service.CommentService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +19,10 @@ public class CommentController {
 
     @ApiOperation(value = "댓글 생성", notes = "api 설명")
     @PostMapping("/{postId}")
-    public GlobalResponseDto createComment(@RequestBody CommentRequestDto requestDto, @PathVariable Long postId,
+    @ResponseStatus(HttpStatus.CREATED)
+    public GlobalResponseDto createComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto,
                                            @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return commentService.createComment(requestDto, postId, userDetails.getAccount());
+        return commentService.createComment(postId, requestDto, userDetails.getAccount());
     }
     @ApiOperation(value = "댓글 삭제", notes = "api 설명")
     @DeleteMapping("/{commentId}")
