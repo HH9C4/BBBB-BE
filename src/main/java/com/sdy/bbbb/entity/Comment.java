@@ -16,7 +16,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String comment;
-    private String accountName;
+    private String commentLevel;
     private LocalDateTime time = LocalDateTime.now();
     private boolean isChecked;
     @ManyToOne
@@ -30,10 +30,10 @@ public class Comment {
     public Comment(CommentRequestDto requestDto, Post post, Account account) {
         this.account = account;
         this.post = post;
-        this.accountName=account.getUsername();
         this.comment = requestDto.getComment();
+        this.commentLevel = requestDto.getCommentLevel();
     }
     public CommentResponseDto responseDto(){
-        return new CommentResponseDto(this.id, this.accountName, this.comment, this.time);
+        return new CommentResponseDto(this.id, this.account.getUsername(), this.comment, this.time);
     }
 }
