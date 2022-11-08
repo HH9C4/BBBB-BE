@@ -23,7 +23,7 @@ public class Account extends TimeStamped {
     // nullable: null 허용 여부
     // unique: 중복 허용 여부 (false 일때 중복 허용)
     @Column(nullable = false, unique = true)
-    private String username;
+    private String accountName;
 
     @Column(nullable = false)
     private String password ;
@@ -38,8 +38,8 @@ public class Account extends TimeStamped {
     @Column(unique = true)
     private Long kakaoId;
 
-    @Column(nullable = true)
-    private String profileImage;
+//    @Column(nullable = true)
+//    private String profileImage;
 
     @Column(nullable = true)
     private String gender;
@@ -60,12 +60,12 @@ public class Account extends TimeStamped {
     @OneToMany(mappedBy = "account")
     List<Like> likes = new ArrayList<>();
 
-    public Account(String username, String password, String email, String profileImage, Long kakaoId) {
-        this.username = username;
+    public Account(String accountName, String password, String email, Long kakaoId) {
+        this.accountName = accountName;
         this.password = password;
         this.email = email;
 //        this.role = role;
-        this.profileImage = profileImage;
+//        this.profileImage = profileImage;
         this.kakaoId = kakaoId;
     }
 }

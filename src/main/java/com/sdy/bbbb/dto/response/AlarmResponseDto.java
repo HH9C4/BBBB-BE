@@ -3,7 +3,6 @@ package com.sdy.bbbb.dto.response;
 
 import com.sdy.bbbb.entity.Comment;
 import com.sdy.bbbb.util.Chrono;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,7 +25,7 @@ public class AlarmResponseDto {
     public AlarmResponseDto(Comment comment) {
         this.postId = comment.getPost().getId();
         this.commentId = comment.getId();
-        this.accountName = comment.getAccount().getUsername();
+        this.accountName = comment.getAccount().getAccountName();
         this.comment = comment.getComment();
         this.createdAt = Chrono.timesAgo(comment.getCreatedAt());
         this.isChecked = comment.isChecked();
