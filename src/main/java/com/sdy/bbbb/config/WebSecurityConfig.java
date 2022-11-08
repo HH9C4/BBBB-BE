@@ -85,7 +85,6 @@ public class WebSecurityConfig {
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/posts/**").permitAll()
-
                 .anyRequest().permitAll() //permitAll을 제외한 API는 모두 인증 필요
 
 
