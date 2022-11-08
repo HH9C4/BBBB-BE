@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sdy.bbbb.config.UserDetailsImpl;
 import com.sdy.bbbb.dto.request.KakaoUserInfoDto;
+import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.dto.response.LoginResponseDto;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.MyPage;
@@ -51,7 +52,7 @@ public class AccountService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public LoginResponseDto<?> kakaoLogin(String code, HttpServletResponse response) throws JsonProcessingException {
+    public GlobalResponseDto<?> kakaoLogin(String code, HttpServletResponse response) throws JsonProcessingException {
         // 1. "인가 코드"로 "액세스 토큰" 요청
         String accessToken = getAccessToken(code);
 
@@ -83,7 +84,9 @@ public class AccountService {
         //토큰을 header에 넣어서 클라이언트에게 전달하기
         setHeader(response, tokenDto);
 
-        return new LoginResponseDto<>("200", kakaoUserInfo.getNickname()+"님 환영합니다.","accountName :" + kakaoUserInfo.getNickname());
+
+
+        return GlobalResponseDto.ok(kakaoUserInfo.getNickname() + "님 환영합니다.", "accountName :" + kakaoUserInfo.getNickname());
     }
 
     private void setHeader(HttpServletResponse response, TokenDto tokenDto) {
@@ -145,9 +148,9 @@ public class AccountService {
                 .get("nickname").asText();
         String email = jsonNode.get("kakao_account")
                 .get("email").asText();
-//        String profileImage = jsonNode.get("profile_image")
-//                .get("profileImage").asText();
-        return new KakaoUserInfoDto(id, nickname, email);
+        String profileImage = jsonNode.get("kakao_account")
+                .get("profile").get("profile_image_url").asText();
+        return new KakaoUserInfoDto(id, nickname, email, profileImage);
     }
 
     private Account registerKakaoUserIfNeeded(KakaoUserInfoDto kakaoUserInfo) {
@@ -174,13 +177,11 @@ public class AccountService {
 
                 // email: kakao email
                 String email = kakaoUserInfo.getEmail();
-                // role: 일반 사용자
-//                UserRoleEnum role = UserRoleEnum.USER;
 
-//                // 프로필 사진 가져오기
-//                String profileImage = kakaoUserInfo.getProfileImage();
+                // 프로필 사진 가져오기
+                String profileImage = kakaoUserInfo.getProfileImage();
 
-                kakaoUser = new Account(nickname, encodedPassword, email, kakaoId);
+                kakaoUser = new Account(nickname, encodedPassword, email, profileImage, kakaoId);
             }
 
             accountRepository.save(kakaoUser);

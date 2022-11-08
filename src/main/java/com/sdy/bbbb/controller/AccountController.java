@@ -1,6 +1,7 @@
 package com.sdy.bbbb.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.dto.response.LoginResponseDto;
 import com.sdy.bbbb.service.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class  AccountController {
 
     //소셜 카카오 로그인
     @GetMapping("/user/kakao/callback")
-    public LoginResponseDto<?> kakaoLogin(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException {
+    public GlobalResponseDto<?> kakaoLogin(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException {
 
         System.out.println("들어왔냥"+code);
         return accountService.kakaoLogin(code, response);
