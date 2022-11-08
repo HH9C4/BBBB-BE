@@ -37,17 +37,21 @@ public class Account extends TimeStamped {
     private Long kakaoId;
 
     @Column(nullable = true)
+    private String profileImage;
+
+    @Column(nullable = true)
     private String gender;
 
     @Column(nullable = true)
     private String ageRange;
 
 
-    public Account(String username, String password, String email, Long kakaoId) {
+    public Account(String username, String password, String email, String profileImage, Long kakaoId) {
         this.username = username;
         this.password = password;
         this.email = email;
 //        this.role = role;
+        this.profileImage = profileImage;
         this.kakaoId = kakaoId;
     }
 }
