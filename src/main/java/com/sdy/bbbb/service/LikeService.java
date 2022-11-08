@@ -1,5 +1,6 @@
 package com.sdy.bbbb.service;
 
+import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.Like;
 import com.sdy.bbbb.entity.Post;
@@ -19,7 +20,7 @@ public class LikeService {
     private final LikeRepository likeRepository;
     private final PostRepository postRepository;
     @Transactional
-    public boolean createLike(Long postId, String liketLevel, Account account){
+    public GlobalResponseDto createLike(Long postId, String liketLevel, Account account){
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFound));
         //게시글 없으면 에러처리
@@ -35,12 +36,12 @@ public class LikeService {
         // 게시글 좋아요 추가
         post.setLikeCount(post.getLikeList().size());
         // 게시글 좋아요 수 변경
-        return true;
+        return GlobalResponseDto.created("success Likes!");
         }
     }
 
     @Transactional
-    public boolean deleteLike(Long postId, Account account){
+    public void deleteLike(Long postId, Account account){
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFound));
         //게시글 없으면 에러처리
@@ -50,7 +51,6 @@ public class LikeService {
             // 좋아요 삭제
             post.setLikeCount(post.getLikeList().size());
             // 게시글 좋아요 수 변경
-            return false;
         }else {
             throw new CustomException(ErrorCode.NotFound);
             // 좋아요 정보가 없는 상태 예외처리 -> 예외코드 만들어야함 (혹시 몰라서 일단 예외처리)

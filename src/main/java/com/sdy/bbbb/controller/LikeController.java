@@ -17,14 +17,14 @@ public class LikeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public boolean createLike(@PathVariable Long postId,
+    public GlobalResponseDto createLike(@PathVariable Long postId,
                               @ModelAttribute LikeRequestDto requestDto,
                               @AuthenticationPrincipal UserDetailsImpl userDetails){
         return likeService.createLike(postId, requestDto.getLiketLevel(),  userDetails.getAccount());
     }
     @DeleteMapping
-    public boolean deleteLike(@PathVariable Long postId,
+    public void deleteLike(@PathVariable Long postId,
                               @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return likeService.deleteLike(postId, userDetails.getAccount());
+                likeService.deleteLike(postId, userDetails.getAccount());
     }
 }
