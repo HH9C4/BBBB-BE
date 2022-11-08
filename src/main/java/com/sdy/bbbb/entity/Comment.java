@@ -19,7 +19,6 @@ public class Comment extends TimeStamped{
     private Long id;
     private String comment;
     private String commentLevel;
-    private LocalDateTime time = LocalDateTime.now();
     private boolean isChecked;
     @ManyToOne
     @JoinColumn
@@ -34,8 +33,5 @@ public class Comment extends TimeStamped{
         this.post = post;
         this.comment = requestDto.getComment();
         this.commentLevel = requestDto.getCommentLevel();
-    }
-    public CommentResponseDto responseDto(){
-        return new CommentResponseDto(this.id, this.account.getAccountName(), this.comment, this.time);
     }
 }
