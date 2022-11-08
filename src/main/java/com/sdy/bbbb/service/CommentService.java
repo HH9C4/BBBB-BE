@@ -31,9 +31,11 @@ public class CommentService {
         commentRepository.save(comment);
         // 댓글 저장
         post.getCommentList().add(comment);
-        //게시글에도 추가
+        // 게시글에도 추가
         post.setCommentCount(post.getCommentList().size());
-        //게시글에 달린 댓글 수 변경
+        // 게시글에 달린 댓글 수 변경
+        postRepository.save(post);
+        // 게시글 저장
         return GlobalResponseDto.created("댓글이 생성되었습니다");
     }
     @Transactional
