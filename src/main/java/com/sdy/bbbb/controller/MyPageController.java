@@ -39,7 +39,7 @@ public class MyPageController {
 
     // 내가 좋아요한 글
     @GetMapping("/mylikes")
-    public GlobalResponseDto<List<LikeResponseDto>> getMyLikes(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public GlobalResponseDto<List<PostResponseDto>> getMyLikes(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return myPageService.getMyLikes(userDetails.getAccount());
     }
 }
