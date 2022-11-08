@@ -25,6 +25,6 @@ public class LikeController {
     @DeleteMapping
     public void deleteLike(@PathVariable Long postId,
                               @AuthenticationPrincipal UserDetailsImpl userDetails){
-        likeService.deleteLike(postId, userDetails.getAccount());
+                likeService.deleteLike(postId, userDetails.getAccount());
     }
 }

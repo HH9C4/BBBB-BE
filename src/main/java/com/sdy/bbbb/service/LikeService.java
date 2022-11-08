@@ -29,15 +29,17 @@ public class LikeService {
             throw new CustomException(ErrorCode.NotFound);
             // 좋아요 정보가 있는 상태 예외 처리 -> 예외코드 만들어야함 (혹시 몰라서 일단 예외처리)
         }else {
-        Like like = new Like(post, liketLevel, account);
-        likeRepository.save(like);
-        // 좋아요 저장
-        post.getLikeList().add(like);
-        //게시글에 좋아요 추가
-        post.setLikeCount(post.getLikeList().size());
-        // 게시글에 좋아요 수 변경
-        return GlobalResponseDto.created("success Likes!");
 
+            Like like = new Like(post, liketLevel, account);
+            likeRepository.save(like);
+            // 좋아요 저장
+            post.getLikeList().add(like);
+            // 게시글 좋아요 추가
+            post.setLikeCount(post.getLikeList().size());
+            // 게시글 좋아요 수 변경
+            postRepository.save(post);
+            // 게시글 저장
+        return GlobalResponseDto.created("success Likes!");
 
         }
     }
@@ -52,7 +54,9 @@ public class LikeService {
             likeRepository.delete(foundLike.get());
             // 좋아요 삭제
             post.setLikeCount(post.getLikeList().size());
-            // 게시글에 좋아요 수 변경
+            // 게시글 좋아요 수 변경
+            postRepository.save(post);
+            // 게시글 저장
         }else {
             throw new CustomException(ErrorCode.NotFound);
             // 좋아요 정보가 없는 상태 예외처리 -> 예외코드 만들어야함 (혹시 몰라서 일단 예외처리)
