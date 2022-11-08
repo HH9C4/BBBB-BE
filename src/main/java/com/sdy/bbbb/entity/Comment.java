@@ -4,6 +4,7 @@ import com.sdy.bbbb.dto.request.CommentRequestDto;
 import com.sdy.bbbb.dto.response.CommentResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,7 +12,8 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @Getter
-public class Comment {
+@Setter
+public class Comment extends TimeStamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
