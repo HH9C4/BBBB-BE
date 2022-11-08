@@ -50,11 +50,11 @@ public class PostController {
         return postService.getOnePost(postId, userDetails.getAccount());
     }
     //게시글 수정
-    @PutMapping("/{postId}")
+    @PutMapping(value = "/{postId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
     public GlobalResponseDto<String> updatePost(@PathVariable Long postId,
-                                                @RequestBody PostRequestDto postRequestDto,
-                                                @RequestPart(required = false) List<MultipartFile> multipartFile,
+                                                @RequestPart PostRequestDto postRequestDto,
+                                                @RequestPart(name = "imageList", required = false) List<MultipartFile> multipartFile,
                                                 @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
         return postService.updatePost(postId, postRequestDto, multipartFile, userDetails.getAccount());
     }

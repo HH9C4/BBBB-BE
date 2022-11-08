@@ -48,6 +48,7 @@ public class MyPageService {
 
 
     // 알람체크
+    @Transactional
     public GlobalResponseDto<CommentResponseDto> checkAlarm(Long commentId, Account account) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFound)

@@ -24,8 +24,8 @@ public class CommentController {
     }
     @ApiOperation(value = "댓글 삭제", notes = "api 설명")
     @DeleteMapping("/{commentId}")
-    public GlobalResponseDto deleteComment(@PathVariable Long id,
+    public GlobalResponseDto deleteComment(@PathVariable Long commentId,
                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return commentService.deleteComment(id, userDetails.getAccount());
+        return commentService.deleteComment(commentId, userDetails.getAccount());
     }
 }
