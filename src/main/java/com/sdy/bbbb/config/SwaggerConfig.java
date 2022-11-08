@@ -30,9 +30,9 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo(){
         return new ApiInfoBuilder()
-                .title("이거 일단그냥 바쭤주세요")
-                .description("이거도~")
-                .contact(new Contact("mile", "milenote.tistory.com", "skn@futurenuri.com"))
+                .title("BOOMBIBOOMBI Api Info")
+                .description("Swagger를 활용한 붐비붐비의 API 정보입니다.")
+                .contact(new Contact("BOOMBIBOOMBI 붐비붐비", "https://velog.io/@younseo1016", "younseojj@gmail.com"))
                 .version("1.0")
                 .build();
     }

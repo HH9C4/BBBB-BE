@@ -78,6 +78,27 @@ public class PostService {
         return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
     }
 
+//    게시글 검색
+    @Transactional(readOnly = true)
+    public GlobalResponseDto<List<PostResponseDto>> searchPost(String searchWord, String sort, Account currentAccount) {
+        List<Post> postList;
+        List<PostResponseDto> postResponseDtoList = new ArrayList<>();
+
+        if (sort.equals("new")) {
+            postList = postRepository.findPostsByTagContainsAndContentContainsOrderByCreatedAtDesc(searchWord, searchWord);
+        } else if (sort.equals("hot")) {
+            postList = postRepository.findPostsByTagContainsAndContentContainsOrderByLikeCountDescCreatedAtDesc(searchWord, searchWord);
+        } else {
+            throw new CustomException(ErrorCode.NotFound);//잘못된 요청
+        }
+
+        for (Post post : postList) {
+            //좋아요 확인
+            postResponseDtoList.add(new PostResponseDto(post, currentAccount, getImgUrl(post), amILiked(post, currentAccount)));
+        }
+        return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
+    }
+
     //게시글 상세 조회
     @Transactional
     public GlobalResponseDto<OnePostResponseDto> getOnePost(Long postId, Account currentAccount) {
@@ -145,7 +166,7 @@ public class PostService {
 
     //등록 할 이미지가 있다면 사용
     public void createImageIfNotNull(List<MultipartFile> multipartFile, Post post) throws IOException {
-        if (multipartFile != null){
+        if (multipartFile != null && multipartFile.size() != 0){
             List<Image> imageList = new ArrayList<>();
             for (MultipartFile imgFile : multipartFile) {
                 Image image = new Image(post, s3Uploader.uploadFiles(imgFile, "dir1"));
@@ -176,5 +197,6 @@ public class PostService {
     public boolean amILiked(Post post, Account currentAccount) {
         return likeRepository.existsByPostAndAccount(post, currentAccount);
     }
+
 
 }

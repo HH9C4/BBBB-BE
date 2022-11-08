@@ -9,10 +9,16 @@ import java.util.Optional;
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findPostsByGuOrderByCreatedAtDesc(String gu);
     List<Post> findPostsByGuOrderByLikeCountDescCreatedAtDesc(String gu);
+
+    List<Post> findPostsByTagContainsAndContentContainsOrderByCreatedAtDesc(String searchWord, String searchWord1);
+
+    List<Post> findPostsByTagContainsAndContentContainsOrderByLikeCountDescCreatedAtDesc(String searchWord, String searchWord1);
     Optional<Post> findById(Long id);
 
 
     List<Post> findPostsByAccount_Id(Long accountId);
 
     List<Long> findPostIdByAccount_Id(Long accountId);
+
+
 }
