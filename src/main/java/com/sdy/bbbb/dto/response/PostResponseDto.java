@@ -37,4 +37,16 @@ public class PostResponseDto {
         this.createdAt = Chrono.timesAgo(post.getCreatedAt());
         this.modifiedAt = Chrono.timesAgo(post.getModifiedAt());
     }
+
+    public PostResponseDto(Post post, Account account) {
+        this.postId = post.getId();
+        this.accountName = account.getUsername();
+        this.content = post.getContent();
+        this.gu = post.getGu();
+        this.tag = post.getTag();
+        this.likeCount = post.getLikeCount();
+        this.views = post.getViews();
+        this.createdAt = Chrono.timesAgo(post.getCreatedAt());
+        this.modifiedAt = Chrono.timesAgo(post.getModifiedAt());
+    }
 }
