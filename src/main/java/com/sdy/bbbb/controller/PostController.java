@@ -29,7 +29,7 @@ public class PostController {
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
     public GlobalResponseDto<String> createPost(@RequestPart PostRequestDto postRequestDto,
-                                                @RequestPart(required = false) List<MultipartFile> multipartFile,
+                                                @RequestPart(name = "imageList", required = false) List<MultipartFile> multipartFile,
                                                 @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
 
         return postService.createPost(postRequestDto, multipartFile, userDetails.getAccount());
