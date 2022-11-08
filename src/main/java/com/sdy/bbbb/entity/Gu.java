@@ -1,10 +1,26 @@
 package com.sdy.bbbb.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
+import java.util.List;
 
-//@Entity
-//@NoArgsConstructor
-//public class Gu {
-//}
+@Entity
+@NoArgsConstructor
+@Getter
+public class Gu {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String gu;
+
+    @OneToMany(mappedBy = "gu", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<Spot> spot;
+
+}
