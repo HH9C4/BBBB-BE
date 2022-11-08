@@ -17,23 +17,21 @@ public class Post extends TimeStamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Account account;
-
-//    @JoinColumn(nullable = false)
-//    @ManyToOne
-//    private Gu gu;
-
     @Column(nullable = false)
     private String gu;
-
+    @Column
+    private String tag;
     @Column(nullable = false)
     private String content;
-
-    @Column(nullable = false)
-    private String category;
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<Comment> commentList = new ArrayList<>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<Like> likeList = new ArrayList<>();
 
     @Column(nullable = false)
     private int commentCount;
@@ -44,27 +42,20 @@ public class Post extends TimeStamped{
     @Column(nullable = false)
     private int views;
 
-    @OneToMany(mappedBy = "post")
-    @JsonIgnore
-    private List<Comment> commentList;
-
-//    @OneToMany(mappedBy = "post")
-//    private List<Like> likeList;
-
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Image> imageList = new ArrayList();
 
-
     public Post(PostRequestDto postRequestDto, Account account) {
         this.content = postRequestDto.getContent();
-        this.category = postRequestDto.getCategory();
         this.account = account;
         this.gu = postRequestDto.getGu();
+        this.tag = postRequestDto.getTag();
+        this.commentCount = commentList.size();
+        this.likeCount = likeList.size();
     }
 
     public void update(PostRequestDto postRequestDto) {
         this.content = postRequestDto.getContent();
-        this.category = postRequestDto.getCategory();
         this.gu = postRequestDto.getGu();
     }
 }

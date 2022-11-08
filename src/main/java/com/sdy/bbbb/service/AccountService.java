@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sdy.bbbb.config.UserDetailsImpl;
 import com.sdy.bbbb.dto.request.KakaoUserInfoDto;
+import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.dto.response.LoginResponseDto;
 import com.sdy.bbbb.entity.Account;
+import com.sdy.bbbb.entity.MyPage;
 import com.sdy.bbbb.entity.RefreshToken;
 import com.sdy.bbbb.jwt.JwtUtil;
 import com.sdy.bbbb.jwt.TokenDto;
@@ -50,7 +52,7 @@ public class AccountService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public LoginResponseDto<?> kakaoLogin(String code, HttpServletResponse response) throws JsonProcessingException {
+    public GlobalResponseDto<?> kakaoLogin(String code, HttpServletResponse response) throws JsonProcessingException {
         // 1. "인가 코드"로 "액세스 토큰" 요청
         String accessToken = getAccessToken(code);
 
@@ -62,6 +64,8 @@ public class AccountService {
 
         // 4. 강제 로그인 처리
         forceLogin(kakaoUser);
+
+        kakaoUser.setMyPage(new MyPage(kakaoUser));
 
         //토큰 발급
         TokenDto tokenDto = jwtUtil.createAllToken(kakaoUserInfo.getEmail());
@@ -80,7 +84,9 @@ public class AccountService {
         //토큰을 header에 넣어서 클라이언트에게 전달하기
         setHeader(response, tokenDto);
 
-        return new LoginResponseDto<>("200", kakaoUserInfo.getNickname()+"님 환영합니다.","닉네임" + kakaoUserInfo.getNickname());
+
+
+        return GlobalResponseDto.ok(kakaoUserInfo.getNickname() + "님 환영합니다.", "accountName :" + kakaoUserInfo.getNickname());
     }
 
     private void setHeader(HttpServletResponse response, TokenDto tokenDto) {
@@ -96,8 +102,8 @@ public class AccountService {
         // HTTP Body 생성
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
-        body.add("client_id", "4b0fb8c5968fbedae7b3b819e19c2cd7");
-        body.add("redirect_uri", "http://localhost:8080/user/kakao/callback");
+        body.add("client_id", "a8c29f43cc985001f5fcd08bcbd9bbac");
+        body.add("redirect_uri", "http://localhost:3000/user/kakao/callback");
         body.add("code", code);
 
         // HTTP 요청 보내기
@@ -142,8 +148,9 @@ public class AccountService {
                 .get("nickname").asText();
         String email = jsonNode.get("kakao_account")
                 .get("email").asText();
-
-        return new KakaoUserInfoDto(id, nickname, email);
+        String profileImage = jsonNode.get("kakao_account")
+                .get("profile").get("profile_image_url").asText();
+        return new KakaoUserInfoDto(id, nickname, email, profileImage);
     }
 
     private Account registerKakaoUserIfNeeded(KakaoUserInfoDto kakaoUserInfo) {
@@ -170,10 +177,11 @@ public class AccountService {
 
                 // email: kakao email
                 String email = kakaoUserInfo.getEmail();
-                // role: 일반 사용자
-//                UserRoleEnum role = UserRoleEnum.USER;
 
-                kakaoUser = new Account(nickname, encodedPassword, email, kakaoId);
+                // 프로필 사진 가져오기
+                String profileImage = kakaoUserInfo.getProfileImage();
+
+                kakaoUser = new Account(nickname, encodedPassword, email, profileImage, kakaoId);
             }
 
             accountRepository.save(kakaoUser);

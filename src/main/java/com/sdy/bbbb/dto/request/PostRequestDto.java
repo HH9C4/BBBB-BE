@@ -9,10 +9,9 @@ import java.util.List;
 public class PostRequestDto {
     @NotBlank
     private String content;
-    @NotBlank
-    private String category;
-    private List<String> imageUrl;
+//    private List<String> imageUrl;
     private List<String> deleteUrl;
     @NotBlank
     private String gu;
+    private String tag;
 }
