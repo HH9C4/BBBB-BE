@@ -22,7 +22,7 @@ public class CommentService {
     private final PostRepository postRepository;
 
     @Transactional
-    public GlobalResponseDto<CommentResponseDto> createComment(CommentRequestDto requestDto, Long postId, Account account){
+    public GlobalResponseDto createComment(Long postId, CommentRequestDto requestDto, Account account){
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFound));
         // 예외 코드 아직 안만듬 -> 게시글 없으면 예외 처리 (게시글을 찾을 수 없습니다)

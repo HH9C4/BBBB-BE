@@ -16,9 +16,9 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/{postId}")
-    public GlobalResponseDto createComment(@RequestBody CommentRequestDto requestDto, @PathVariable Long postId,
+    public GlobalResponseDto createComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto,
                                            @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return commentService.createComment(requestDto, postId, userDetails.getAccount());
+        return commentService.createComment(postId, requestDto, userDetails.getAccount());
     }
     @DeleteMapping("/{commentId}")
     public GlobalResponseDto deleteComment(@PathVariable Long id,
