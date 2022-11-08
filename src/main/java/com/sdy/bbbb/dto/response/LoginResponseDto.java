@@ -1,23 +1,31 @@
 package com.sdy.bbbb.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.sdy.bbbb.entity.Account;
+
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
+import lombok.NoArgsConstructor;
+
 
 @Getter
-@AllArgsConstructor
-@Builder
-public class LoginResponseDto<T> {
-    private String status;
-    private String msg;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private T data;
+@NoArgsConstructor
+public class LoginResponseDto {
+
+    private String accountName;
+
+    private String ageRange;
+
+    private String email;
+
+    private String gender;
+
+    private String profileImage;
 
 
-    public static <T> LoginResponseDto<T> ok(String msg, T data) {
-        return new LoginResponseDto<>(HttpStatus.OK.toString(), msg, data);
+    public LoginResponseDto(Account kakaoUser) {
+        this.accountName = kakaoUser.getAccountName();
+        this.ageRange = kakaoUser.getAgeRange();
+        this.email = kakaoUser.getEmail();
+        this.gender = kakaoUser.getGender();
+        this.profileImage = kakaoUser.getProfileImage();
     }
-
 }
