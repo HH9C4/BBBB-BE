@@ -2,6 +2,7 @@ package com.sdy.bbbb.entity;
 
 import com.sdy.bbbb.dto.request.CommentRequestDto;
 import com.sdy.bbbb.dto.response.CommentResponseDto;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,6 +23,7 @@ public class Comment extends TimeStamped{
     private boolean isChecked;
     @ManyToOne
     @JoinColumn
+    @ApiModelProperty(hidden = true)
     private Account account;
     @ManyToOne
     @JoinColumn

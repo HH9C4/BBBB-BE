@@ -37,6 +37,8 @@ public class LikeService {
         post.setLikeCount(post.getLikeList().size());
         // 게시글에 좋아요 수 변경
         return GlobalResponseDto.created("success Likes!");
+
+
         }
     }
 
@@ -51,7 +53,6 @@ public class LikeService {
             // 좋아요 삭제
             post.setLikeCount(post.getLikeList().size());
             // 게시글에 좋아요 수 변경
-
         }else {
             throw new CustomException(ErrorCode.NotFound);
             // 좋아요 정보가 없는 상태 예외처리 -> 예외코드 만들어야함 (혹시 몰라서 일단 예외처리)

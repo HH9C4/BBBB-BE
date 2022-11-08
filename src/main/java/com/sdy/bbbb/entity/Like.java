@@ -1,5 +1,6 @@
 package com.sdy.bbbb.entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,7 @@ public class Like {
     private String liketLevel;
     @ManyToOne
     @JoinColumn
+    @ApiModelProperty(hidden = true)
     private Account account;
     @ManyToOne
     @JoinColumn(name = "post_id")
