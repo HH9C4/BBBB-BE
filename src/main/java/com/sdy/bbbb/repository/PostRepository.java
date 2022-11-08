@@ -11,5 +11,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findPostsByGuOrderByLikeCountDesc(String gu);
     Optional<Post> findById(Long id);
 
+
     List<Post> findPostsByAccount_Id(Long accountId);
+
+    List<Long> findPostIdByAccount_Id(Long accountId);
 }
