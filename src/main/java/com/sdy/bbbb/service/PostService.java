@@ -12,10 +12,13 @@ import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.repository.ImageRepository;
 import com.sdy.bbbb.repository.LikeRepository;
 import com.sdy.bbbb.repository.PostRepository;
+import com.sdy.bbbb.s3.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,28 +27,30 @@ import java.util.List;
 public class PostService {
     private final PostRepository postRepository;
     private final ImageRepository imageRepository;
-
     private final LikeRepository likeRepository;
+    private final S3Uploader s3Uploader;
 
     @Transactional
     //게시글 생성
-    public GlobalResponseDto<String> createPost(PostRequestDto postRequestDto, Account currentAccount) {
+    public GlobalResponseDto<String> createPost(PostRequestDto postRequestDto, List<MultipartFile> multipartFile, Account currentAccount) throws IOException {
         Post post = new Post(postRequestDto, currentAccount);
         //쿼리 두번 보다 한번으로 하는게 낫겠쥐?
         postRepository.save(post);
-        //이미지 있다면
-        if (postRequestDto.getImageUrl() != null) {
-            List<String> imgUrlList = postRequestDto.getImageUrl();
-            List<Image> imageList = new ArrayList<>();
-            for (String imgUrl : imgUrlList) {
-                Image image = new Image(post, imgUrl);
-                imageList.add(image);
-                imageRepository.save(image);
-            }
-            //굳이 set 해줘야하나??
-            post.setImageList(imageList);
-        }
 
+        //이미지 있다면
+        createImageIfNotNull(multipartFile, post);
+
+//        if (postRequestDto.getImageUrl() != null) {
+//            List<String> imgUrlList = postRequestDto.getImageUrl();
+//            List<Image> imageList = new ArrayList<>();
+//            for (String imgUrl : imgUrlList) {
+//                Image image = new Image(post, imgUrl);
+//                imageList.add(image);
+//                imageRepository.save(image);
+//            }
+//            //굳이 set 해줘야하나??
+//            post.setImageList(imageList);
+//        }
 
         return GlobalResponseDto.created("게시글이 등록 되었습니다.");
     }
@@ -80,12 +85,12 @@ public class PostService {
         post.setViews(post.getViews() + 1);
         //이미지 추출 함수로, DTO에 있는게 나을까?
 
-        return GlobalResponseDto.ok("조회 성공",new OnePostResponseDto(post, currentAccount, getImgUrl(post), amILiked(post, currentAccount)));
+        return GlobalResponseDto.ok("조회 성공", new OnePostResponseDto(post, currentAccount, getImgUrl(post), amILiked(post, currentAccount)));
     }
 
     //게시글 수정
     @Transactional
-    public GlobalResponseDto<String> updatePost(Long postId, PostRequestDto postRequestDto, Account currentAccount) {
+    public GlobalResponseDto<String> updatePost(Long postId, PostRequestDto postRequestDto, List<MultipartFile> multipartFile, Account currentAccount) throws IOException{
         //어차피 쓸거 일단 찾아
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFound));
         //작성자 일치여부 확인
@@ -104,19 +109,21 @@ public class PostService {
             }
         }
         //추가할 이미지 있다면
-        if (postRequestDto.getImageUrl() != null) {
-            List<String> imageUrlList = postRequestDto.getImageUrl();
-            for (String imageUrl : imageUrlList) {
-                if (!(imageRepository.existsByImageUrl(imageUrl))) {
-                    Image image = new Image(post, imageUrl);
-                    //테스트시 꼼꼼히 보자
-                    post.getImageList().add(image);
-                    imageRepository.save(image);
-                } else {
-                    throw new CustomException(ErrorCode.AlreadyExists);
-                }
-            }
-        }
+        createImageIfNotNull(multipartFile, post);
+
+//        if (postRequestDto.getImageUrl() != null) {
+//            List<String> imageUrlList = postRequestDto.getImageUrl();
+//            for (String imageUrl : imageUrlList) {
+//                if (!(imageRepository.existsByImageUrl(imageUrl))) {
+//                    Image image = new Image(post, imageUrl);
+//                    //테스트시 꼼꼼히 보자
+//                    post.getImageList().add(image);
+//                    imageRepository.save(image);
+//                } else {
+//                    throw new CustomException(ErrorCode.AlreadyExists);
+//                }
+//            }
+//        }
 
         post.update(postRequestDto);
         return GlobalResponseDto.ok("게시글 수정이 완료되었습니다.", null);
@@ -134,7 +141,21 @@ public class PostService {
         return GlobalResponseDto.ok("게시글 삭제가 완료되었습니다.", null);
     }
 
-    //이미지 추출
+
+    //등록 할 이미지가 있다면 사용
+    public void createImageIfNotNull(List<MultipartFile> multipartFile, Post post) throws IOException {
+        if (multipartFile != null){
+            List<Image> imageList = new ArrayList<>();
+            for (MultipartFile imgFile : multipartFile) {
+                Image image = new Image(post, s3Uploader.uploadFiles(imgFile, "dir1"));
+                imageList.add(image);
+                imageRepository.save(image);
+            }
+            post.setImageList(imageList);
+        }
+    }
+
+    //Post 의 Image 의 url (string)추출
     public List<String> getImgUrl(Post post){
         List<String> imageUrl = new ArrayList<>();
         for(Image img : post.getImageList()){
