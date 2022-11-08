@@ -37,6 +37,7 @@ public class PostService {
         //쿼리 두번 보다 한번으로 하는게 낫겠쥐?
         postRepository.save(post);
 
+//        System.out.println(multipartFile.get(0).toString());
         //이미지 있다면
         createImageIfNotNull(multipartFile, post);
 
