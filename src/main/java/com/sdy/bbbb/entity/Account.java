@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter // get 함수를 일괄적으로 만들어줍니다.
@@ -45,6 +47,18 @@ public class Account extends TimeStamped {
     @Column(nullable = true)
     private String ageRange;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name="myPageId")
+    private MyPage myPage;
+
+    @OneToMany(mappedBy = "account")
+    List<Post> post = new ArrayList<>();
+
+    @OneToMany(mappedBy = "account")
+    List<Comment> comment = new ArrayList<>();
+
+    @OneToMany(mappedBy = "account")
+    List<Like> likes = new ArrayList<>();
 
     public Account(String username, String password, String email, String profileImage, Long kakaoId) {
         this.username = username;
