@@ -3,7 +3,6 @@ package com.sdy.bbbb.dto.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sdy.bbbb.entity.Comment;
 import com.sdy.bbbb.util.Chrono;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,7 +28,7 @@ public class CommentResponseDto {
 
     public CommentResponseDto(Comment comment) {
         this.commentId = comment.getId();
-        this.accountName = comment.getAccount().getUsername();
+        this.accountName = comment.getAccount().getAccountName();
         this.comment = comment.getComment();
         this.createdAt = Chrono.timesAgo(comment.getCreatedAt());
         this.isChecked = comment.isChecked();
