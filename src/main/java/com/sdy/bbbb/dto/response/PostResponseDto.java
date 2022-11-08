@@ -1,6 +1,5 @@
 package com.sdy.bbbb.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.Post;
 import com.sdy.bbbb.util.Chrono;
@@ -26,7 +25,7 @@ public class PostResponseDto {
 
     public PostResponseDto(Post post, Account account, List<String> imageUrl, boolean isLiked) {
         this.postId = post.getId();
-        this.accountName = account.getUsername();
+        this.accountName = account.getAccountName();
         this.imageUrl = imageUrl;
         this.content = post.getContent();
         this.gu = post.getGu();
@@ -40,7 +39,7 @@ public class PostResponseDto {
 
     public PostResponseDto(Post post, Account account) {
         this.postId = post.getId();
-        this.accountName = account.getUsername();
+        this.accountName = account.getAccountName();
         this.content = post.getContent();
         this.gu = post.getGu();
         this.tag = post.getTag();
