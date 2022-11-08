@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class AccountController {
+public class  AccountController {
 
     private final AccountService accountService;
 

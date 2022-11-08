@@ -96,7 +96,7 @@ public class AccountService {
         // HTTP Body 생성
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
-        body.add("client_id", "4b0fb8c5968fbedae7b3b819e19c2cd7");
+        body.add("client_id", "a8c29f43cc985001f5fcd08bcbd9bbac");
         body.add("redirect_uri", "http://localhost:8080/user/kakao/callback");
         body.add("code", code);
 
@@ -142,8 +142,9 @@ public class AccountService {
                 .get("nickname").asText();
         String email = jsonNode.get("kakao_account")
                 .get("email").asText();
-
-        return new KakaoUserInfoDto(id, nickname, email);
+        String profileImage = jsonNode.get("profile_image")
+                .get("profileImage").asText();
+        return new KakaoUserInfoDto(id, nickname, email, profileImage);
     }
 
     private Account registerKakaoUserIfNeeded(KakaoUserInfoDto kakaoUserInfo) {
@@ -173,7 +174,10 @@ public class AccountService {
                 // role: 일반 사용자
 //                UserRoleEnum role = UserRoleEnum.USER;
 
-                kakaoUser = new Account(nickname, encodedPassword, email, kakaoId);
+                // 프로필 사진 가져오기
+                String profileImage = kakaoUserInfo.getProfileImage();
+
+                kakaoUser = new Account(nickname, encodedPassword, email, profileImage, kakaoId);
             }
 
             accountRepository.save(kakaoUser);
