@@ -63,9 +63,9 @@ public class PostService {
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 
         if (sort.equals("new")) {
-            postList = postRepository.findPostsByGuOrderByCreatedAtDesc(gu);
+            postList = postRepository.findPostsByGuNameOrderByCreatedAtDesc(gu);
         } else if (sort.equals("hot")) {
-            postList = postRepository.findPostsByGuOrderByLikeCountDescCreatedAtDesc(gu);
+            postList = postRepository.findPostsByGuNameOrderByLikeCountDescCreatedAtDesc(gu);
         } else {
             throw new CustomException(ErrorCode.NotFoundSort);//잘못된 요청
         }

@@ -9,9 +9,9 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("select p from Post p join fetch p.imageList")
-    List<Post> findPostsByGuOrderByCreatedAtDesc(String gu);
+    List<Post> findPostsByGuNameOrderByCreatedAtDesc(String gu);
 
-    List<Post> findPostsByGuOrderByLikeCountDescCreatedAtDesc(String gu);
+    List<Post> findPostsByGuNameOrderByLikeCountDescCreatedAtDesc(String gu);
 
     List<Post> findPostsByTagContainsAndContentContainsOrderByCreatedAtDesc(String searchWord, String searchWord1);
 
