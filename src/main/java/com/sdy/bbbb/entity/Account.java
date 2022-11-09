@@ -13,7 +13,6 @@ import java.util.List;
 @Getter // get 함수를 일괄적으로 만들어줍니다.
 @NoArgsConstructor // 기본 생성자를 만들어줍니다.
 @Entity // DB 테이블 역할을 합니다.
-@ApiIgnore // 혹시 몰라서 써둠 swagger
 public class Account extends TimeStamped {
 
 
@@ -58,11 +57,19 @@ public class Account extends TimeStamped {
     @OneToMany(mappedBy = "account")
     List<Like> likes = new ArrayList<>();
 
-    public Account(String nickname, String password, String email, String profileImage, Long kakaoId) {
+    @OneToMany(mappedBy = "account")
+    List<Bookmark> bookmarks = new ArrayList<>();
+
+
+
+    public Account(String nickname, String password, String email, String profileImage, Long kakaoId, String gender, String ageRange) {
         this.accountName = nickname;
         this.password = password;
         this.profileImage = profileImage;
         this.email = email;
         this.kakaoId = kakaoId;
+        this.gender = gender;
+        this.ageRange = ageRange;
     }
+
 }

@@ -23,7 +23,7 @@ public class AuthenticationEntryPointException implements
                 new ObjectMapper().writeValueAsString(
                         ResponseEntity
                                 .status(HttpStatus.UNAUTHORIZED)
-//                                .body(ErrorCode.UnAuthorized)
+                                .body(ErrorCode.UnAuthorized)
                 )
         );
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

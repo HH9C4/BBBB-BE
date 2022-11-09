@@ -6,6 +6,7 @@ import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.service.CommentService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -16,14 +17,14 @@ import springfox.documentation.annotations.ApiIgnore;
 public class CommentController {
     private final CommentService commentService;
 
-    @ApiOperation(value = "댓글 생성", notes = "api 설명")
+    @ApiOperation(value = "댓글 생성", notes = "설명")
     @PostMapping("/{postId}")
-    public GlobalResponseDto createComment(@PathVariable Long postId,
-                                           @RequestBody CommentRequestDto requestDto,
+    @ResponseStatus(HttpStatus.CREATED)
+    public GlobalResponseDto createComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto,
                                            @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         return commentService.createComment(postId, requestDto, userDetails.getAccount());
     }
-    @ApiOperation(value = "댓글 삭제", notes = "api 설명")
+    @ApiOperation(value = "댓글 삭제", notes = "설명")
     @DeleteMapping("/{commentId}")
     public GlobalResponseDto deleteComment(@PathVariable Long commentId,
                                            @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {

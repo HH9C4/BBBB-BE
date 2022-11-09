@@ -21,9 +21,7 @@ public class MyPage {
     @ApiModelProperty(hidden = true)
     private Account account;
 
-//    @OneToMany
-//    @JoinColumn(name = "gu")
-//    private Gu gu;
+
 
     public MyPage(Account kakaoUser) {
         this.account = kakaoUser;

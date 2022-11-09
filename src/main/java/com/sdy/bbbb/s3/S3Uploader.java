@@ -3,6 +3,8 @@ package com.sdy.bbbb.s3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.sdy.bbbb.exception.CustomException;
+import com.sdy.bbbb.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,9 +33,8 @@ public class S3Uploader {
     public String uploadFiles(MultipartFile multipartFile, String dirName) throws IOException {
 //        File file = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
 //        multipartFile.transferTo(file); // 파일 변환할 수 없으면 에러
-        System.out.println(multipartFile.getName());
         File uploadFile = convert(multipartFile)
-                .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
+                .orElseThrow(() -> new CustomException(ErrorCode.FailConvertImage));
         return upload(uploadFile, dirName);
     }
 

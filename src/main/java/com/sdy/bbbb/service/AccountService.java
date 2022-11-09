@@ -65,7 +65,6 @@ public class AccountService {
         // 4. 강제 로그인 처리
         forceLogin(kakaoUser);
 
-        kakaoUser.setMyPage(new MyPage(kakaoUser));
 
         //토큰 발급
         TokenDto tokenDto = jwtUtil.createAllToken(kakaoUserInfo.getEmail());
@@ -182,8 +181,14 @@ public class AccountService {
 
                 // 프로필 사진 가져오기
                 String profileImage = kakaoUserInfo.getProfileImage();
+                // 성별 가져오기
+                String gender = kakaoUserInfo.getGender();
+                // 나이대 가져오기
+                String ageRange = kakaoUserInfo.getAgeRange();
+                kakaoUser = new Account(nickname, encodedPassword, email, profileImage, kakaoId, gender, ageRange);
+                // 마이페이지 생성
+                kakaoUser.setMyPage(new MyPage(kakaoUser));
 
-                kakaoUser = new Account(nickname, encodedPassword, email, profileImage, kakaoId);
             }
 
             accountRepository.save(kakaoUser);

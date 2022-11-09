@@ -33,6 +33,7 @@ public class WebSecurityConfig {
     private final JwtUtil jwtUtil;
 
     private static final String[] PERMIT_URL_ARRAY = {
+
 /* swagger v2 */
 //            "/v2/api-docs",
 //            "/swagger-resources",
@@ -44,9 +45,9 @@ public class WebSecurityConfig {
 /* swagger v3 */
             "/v3/api-docs/**",
             "/swagger-ui/**"
-    }; // swagger 열어주기
+    };      // swagger 열어주기
 
-//    private final AuthenticationEntryPointException authenticationEntryPointException;
+    private final AuthenticationEntryPointException authenticationEntryPointException;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -64,11 +65,6 @@ public class WebSecurityConfig {
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-//        corsConfiguration.setAllowedOrigins(Arrays.asList());
-//        corsConfiguration.addAllowedOrigin("*");
-//        corsConfiguration.addAllowedHeader("*");
-//        corsConfiguration.addAllowedMethod("*");
-//        corsConfiguration.setAllowCredentials(true);
 
         corsConfiguration.setAllowedOriginPatterns(Arrays.asList("*"));
         corsConfiguration.setAllowedMethods(Arrays.asList("POST","GET","DELETE","PUT"));
@@ -88,13 +84,11 @@ public class WebSecurityConfig {
         http.cors();
         http.csrf().disable();
 
-        //oauth2 로그인을 처리하는 메소드
-//        http.oauth2Login();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-//        http.exceptionHandling()
-//                .authenticationEntryPoint(authenticationEntryPointException);
+        http.exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPointException);
 
         http.authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
@@ -110,31 +104,6 @@ public class WebSecurityConfig {
 
                 .and()
                 .addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
-
-//        http.csrf()
-//                .ignoringAntMatchers("/user/**");
-
-//        http
-//                .authorizeHttpRequests((authz) -> authz
-//                        // image 폴더를 login 없이 허용
-//                        .antMatchers("/images/**").permitAll()
-//                        // css 폴더를 login 없이 허용
-//                        .antMatchers("/css/**").permitAll()
-//                        // 회원 관리 처리 API 전부를 login 없이 허용
-//                        .antMatchers("/user/**").permitAll()
-//                        // 어떤 요청이든 '인증'
-//                        .anyRequest().authenticated()
-//                )
-//                // 로그인 기능 허용
-//                .formLogin()
-//                .loginPage("/user/login")
-//                .defaultSuccessUrl("/")
-//                .failureUrl("/user/login?error")
-//                .permitAll()
-//                .and()
-//                //로그아웃 기능 허용
-//                .logout()
-//                .permitAll();
 
         return http.build();
 
