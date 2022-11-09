@@ -1,6 +1,8 @@
 package com.sdy.bbbb.config;
 
 import com.sdy.bbbb.entity.Account;
+import com.sdy.bbbb.exception.CustomException;
+import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         Account account = accountRepository.findByEmail(email).orElseThrow(
-                () -> new RuntimeException("Not Found Account")
+                () -> new CustomException(ErrorCode.NotFoundUser)
         );
 
         UserDetailsImpl userDetails = new UserDetailsImpl();

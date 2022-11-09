@@ -28,13 +28,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         if(accessToken != null) {
             if(!jwtUtil.tokenValidation(accessToken)){
-                jwtExceptionHandler(response, "AccessToken Expired 엑세스 토큰 만료", HttpStatus.BAD_REQUEST);
+                jwtExceptionHandler(response, "please login again", HttpStatus.BAD_REQUEST);
                 return;
             }
             setAuthentication(jwtUtil.getEmailFromToken(accessToken));
         }else if(refreshToken != null) {
             if(!jwtUtil.refreshTokenValidation(refreshToken)){
-                jwtExceptionHandler(response, "RefreshToken Expired 리프레시 토큰 만료", HttpStatus.BAD_REQUEST);
+                jwtExceptionHandler(response, "please login again", HttpStatus.BAD_REQUEST);
                 return;
             }
             setAuthentication(jwtUtil.getEmailFromToken(refreshToken));

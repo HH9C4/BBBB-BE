@@ -22,11 +22,11 @@ public class LikeService {
     @Transactional
     public GlobalResponseDto createLike(Long postId, String liketLevel, Account account){
         Post post = postRepository.findById(postId).orElseThrow(
-                () -> new CustomException(ErrorCode.NotFound));
+                () -> new CustomException(ErrorCode.NotFoundPost));
         //게시글 없으면 에러처리
         Optional<Like> foundLike = likeRepository.findByPostAndAccount(post, account);
         if (foundLike.isPresent()){
-            throw new CustomException(ErrorCode.NotFound);
+            throw new CustomException(ErrorCode.AlreadyExistsLike);
             // 좋아요 정보가 있는 상태 예외 처리 -> 예외코드 만들어야함 (혹시 몰라서 일단 예외처리)
         }else {
 
@@ -47,7 +47,7 @@ public class LikeService {
     @Transactional
     public void deleteLike(Long postId, Account account){
         Post post = postRepository.findById(postId).orElseThrow(
-                () -> new CustomException(ErrorCode.NotFound));
+                () -> new CustomException(ErrorCode.NotFoundPost));
         //게시글 없으면 에러처리
         Optional<Like> foundLike = likeRepository.findByPostAndAccount(post, account);
         if (foundLike.isPresent()){
@@ -58,7 +58,7 @@ public class LikeService {
             postRepository.save(post);
             // 게시글 저장
         }else {
-            throw new CustomException(ErrorCode.NotFound);
+            throw new CustomException(ErrorCode.AlreadyCancelLike);
             // 좋아요 정보가 없는 상태 예외처리 -> 예외코드 만들어야함 (혹시 몰라서 일단 예외처리)
         }
     }

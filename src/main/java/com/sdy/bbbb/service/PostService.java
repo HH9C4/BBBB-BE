@@ -67,7 +67,7 @@ public class PostService {
         } else if (sort.equals("hot")) {
             postList = postRepository.findPostsByGuOrderByLikeCountDescCreatedAtDesc(gu);
         } else {
-            throw new CustomException(ErrorCode.NotFound);//잘못된 요청
+            throw new CustomException(ErrorCode.NotFoundSort);//잘못된 요청
         }
 
         for (Post post : postList) {
@@ -102,7 +102,7 @@ public class PostService {
     //게시글 상세 조회
     @Transactional
     public GlobalResponseDto<OnePostResponseDto> getOnePost(Long postId, Account currentAccount) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFound));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
 
         post.setViews(post.getViews() + 1);
         //이미지 추출 함수로, DTO에 있는게 나을까?
@@ -114,7 +114,7 @@ public class PostService {
     @Transactional
     public GlobalResponseDto<String> updatePost(Long postId, PostRequestDto postRequestDto, List<MultipartFile> multipartFile, Account currentAccount) throws IOException{
         //어차피 쓸거 일단 찾아
-        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFound));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
         //작성자 일치여부 확인
         checkPostAuthor(post, currentAccount);
 
@@ -126,7 +126,7 @@ public class PostService {
                 if (imageRepository.existsByImageUrl(imageUrl)) {
                     imageRepository.deleteByImageUrl(imageUrl);
                 } else {
-                    throw new CustomException(ErrorCode.NotFound);
+                    throw new CustomException(ErrorCode.NotFoundImage);
                 }
             }
         }
@@ -155,7 +155,7 @@ public class PostService {
     @Transactional
     public GlobalResponseDto<String> deletePost(Long postId, Account currentAccount) {
         //어차피 쓸거 일단 찾아
-        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFound));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
         //작성자 일치여부 확인
         checkPostAuthor(post, currentAccount);
 
@@ -189,7 +189,7 @@ public class PostService {
     //작성자 확인
     public void checkPostAuthor(Post post, Account currentAccount) {
         if (!post.getAccount().getId().equals(currentAccount.getId())){
-            throw new CustomException(ErrorCode.NotMatch);
+            throw new CustomException(ErrorCode.NotMatchAuthor);
         }
     }
 

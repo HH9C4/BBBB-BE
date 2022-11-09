@@ -10,7 +10,6 @@ import com.sdy.bbbb.repository.MyPageRepository;
 import com.sdy.bbbb.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,10 +50,13 @@ public class MyPageService {
     @Transactional
     public GlobalResponseDto<CommentResponseDto> checkAlarm(Long commentId, Account account) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
-                ()-> new CustomException(ErrorCode.NotFound)
+                ()-> new CustomException(ErrorCode.NotFoundComment)
         );
-        comment.setChecked(true);
-
+        if(!comment.isChecked()) {
+            comment.setChecked(true);
+        } else {
+            throw new CustomException(ErrorCode.AlreadyCheckAlarm);
+        }
         return GlobalResponseDto.ok("알람 확인!", new CommentResponseDto(comment));
     }
 
