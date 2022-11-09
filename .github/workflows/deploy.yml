@@ -12,7 +12,8 @@ env:
   S3_BUCKET_NAME: younseoandchildren
   CODE_DEPLOY_APPLICATION_NAME: bbbb-younseoandchildren
   CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: bbbb-younseoandchildren-group
-  
+  RESOURCE_PATH: ./src/main/resources/application.yml
+
 permissions:
   contents: read
 
@@ -34,7 +35,25 @@ jobs:
         distribution: 'temurin'
         java-version: '11'
 
-    # (3) Gradle build (Test 제외)
+    # (2.5) env 설정
+    - name: Set yaml file
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: ${{env.RESOURCE_PATH}}
+      env:
+        jwt.secret.key: ${{secrets.JWT_SECRET_KEY}}
+        spring.datasource.url: ${{secrets.DATA_URL}}
+        spring.datasource.username: ${{secrets.DATA_USERNAME}}
+        spring.datasource.password: ${{secrets.DATA_PASSWORD}}
+        spring.jpa.hibernate.ddl-auto: ${{secrets.JPA_AUTO}}
+        cloud.aws.region.static: ${{secrets.AWS_REGION}}
+        cloud.aws.stack.auto: ${{secrets.AWS_STACK}}
+        cloud.aws.s3.bucket: ${{secrets.AWS_BUCKET}}
+        cloud.aws.credentials.access-key: ${{secrets.AWS_ACCESS}}
+        cloud.aws.credentials.secret-key: ${{secrets.AWS_SECRET}}
+
+
+      # (3) Gradle build (Test 제외)
     - name: Build with Gradle
       uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
       with:
