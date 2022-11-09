@@ -3,6 +3,8 @@ package com.sdy.bbbb.exception;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -15,6 +17,8 @@ import java.util.List;
 
 @RestControllerAdvice
 public class CustomExceptionHandler {
+    @Value("${spring.servlet.multipart.max-request-size}")
+    String maxSize;
 
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<ErrorResponse> customExceptionHandle(CustomException e) {
@@ -26,7 +30,7 @@ public class CustomExceptionHandler {
     public ResponseEntity handleValidationExceptions(MethodArgumentNotValidException e) {
         List<ErrorResponse> errors = new ArrayList<>();
 
-        for (FieldError fieldError : e.getBindingResult().getFieldErrors()){
+        for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
             errors.add(ErrorResponse.builder()
                     .httpStatus(HttpStatus.BAD_REQUEST.value())
                     .errorCode(fieldError.getCode())
@@ -39,6 +43,16 @@ public class CustomExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(errors);
     }
+
+    @ExceptionHandler(SizeLimitExceededException.class)
+    public ResponseEntity<String> sizeExceptionHandle(SizeLimitExceededException e) {
+
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body("이미지 용량은 " + maxSize + " 를 초과할 수 없습니다.");
+    }
+
 
     // test
     @RequiredArgsConstructor

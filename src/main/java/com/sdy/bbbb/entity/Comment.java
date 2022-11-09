@@ -1,5 +1,6 @@
 package com.sdy.bbbb.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sdy.bbbb.dto.request.CommentRequestDto;
 import com.sdy.bbbb.dto.response.CommentResponseDto;
 import io.swagger.annotations.ApiModelProperty;
