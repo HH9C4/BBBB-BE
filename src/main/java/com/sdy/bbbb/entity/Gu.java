@@ -16,8 +16,8 @@ public class Gu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String gu;
+    @Column(nullable = false, unique = true)
+    private String guName;
 
     @OneToMany(mappedBy = "gu", cascade = CascadeType.REMOVE)
     @JsonIgnore

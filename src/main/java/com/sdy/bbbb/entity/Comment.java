@@ -36,5 +36,6 @@ public class Comment extends TimeStamped{
         this.post = post;
         this.comment = requestDto.getComment();
         this.commentLevel = requestDto.getCommentLevel();
+
     }
 }

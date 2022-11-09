@@ -23,8 +23,8 @@ public class LikeController {
         return likeService.createLike(postId, requestDto.getLiketLevel(),  userDetails.getAccount());
     }
     @DeleteMapping
-    public void deleteLike(@PathVariable Long postId,
+    public GlobalResponseDto deleteLike(@PathVariable Long postId,
                               @AuthenticationPrincipal UserDetailsImpl userDetails){
-                likeService.deleteLike(postId, userDetails.getAccount());
+                return likeService.deleteLike(postId, userDetails.getAccount());
     }
 }

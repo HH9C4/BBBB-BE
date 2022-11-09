@@ -25,13 +25,11 @@ public class CommentService {
     public GlobalResponseDto createComment(Long postId, CommentRequestDto requestDto, Account account){
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundPost));
-
+        // 게시글 없으면 예외 처리
         Comment comment = new Comment(requestDto, post, account);
         // request받은 댓글, 게시글, 유저정보
         commentRepository.save(comment);
         // 댓글 저장
-//        post.getCommentList().add(comment);
-        // 게시글에 추가
         post.setCommentCount(post.getCommentList().size());
         // 게시글에 달린 댓글 수 변경
         postRepository.save(post);
@@ -44,12 +42,17 @@ public class CommentService {
     public GlobalResponseDto deleteComment(Long id, Account account) {
         Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundComment));
-        // 예외코드 아직 안만듬 -> 댓글 없으면 예외처리 (댓글을 찾을 수 없습니다)
+        // 댓글 없으면 예외처리 (댓글을 찾을 수 없습니다)
+        Post post = comment.getPost();
         if (!comment.getAccount().getId().equals(account.getId())) {
             throw new CustomException(ErrorCode.NotMatchAuthor);
         }// 댓글 작성자 아니면 에러코드 (작성자가 아닙니다)
         commentRepository.delete(comment);
         // 댓글 삭제
+        post.setCommentCount(post.getCommentList().size());
+        // 게시글에 달린 댓글 수 변경
+        postRepository.save(post);
+        // 게시글 저장
         return GlobalResponseDto.ok("댓글이 삭제되었습니다.", null);
     }
 }

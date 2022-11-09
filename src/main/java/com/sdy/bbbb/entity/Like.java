@@ -17,7 +17,6 @@ public class Like {
     private String liketLevel;
     @ManyToOne
     @JoinColumn
-    @ApiModelProperty(hidden = true)
     private Account account;
     @ManyToOne
     @JoinColumn(name = "post_id")

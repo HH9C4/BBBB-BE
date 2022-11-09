@@ -1,26 +1,33 @@
 package com.sdy.bbbb.entity;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
+@Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Bookmark {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private boolean bookmarked;
     @ManyToOne
-    @JoinColumn(name = "gu_id")
+    @JoinColumn
+    @JsonIgnore
+    private Account account;
+    @ManyToOne
+    @JoinColumn
     private Gu gu;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id")
-    private Account account;
+    public Bookmark(Gu gu, Account account) {
+        this.gu = gu;
+        this.account = account;
+    }
 
+    public void updateBookmarked(boolean bookmarked) {
+        this.bookmarked = bookmarked;
+    }
 }
