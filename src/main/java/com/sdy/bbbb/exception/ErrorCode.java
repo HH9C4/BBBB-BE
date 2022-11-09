@@ -30,7 +30,9 @@ public enum ErrorCode {
     AlreadyCancelBookmark(HttpStatus.BAD_REQUEST.value(), "B001", "이미 북마크를 취소했습니다."),
 
     // 토큰 관련
-    UnAuthorized(HttpStatus.UNAUTHORIZED.value(), "A003", "다시 로그인해주세요.");
+    UnAuthorized(HttpStatus.UNAUTHORIZED.value(), "A003", "다시 로그인해주세요."),
+
+    FailDecodeString(HttpStatus.BAD_REQUEST.value(), "D001", "디코딩 실패");
 
 
 
