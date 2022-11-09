@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,21 +41,8 @@ public class PostService {
         //쿼리 두번 보다 한번으로 하는게 낫겠쥐?
         postRepository.save(post);
 
-//        System.out.println(multipartFile.get(0).toString());
         //이미지 있다면
         createImageIfNotNull(multipartFile, post);
-
-//        if (postRequestDto.getImageUrl() != null) {
-//            List<String> imgUrlList = postRequestDto.getImageUrl();
-//            List<Image> imageList = new ArrayList<>();
-//            for (String imgUrl : imgUrlList) {
-//                Image image = new Image(post, imgUrl);
-//                imageList.add(image);
-//                imageRepository.save(image);
-//            }
-//            //굳이 set 해줘야하나??
-//            post.setImageList(imageList);
-//        }
 
         return GlobalResponseDto.created("게시글이 등록 되었습니다.");
     }
@@ -61,6 +50,7 @@ public class PostService {
     //게시글 전체 조회
     @Transactional(readOnly = true)
     public GlobalResponseDto<List<PostResponseDto>> getPost(String gu, String sort, Account currentAccount) {
+        gu = decoding(gu);
         List<Post> postList;
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 
@@ -83,6 +73,7 @@ public class PostService {
 //    게시글 검색
     @Transactional(readOnly = true)
     public GlobalResponseDto<List<PostResponseDto>> searchPost(String searchWord, String sort, Account currentAccount) {
+        searchWord = decoding(searchWord);
         List<Post> postList;
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 
@@ -139,20 +130,6 @@ public class PostService {
         //추가할 이미지 있다면
         createImageIfNotNull(multipartFile, post);
 
-//        if (postRequestDto.getImageUrl() != null) {
-//            List<String> imageUrlList = postRequestDto.getImageUrl();
-//            for (String imageUrl : imageUrlList) {
-//                if (!(imageRepository.existsByImageUrl(imageUrl))) {
-//                    Image image = new Image(post, imageUrl);
-//                    //테스트시 꼼꼼히 보자
-//                    post.getImageList().add(image);
-//                    imageRepository.save(image);
-//                } else {
-//                    throw new CustomException(ErrorCode.AlreadyExists);
-//                }
-//            }
-//        }
-
         post.update(postRequestDto);
         return GlobalResponseDto.ok("게시글 수정이 완료되었습니다.", null);
     }
@@ -204,5 +181,15 @@ public class PostService {
         return likeRepository.existsByPostAndAccount(post, currentAccount);
     }
 
+    //utf-8 디코딩
+    public String decoding(String toDecode) {
+        String result = "";
+        try {
+            result = URLDecoder.decode(toDecode, "UTF-8");
+        }catch (UnsupportedEncodingException e){
+            throw new CustomException(ErrorCode.FailDecodeString);
+        }
+        return result;
+    }
 
 }
