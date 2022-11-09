@@ -89,7 +89,7 @@ public class PostService {
         } else if (sort.equals("hot")) {
             postList = postRepository.findPostsByTagContainsAndContentContainsOrderByLikeCountDescCreatedAtDesc(searchWord, searchWord);
         } else {
-            throw new CustomException(ErrorCode.NotFound);//잘못된 요청
+            throw new CustomException(ErrorCode.NotFoundSort);//잘못된 요청
         }
 
         for (Post post : postList) {
