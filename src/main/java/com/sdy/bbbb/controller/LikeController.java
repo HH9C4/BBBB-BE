@@ -7,6 +7,7 @@ import com.sdy.bbbb.service.LikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,13 +17,13 @@ public class LikeController {
 
     @PostMapping
     public boolean createLike(@PathVariable Long postId,
-                              @ModelAttribute LikeRequestDto requestDto,
-                              @AuthenticationPrincipal UserDetailsImpl userDetails){
+                              @RequestBody LikeRequestDto requestDto,
+                              @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         return likeService.createLike(postId, requestDto.getLiketLevel(),  userDetails.getAccount());
     }
     @DeleteMapping
     public boolean deleteLike(@PathVariable Long postId,
-                              @AuthenticationPrincipal UserDetailsImpl userDetails){
+                              @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         return likeService.deleteLike(postId, userDetails.getAccount());
     }
 }
