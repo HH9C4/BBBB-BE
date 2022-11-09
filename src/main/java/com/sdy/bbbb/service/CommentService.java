@@ -24,8 +24,8 @@ public class CommentService {
     @Transactional
     public GlobalResponseDto<CommentResponseDto> createComment(CommentRequestDto requestDto, Long postId, Account account){
         Post post = postRepository.findById(postId).orElseThrow(
-                () -> new CustomException(ErrorCode.NotFound));
-        // 예외 코드 아직 안만듬 -> 게시글 없으면 예외 처리 (게시글을 찾을 수 없습니다)
+                () -> new CustomException(ErrorCode.NotFoundPost));
+
         Comment comment = new Comment(requestDto, post, account);
         // request받은 댓글, 게시글, 유저정보
         commentRepository.save(comment);
@@ -37,10 +37,10 @@ public class CommentService {
     @Transactional
     public GlobalResponseDto deleteComment(Long id, Account account) {
         Comment comment = commentRepository.findById(id).orElseThrow(
-                () -> new CustomException(ErrorCode.NotFound));
+                () -> new CustomException(ErrorCode.NotFoundComment));
         // 예외코드 아직 안만듬 -> 댓글 없으면 예외처리 (댓글을 찾을 수 없습니다)
         if (!comment.getAccount().getId().equals(account.getId())) {
-            throw new CustomException(ErrorCode.NotFound);
+            throw new CustomException(ErrorCode.NotMatchAuthor);
         }// 댓글 작성자 아니면 에러코드 (작성자가 아닙니다)
         commentRepository.delete(comment);
         // 댓글 삭제
