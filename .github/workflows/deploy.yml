@@ -12,7 +12,7 @@ env:
   S3_BUCKET_NAME: younseoandchildren
   CODE_DEPLOY_APPLICATION_NAME: bbbb-younseoandchildren
   CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: bbbb-younseoandchildren-group
-  RESOURCE_PATH: ./src/main/resources/application.properties
+  RESOURCE_PATH: ./src/main/resources/application.yml
 
 permissions:
   contents: read
