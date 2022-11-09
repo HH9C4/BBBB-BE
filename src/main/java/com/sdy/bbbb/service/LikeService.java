@@ -24,13 +24,12 @@ public class LikeService {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundPost));
         //게시글 없으면 에러처리
-        Optional<Like> foundLike = likeRepository.findByPostAndAccount(post, account);
-        if (foundLike.isPresent()){
+        if (likeRepository.existsByPostAndAccount(post, account)){
             throw new CustomException(ErrorCode.AlreadyExistsLike);
             // 좋아요 정보가 있는 상태 예외 처리 -> 예외코드 만들어야함 (혹시 몰라서 일단 예외처리)
         }else {
-
             Like like = new Like(post, liketLevel, account);
+            // 좋아요 생성
             likeRepository.save(like);
             // 좋아요 저장
             post.setLikeCount(post.getLikeList().size());
@@ -38,7 +37,6 @@ public class LikeService {
             postRepository.save(post);
             // 게시글 저장
         return GlobalResponseDto.created("success Likes!");
-
         }
     }
 

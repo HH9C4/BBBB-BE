@@ -28,7 +28,7 @@ public enum ErrorCode {
     AlreadyCancelLike(HttpStatus.BAD_REQUEST.value(), "L001", "이미 좋아요를 취소했습니다."),
     AlreadyExistsLike(HttpStatus.BAD_REQUEST.value(), "L002", "이미 좋아요를 눌렀습니다."),
     AlreadyCancelBookmark(HttpStatus.BAD_REQUEST.value(), "B001", "이미 북마크를 취소했습니다."),
-
+    AlreadyExistsBookmark(HttpStatus.BAD_REQUEST.value(), "B002", "이미 북마크를 눌렀습니다."),
     // 토큰 관련
     UnAuthorized(HttpStatus.UNAUTHORIZED.value(), "A003", "다시 로그인해주세요.");
 
