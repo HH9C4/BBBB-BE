@@ -56,6 +56,11 @@ public class Account extends TimeStamped {
     @OneToMany(mappedBy = "account")
     List<Like> likes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "account")
+    List<Bookmark> bookmarks = new ArrayList<>();
+
+
+
     public Account(String nickname, String password, String email, String profileImage, Long kakaoId) {
         this.accountName = nickname;
         this.password = password;

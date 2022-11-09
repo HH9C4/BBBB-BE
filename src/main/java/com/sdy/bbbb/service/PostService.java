@@ -1,10 +1,12 @@
 package com.sdy.bbbb.service;
 
 import com.sdy.bbbb.dto.request.PostRequestDto;
+import com.sdy.bbbb.dto.response.CommentResponseDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.dto.response.OnePostResponseDto;
 import com.sdy.bbbb.dto.response.PostResponseDto;
 import com.sdy.bbbb.entity.Account;
+import com.sdy.bbbb.entity.Comment;
 import com.sdy.bbbb.entity.Image;
 import com.sdy.bbbb.entity.Post;
 import com.sdy.bbbb.exception.CustomException;
@@ -63,11 +65,11 @@ public class PostService {
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 
         if (sort.equals("new")) {
-            postList = postRepository.findPostsByGuOrderByCreatedAtDesc(gu);
+            postList = postRepository.findPostsByGuNameOrderByCreatedAtDesc(gu);
         } else if (sort.equals("hot")) {
-            postList = postRepository.findPostsByGuOrderByLikeCountDescCreatedAtDesc(gu);
+            postList = postRepository.findPostsByGuNameOrderByLikeCountDescCreatedAtDesc(gu);
         } else {
-            throw new CustomException(ErrorCode.NotFound);//잘못된 요청
+            throw new CustomException(ErrorCode.NotFoundSort);//잘못된 요청
         }
 
         for (Post post : postList) {
@@ -89,7 +91,7 @@ public class PostService {
         } else if (sort.equals("hot")) {
             postList = postRepository.findPostsByTagContainsAndContentContainsOrderByLikeCountDescCreatedAtDesc(searchWord, searchWord);
         } else {
-            throw new CustomException(ErrorCode.NotFound);//잘못된 요청
+            throw new CustomException(ErrorCode.NotFoundSort);//잘못된 요청
         }
 
         for (Post post : postList) {
@@ -102,19 +104,23 @@ public class PostService {
     //게시글 상세 조회
     @Transactional
     public GlobalResponseDto<OnePostResponseDto> getOnePost(Long postId, Account currentAccount) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFound));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
 
         post.setViews(post.getViews() + 1);
         //이미지 추출 함수로, DTO에 있는게 나을까?
+        List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
+        for(Comment comment : post.getCommentList()){
+            commentResponseDtoList.add(new CommentResponseDto(comment));
+        }
 
-        return GlobalResponseDto.ok("조회 성공", new OnePostResponseDto(post, currentAccount, getImgUrl(post), amILiked(post, currentAccount)));
+        return GlobalResponseDto.ok("조회 성공", new OnePostResponseDto(post, currentAccount, getImgUrl(post), amILiked(post, currentAccount), commentResponseDtoList));
     }
 
     //게시글 수정
     @Transactional
     public GlobalResponseDto<String> updatePost(Long postId, PostRequestDto postRequestDto, List<MultipartFile> multipartFile, Account currentAccount) throws IOException{
         //어차피 쓸거 일단 찾아
-        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFound));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
         //작성자 일치여부 확인
         checkPostAuthor(post, currentAccount);
 
@@ -126,7 +132,7 @@ public class PostService {
                 if (imageRepository.existsByImageUrl(imageUrl)) {
                     imageRepository.deleteByImageUrl(imageUrl);
                 } else {
-                    throw new CustomException(ErrorCode.NotFound);
+                    throw new CustomException(ErrorCode.NotFoundImage);
                 }
             }
         }
@@ -155,7 +161,7 @@ public class PostService {
     @Transactional
     public GlobalResponseDto<String> deletePost(Long postId, Account currentAccount) {
         //어차피 쓸거 일단 찾아
-        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFound));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
         //작성자 일치여부 확인
         checkPostAuthor(post, currentAccount);
 
@@ -189,7 +195,7 @@ public class PostService {
     //작성자 확인
     public void checkPostAuthor(Post post, Account currentAccount) {
         if (!post.getAccount().getId().equals(currentAccount.getId())){
-            throw new CustomException(ErrorCode.NotMatch);
+            throw new CustomException(ErrorCode.NotMatchAuthor);
         }
     }
 

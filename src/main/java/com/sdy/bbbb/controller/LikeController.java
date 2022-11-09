@@ -5,6 +5,7 @@ import com.sdy.bbbb.dto.request.LikeRequestDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.service.LikeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,14 +16,15 @@ public class LikeController {
     private final LikeService likeService;
 
     @PostMapping
-    public boolean createLike(@PathVariable Long postId,
+    @ResponseStatus(HttpStatus.CREATED)
+    public GlobalResponseDto createLike(@PathVariable Long postId,
                               @ModelAttribute LikeRequestDto requestDto,
                               @AuthenticationPrincipal UserDetailsImpl userDetails){
         return likeService.createLike(postId, requestDto.getLiketLevel(),  userDetails.getAccount());
     }
     @DeleteMapping
-    public boolean deleteLike(@PathVariable Long postId,
+    public GlobalResponseDto deleteLike(@PathVariable Long postId,
                               @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return likeService.deleteLike(postId, userDetails.getAccount());
+                return likeService.deleteLike(postId, userDetails.getAccount());
     }
 }

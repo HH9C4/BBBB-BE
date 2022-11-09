@@ -24,7 +24,8 @@ public class Bookmark {
         this.gu = gu;
         this.account = account;
     }
-    public void updateBookmarked(boolean bookmarked){
+
+    public void updateBookmarked(boolean bookmarked) {
         this.bookmarked = bookmarked;
     }
 }
