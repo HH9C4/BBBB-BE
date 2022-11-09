@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROJECT_ROOT="/home/ubuntu"
+PROJECT_ROOT="/home/ubuntu/dirdirjarjar"
 JAR_FILE="$PROJECT_ROOT/yghh-0.0.1-SNAPSHOT.jar"
 
 APP_LOG="$PROJECT_ROOT/application.log"
