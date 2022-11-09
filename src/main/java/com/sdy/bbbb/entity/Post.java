@@ -23,7 +23,7 @@ public class Post extends TimeStamped{
     @ApiModelProperty(hidden = true)
     private Account account;
     @Column(nullable = false)
-    private String gu;
+    private String guName;
     @Column
     private String tag;
     @Column(nullable = false)
@@ -53,7 +53,7 @@ public class Post extends TimeStamped{
     public Post(PostRequestDto postRequestDto, Account account) {
         this.content = postRequestDto.getContent();
         this.account = account;
-        this.gu = postRequestDto.getGu();
+        this.guName = postRequestDto.getGu();
         this.tag = postRequestDto.getTag();
 //        this.commentCount = commentList.size();
 //        this.likeCount = likeList.size();
@@ -61,6 +61,6 @@ public class Post extends TimeStamped{
 
     public void update(PostRequestDto postRequestDto) {
         this.content = postRequestDto.getContent();
-        this.gu = postRequestDto.getGu();
+        this.guName = postRequestDto.getGu();
     }
 }
