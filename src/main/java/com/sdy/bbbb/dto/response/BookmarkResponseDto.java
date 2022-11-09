@@ -11,7 +11,7 @@ public class BookmarkResponseDto {
     private boolean bookmarked;
 
     public BookmarkResponseDto(Bookmark bookmark){
-        this.gu = bookmark.getGu().getGu();
+        this.gu = bookmark.getGu().getGuName();
         this.bookmarked = bookmark.isBookmarked();
     }
 }

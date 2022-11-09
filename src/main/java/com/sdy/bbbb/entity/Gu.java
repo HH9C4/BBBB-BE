@@ -17,7 +17,7 @@ public class Gu {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String gu;
+    private String guName;
 
     @OneToMany(mappedBy = "gu", cascade = CascadeType.REMOVE)
     @JsonIgnore

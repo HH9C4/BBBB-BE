@@ -24,7 +24,7 @@ public class BookmarkService {
     private final GuRepository guRepository;
     @Transactional
     public GlobalResponseDto<BookmarkResponseDto> createBookmark(String guName, Account account) {
-        Gu gu = guRepository.findByGuName(guName).orElseThrow(
+        Gu gu = guRepository.findGuByGuName(guName).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundGu));
         // 없으면 에러처리
         Bookmark bookmark = new Bookmark(gu, account);
@@ -38,7 +38,7 @@ public class BookmarkService {
 
     @Transactional
     public GlobalResponseDto<BookmarkResponseDto> deleteBookmark(String guName, Account account) {
-        Gu gu = guRepository.findByGuName(guName).orElseThrow(
+        Gu gu = guRepository.findGuByGuName(guName).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundGu));
         // 구 이름으로 찾을 수 있나 모르겠음, 없으면 에러처리
         Optional<Bookmark> foundBookmark = bookmarkRepository.findByGuAndAccount(gu, account);

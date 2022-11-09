@@ -1,5 +1,6 @@
 package com.sdy.bbbb.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,7 @@ public class Bookmark {
     private boolean bookmarked;
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private Account account;
     @ManyToOne
     @JoinColumn
