@@ -28,7 +28,7 @@ public class PostResponseDto {
         this.accountName = account.getAccountName();
         this.imageUrl = imageUrl;
         this.content = post.getContent();
-        this.gu = post.getGu();
+        this.gu = post.getGuName();
         this.tag = post.getTag();
         this.likeCount = post.getLikeCount();
         this.isLiked = isLiked;
@@ -41,7 +41,7 @@ public class PostResponseDto {
         this.postId = post.getId();
         this.accountName = account.getAccountName();
         this.content = post.getContent();
-        this.gu = post.getGu();
+        this.gu = post.getGuName();
         this.tag = post.getTag();
         this.likeCount = post.getLikeCount();
         this.views = post.getViews();

@@ -31,7 +31,6 @@ public class S3Uploader {
     public String uploadFiles(MultipartFile multipartFile, String dirName) throws IOException {
 //        File file = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
 //        multipartFile.transferTo(file); // 파일 변환할 수 없으면 에러
-        System.out.println(multipartFile.getName());
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
         return upload(uploadFile, dirName);
