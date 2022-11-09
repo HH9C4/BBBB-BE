@@ -1,32 +1,30 @@
 package com.sdy.bbbb.entity;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "likes")
-@NoArgsConstructor
 @Getter
-public class Like {
+@NoArgsConstructor
+public class Bookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String liketLevel;
+    private boolean bookmarked;
     @ManyToOne
     @JoinColumn
     private Account account;
     @ManyToOne
-    @JoinColumn(name = "post_id")
-    private Post post;
+    @JoinColumn
+    private Gu gu;
 
-    public Like(Post post, String liketLevel, Account account){
-        this.post = post;
+    public Bookmark(Gu gu, Account account) {
+        this.gu = gu;
         this.account = account;
-        this.liketLevel = liketLevel;
     }
-
-
+    public void updateBookmarked(boolean bookmarked){
+        this.bookmarked = bookmarked;
+    }
 }

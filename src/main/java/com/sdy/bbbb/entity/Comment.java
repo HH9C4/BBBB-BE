@@ -37,7 +37,4 @@ public class Comment extends TimeStamped{
         this.accountName=account.getAccountName();
         this.comment = requestDto.getComment();
     }
-    public CommentResponseDto responseDto(){
-        return new CommentResponseDto(this.id, this.accountName, this.comment, this.time);
-    }
 }

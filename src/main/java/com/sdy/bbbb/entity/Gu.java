@@ -16,7 +16,7 @@ public class Gu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String gu;
 
     @OneToMany(mappedBy = "gu", cascade = CascadeType.REMOVE)

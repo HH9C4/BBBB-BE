@@ -15,16 +15,8 @@ public class CommentResponseDto {
     private String accountName;
     private String comment;
     private String createdAt;
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean isChecked;
-
-    public CommentResponseDto(Long id, String accountName, String comment, LocalDateTime time){
-        this.commentId = id;
-        this.accountName = accountName;
-        this.comment = comment;
-        this.createdAt = Chrono.timesAgo(time);
-    }
 
     public CommentResponseDto(Comment comment) {
         this.commentId = comment.getId();
