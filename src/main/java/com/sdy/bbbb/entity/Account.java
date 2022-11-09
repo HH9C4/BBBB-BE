@@ -61,11 +61,14 @@ public class Account extends TimeStamped {
 
 
 
-    public Account(String nickname, String password, String email, String profileImage, Long kakaoId) {
+    public Account(String nickname, String password, String email, String profileImage, Long kakaoId, String gender, String ageRange) {
         this.accountName = nickname;
         this.password = password;
         this.profileImage = profileImage;
         this.email = email;
         this.kakaoId = kakaoId;
+        this.gender = gender;
+        this.ageRange = ageRange;
     }
+
 }
