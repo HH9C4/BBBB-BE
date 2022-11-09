@@ -15,6 +15,7 @@ public class PostResponseDto {
     private String content;
     private String tag;
     private String gu;
+    private Integer commentCount;
     private Integer likeCount;
     private Boolean isLiked;
     private Integer views;
@@ -31,6 +32,7 @@ public class PostResponseDto {
         this.gu = post.getGuName();
         this.tag = post.getTag();
         this.likeCount = post.getLikeCount();
+        this.commentCount = post.getCommentCount();
         this.isLiked = isLiked;
         this.views = post.getViews();
         this.createdAt = Chrono.timesAgo(post.getCreatedAt());

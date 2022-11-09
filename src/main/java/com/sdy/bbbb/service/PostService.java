@@ -1,10 +1,12 @@
 package com.sdy.bbbb.service;
 
 import com.sdy.bbbb.dto.request.PostRequestDto;
+import com.sdy.bbbb.dto.response.CommentResponseDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.dto.response.OnePostResponseDto;
 import com.sdy.bbbb.dto.response.PostResponseDto;
 import com.sdy.bbbb.entity.Account;
+import com.sdy.bbbb.entity.Comment;
 import com.sdy.bbbb.entity.Image;
 import com.sdy.bbbb.entity.Post;
 import com.sdy.bbbb.exception.CustomException;
@@ -106,8 +108,12 @@ public class PostService {
 
         post.setViews(post.getViews() + 1);
         //이미지 추출 함수로, DTO에 있는게 나을까?
+        List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
+        for(Comment comment : post.getCommentList()){
+            commentResponseDtoList.add(new CommentResponseDto(comment));
+        }
 
-        return GlobalResponseDto.ok("조회 성공", new OnePostResponseDto(post, currentAccount, getImgUrl(post), amILiked(post, currentAccount)));
+        return GlobalResponseDto.ok("조회 성공", new OnePostResponseDto(post, currentAccount, getImgUrl(post), amILiked(post, currentAccount), commentResponseDtoList));
     }
 
     //게시글 수정
