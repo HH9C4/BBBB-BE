@@ -21,7 +21,7 @@ public class SwaggerConfig {
                 .ignoredParameterTypes(java.sql.Date.class)
                 .forCodeGeneration(true)
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.sdy.bbbb.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo())
