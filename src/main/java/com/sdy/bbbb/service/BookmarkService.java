@@ -26,8 +26,13 @@ public class BookmarkService {
     public GlobalResponseDto<BookmarkResponseDto> createBookmark(String guName, Account account) {
         Gu gu = guRepository.findGuByGuName(guName).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundGu));
-        // 없으면 에러처리
+        // 구 없으면 에러처리
+        if (bookmarkRepository.existsByGuAndAccount(gu, account)) {
+            throw new CustomException(ErrorCode.AlreadyExistsBookmark);
+            // 북마크 정보 이미 있는 상태 -> 예러 처리
+        }
         Bookmark bookmark = new Bookmark(gu, account);
+        // 북마크 생성
         bookmark.updateBookmarked(true);
         // true 변환
         bookmarkRepository.save(bookmark);
@@ -42,6 +47,7 @@ public class BookmarkService {
                 () -> new CustomException(ErrorCode.NotFoundGu));
         // 구 이름으로 찾을 수 있나 모르겠음, 없으면 에러처리
         Optional<Bookmark> foundBookmark = bookmarkRepository.findByGuAndAccount(gu, account);
+        // 삭제 할 북마크 찾아오기
         if (foundBookmark.isPresent()){
             foundBookmark.get().updateBookmarked(false);
             // false 변환
