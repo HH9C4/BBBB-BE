@@ -36,7 +36,9 @@ public class PostService {
 
     @Transactional
     //게시글 생성
-    public GlobalResponseDto<PostResponseDto> createPost(PostRequestDto postRequestDto, List<MultipartFile> multipartFile, Account currentAccount) throws IOException {
+    public GlobalResponseDto<PostResponseDto> createPost(PostRequestDto postRequestDto,
+                                                         List<MultipartFile> multipartFile,
+                                                         Account currentAccount) {
         Post post = new Post(postRequestDto, currentAccount);
         //쿼리 두번 보다 한번으로 하는게 낫겠쥐?
         postRepository.save(post);
@@ -44,12 +46,15 @@ public class PostService {
         //이미지 있다면
         createImageIfNotNull(multipartFile, post);
 
-        return GlobalResponseDto.created("게시글이 등록 되었습니다.", new PostResponseDto(post, getImgUrl(post), false));
+        return GlobalResponseDto.created("게시글이 등록 되었습니다.",
+                new PostResponseDto(post, getImgUrl(post), false));
     }
 
     //게시글 전체 조회
     @Transactional(readOnly = true)
-    public GlobalResponseDto<List<PostResponseDto>> getPost(String gu, String sort, Account currentAccount) {
+    public GlobalResponseDto<List<PostResponseDto>> getPost(String gu,
+                                                            String sort,
+                                                            Account currentAccount) {
         gu = decoding(gu);
         List<Post> postList;
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
@@ -65,14 +70,18 @@ public class PostService {
         for (Post post : postList) {
             //좋아요 확인
 
-            postResponseDtoList.add(new PostResponseDto(post, getImgUrl(post), amILiked(post, currentAccount)));
+            postResponseDtoList.add(
+                    new PostResponseDto(post, getImgUrl(post),
+                    amILiked(post, currentAccount)));
         }
         return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
     }
 
 //    게시글 검색
     @Transactional(readOnly = true)
-    public GlobalResponseDto<List<PostResponseDto>> searchPost(String searchWord, String sort, Account currentAccount) {
+    public GlobalResponseDto<List<PostResponseDto>> searchPost(String searchWord,
+                                                               String sort,
+                                                               Account currentAccount) {
         searchWord = decoding(searchWord);
         List<Post> postList;
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
@@ -109,7 +118,10 @@ public class PostService {
 
     //게시글 수정
     @Transactional
-    public GlobalResponseDto<String> updatePost(Long postId, PostRequestDto postRequestDto, List<MultipartFile> multipartFile, Account currentAccount) throws IOException{
+    public GlobalResponseDto<String> updatePost(Long postId,
+                                                PostRequestDto postRequestDto,
+                                                List<MultipartFile> multipartFile,
+                                                Account currentAccount) {
         //어차피 쓸거 일단 찾아
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
         //작성자 일치여부 확인
