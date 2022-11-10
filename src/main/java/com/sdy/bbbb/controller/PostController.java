@@ -31,7 +31,7 @@ public class PostController {
     @ApiOperation(value = "게시글 생성", notes = "설명")
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
-    public GlobalResponseDto<String> createPost(@RequestPart PostRequestDto postRequestDto,
+    public GlobalResponseDto<PostResponseDto> createPost(@RequestPart PostRequestDto postRequestDto,
                                                 @RequestPart(name = "imageList", required = false) List<MultipartFile> multipartFile,
                                                 @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
 

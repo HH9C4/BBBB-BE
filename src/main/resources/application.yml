@@ -9,6 +9,7 @@ cloud:
       static: ''
     stack:
       auto: ''
+
 logging:
   level:
     org:
