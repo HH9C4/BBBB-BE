@@ -10,6 +10,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -24,11 +26,14 @@ public class Comment extends TimeStamped{
     private boolean isChecked;
     @ManyToOne
     @JoinColumn
-    @ApiModelProperty(hidden = true)
     private Account account;
     @ManyToOne
     @JoinColumn
     private Post post;
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<Like> likeList = new ArrayList<>();
+    private int likeCount;
 
 
     public Comment(CommentRequestDto requestDto, Post post, Account account) {
@@ -36,6 +41,5 @@ public class Comment extends TimeStamped{
         this.post = post;
         this.comment = requestDto.getComment();
         this.commentLevel = requestDto.getCommentLevel();
-
     }
 }

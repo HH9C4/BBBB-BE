@@ -18,7 +18,6 @@ public class MyPage {
 
     @OneToOne
     @JoinColumn(name = "accountId")
-    @ApiModelProperty(hidden = true)
     private Account account;
 
 

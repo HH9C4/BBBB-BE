@@ -13,23 +13,39 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/likes/{postId}")
+@RequestMapping("/api/likes")
 public class LikeController {
     private final LikeService likeService;
 
-    @ApiOperation(value = "좋아요 생성", notes = "설명")
-    @PostMapping
+    @ApiOperation(value = "게시글 좋아요 생성", notes = "설명")
+    @PostMapping("/{postId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public GlobalResponseDto createLike(@PathVariable Long postId,
+    public GlobalResponseDto createPostLike(@PathVariable Long postId,
                                         @ModelAttribute LikeRequestDto requestDto,
                                         @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return likeService.createLike(postId, requestDto.getLiketLevel(),  userDetails.getAccount());
+        return likeService.createPostLike(postId, requestDto.getLiketLevel(), userDetails.getAccount());
     }
 
-    @ApiOperation(value = "좋아요 삭제", notes = "설명")
-    @DeleteMapping
-    public GlobalResponseDto deleteLike(@PathVariable Long postId,
+    @ApiOperation(value = "게시글 좋아요 삭제", notes = "설명")
+    @DeleteMapping("/{postId}")
+    public GlobalResponseDto deletePostLike(@PathVariable Long postId,
                                         @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return likeService.deleteLike(postId, userDetails.getAccount());
+        return likeService.deletePostLike(postId, userDetails.getAccount());
     }
+    @ApiOperation(value = "댓글 좋아요 생성", notes = "설명")
+    @PostMapping("/{commentId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public GlobalResponseDto createCommentLike(@PathVariable Long commentId,
+                                        @ModelAttribute LikeRequestDto requestDto,
+                                        @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return likeService.createCommentLike(commentId, requestDto.getLiketLevel(), userDetails.getAccount());
+    }
+
+    @ApiOperation(value = "댓글 좋아요 삭제", notes = "설명")
+    @DeleteMapping("/{commentId}")
+    public GlobalResponseDto deleteCommentLike(@PathVariable Long commentId,
+                                        @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return likeService.deleteCommentLike(commentId, userDetails.getAccount());
+    }
+
 }

@@ -34,7 +34,6 @@ public class Post extends TimeStamped{
     private List<Comment> commentList = new ArrayList<>();
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     @JsonIgnore
-    @ApiModelProperty(hidden = true)
     private List<Like> likeList = new ArrayList<>();
 
     @Column(nullable = false)

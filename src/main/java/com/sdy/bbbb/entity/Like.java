@@ -22,8 +22,17 @@ public class Like {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    @ManyToOne
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
+
     public Like(Post post, String liketLevel, Account account){
         this.post = post;
+        this.account = account;
+        this.liketLevel = liketLevel;
+    }
+    public Like(Comment comment, String liketLevel, Account account){
+        this.comment = comment;
         this.account = account;
         this.liketLevel = liketLevel;
     }
