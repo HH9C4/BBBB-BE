@@ -1,7 +1,9 @@
 package com.sdy.bbbb.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sdy.bbbb.dto.request.CommentRequestDto;
 import com.sdy.bbbb.dto.response.CommentResponseDto;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,6 +24,7 @@ public class Comment extends TimeStamped{
     private boolean isChecked;
     @ManyToOne
     @JoinColumn
+    @ApiModelProperty(hidden = true)
     private Account account;
     @ManyToOne
     @JoinColumn
@@ -33,5 +36,6 @@ public class Comment extends TimeStamped{
         this.post = post;
         this.comment = requestDto.getComment();
         this.commentLevel = requestDto.getCommentLevel();
+
     }
 }

@@ -46,15 +46,17 @@ public class MyPageService {
     }
 
 
-
     // 알람체크
     @Transactional
     public GlobalResponseDto<CommentResponseDto> checkAlarm(Long commentId, Account account) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
-                ()-> new CustomException(ErrorCode.NotFound)
+                ()-> new CustomException(ErrorCode.NotFoundComment)
         );
-        comment.setChecked(true);
-
+        if(!comment.isChecked()) {
+            comment.setChecked(true);
+        } else {
+            throw new CustomException(ErrorCode.AlreadyCheckAlarm);
+        }
         return GlobalResponseDto.ok("알람 확인!", new CommentResponseDto(comment));
     }
 
@@ -63,22 +65,40 @@ public class MyPageService {
     public GlobalResponseDto<List<PostResponseDto>> getMyPosts(Account account) {
         List<Post> myPosts = postRepository.findPostsByAccount_Id(account.getId());
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
-
         for(Post foundPost : myPosts) {
-            postResponseDtos.add(new PostResponseDto(foundPost, account));
+            postResponseDtos.add(new PostResponseDto(foundPost, getImgUrl(foundPost), amILiked(foundPost, account)));
         }
-        return GlobalResponseDto.ok("Success get", postResponseDtos);
+        return GlobalResponseDto.ok("조회 성공!", postResponseDtos);
     }
 
     // 내가 좋아요한 게시글 조회
     @Transactional(readOnly = true)
-    public GlobalResponseDto<List<LikeResponseDto>> getMyLikes(Account account) {
+    public GlobalResponseDto<List<PostResponseDto>> getMyLikes(Account account) {
         List<Like> myLikes = likeRepository.findByAccount_Id(account.getId());
-        List<LikeResponseDto> likeResponseDtos = new ArrayList<>();
-        for(Like like : myLikes) {
-            likeResponseDtos.add(new LikeResponseDto(like));
+        List<Post> likedPost = new ArrayList<>();
+        List<PostResponseDto> postResponseDtos = new ArrayList<>();
+        for(Like like: myLikes) {
+            likedPost.add(like.getPost());
         }
-        return GlobalResponseDto.ok("Success get", likeResponseDtos);
+        for(Post post : likedPost) {
+            postResponseDtos.add(new PostResponseDto(post, getImgUrl(post), amILiked(post, account)));
+        }
+        return GlobalResponseDto.ok("조회 성공!", postResponseDtos);
+
+    }
+
+    // 이미지 조회 함수
+    public List<String> getImgUrl(Post post){
+        List<String> imageUrl = new ArrayList<>();
+        for(Image img : post.getImageList()){
+            imageUrl.add(img.getImageUrl());
+        }
+        return imageUrl;
+    }
+
+    // 좋아요 했는지 안했는지 확인하는 함수
+    public boolean amILiked(Post post, Account currentAccount) {
+        return likeRepository.existsByPostAndAccount(post, currentAccount);
     }
 
 

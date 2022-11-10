@@ -1,0 +1,44 @@
+cloud:
+  aws:
+    credentials:
+      secret-key: ''
+      access-key: ''
+    s3:
+      bucket: ''
+    region:
+      static: ''
+    stack:
+      auto: ''
+logging:
+  level:
+    org:
+      apache:
+        coyote:
+          http11: ERROR
+    com:
+      example: ERROR
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  profiles:
+    include: secret
+  datasource:
+    password: ''
+    username: ''
+    url: ''
+  jpa:
+    hibernate:
+      ddl-auto: ''
+    properties:
+      hibernate:
+        format_sql: 'true'
+        show_sql: 'true'
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+jwt:
+  secret:
+    key: ''
+

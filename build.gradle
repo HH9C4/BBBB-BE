@@ -51,6 +51,12 @@ dependencies {
 
 }
 
+// github action -plain.jar 안만들어지게
+jar {
+    enabled = false
+}
+
+
 tasks.named('test') {
     useJUnitPlatform()
 }

@@ -2,6 +2,7 @@ package com.sdy.bbbb.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sdy.bbbb.dto.request.PostRequestDto;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,18 +20,21 @@ public class Post extends TimeStamped{
     private Long id;
     @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
+    @ApiModelProperty(hidden = true)
     private Account account;
     @Column(nullable = false)
-    private String gu;
+    private String guName;
     @Column
     private String tag;
     @Column(nullable = false)
     private String content;
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     @JsonIgnore
+    @ApiModelProperty(hidden = true)
     private List<Comment> commentList = new ArrayList<>();
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     @JsonIgnore
+    @ApiModelProperty(hidden = true)
     private List<Like> likeList = new ArrayList<>();
 
     @Column(nullable = false)
@@ -43,12 +47,13 @@ public class Post extends TimeStamped{
     private int views;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @ApiModelProperty(hidden = true)
     private List<Image> imageList = new ArrayList();
 
     public Post(PostRequestDto postRequestDto, Account account) {
         this.content = postRequestDto.getContent();
         this.account = account;
-        this.gu = postRequestDto.getGu();
+        this.guName = postRequestDto.getGu();
         this.tag = postRequestDto.getTag();
 //        this.commentCount = commentList.size();
 //        this.likeCount = likeList.size();
@@ -56,6 +61,6 @@ public class Post extends TimeStamped{
 
     public void update(PostRequestDto postRequestDto) {
         this.content = postRequestDto.getContent();
-        this.gu = postRequestDto.getGu();
+        this.guName = postRequestDto.getGu();
     }
 }

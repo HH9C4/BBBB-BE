@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.dto.response.LoginResponseDto;
 import com.sdy.bbbb.service.AccountService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ public class  AccountController {
 
 
     //소셜 카카오 로그인
+    @ApiOperation(value = "카카오 로그인", notes = "설명")
     @GetMapping("/user/kakao/callback")
     public GlobalResponseDto<?> kakaoLogin(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException {
 

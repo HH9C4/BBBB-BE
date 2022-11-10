@@ -4,9 +4,11 @@ package com.sdy.bbbb.controller;
 import com.sdy.bbbb.config.UserDetailsImpl;
 import com.sdy.bbbb.dto.response.*;
 import com.sdy.bbbb.service.MyPageService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -18,28 +20,32 @@ public class MyPageController {
     private final MyPageService myPageService;
 
     // 알람 기능
+    @ApiOperation(value = "이름", notes = "설명")
     @GetMapping("/alarm")
-    public GlobalResponseDto<List<AlarmResponseDto>> showAlarm(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public GlobalResponseDto<List<AlarmResponseDto>> showAlarm(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return myPageService.showAlarm(userDetails.getAccount());
     }
 
     // 알람 확인 기능
+    @ApiOperation(value = "이름", notes = "설명")
     @PostMapping("/alarm/{commentId}")
     public GlobalResponseDto<CommentResponseDto> checkAlarm(@PathVariable Long commentId,
-                                                            @AuthenticationPrincipal UserDetailsImpl userDetails){
+                                                            @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         return myPageService.checkAlarm(commentId, userDetails.getAccount());
     }
 
     // 내가 작성한 글
+    @ApiOperation(value = "이름", notes = "설명")
     @GetMapping("/myposts")
-    public GlobalResponseDto<List<PostResponseDto>> getMyPosts(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public GlobalResponseDto<List<PostResponseDto>> getMyPosts(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return myPageService.getMyPosts(userDetails.getAccount());
     }
 
 
     // 내가 좋아요한 글
+    @ApiOperation(value = "이름", notes = "설명")
     @GetMapping("/mylikes")
-    public GlobalResponseDto<List<LikeResponseDto>> getMyLikes(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public GlobalResponseDto<List<PostResponseDto>> getMyLikes(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return myPageService.getMyLikes(userDetails.getAccount());
     }
 }

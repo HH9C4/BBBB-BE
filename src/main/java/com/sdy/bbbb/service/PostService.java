@@ -1,10 +1,12 @@
 package com.sdy.bbbb.service;
 
 import com.sdy.bbbb.dto.request.PostRequestDto;
+import com.sdy.bbbb.dto.response.CommentResponseDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.dto.response.OnePostResponseDto;
 import com.sdy.bbbb.dto.response.PostResponseDto;
 import com.sdy.bbbb.entity.Account;
+import com.sdy.bbbb.entity.Comment;
 import com.sdy.bbbb.entity.Image;
 import com.sdy.bbbb.entity.Post;
 import com.sdy.bbbb.exception.CustomException;
@@ -19,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,21 +41,8 @@ public class PostService {
         //쿼리 두번 보다 한번으로 하는게 낫겠쥐?
         postRepository.save(post);
 
-//        System.out.println(multipartFile.get(0).toString());
         //이미지 있다면
         createImageIfNotNull(multipartFile, post);
-
-//        if (postRequestDto.getImageUrl() != null) {
-//            List<String> imgUrlList = postRequestDto.getImageUrl();
-//            List<Image> imageList = new ArrayList<>();
-//            for (String imgUrl : imgUrlList) {
-//                Image image = new Image(post, imgUrl);
-//                imageList.add(image);
-//                imageRepository.save(image);
-//            }
-//            //굳이 set 해줘야하나??
-//            post.setImageList(imageList);
-//        }
 
         return GlobalResponseDto.created("게시글이 등록 되었습니다.");
     }
@@ -59,21 +50,44 @@ public class PostService {
     //게시글 전체 조회
     @Transactional(readOnly = true)
     public GlobalResponseDto<List<PostResponseDto>> getPost(String gu, String sort, Account currentAccount) {
+        gu = decoding(gu);
         List<Post> postList;
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 
         if (sort.equals("new")) {
-            postList = postRepository.findPostsByGuOrderByCreatedAtDesc(gu);
+            postList = postRepository.findPostsByGuNameOrderByCreatedAtDesc(gu);
         } else if (sort.equals("hot")) {
-            postList = postRepository.findPostsByGuOrderByLikeCountDescCreatedAtDesc(gu);
+            postList = postRepository.findPostsByGuNameOrderByLikeCountDescCreatedAtDesc(gu);
         } else {
-            throw new CustomException(ErrorCode.NotFound);//잘못된 요청
+            throw new CustomException(ErrorCode.NotFoundSort);//잘못된 요청
         }
 
         for (Post post : postList) {
             //좋아요 확인
 
-            postResponseDtoList.add(new PostResponseDto(post, currentAccount, getImgUrl(post), amILiked(post, currentAccount)));
+            postResponseDtoList.add(new PostResponseDto(post, getImgUrl(post), amILiked(post, currentAccount)));
+        }
+        return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
+    }
+
+//    게시글 검색
+    @Transactional(readOnly = true)
+    public GlobalResponseDto<List<PostResponseDto>> searchPost(String searchWord, String sort, Account currentAccount) {
+        searchWord = decoding(searchWord);
+        List<Post> postList;
+        List<PostResponseDto> postResponseDtoList = new ArrayList<>();
+
+        if (sort.equals("new")) {
+            postList = postRepository.findPostsByTagContainsAndContentContainsOrderByCreatedAtDesc(searchWord, searchWord);
+        } else if (sort.equals("hot")) {
+            postList = postRepository.findPostsByTagContainsAndContentContainsOrderByLikeCountDescCreatedAtDesc(searchWord, searchWord);
+        } else {
+            throw new CustomException(ErrorCode.NotFoundSort);//잘못된 요청
+        }
+
+        for (Post post : postList) {
+            //좋아요 확인
+            postResponseDtoList.add(new PostResponseDto(post, getImgUrl(post), amILiked(post, currentAccount)));
         }
         return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
     }
@@ -81,19 +95,23 @@ public class PostService {
     //게시글 상세 조회
     @Transactional
     public GlobalResponseDto<OnePostResponseDto> getOnePost(Long postId, Account currentAccount) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFound));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
 
         post.setViews(post.getViews() + 1);
         //이미지 추출 함수로, DTO에 있는게 나을까?
+        List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
+        for(Comment comment : post.getCommentList()){
+            commentResponseDtoList.add(new CommentResponseDto(comment));
+        }
 
-        return GlobalResponseDto.ok("조회 성공", new OnePostResponseDto(post, currentAccount, getImgUrl(post), amILiked(post, currentAccount)));
+        return GlobalResponseDto.ok("조회 성공", new OnePostResponseDto(post, getImgUrl(post), amILiked(post, currentAccount), commentResponseDtoList));
     }
 
     //게시글 수정
     @Transactional
     public GlobalResponseDto<String> updatePost(Long postId, PostRequestDto postRequestDto, List<MultipartFile> multipartFile, Account currentAccount) throws IOException{
         //어차피 쓸거 일단 찾아
-        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFound));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
         //작성자 일치여부 확인
         checkPostAuthor(post, currentAccount);
 
@@ -105,26 +123,12 @@ public class PostService {
                 if (imageRepository.existsByImageUrl(imageUrl)) {
                     imageRepository.deleteByImageUrl(imageUrl);
                 } else {
-                    throw new CustomException(ErrorCode.NotFound);
+                    throw new CustomException(ErrorCode.NotFoundImage);
                 }
             }
         }
         //추가할 이미지 있다면
         createImageIfNotNull(multipartFile, post);
-
-//        if (postRequestDto.getImageUrl() != null) {
-//            List<String> imageUrlList = postRequestDto.getImageUrl();
-//            for (String imageUrl : imageUrlList) {
-//                if (!(imageRepository.existsByImageUrl(imageUrl))) {
-//                    Image image = new Image(post, imageUrl);
-//                    //테스트시 꼼꼼히 보자
-//                    post.getImageList().add(image);
-//                    imageRepository.save(image);
-//                } else {
-//                    throw new CustomException(ErrorCode.AlreadyExists);
-//                }
-//            }
-//        }
 
         post.update(postRequestDto);
         return GlobalResponseDto.ok("게시글 수정이 완료되었습니다.", null);
@@ -134,7 +138,7 @@ public class PostService {
     @Transactional
     public GlobalResponseDto<String> deletePost(Long postId, Account currentAccount) {
         //어차피 쓸거 일단 찾아
-        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFound));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
         //작성자 일치여부 확인
         checkPostAuthor(post, currentAccount);
 
@@ -168,13 +172,24 @@ public class PostService {
     //작성자 확인
     public void checkPostAuthor(Post post, Account currentAccount) {
         if (!post.getAccount().getId().equals(currentAccount.getId())){
-            throw new CustomException(ErrorCode.NotMatch);
+            throw new CustomException(ErrorCode.NotMatchAuthor);
         }
     }
 
     //좋아요 여부
     public boolean amILiked(Post post, Account currentAccount) {
         return likeRepository.existsByPostAndAccount(post, currentAccount);
+    }
+
+    //utf-8 디코딩
+    public String decoding(String toDecode) {
+        String result = "";
+        try {
+            result = URLDecoder.decode(toDecode, "UTF-8");
+        }catch (UnsupportedEncodingException e){
+            throw new CustomException(ErrorCode.FailDecodeString);
+        }
+        return result;
     }
 
 }

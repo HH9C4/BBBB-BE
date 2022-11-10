@@ -18,7 +18,6 @@ public class CommentResponseDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean isChecked;
 
-
     public CommentResponseDto(Comment comment) {
         this.commentId = comment.getId();
         this.accountName = comment.getAccount().getAccountName();

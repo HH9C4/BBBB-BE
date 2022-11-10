@@ -3,6 +3,7 @@ package com.sdy.bbbb.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -56,11 +57,19 @@ public class Account extends TimeStamped {
     @OneToMany(mappedBy = "account")
     List<Like> likes = new ArrayList<>();
 
-    public Account(String nickname, String password, String email, String profileImage, Long kakaoId) {
+    @OneToMany(mappedBy = "account")
+    List<Bookmark> bookmarks = new ArrayList<>();
+
+
+
+    public Account(String nickname, String password, String email, String profileImage, Long kakaoId, String gender, String ageRange) {
         this.accountName = nickname;
         this.password = password;
         this.profileImage = profileImage;
         this.email = email;
         this.kakaoId = kakaoId;
+        this.gender = gender;
+        this.ageRange = ageRange;
     }
+
 }
