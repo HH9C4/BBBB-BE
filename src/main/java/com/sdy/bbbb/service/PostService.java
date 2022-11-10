@@ -65,7 +65,7 @@ public class PostService {
         for (Post post : postList) {
             //좋아요 확인
 
-            postResponseDtoList.add(new PostResponseDto(post, currentAccount, getImgUrl(post), amILiked(post, currentAccount)));
+            postResponseDtoList.add(new PostResponseDto(post, getImgUrl(post), amILiked(post, currentAccount)));
         }
         return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
     }
@@ -87,7 +87,7 @@ public class PostService {
 
         for (Post post : postList) {
             //좋아요 확인
-            postResponseDtoList.add(new PostResponseDto(post, currentAccount, getImgUrl(post), amILiked(post, currentAccount)));
+            postResponseDtoList.add(new PostResponseDto(post, getImgUrl(post), amILiked(post, currentAccount)));
         }
         return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
     }
