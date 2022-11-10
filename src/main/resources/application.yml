@@ -1,12 +1,12 @@
 cloud:
   aws:
     credentials:
-      secret-key: EKu4jABYSRZ7iZj/83AOmimsDAab162Ma/5gS5I1
-      access-key: AKIAY26BJCHR2ZJUOWGX
+      secret-key: ''
+      access-key: ''
     s3:
-      bucket: s3bbbb
+      bucket: ''
     region:
-      static: ap-northeast-2
+      static: ''
     stack:
       auto: 'false'
 
