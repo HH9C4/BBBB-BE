@@ -14,7 +14,7 @@ import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.repository.ImageRepository;
 import com.sdy.bbbb.repository.LikeRepository;
 import com.sdy.bbbb.repository.PostRepository;
-import com.sdy.bbbb.s3.S3Uploader;
+import com.sdy.bbbb.s3.S3Uploader2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +32,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final ImageRepository imageRepository;
     private final LikeRepository likeRepository;
-    private final S3Uploader s3Uploader;
+    private final S3Uploader2 s3Uploader2;
 
     @Transactional
     //게시글 생성
@@ -148,11 +148,11 @@ public class PostService {
 
 
     //등록 할 이미지가 있다면 사용
-    public void createImageIfNotNull(List<MultipartFile> multipartFile, Post post) throws IOException {
+    public void createImageIfNotNull(List<MultipartFile> multipartFile, Post post) {
         if (multipartFile != null && multipartFile.size() != 0){
             List<Image> imageList = new ArrayList<>();
             for (MultipartFile imgFile : multipartFile) {
-                Image image = new Image(post, s3Uploader.uploadFiles(imgFile, "dir1"));
+                Image image = new Image(post, s3Uploader2.upload(imgFile, "dir1"));
                 imageList.add(image);
                 imageRepository.save(image);
             }
