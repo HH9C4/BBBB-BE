@@ -36,7 +36,7 @@ public class PostService {
 
     @Transactional
     //게시글 생성
-    public GlobalResponseDto<String> createPost(PostRequestDto postRequestDto, List<MultipartFile> multipartFile, Account currentAccount) throws IOException {
+    public GlobalResponseDto<PostResponseDto> createPost(PostRequestDto postRequestDto, List<MultipartFile> multipartFile, Account currentAccount) throws IOException {
         Post post = new Post(postRequestDto, currentAccount);
         //쿼리 두번 보다 한번으로 하는게 낫겠쥐?
         postRepository.save(post);
@@ -44,7 +44,7 @@ public class PostService {
         //이미지 있다면
         createImageIfNotNull(multipartFile, post);
 
-        return GlobalResponseDto.created("게시글이 등록 되었습니다.");
+        return GlobalResponseDto.created("게시글이 등록 되었습니다.", new PostResponseDto(post, getImgUrl(post), false));
     }
 
     //게시글 전체 조회

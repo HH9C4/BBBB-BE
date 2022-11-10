@@ -1,14 +1,15 @@
 cloud:
   aws:
     credentials:
-      secret-key: ''
-      access-key: ''
+      secret-key: EKu4jABYSRZ7iZj/83AOmimsDAab162Ma/5gS5I1
+      access-key: AKIAY26BJCHR2ZJUOWGX
     s3:
-      bucket: ''
+      bucket: s3bbbb
     region:
-      static: ''
+      static: ap-northeast-2
     stack:
-      auto: ''
+      auto: 'false'
+
 logging:
   level:
     org:
@@ -17,6 +18,7 @@ logging:
           http11: ERROR
     com:
       example: ERROR
+
 spring:
   servlet:
     multipart:
@@ -38,6 +40,7 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
+
 jwt:
   secret:
     key: ''
