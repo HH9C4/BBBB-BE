@@ -49,7 +49,7 @@ public class CommentService {
         }// 댓글 작성자 아니면 에러코드 (작성자가 아닙니다)
         commentRepository.delete(comment);
         // 댓글 삭제
-        post.setCommentCount(post.getCommentList().size());
+        post.setCommentCount(post.getCommentCount() -1);
         // 게시글에 달린 댓글 수 변경
         postRepository.save(post);
         // 게시글 저장
