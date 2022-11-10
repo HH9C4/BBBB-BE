@@ -66,7 +66,7 @@ public class MyPageService {
         List<Post> myPosts = postRepository.findPostsByAccount_Id(account.getId());
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
         for(Post foundPost : myPosts) {
-            postResponseDtos.add(new PostResponseDto(foundPost, account, getImgUrl(foundPost), amILiked(foundPost, account)));
+            postResponseDtos.add(new PostResponseDto(foundPost, getImgUrl(foundPost), amILiked(foundPost, account)));
         }
         return GlobalResponseDto.ok("조회 성공!", postResponseDtos);
     }
@@ -81,7 +81,7 @@ public class MyPageService {
             likedPost.add(like.getPost());
         }
         for(Post post : likedPost) {
-            postResponseDtos.add(new PostResponseDto(post, account, getImgUrl(post), amILiked(post, account)));
+            postResponseDtos.add(new PostResponseDto(post, getImgUrl(post), amILiked(post, account)));
         }
         return GlobalResponseDto.ok("조회 성공!", postResponseDtos);
 
