@@ -37,7 +37,7 @@ jobs:
 
       # (2.5) env 설정
       - name: Set yaml file
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: microsoft/variable-substitution@v1
         with:
           files: ${{env.RESOURCE_PATH}}
         env:
