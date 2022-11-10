@@ -2,6 +2,7 @@ package com.sdy.bbbb.controller;
 
 import com.sdy.bbbb.config.UserDetailsImpl;
 import com.sdy.bbbb.dto.request.CommentRequestDto;
+import com.sdy.bbbb.dto.response.CommentResponseDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.service.CommentService;
 import io.swagger.annotations.ApiOperation;
@@ -20,8 +21,8 @@ public class CommentController {
     @ApiOperation(value = "댓글 생성", notes = "설명")
     @PostMapping("/{postId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public GlobalResponseDto createComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto,
-                                           @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public GlobalResponseDto<CommentResponseDto> createComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto,
+                                                               @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         return commentService.createComment(postId, requestDto, userDetails.getAccount());
     }
     @ApiOperation(value = "댓글 삭제", notes = "설명")
