@@ -21,7 +21,7 @@ public class LikeController {
     @PostMapping("/{postId}")
     @ResponseStatus(HttpStatus.CREATED)
     public GlobalResponseDto createPostLike(@PathVariable Long postId,
-                                        @ModelAttribute LikeRequestDto requestDto,
+                                        @RequestBody LikeRequestDto requestDto,
                                         @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         return likeService.createPostLike(postId, requestDto.getLiketLevel(), userDetails.getAccount());
     }
@@ -36,7 +36,7 @@ public class LikeController {
     @PostMapping("/{commentId}")
     @ResponseStatus(HttpStatus.CREATED)
     public GlobalResponseDto createCommentLike(@PathVariable Long commentId,
-                                        @ModelAttribute LikeRequestDto requestDto,
+                                        @RequestBody LikeRequestDto requestDto,
                                         @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         return likeService.createCommentLike(commentId, requestDto.getLiketLevel(), userDetails.getAccount());
     }
