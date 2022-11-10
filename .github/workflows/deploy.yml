@@ -47,7 +47,6 @@ jobs:
         spring.datasource.password: ${{secrets.DATA_PASSWORD}}
         spring.jpa.hibernate.ddl-auto: ${{secrets.JPA_AUTO}}
         cloud.aws.region.static: ${{secrets.AWS_REGION}}
-        cloud.aws.stack.auto: ${{secrets.AWS_STACK}}
         cloud.aws.s3.bucket: ${{secrets.AWS_BUCKET}}
         cloud.aws.credentials.access-key: ${{secrets.AWS_ACCESS}}
         cloud.aws.credentials.secret-key: ${{secrets.AWS_SECRET}}
