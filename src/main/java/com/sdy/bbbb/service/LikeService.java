@@ -23,70 +23,68 @@ public class LikeService {
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     @Transactional
-    public GlobalResponseDto createPostLike(Long postId, String liketLevel, Account account){
-        Post post = postRepository.findById(postId).orElseThrow(
+    public GlobalResponseDto createPostLike(Long id, Integer level, Account account) {
+        // level이 1이면 게시글 좋아요 생성
+        if (level == 1) {
+            Post post = postRepository.findById(id).orElseThrow(
+                    () -> new CustomException(ErrorCode.NotFoundPost));
+            //게시글 없으면 에러처리
+            if (likeRepository.existsByPostAndAccount(post, account)) {
+                throw new CustomException(ErrorCode.AlreadyExistsLike);
+                // 좋아요 정보가 있는 상태 예외 처리 -> 예외코드 만들어야함 (혹시 몰라서 일단 예외처리)
+            } else {
+                Like like = new Like(post, level, account);
+                // 좋아요 생성
+                likeRepository.save(like);
+                // 좋아요 저장
+                post.setLikeCount(post.getLikeCount() + 1);
+                // 게시글 좋아요 수 변경
+                postRepository.save(post);
+                // 게시글 저장
+            }
+            return GlobalResponseDto.created("success Likes!", null);
+        } // level이 1이 아니면 댓글 좋아요 생성
+        Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundPost));
         //게시글 없으면 에러처리
-        if (likeRepository.existsByPostAndAccount(post, account)){
+        if (likeRepository.existsByCommentAndAccount(comment, account)) {
             throw new CustomException(ErrorCode.AlreadyExistsLike);
             // 좋아요 정보가 있는 상태 예외 처리 -> 예외코드 만들어야함 (혹시 몰라서 일단 예외처리)
-        }else {
-            Like like = new Like(post, liketLevel, account);
+        } else {
+            Like like = new Like(comment, level, account);
             // 좋아요 생성
             likeRepository.save(like);
             // 좋아요 저장
-            post.setLikeCount(post.getLikeCount() +1);
-            // 게시글 좋아요 수 변경
-            postRepository.save(post);
-            // 게시글 저장
-        return GlobalResponseDto.created("success Likes!", null);
-        }
-    }
-
-    @Transactional
-    public GlobalResponseDto deletePostLike(Long postId, Account account){
-        Post post = postRepository.findById(postId).orElseThrow(
-                () -> new CustomException(ErrorCode.NotFoundPost));
-        //게시글 없으면 에러처리
-        Optional<Like> foundLike = likeRepository.findByPostAndAccount(post, account);
-        if (foundLike.isPresent()){
-            likeRepository.delete(foundLike.get());
-            // 좋아요 삭제
-            post.setLikeCount(post.getLikeCount() -1);
-            // 게시글 좋아요 수 변경
-            postRepository.save(post);
-            // 게시글 저장
-        }else {
-            throw new CustomException(ErrorCode.AlreadyCancelLike);
-            // 좋아요 정보가 없는 상태 예외처리
-        }
-        return GlobalResponseDto.ok("delete Likes!", null);
-    }
-
-    @Transactional
-    public GlobalResponseDto createCommentLike(Long commentId, String liketLevel, Account account){
-        Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new CustomException(ErrorCode.NotFoundPost));
-        //게시글 없으면 에러처리
-        if (likeRepository.existsByCommentAndAccount(comment, account)){
-            throw new CustomException(ErrorCode.AlreadyExistsLike);
-            // 좋아요 정보가 있는 상태 예외 처리 -> 예외코드 만들어야함 (혹시 몰라서 일단 예외처리)
-        }else {
-            Like like = new Like(comment, liketLevel, account);
-            // 좋아요 생성
-            likeRepository.save(like);
-            // 좋아요 저장
-            comment.setLikeCount(comment.getLikeCount() +1);
+            comment.setLikeCount(comment.getLikeCount() + 1);
             // 게시글 좋아요 수 변경
             commentRepository.save(comment);
             // 게시글 저장
-            return GlobalResponseDto.created("success Likes!", null);
         }
+        return GlobalResponseDto.created("success Likes!", null);
     }
 
     @Transactional
-    public GlobalResponseDto deleteCommentLike(Long commentId, Account account){
-        Comment comment = commentRepository.findById(commentId).orElseThrow(
+    public GlobalResponseDto deletePostLike(Long id, Integer level, Account account){
+        // level이 1이면 게시글 좋아요 삭제
+        if (level == 1) {
+            Post post = postRepository.findById(id).orElseThrow(
+                    () -> new CustomException(ErrorCode.NotFoundPost));
+            //게시글 없으면 에러처리
+            Optional<Like> foundLike = likeRepository.findByPostAndAccount(post, account);
+            if (foundLike.isPresent()) {
+                likeRepository.delete(foundLike.get());
+                // 좋아요 삭제
+                post.setLikeCount(post.getLikeCount() - 1);
+                // 게시글 좋아요 수 변경
+                postRepository.save(post);
+                // 게시글 저장
+            } else {
+                throw new CustomException(ErrorCode.AlreadyCancelLike);
+                // 좋아요 정보가 없는 상태 예외처리
+            }
+            return GlobalResponseDto.ok("delete Likes!", null);
+        } // level이 1이 아니면 댓글 삭제
+        Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundPost));
         //게시글 없으면 에러처리
         Optional<Like> foundLike = likeRepository.findByCommentAndAccount(comment, account);
