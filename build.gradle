@@ -36,7 +36,9 @@ dependencies {
     implementation group: 'org.springframework.security', name: 'spring-security-oauth2-client', version: '5.6.3'
 
     //s3
-    implementation'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+//    implementation group: 'org.springframework.cloud', name: 'spring-cloud-aws', version: '2.2.6.RELEASE', ext: 'pom'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-aws-autoconfigure', version: '2.2.1.RELEASE'
+
 
     //swagger
     implementation 'io.springfox:springfox-boot-starter:3.0.0'

@@ -8,6 +8,7 @@ import com.sdy.bbbb.dto.response.PostResponseDto;
 import com.sdy.bbbb.service.PostService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,7 +32,7 @@ public class PostController {
     @ApiOperation(value = "게시글 생성", notes = "설명")
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
-    public GlobalResponseDto<PostResponseDto> createPost(@RequestPart PostRequestDto postRequestDto,
+    public GlobalResponseDto<PostResponseDto> createPost(@RequestPart(name = "contents") PostRequestDto postRequestDto,
                                                 @RequestPart(name = "imageList", required = false) List<MultipartFile> multipartFile,
                                                 @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
 
@@ -81,6 +82,7 @@ public class PostController {
     public GlobalResponseDto<String> deletePost(@PathVariable Long postId,
                                                 @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return postService.deletePost(postId, userDetails.getAccount());
-
     }
+
+
 }
