@@ -29,9 +29,7 @@ public class CommentService {
         // request받은 댓글, 게시글, 유저정보
         commentRepository.save(comment);
         // 댓글 저장
-        post.getCommentList().add(comment);
-        //게시글에도 추가
-        post.setCommentCount(post.getCommentList().size());
+        post.setCommentCount(post.getCommentCount() +1);
         // 게시글에 달린 댓글 수 변경
         postRepository.save(post);
         // 게시글 저장
