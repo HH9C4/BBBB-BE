@@ -13,8 +13,8 @@ import java.util.List;
 public class OnePostResponseDto extends PostResponseDto {
     private List<CommentResponseDto> commentList;
 
-    public OnePostResponseDto(Post post, Account account, List<String> imageUrl, boolean isLiked, List<CommentResponseDto> commentList) {
-        super(post, account, imageUrl, isLiked);
+    public OnePostResponseDto(Post post, List<String> imageUrl, boolean isLiked, List<CommentResponseDto> commentList) {
+        super(post, imageUrl, isLiked);
         this.commentList = commentList;
     }
 }

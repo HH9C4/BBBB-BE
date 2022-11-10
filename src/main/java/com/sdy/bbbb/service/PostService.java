@@ -104,7 +104,7 @@ public class PostService {
             commentResponseDtoList.add(new CommentResponseDto(comment));
         }
 
-        return GlobalResponseDto.ok("조회 성공", new OnePostResponseDto(post, currentAccount, getImgUrl(post), amILiked(post, currentAccount), commentResponseDtoList));
+        return GlobalResponseDto.ok("조회 성공", new OnePostResponseDto(post, getImgUrl(post), amILiked(post, currentAccount), commentResponseDtoList));
     }
 
     //게시글 수정
