@@ -8,7 +8,7 @@ cloud:
     region:
       static: ''
     stack:
-      auto: ''
+      auto: 'false'
 logging:
   level:
     org:
