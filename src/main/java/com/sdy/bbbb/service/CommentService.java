@@ -33,7 +33,7 @@ public class CommentService {
         // 게시글에 달린 댓글 수 변경
         postRepository.save(post);
         // 게시글 저장
-        return GlobalResponseDto.created("댓글이 생성되었습니다");
+        return GlobalResponseDto.created("댓글이 생성되었습니다", null);
     }
   
     @Transactional

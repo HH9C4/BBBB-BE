@@ -36,7 +36,7 @@ public class LikeService {
             // 게시글 좋아요 수 변경
             postRepository.save(post);
             // 게시글 저장
-        return GlobalResponseDto.created("success Likes!");
+        return GlobalResponseDto.created("success Likes!", null);
         }
     }
 
