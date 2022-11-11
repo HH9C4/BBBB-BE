@@ -63,7 +63,7 @@ public class PostService {
 
         if (sort.equals("new")) {
 //            postList = List.copyOf(postRepository.findPostsByGuNameOrderByCreatedAtDesc(gu));
-            postList = List.copyOf(Set.copyOf(postRepository.searchPostsByGuName(gu)));
+            postList = postRepository.searchPostsByGuName(gu);
         } else if (sort.equals("hot")) {
             postList = postRepository.findPostsByGuNameOrderByLikeCountDescCreatedAtDesc(gu);
         } else {
