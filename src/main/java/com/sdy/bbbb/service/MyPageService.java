@@ -1,12 +1,10 @@
 package com.sdy.bbbb.service;
 
-import com.sdy.bbbb.dto.response.AlarmResponseDto;
-import com.sdy.bbbb.dto.response.CommentResponseDto;
-import com.sdy.bbbb.dto.response.GlobalResponseDto;
-import com.sdy.bbbb.dto.response.PostResponseDto;
+import com.sdy.bbbb.dto.response.*;
 import com.sdy.bbbb.entity.*;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
+import com.sdy.bbbb.repository.BookmarkRepository;
 import com.sdy.bbbb.repository.CommentRepository;
 import com.sdy.bbbb.repository.LikeRepository;
 import com.sdy.bbbb.repository.PostRepository;
