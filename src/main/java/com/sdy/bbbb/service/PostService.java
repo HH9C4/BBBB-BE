@@ -25,6 +25,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -61,7 +62,7 @@ public class PostService {
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 
         if (sort.equals("new")) {
-            postList = postRepository.findPostsByGuNameOrderByCreatedAtDesc(gu);
+            postList = List.copyOf(postRepository.findPostsByGuNameOrderByCreatedAtDesc(gu));
         } else if (sort.equals("hot")) {
             postList = postRepository.findPostsByGuNameOrderByLikeCountDescCreatedAtDesc(gu);
         } else {
