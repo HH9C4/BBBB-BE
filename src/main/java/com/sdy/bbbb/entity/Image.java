@@ -2,13 +2,12 @@ package com.sdy.bbbb.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
-@Getter @Setter
+@Getter
 public class Image {
 
     @Id
@@ -19,6 +18,7 @@ public class Image {
     @ManyToOne(fetch = FetchType.LAZY)
     private Post post;
 
+    @Column(nullable = false)
     private String imageUrl;
 
 
@@ -26,4 +26,5 @@ public class Image {
         this.post = post;
         this.imageUrl = imageUrl;
     }
+
 }

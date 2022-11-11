@@ -13,5 +13,5 @@ public class CommentRequestDto {
     @NotBlank
     private String comment;
     @NotBlank
-    private String commentLevel;
+    private Integer commentLevel;
 }

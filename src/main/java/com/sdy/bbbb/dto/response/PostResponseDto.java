@@ -9,20 +9,30 @@ import java.util.List;
 
 @Getter
 public class PostResponseDto {
+
     private Long postId;
+
     private String accountName;
+
     private List<String> imageUrl;
+
     private String content;
+
     private String tag;
+
     private String gu;
+
     private Integer commentCount;
+
     private Integer likeCount;
+
     private Boolean isLiked;
+
     private Integer views;
+
     private String createdAt;
+
     private String modifiedAt;
-
-
 
     public PostResponseDto(Post post, List<String> imageUrl, boolean isLiked) {
         this.postId = post.getId();

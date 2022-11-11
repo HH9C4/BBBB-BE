@@ -3,7 +3,6 @@ package com.sdy.bbbb.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 import javax.persistence.*;
 
 @Entity
@@ -18,7 +17,8 @@ public class Spot {
     @Column
     private String spot;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private Gu gu;
+
 }

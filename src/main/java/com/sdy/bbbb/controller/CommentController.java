@@ -21,10 +21,12 @@ public class CommentController {
     @ApiOperation(value = "댓글 생성", notes = "설명")
     @PostMapping("/{postId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public GlobalResponseDto<CommentResponseDto> createComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto,
-                                                               @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public GlobalResponseDto<CommentResponseDto> createComment(@PathVariable Long postId,
+                                                               @RequestBody CommentRequestDto requestDto,
+                                                               @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.createComment(postId, requestDto, userDetails.getAccount());
     }
+
     @ApiOperation(value = "댓글 삭제", notes = "설명")
     @DeleteMapping("/{commentId}")
     public GlobalResponseDto deleteComment(@PathVariable Long commentId,

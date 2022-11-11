@@ -3,7 +3,6 @@ package com.sdy.bbbb.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,10 +14,9 @@ import java.util.List;
 @Entity // DB 테이블 역할을 합니다.
 public class Account extends TimeStamped {
 
-
     // ID가 자동으로 생성 및 증가합니다.
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     // nullable: null 허용 여부
@@ -44,7 +42,7 @@ public class Account extends TimeStamped {
     @Column(nullable = true)
     private String ageRange;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @JoinColumn(name="myPageId")
     private MyPage myPage;
 
@@ -59,7 +57,6 @@ public class Account extends TimeStamped {
 
     @OneToMany(mappedBy = "account")
     List<Bookmark> bookmarks = new ArrayList<>();
-
 
 
     public Account(String nickname, String password, String email, String profileImage, Long kakaoId, String gender, String ageRange) {

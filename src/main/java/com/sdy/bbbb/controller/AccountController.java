@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class  AccountController {
+public class AccountController {
 
     private final AccountService accountService;
 
@@ -24,9 +24,9 @@ public class  AccountController {
     //소셜 카카오 로그인
     @ApiOperation(value = "카카오 로그인", notes = "설명")
     @GetMapping("/user/kakao/callback")
-    public GlobalResponseDto<?> kakaoLogin(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException {
+    public GlobalResponseDto<?> kakaoLogin(@RequestParam String code,
+                                           HttpServletResponse response) throws JsonProcessingException {
 
-        System.out.println("들어왔냥"+code);
         return accountService.kakaoLogin(code, response);
     }
 

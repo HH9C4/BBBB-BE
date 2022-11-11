@@ -7,4 +7,5 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
 
     boolean existsByImageUrl(String imgUrl);
     void deleteByImageUrl(String imgUrl);
+
 }

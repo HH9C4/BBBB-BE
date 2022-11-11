@@ -30,7 +30,7 @@ public class MyPageController {
     @ApiOperation(value = "이름", notes = "설명")
     @PostMapping("/alarm/{commentId}")
     public GlobalResponseDto<CommentResponseDto> checkAlarm(@PathVariable Long commentId,
-                                                            @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
+                                                            @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return myPageService.checkAlarm(commentId, userDetails.getAccount());
     }
 
