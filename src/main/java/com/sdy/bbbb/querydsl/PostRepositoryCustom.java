@@ -9,4 +9,6 @@ import java.util.Set;
 public interface PostRepositoryCustom {
 
     Post searchOneById(Long postId);
+
+    List<Post> searchPostsByGuName(String guName);
 }
