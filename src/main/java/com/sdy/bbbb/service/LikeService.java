@@ -83,7 +83,7 @@ public class LikeService {
                 // 좋아요 정보가 없는 상태 예외처리
             }
             return GlobalResponseDto.ok("delete Likes!", null);
-        } // level이 1이 아니면 댓글 삭제
+        } // level이 1이 아니면 댓글 좋아요 삭제
         Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundPost));
         //게시글 없으면 에러처리
@@ -91,7 +91,7 @@ public class LikeService {
         if (foundLike.isPresent()){
             likeRepository.delete(foundLike.get());
             // 좋아요 삭제
-            comment.setLikeCount(comment.getLikeList().size());
+            comment.setLikeCount(comment.getLikeCount() - 1);
             // 게시글 좋아요 수 변경
             commentRepository.save(comment);
             // 게시글 저장

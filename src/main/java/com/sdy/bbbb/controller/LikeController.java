@@ -27,7 +27,7 @@ public class LikeController {
 
     @ApiOperation(value = "게시글 좋아요 삭제", notes = "설명")
     @DeleteMapping
-    public GlobalResponseDto deletePostLike(@PathVariable Long id,
+    public GlobalResponseDto deletePostLike(@RequestParam Long id,
                                             @RequestParam Integer level,
                                             @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return likeService.deletePostLike(id, level, userDetails.getAccount());

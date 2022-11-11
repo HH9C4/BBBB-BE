@@ -48,4 +48,11 @@ public class MyPageController {
     public GlobalResponseDto<List<PostResponseDto>> getMyLikes(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return myPageService.getMyLikes(userDetails.getAccount());
     }
+
+    // 내가 누른 북마크
+    @ApiOperation(value = "이름", notes = "설명")
+    @GetMapping("mybookmarks")
+    public GlobalResponseDto<List<BookmarkResponseDto>> getMyBookmarks(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return myPageService.getMyBookmarks(userDetails.getAccount());
+    }
 }

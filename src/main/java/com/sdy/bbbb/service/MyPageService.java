@@ -27,6 +27,8 @@ public class MyPageService {
 
     private final CommentRepository commentRepository;
 
+    private final BookmarkRepository bookmarkRepository;
+
     // 내 게시글에 달린 댓글 알람 기능
     @Transactional(readOnly = true)
     public GlobalResponseDto<List<AlarmResponseDto>> showAlarm(Account account) {
@@ -84,6 +86,21 @@ public class MyPageService {
         return GlobalResponseDto.ok("조회 성공!", postResponseDtos);
 
     }
+
+    // 내가 누른 북마크 목록
+    @Transactional(readOnly = true)
+    public GlobalResponseDto<List<BookmarkResponseDto>> getMyBookmarks(Account account) {
+
+        List<Bookmark> myBooks = bookmarkRepository.findBookmarkByAccount_IdOrderByBookmarked(account.getId());
+        List<BookmarkResponseDto> bookmarkResponseDtos = new ArrayList<>();
+        for(Bookmark bookmark : myBooks) {
+            bookmarkResponseDtos.add(
+                    new BookmarkResponseDto(bookmark)
+            );
+        }
+        return GlobalResponseDto.ok("조회 성공!", bookmarkResponseDtos);
+    }
+
 
     // 이미지 조회 함수
     public List<String> getImgUrl(Post post){
