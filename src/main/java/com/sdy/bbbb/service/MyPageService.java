@@ -4,12 +4,8 @@ import com.sdy.bbbb.dto.response.*;
 import com.sdy.bbbb.entity.*;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
-import com.sdy.bbbb.repository.CommentRepository;
-import com.sdy.bbbb.repository.LikeRepository;
-import com.sdy.bbbb.repository.MyPageRepository;
-import com.sdy.bbbb.repository.PostRepository;
+import com.sdy.bbbb.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +24,8 @@ public class MyPageService {
     private final LikeRepository likeRepository;
 
     private final CommentRepository commentRepository;
+
+    private final BookmarkRepository bookmarkRepository;
 
     // 내 게시글에 달린 댓글 알람 기능
     @Transactional(readOnly = true)
@@ -86,6 +84,21 @@ public class MyPageService {
         return GlobalResponseDto.ok("조회 성공!", postResponseDtos);
 
     }
+
+    // 내가 누른 북마크 목록
+    @Transactional(readOnly = true)
+    public GlobalResponseDto<List<BookmarkResponseDto>> getMyBookmarks(Account account) {
+
+        List<Bookmark> myBooks = bookmarkRepository.findBookmarkByAccount_IdOrderByBookmarked(account.getId());
+        List<BookmarkResponseDto> bookmarkResponseDtos = new ArrayList<>();
+        for(Bookmark bookmark : myBooks) {
+            bookmarkResponseDtos.add(
+                    new BookmarkResponseDto(bookmark)
+            );
+        }
+        return GlobalResponseDto.ok("조회 성공!", bookmarkResponseDtos);
+    }
+
 
     // 이미지 조회 함수
     public List<String> getImgUrl(Post post){
