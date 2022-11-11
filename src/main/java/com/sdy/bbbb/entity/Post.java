@@ -25,13 +25,13 @@ public class Post extends TimeStamped {
     @ApiModelProperty(hidden = true)
     private Account account;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String guName;
 
     @Column
     private String tag;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String content;
 
     @Column(nullable = false)
