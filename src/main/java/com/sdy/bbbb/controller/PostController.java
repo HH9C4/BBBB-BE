@@ -68,7 +68,7 @@ public class PostController {
     @ApiOperation(value = "게시글 수정", notes = "설명")
     @PutMapping(value = "/{postId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
-    public GlobalResponseDto<String> updatePost(@PathVariable Long postId,
+    public GlobalResponseDto<PostResponseDto> updatePost(@PathVariable Long postId,
                                                 @RequestPart(name = "contents") PostRequestDto postRequestDto,
                                                 @RequestPart(name = "imageList", required = false) List<MultipartFile> multipartFile,
                                                 @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {

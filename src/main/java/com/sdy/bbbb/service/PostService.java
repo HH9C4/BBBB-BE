@@ -118,7 +118,7 @@ public class PostService {
 
     //게시글 수정
     @Transactional
-    public GlobalResponseDto<String> updatePost(Long postId,
+    public GlobalResponseDto<PostResponseDto> updatePost(Long postId,
                                                 PostRequestDto postRequestDto,
                                                 List<MultipartFile> multipartFile,
                                                 Account account) {
@@ -143,7 +143,8 @@ public class PostService {
         createImageIfNotNull(multipartFile, post);
 
         post.update(postRequestDto);
-        return GlobalResponseDto.ok("게시글 수정이 완료되었습니다.", null);
+        return GlobalResponseDto.created("게시글 수정이 완료되었습니다.",
+                new PostResponseDto(post, getImgUrl(post), false));
     }
 
     //게시글 삭제
