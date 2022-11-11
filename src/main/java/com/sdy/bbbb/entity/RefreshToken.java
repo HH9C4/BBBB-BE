@@ -12,7 +12,7 @@ public class RefreshToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int refreshId;
+    private Long refreshId;
 
     @Column(nullable = false)
     private String refreshToken;
