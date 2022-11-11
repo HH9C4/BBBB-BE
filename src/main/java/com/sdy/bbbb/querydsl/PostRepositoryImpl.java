@@ -6,11 +6,13 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.sdy.bbbb.entity.QPost.post;
+import static com.sdy.bbbb.entity.QImage.image;
 
 @RequiredArgsConstructor
-public class PostRepositoryImpl implements PostRepositoryCustom{
+public class PostRepositoryImpl implements PostRepositoryCustom {
 
     //    private final ParsingEntityUtils parsingEntityUtils;
     private final JPAQueryFactory queryFactory;
@@ -29,5 +31,14 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
         }
     }
 
-
+    @Override
+    public List<Post> searchPostsByGuName(String guName) {
+        List<Post> result = queryFactory
+                .selectFrom(post)
+                .where(post.guName.eq(guName))
+                .join(image)
+                .on(post.id.eq(image.post.id))
+                .fetch();
+        return result;
+    }
 }
