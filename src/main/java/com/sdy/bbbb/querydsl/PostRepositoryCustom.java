@@ -8,7 +8,7 @@ public interface PostRepositoryCustom {
 
     Post searchOneById(Long postId);
 
-    List<Post> searchPostsByGuName(String guName);
+//    List<Post> customSortByGu(String guName);
 
 //    List<Post> customSortByGu2(String guName);
 
