@@ -65,7 +65,7 @@ public class PostService {
 //            postList = List.copyOf(postRepository.findPostsByGuNameOrderByCreatedAtDesc(gu));
             postList = postRepository.searchPostsByGuName(gu);
         } else if (sort.equals("hot")) {
-            postList = postRepository.findPostsByGuNameOrderByLikeCountDescCreatedAtDesc(gu);
+            postList = postRepository.searchPostsByGuNameOrderByLikeCount(gu);
         } else {
             throw new CustomException(ErrorCode.NotFoundSort);//잘못된 요청
         }
