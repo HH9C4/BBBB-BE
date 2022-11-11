@@ -11,6 +11,7 @@ import com.sdy.bbbb.entity.Image;
 import com.sdy.bbbb.entity.Post;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
+import com.sdy.bbbb.querydsl.PostRepositoryImpl;
 import com.sdy.bbbb.repository.ImageRepository;
 import com.sdy.bbbb.repository.LikeRepository;
 import com.sdy.bbbb.repository.PostRepository;
@@ -32,6 +33,7 @@ public class PostService {
     private final ImageRepository imageRepository;
     private final LikeRepository likeRepository;
     private final S3Uploader2 s3Uploader2;
+    private final PostRepositoryImpl postRepositoryImpl;
 
     @Transactional
     //게시글 생성
@@ -104,7 +106,8 @@ public class PostService {
     //게시글 상세 조회
     @Transactional
     public GlobalResponseDto<OnePostResponseDto> getOnePost(Long postId, Account account) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
+//        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
+        Post post = postRepositoryImpl.searchOneById(postId);
 
         post.setViews(post.getViews() + 1);
         //이미지 추출 함수로, DTO에 있는게 나을까?
