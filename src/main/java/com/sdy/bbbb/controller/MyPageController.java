@@ -20,14 +20,14 @@ public class MyPageController {
     private final MyPageService myPageService;
 
     // 알람 기능
-    @ApiOperation(value = "이름", notes = "설명")
+    @ApiOperation(value = "알림 기능", notes = "설명")
     @GetMapping("/alarm")
     public GlobalResponseDto<List<AlarmResponseDto>> showAlarm(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return myPageService.showAlarm(userDetails.getAccount());
     }
 
     // 알람 확인 기능
-    @ApiOperation(value = "이름", notes = "설명")
+    @ApiOperation(value = "알림 확인 기능", notes = "설명")
     @PostMapping("/alarm/{commentId}")
     public GlobalResponseDto<CommentResponseDto> checkAlarm(@PathVariable Long commentId,
                                                             @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -35,7 +35,7 @@ public class MyPageController {
     }
 
     // 내가 작성한 글
-    @ApiOperation(value = "이름", notes = "설명")
+    @ApiOperation(value = "내가 작성한 글", notes = "설명")
     @GetMapping("/myposts")
     public GlobalResponseDto<List<PostResponseDto>> getMyPosts(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return myPageService.getMyPosts(userDetails.getAccount());
@@ -43,14 +43,14 @@ public class MyPageController {
 
 
     // 내가 좋아요한 글
-    @ApiOperation(value = "이름", notes = "설명")
+    @ApiOperation(value = "내가 좋아요한 글", notes = "설명")
     @GetMapping("/mylikes")
     public GlobalResponseDto<List<PostResponseDto>> getMyLikes(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return myPageService.getMyLikes(userDetails.getAccount());
     }
 
     // 내가 누른 북마크
-    @ApiOperation(value = "이름", notes = "설명")
+    @ApiOperation(value = "내가 누른 북마크", notes = "설명")
     @GetMapping("mybookmarks")
     public GlobalResponseDto<List<BookmarkResponseDto>> getMyBookmarks(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return myPageService.getMyBookmarks(userDetails.getAccount());
