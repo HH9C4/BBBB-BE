@@ -8,17 +8,13 @@ import com.sdy.bbbb.dto.response.PostResponseDto;
 import com.sdy.bbbb.service.PostService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -33,8 +29,8 @@ public class PostController {
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
     public GlobalResponseDto<PostResponseDto> createPost(@RequestPart(name = "contents") PostRequestDto postRequestDto,
-                                                @RequestPart(name = "imageList", required = false) List<MultipartFile> multipartFile,
-                                                @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                                         @RequestPart(name = "imageList", required = false) List<MultipartFile> multipartFile,
+                                                         @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         return postService.createPost(postRequestDto, multipartFile, userDetails.getAccount());
     }
@@ -73,7 +69,7 @@ public class PostController {
     @PutMapping(value = "/{postId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
     public GlobalResponseDto<String> updatePost(@PathVariable Long postId,
-                                                @RequestPart PostRequestDto postRequestDto,
+                                                @RequestPart(name = "contents") PostRequestDto postRequestDto,
                                                 @RequestPart(name = "imageList", required = false) List<MultipartFile> multipartFile,
                                                 @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
 

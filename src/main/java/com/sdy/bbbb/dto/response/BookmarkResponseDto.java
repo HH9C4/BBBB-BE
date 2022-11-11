@@ -7,11 +7,14 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class BookmarkResponseDto {
+
     private String gu;
+
     private boolean bookmarked;
 
-    public BookmarkResponseDto(Bookmark bookmark){
+    public BookmarkResponseDto(Bookmark bookmark) {
         this.gu = bookmark.getGu().getGuName();
         this.bookmarked = bookmark.isBookmarked();
     }
+
 }

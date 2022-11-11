@@ -1,6 +1,7 @@
 package com.sdy.bbbb.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
@@ -12,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class AuthenticationEntryPointException implements
-        AuthenticationEntryPoint {
+public class AuthenticationEntryPointException implements AuthenticationEntryPoint {
+
     //인증 예외
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
@@ -21,9 +22,7 @@ public class AuthenticationEntryPointException implements
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().println(
                 new ObjectMapper().writeValueAsString(
-                        ResponseEntity
-                                .status(HttpStatus.UNAUTHORIZED)
-                                .body(ErrorCode.UnAuthorized)
+                        new GlobalResponseDto(HttpStatus.UNAUTHORIZED.toString(), "로그인이 필요합니다 hoxy",null)
                 )
         );
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

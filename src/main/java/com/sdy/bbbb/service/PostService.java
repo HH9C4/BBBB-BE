@@ -20,12 +20,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -39,8 +37,8 @@ public class PostService {
     //게시글 생성
     public GlobalResponseDto<PostResponseDto> createPost(PostRequestDto postRequestDto,
                                                          List<MultipartFile> multipartFile,
-                                                         Account currentAccount) {
-        Post post = new Post(postRequestDto, currentAccount);
+                                                         Account account) {
+        Post post = new Post(postRequestDto, account);
         //쿼리 두번 보다 한번으로 하는게 낫겠쥐?
         postRepository.save(post);
 
@@ -55,7 +53,7 @@ public class PostService {
     @Transactional(readOnly = true)
     public GlobalResponseDto<List<PostResponseDto>> getPost(String gu,
                                                             String sort,
-                                                            Account currentAccount) {
+                                                            Account account) {
         //구를 디비에서 찾아서 올바르게 들어왔는지 검사하는 로직이 필요할까?
         gu = decoding(gu);
         List<Post> postList;
@@ -73,7 +71,7 @@ public class PostService {
             //좋아요 확인
 
             postResponseDtoList.add(
-                    new PostResponseDto(post, getImgUrl(post), amILiked(post, currentAccount)));
+                    new PostResponseDto(post, getImgUrl(post), amILiked(post, account)));
         }
         return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
     }
@@ -82,7 +80,7 @@ public class PostService {
     @Transactional(readOnly = true)
     public GlobalResponseDto<List<PostResponseDto>> searchPost(String searchWord,
                                                                String sort,
-                                                               Account currentAccount) {
+                                                               Account account) {
         searchWord = decoding(searchWord);
         List<Post> postList;
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
@@ -98,14 +96,14 @@ public class PostService {
         for (Post post : postList) {
             //좋아요 확인
             postResponseDtoList.add(
-                    new PostResponseDto(post, getImgUrl(post), amILiked(post, currentAccount)));
+                    new PostResponseDto(post, getImgUrl(post), amILiked(post, account)));
         }
         return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
     }
 
     //게시글 상세 조회
     @Transactional
-    public GlobalResponseDto<OnePostResponseDto> getOnePost(Long postId, Account currentAccount) {
+    public GlobalResponseDto<OnePostResponseDto> getOnePost(Long postId, Account account) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
 
         post.setViews(post.getViews() + 1);
@@ -115,7 +113,7 @@ public class PostService {
             commentResponseDtoList.add(new CommentResponseDto(comment));
         }
 
-        return GlobalResponseDto.ok("조회 성공", new OnePostResponseDto(post, getImgUrl(post), amILiked(post, currentAccount), commentResponseDtoList));
+        return GlobalResponseDto.ok("조회 성공", new OnePostResponseDto(post, getImgUrl(post), amILiked(post, account), commentResponseDtoList));
     }
 
     //게시글 수정
@@ -123,11 +121,11 @@ public class PostService {
     public GlobalResponseDto<String> updatePost(Long postId,
                                                 PostRequestDto postRequestDto,
                                                 List<MultipartFile> multipartFile,
-                                                Account currentAccount) {
+                                                Account account) {
         //어차피 쓸거 일단 찾아
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
         //작성자 일치여부 확인
-        checkPostAuthor(post, currentAccount);
+        checkPostAuthor(post, account);
 
         //이미지 수정
         //삭제할 이미지 있다면
@@ -150,11 +148,11 @@ public class PostService {
 
     //게시글 삭제
     @Transactional
-    public GlobalResponseDto<String> deletePost(Long postId, Account currentAccount) {
+    public GlobalResponseDto<String> deletePost(Long postId, Account account) {
         //어차피 쓸거 일단 찾아
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
         //작성자 일치여부 확인
-        checkPostAuthor(post, currentAccount);
+        checkPostAuthor(post, account);
 
         postRepository.delete(post);
         return GlobalResponseDto.ok("게시글 삭제가 완료되었습니다.", null);
@@ -184,8 +182,8 @@ public class PostService {
     }
 
     //작성자 확인
-    public void checkPostAuthor(Post post, Account currentAccount) {
-        if (!post.getAccount().getId().equals(currentAccount.getId())){
+    public void checkPostAuthor(Post post, Account account) {
+        if (!post.getAccount().getId().equals(account.getId())){
             throw new CustomException(ErrorCode.NotMatchAuthor);
         }
     }

@@ -2,13 +2,9 @@ package com.sdy.bbbb.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sdy.bbbb.entity.Comment;
-import com.sdy.bbbb.entity.Like;
 import com.sdy.bbbb.util.Chrono;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor

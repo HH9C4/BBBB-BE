@@ -1,23 +1,25 @@
 package com.sdy.bbbb.service;
 
-import com.sdy.bbbb.dto.response.*;
+import com.sdy.bbbb.dto.response.AlarmResponseDto;
+import com.sdy.bbbb.dto.response.CommentResponseDto;
+import com.sdy.bbbb.dto.response.GlobalResponseDto;
+import com.sdy.bbbb.dto.response.PostResponseDto;
 import com.sdy.bbbb.entity.*;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
-import com.sdy.bbbb.repository.*;
+import com.sdy.bbbb.repository.CommentRepository;
+import com.sdy.bbbb.repository.LikeRepository;
+import com.sdy.bbbb.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class MyPageService {
-
-    private final MyPageRepository myPageRepository;
 
     private final PostRepository postRepository;
 

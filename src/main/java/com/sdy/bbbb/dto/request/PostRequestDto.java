@@ -7,11 +7,15 @@ import java.util.List;
 
 @Getter
 public class PostRequestDto {
+
     @NotBlank
     private String content;
-//    private List<String> imageUrl;
+
     private List<String> deleteUrl;
+
     @NotBlank
     private String gu;
+
     private String tag;
+
 }

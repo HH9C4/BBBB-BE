@@ -72,7 +72,7 @@ public class AccountService {
         Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(kakaoUserInfo.getEmail());
 
         // 로그아웃한 후 로그인을 다시 하는가?
-        if(refreshToken.isPresent()) {
+        if (refreshToken.isPresent()) {
             RefreshToken refreshToken1 = refreshToken.get().updateToken(tokenDto.getRefreshToken());
             refreshTokenRepository.save(refreshToken1);
         } else {
