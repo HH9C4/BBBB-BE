@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
-    @Query("select p from Post p join fetch p.imageList")
+//    @Query("select p from Post p join fetch p.imageList") -> 조인이 이렇게되면 안되는데
     List<Post> findPostsByGuNameOrderByCreatedAtDesc(String gu);
 
     List<Post> findPostsByGuNameOrderByLikeCountDescCreatedAtDesc(String gu);
@@ -17,11 +17,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findPostsByTagContainsAndContentContainsOrderByLikeCountDescCreatedAtDesc(String searchWord, String searchWord1);
     Optional<Post> findById(Long id);
-
-
     List<Post> findPostsByAccount_Id(Long accountId);
-
-    List<Long> findPostIdByAccount_Id(Long accountId);
-
 
 }
