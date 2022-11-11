@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
-    @Query("select p from Post p join fetch p.imageList")
+    @Query("select p from Post p join fetch p.imageList where p.guName = #{gu}")
     Set<Post> findPostsByGuNameOrderByCreatedAtDesc(String gu);
 
     List<Post> findPostsByGuNameOrderByLikeCountDescCreatedAtDesc(String gu);
