@@ -42,8 +42,8 @@ public class PostController {
     //게시글 조회
     @ApiOperation(value = "게시글 조회", notes = "설명")
     @GetMapping
-    public GlobalResponseDto<List<PostResponseDto>> getPost(@Param("gu") String gu,
-                                                            @Param("sort") String sort,
+    public GlobalResponseDto<List<PostResponseDto>> getPost(@RequestParam("gu") String gu,
+                                                            @RequestParam("sort") String sort,
                                                             @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         return postService.getPost(gu, sort, userDetails.getAccount());
@@ -61,8 +61,8 @@ public class PostController {
     //게시글 검색
     @ApiOperation(value = "게시글 검색", notes = "설명")
     @GetMapping("/search")
-    public GlobalResponseDto<List<PostResponseDto>> searchPost(@Param("searchWord") String searchWord,
-                                                               @Param("sort") String sort,
+    public GlobalResponseDto<List<PostResponseDto>> searchPost(@RequestParam("searchWord") String searchWord,
+                                                               @RequestParam("sort") String sort,
                                                                @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         return postService.searchPost(searchWord, sort, userDetails.getAccount());

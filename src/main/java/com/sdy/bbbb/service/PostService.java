@@ -55,6 +55,7 @@ public class PostService {
     public GlobalResponseDto<List<PostResponseDto>> getPost(String gu,
                                                             String sort,
                                                             Account currentAccount) {
+        //구를 디비에서 찾아서 올바르게 들어왔는지 검사하는 로직이 필요할까?
         gu = decoding(gu);
         List<Post> postList;
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
@@ -71,8 +72,7 @@ public class PostService {
             //좋아요 확인
 
             postResponseDtoList.add(
-                    new PostResponseDto(post, getImgUrl(post),
-                    amILiked(post, currentAccount)));
+                    new PostResponseDto(post, getImgUrl(post), amILiked(post, currentAccount)));
         }
         return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
     }
@@ -96,7 +96,8 @@ public class PostService {
 
         for (Post post : postList) {
             //좋아요 확인
-            postResponseDtoList.add(new PostResponseDto(post, getImgUrl(post), amILiked(post, currentAccount)));
+            postResponseDtoList.add(
+                    new PostResponseDto(post, getImgUrl(post), amILiked(post, currentAccount)));
         }
         return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
     }
