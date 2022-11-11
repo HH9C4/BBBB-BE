@@ -26,7 +26,7 @@ public class AlarmResponseDto {
 
     public AlarmResponseDto(Comment comment) {
         this.postId = comment.getPost().getId();
-        this.content = comment.getPost().getContent().substring(0,10);
+        this.content = comment.getPost().getContent();
         this.commentId = comment.getId();
         this.accountName = comment.getAccount().getAccountName();
         this.comment = comment.getComment();
