@@ -6,10 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
-//    @Query("select p from Post p join fetch p.imageList") -> 조인이 이렇게되면 안되는데
-    List<Post> findPostsByGuNameOrderByCreatedAtDesc(String gu);
+    @Query("select p from Post p join fetch p.imageList")
+    Set<Post> findPostsByGuNameOrderByCreatedAtDesc(String gu);
 
     List<Post> findPostsByGuNameOrderByLikeCountDescCreatedAtDesc(String gu);
 
