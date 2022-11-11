@@ -11,7 +11,6 @@ import com.sdy.bbbb.entity.Image;
 import com.sdy.bbbb.entity.Post;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
-import com.sdy.bbbb.querydsl.PostRepositoryImpl;
 import com.sdy.bbbb.repository.ImageRepository;
 import com.sdy.bbbb.repository.LikeRepository;
 import com.sdy.bbbb.repository.PostRepository;
@@ -25,7 +24,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -62,10 +60,11 @@ public class PostService {
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 
         if (sort.equals("new")) {
-//            postList = List.copyOf(postRepository.findPostsByGuNameOrderByCreatedAtDesc(gu));
-            postList = postRepository.searchPostsByGuName(gu);
+            postList = List.copyOf(postRepository.findPostsByGuNameOrderByCreatedAtDesc(gu));
+//            postList = postRepository.customSortByGu(gu);
         } else if (sort.equals("hot")) {
-            postList = postRepository.searchPostsByGuNameOrderByLikeCount(gu);
+//            postList = postRepository.customSortByGu2(gu);
+            postList = List.copyOf(postRepository.findPostsByGuNameOrderByLikeCountDescCreatedAtDesc(gu));
         } else {
             throw new CustomException(ErrorCode.NotFoundSort);//잘못된 요청
         }
