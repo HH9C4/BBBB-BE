@@ -3,6 +3,7 @@ package com.sdy.bbbb.repository;
 import com.sdy.bbbb.entity.Post;
 import com.sdy.bbbb.querydsl.PostRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
