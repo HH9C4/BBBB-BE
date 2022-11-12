@@ -161,7 +161,7 @@ public class PostService {
         checkPostAuthor(post, account);
 
         postRepository.delete(post);
-        return GlobalResponseDto.ok("게시글 삭제가 완료되었습니다.", null);
+        return GlobalResponseDto.ok("게시글 삭제가 완료되었습니다.", post.getGuName());
     }
 
 
