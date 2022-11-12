@@ -34,7 +34,7 @@ public class JwtUtil {
     private static final long REFRESH_TIME = 7 * 24 * 60 * 60 * 1000L; // 7일
     public static final String ACCESS_TOKEN = "Authorization";
     public static final String REFRESH_TOKEN = "Refresh";
-    public static String BEARER_PREFIX = "Bearer ";
+    public static String BEARER_PREFIX = "bearer ";
 
 
     @Value("${jwt.secret.key}")
@@ -51,6 +51,7 @@ public class JwtUtil {
     // header 토큰을 가져오는 기능
     public String getHeaderToken(HttpServletRequest request, String type) {
         String bearerToken = type.equals("Access") ? request.getHeader(ACCESS_TOKEN) :request.getHeader(REFRESH_TOKEN);
+
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
             return bearerToken.substring(7);
         }
