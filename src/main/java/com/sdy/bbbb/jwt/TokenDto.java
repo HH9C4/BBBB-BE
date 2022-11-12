@@ -11,8 +11,8 @@ public class TokenDto {
     private String refreshToken;
 
     public TokenDto(String accessToken, String refreshToken) {
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
+        this.accessToken = "bearer " + accessToken;
+        this.refreshToken = "bearer " + refreshToken;
     }
 
 }
