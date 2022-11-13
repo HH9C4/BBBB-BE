@@ -20,14 +20,14 @@ public class MyPageController {
     private final MyPageService myPageService;
 
     // 알람 기능
-    @ApiOperation(value = "이름", notes = "설명")
+    @ApiOperation(value = "alarm function", notes = "when users get new comments on thier own posts, they will get alarms")
     @GetMapping("/alarm")
     public GlobalResponseDto<List<AlarmResponseDto>> showAlarm(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return myPageService.showAlarm(userDetails.getAccount());
     }
 
     // 알람 확인 기능
-    @ApiOperation(value = "이름", notes = "설명")
+    @ApiOperation(value = "alarm check function", notes = "when users check their alarm, alarm state is going to be changed")
     @PostMapping("/alarm/{commentId}")
     public GlobalResponseDto<CommentResponseDto> checkAlarm(@PathVariable Long commentId,
                                                             @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
@@ -35,7 +35,7 @@ public class MyPageController {
     }
 
     // 내가 작성한 글
-    @ApiOperation(value = "이름", notes = "설명")
+    @ApiOperation(value = "list of users own posts", notes = "users can see their own posts")
     @GetMapping("/myposts")
     public GlobalResponseDto<List<PostResponseDto>> getMyPosts(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return myPageService.getMyPosts(userDetails.getAccount());
@@ -43,7 +43,7 @@ public class MyPageController {
 
 
     // 내가 좋아요한 글
-    @ApiOperation(value = "이름", notes = "설명")
+    @ApiOperation(value = "list of users own liked posts", notes = "users can see thier own liked posts")
     @GetMapping("/mylikes")
     public GlobalResponseDto<List<PostResponseDto>> getMyLikes(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return myPageService.getMyLikes(userDetails.getAccount());
