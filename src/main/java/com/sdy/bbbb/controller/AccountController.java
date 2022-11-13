@@ -22,7 +22,7 @@ public class  AccountController {
 
 
     //소셜 카카오 로그인
-    @ApiOperation(value = "카카오 로그인", notes = "설명")
+    @ApiOperation(value = "kakao login api info", notes = "For login, using kakao open api. Need to get authorization code.")
     @GetMapping("/user/kakao/callback")
     public GlobalResponseDto<?> kakaoLogin(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException {
 
