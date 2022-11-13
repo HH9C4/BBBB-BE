@@ -25,7 +25,7 @@ public class PostController {
     private final PostService postService;
 
     //게시글 생성
-    @ApiOperation(value = "게시글 생성", notes = "설명")
+    @ApiOperation(value = "게시글 생성 create new post", notes = "create new post with PostRequestDto, Images")
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
     public GlobalResponseDto<PostResponseDto> createPost(@RequestPart(name = "contents") PostRequestDto postRequestDto,
@@ -36,7 +36,7 @@ public class PostController {
     }
 
     //게시글 조회
-    @ApiOperation(value = "게시글 조회", notes = "설명")
+    @ApiOperation(value = "게시글 조회 ", notes = "설명")
     @GetMapping
     public GlobalResponseDto<List<PostResponseDto>> getPost(@RequestParam("gu") String gu,
                                                             @RequestParam("sort") String sort,
