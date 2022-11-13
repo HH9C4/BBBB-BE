@@ -59,10 +59,14 @@ public class PostService {
         List<Post> postList;
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 
+//        postList = postRepository.customSortByGu(gu);
+
         if (sort.equals("new")) {
             postList = List.copyOf(postRepository.findPostsByGuNameOrderByCreatedAtDesc(gu));
+//            postList = postRepository.customSortByGu(gu);
         } else if (sort.equals("hot")) {
-            postList = postRepository.findPostsByGuNameOrderByLikeCountDescCreatedAtDesc(gu);
+//            postList = postRepository.customSortByGu2(gu);
+            postList = List.copyOf(postRepository.findPostsByGuNameOrderByLikeCountDescCreatedAtDesc(gu));
         } else {
             throw new CustomException(ErrorCode.NotFoundSort);//잘못된 요청
         }
@@ -104,7 +108,8 @@ public class PostService {
     //게시글 상세 조회
     @Transactional
     public GlobalResponseDto<OnePostResponseDto> getOnePost(Long postId, Account account) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
+//        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
+        Post post = postRepository.searchOneById(postId);
 
         post.setViews(post.getViews() + 1);
         //이미지 추출 함수로, DTO에 있는게 나을까?
@@ -156,7 +161,7 @@ public class PostService {
         checkPostAuthor(post, account);
 
         postRepository.delete(post);
-        return GlobalResponseDto.ok("게시글 삭제가 완료되었습니다.", null);
+        return GlobalResponseDto.ok("게시글 삭제가 완료되었습니다.", post.getGuName());
     }
 
 
