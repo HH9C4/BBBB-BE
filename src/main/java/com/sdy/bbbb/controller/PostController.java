@@ -8,16 +8,13 @@ import com.sdy.bbbb.dto.response.PostResponseDto;
 import com.sdy.bbbb.service.PostService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -31,9 +28,9 @@ public class PostController {
     @ApiOperation(value = "게시글 생성 create new post", notes = "create new post with PostRequestDto, Images")
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
-    public GlobalResponseDto<String> createPost(@RequestPart PostRequestDto postRequestDto,
-                                                @RequestPart(name = "imageList", required = false) List<MultipartFile> multipartFile,
-                                                @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
+    public GlobalResponseDto<PostResponseDto> createPost(@RequestPart(name = "contents") PostRequestDto postRequestDto,
+                                                         @RequestPart(name = "imageList", required = false) List<MultipartFile> multipartFile,
+                                                         @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         return postService.createPost(postRequestDto, multipartFile, userDetails.getAccount());
     }
@@ -41,9 +38,10 @@ public class PostController {
     //게시글 조회
     @ApiOperation(value = "게시글 조회 ", notes = "설명")
     @GetMapping
-    public GlobalResponseDto<List<PostResponseDto>> getPost(@Param("gu") String gu,
-                                                            @Param("sort") String sort,
+    public GlobalResponseDto<List<PostResponseDto>> getPost(@RequestParam("gu") String gu,
+                                                            @RequestParam("sort") String sort,
                                                             @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
         return postService.getPost(gu, sort, userDetails.getAccount());
     }
 
@@ -52,15 +50,17 @@ public class PostController {
     @GetMapping("/{postId}")
     public GlobalResponseDto<OnePostResponseDto> getOnePost(@PathVariable Long postId,
                                                             @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
         return postService.getOnePost(postId, userDetails.getAccount());
     }
 
     //게시글 검색
     @ApiOperation(value = "게시글 검색", notes = "설명")
     @GetMapping("/search")
-    public GlobalResponseDto<List<PostResponseDto>> searchPost(@Param("searchWord") String searchWord,
-                                                               @Param("sort") String sort,
+    public GlobalResponseDto<List<PostResponseDto>> searchPost(@RequestParam("searchWord") String searchWord,
+                                                               @RequestParam("sort") String sort,
                                                                @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
         return postService.searchPost(searchWord, sort, userDetails.getAccount());
     }
 
@@ -68,10 +68,11 @@ public class PostController {
     @ApiOperation(value = "게시글 수정", notes = "설명")
     @PutMapping(value = "/{postId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
-    public GlobalResponseDto<String> updatePost(@PathVariable Long postId,
-                                                @RequestPart PostRequestDto postRequestDto,
+    public GlobalResponseDto<PostResponseDto> updatePost(@PathVariable Long postId,
+                                                @RequestPart(name = "contents") PostRequestDto postRequestDto,
                                                 @RequestPart(name = "imageList", required = false) List<MultipartFile> multipartFile,
-                                                @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
+                                                @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
         return postService.updatePost(postId, postRequestDto, multipartFile, userDetails.getAccount());
     }
 
@@ -80,7 +81,9 @@ public class PostController {
     @DeleteMapping("/{postId}")
     public GlobalResponseDto<String> deletePost(@PathVariable Long postId,
                                                 @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return postService.deletePost(postId, userDetails.getAccount());
 
+        return postService.deletePost(postId, userDetails.getAccount());
     }
+
+
 }

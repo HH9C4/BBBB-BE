@@ -30,7 +30,7 @@ public class MyPageController {
     @ApiOperation(value = "alarm check function", notes = "when users check their alarm, alarm state is going to be changed")
     @PostMapping("/alarm/{commentId}")
     public GlobalResponseDto<CommentResponseDto> checkAlarm(@PathVariable Long commentId,
-                                                            @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
+                                                            @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return myPageService.checkAlarm(commentId, userDetails.getAccount());
     }
 
@@ -47,5 +47,12 @@ public class MyPageController {
     @GetMapping("/mylikes")
     public GlobalResponseDto<List<PostResponseDto>> getMyLikes(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return myPageService.getMyLikes(userDetails.getAccount());
+    }
+
+    // 내가 누른 북마크
+    @ApiOperation(value = "내가 누른 북마크", notes = "설명")
+    @GetMapping("mybookmarks")
+    public GlobalResponseDto<List<BookmarkResponseDto>> getMyBookmarks(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return myPageService.getMyBookmarks(userDetails.getAccount());
     }
 }
