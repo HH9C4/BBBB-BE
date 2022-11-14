@@ -63,7 +63,7 @@ public class Post extends TimeStamped {
 
     public void update(PostRequestDto postRequestDto) {
         this.content = postRequestDto.getContent();
-        this.guName = postRequestDto.getGu();
+        this.tag = postRequestDto.getTag();
     }
 
 }

@@ -18,7 +18,7 @@ import springfox.documentation.annotations.ApiIgnore;
 public class CommentController {
     private final CommentService commentService;
 
-    @ApiOperation(value = "댓글 생성", notes = "설명")
+    @ApiOperation(value = "댓글 생성 create comment", notes = "create new comment with postId, CommentRequestDto(comment), Account")
     @PostMapping("/{postId}")
     @ResponseStatus(HttpStatus.CREATED)
     public GlobalResponseDto<CommentResponseDto> createComment(@PathVariable Long postId,
@@ -27,7 +27,7 @@ public class CommentController {
         return commentService.createComment(postId, requestDto, userDetails.getAccount());
     }
 
-    @ApiOperation(value = "댓글 삭제", notes = "설명")
+    @ApiOperation(value = "댓글 삭제 delete comment", notes = "delete comment, users can only delete their own comments")
     @DeleteMapping("/{commentId}")
     public GlobalResponseDto deleteComment(@PathVariable Long commentId,
                                            @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {

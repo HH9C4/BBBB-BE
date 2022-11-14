@@ -8,12 +8,12 @@ import java.util.List;
 @Getter
 public class PostRequestDto {
 
-    @NotBlank
+    @NotBlank(message = "content 는 공백이거나 null 일 수 없습니다.")
     private String content;
 
     private List<String> deleteUrl;
 
-    @NotBlank
+    @NotBlank(message = "gu 는 공백이거나 null 일 수 없습니다.")
     private String gu;
 
     private String tag;
