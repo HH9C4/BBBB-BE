@@ -35,7 +35,7 @@ public class CommentService {
         postRepository.save(post);
         // 게시글 저장
         CommentResponseDto responseDto = new CommentResponseDto(comment);
-        return GlobalResponseDto.ok("댓글이 생성되었습니다", responseDto);
+        return GlobalResponseDto.created("댓글이 생성되었습니다", responseDto);
     }
   
     @Transactional

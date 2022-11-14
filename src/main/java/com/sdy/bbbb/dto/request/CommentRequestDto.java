@@ -1,17 +1,14 @@
 package com.sdy.bbbb.dto.request;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Getter
 public class CommentRequestDto {
-    @NotBlank
+
+    @NotBlank(message = "comment는 공백이거나 null일 수 없습니다.")
     private String comment;
-    @NotBlank
-    private String commentLevel;
+
 }

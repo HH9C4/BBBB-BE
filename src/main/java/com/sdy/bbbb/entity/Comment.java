@@ -2,14 +2,11 @@ package com.sdy.bbbb.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sdy.bbbb.dto.request.CommentRequestDto;
-import com.sdy.bbbb.dto.response.CommentResponseDto;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,22 +14,31 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Comment extends TimeStamped{
+public class Comment extends TimeStamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String comment;
-    private String commentLevel;
+
+    @Column
     private boolean isChecked;
+
+
     @ManyToOne
     @JoinColumn
     private Account account;
+
     @ManyToOne
     @JoinColumn
     private Post post;
+
     @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Like> likeList = new ArrayList<>();
+
+    @Column(nullable = false)
     private int likeCount;
 
 
@@ -40,6 +46,5 @@ public class Comment extends TimeStamped{
         this.account = account;
         this.post = post;
         this.comment = requestDto.getComment();
-        this.commentLevel = requestDto.getCommentLevel();
     }
 }

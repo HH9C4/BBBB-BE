@@ -1,6 +1,5 @@
 package com.sdy.bbbb.entity;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,31 +10,36 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 public class Like {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer liketLevel;
-    @ManyToOne
+
+    @Column(nullable = false)
+    private Integer likeLevel;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private Account account;
-    @ManyToOne
-    @JoinColumn(name = "post_id")
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
     private Post post;
 
-    @ManyToOne
-    @JoinColumn(name = "comment_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
     private Comment comment;
 
-    public Like(Post post, Integer liketLevel, Account account){
+    public Like(Post post, Integer likeLevel, Account account){
         this.post = post;
         this.account = account;
-        this.liketLevel = liketLevel;
-    }
-    public Like(Comment comment, Integer liketLevel, Account account){
-        this.comment = comment;
-        this.account = account;
-        this.liketLevel = liketLevel;
+        this.likeLevel = likeLevel;
     }
 
+    public Like(Comment comment, Integer likeLevel, Account account){
+        this.comment = comment;
+        this.account = account;
+        this.likeLevel = likeLevel;
+    }
 
 }

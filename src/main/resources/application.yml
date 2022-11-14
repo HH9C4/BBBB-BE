@@ -44,4 +44,3 @@ spring:
 jwt:
   secret:
     key: ''
-

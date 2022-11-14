@@ -3,11 +3,7 @@ package com.sdy.bbbb.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
+import javax.persistence.*;
 
 @Getter
 @Entity
@@ -17,9 +13,11 @@ public class RefreshToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long refreshId;
-    @NotBlank
+
+    @Column(nullable = false)
     private String refreshToken;
-    @NotBlank
+
+    @Column(nullable = false)
     private String accountEmail;
 
     public RefreshToken(String token, String email) {
@@ -31,4 +29,5 @@ public class RefreshToken {
         this.refreshToken = token;
         return this;
     }
+
 }

@@ -1,6 +1,7 @@
 package com.sdy.bbbb.service;
 
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
+import com.sdy.bbbb.dto.response.LikeResponseDto;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.Comment;
 import com.sdy.bbbb.entity.Like;
@@ -42,7 +43,7 @@ public class LikeService {
                 postRepository.save(post);
                 // 게시글 저장
             }
-            return GlobalResponseDto.created("success Likes!", null);
+            return GlobalResponseDto.created("success Likes!", new LikeResponseDto(amILiked(post, account)));
         } // level이 1이 아니면 댓글 좋아요 생성
         Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundPost));
@@ -60,7 +61,7 @@ public class LikeService {
             commentRepository.save(comment);
             // 댓글 저장
         }
-        return GlobalResponseDto.created("success Likes!", null);
+        return GlobalResponseDto.created("success Likes!", new LikeResponseDto(myLikedComment(comment, account)));
     }
 
     @Transactional
@@ -100,5 +101,14 @@ public class LikeService {
             // 좋아요 정보가 없는 상태 예외처리
         }
         return GlobalResponseDto.ok("delete Likes!", null);
+    }
+
+    //좋아요 여부
+    public boolean amILiked(Post post, Account currentAccount) {
+        return likeRepository.existsByPostAndAccount(post, currentAccount);
+    }
+
+    public boolean myLikedComment(Comment comment, Account currentAccount) {
+        return likeRepository.existsByCommentAndAccount(comment, currentAccount);
     }
 }
