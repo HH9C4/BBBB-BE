@@ -72,7 +72,7 @@ public class MyPageService {
     // 내가 좋아요한 게시글 조회
     @Transactional(readOnly = true)
     public GlobalResponseDto<List<PostResponseDto>> getMyLikes(Account account) {
-        List<Like> myLikes = likeRepository.findLikesByAccount_idAndLikeLevel(account.getId(), 1L);
+        List<Like> myLikes = likeRepository.findLikesByAccount_idAndLikeLevel(account.getId(), 1);
         List<Post> likedPost = new ArrayList<>();
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
         for(Like like: myLikes) {
