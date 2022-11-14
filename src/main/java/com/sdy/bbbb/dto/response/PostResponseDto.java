@@ -43,7 +43,7 @@ public class PostResponseDto {
         this.content = post.getContent();
         this.gu = post.getGuName();
         this.tag = post.getTag();
-        this.category = post.getCategory();
+//        this.category = post.getCategory();
         this.likeCount = post.getLikeCount();
         this.commentCount = post.getCommentCount();
         this.isLiked = isLiked;
