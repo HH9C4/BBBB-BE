@@ -1,12 +1,10 @@
 package com.sdy.bbbb.service;
 
-import com.sdy.bbbb.config.UserDetailsImpl;
 import com.sdy.bbbb.dto.response.BookmarkResponseDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.Bookmark;
 import com.sdy.bbbb.entity.Gu;
-import com.sdy.bbbb.entity.Like;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.repository.BookmarkRepository;
@@ -20,8 +18,10 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class BookmarkService {
+
     private final BookmarkRepository bookmarkRepository;
     private final GuRepository guRepository;
+
     @Transactional
     public GlobalResponseDto<BookmarkResponseDto> createBookmark(String guName, Account account) {
         Gu gu = guRepository.findGuByGuName(guName).orElseThrow(

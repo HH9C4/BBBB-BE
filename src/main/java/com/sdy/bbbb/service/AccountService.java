@@ -10,6 +10,8 @@ import com.sdy.bbbb.dto.response.LoginResponseDto;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.MyPage;
 import com.sdy.bbbb.entity.RefreshToken;
+import com.sdy.bbbb.exception.CustomException;
+import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.jwt.JwtUtil;
 import com.sdy.bbbb.jwt.TokenDto;
 import com.sdy.bbbb.repository.AccountRepository;
@@ -72,7 +74,7 @@ public class AccountService {
         Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(kakaoUserInfo.getEmail());
 
         // 로그아웃한 후 로그인을 다시 하는가?
-        if(refreshToken.isPresent()) {
+        if (refreshToken.isPresent()) {
             RefreshToken refreshToken1 = refreshToken.get().updateToken(tokenDto.getRefreshToken());
             refreshTokenRepository.save(refreshToken1);
         } else {
@@ -200,5 +202,13 @@ public class AccountService {
         UserDetails userDetails = new UserDetailsImpl(kakaoUser);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    // logout
+    public GlobalResponseDto<String> logout(Account account) {
+        RefreshToken refreshToken = refreshTokenRepository.findByAccountEmail(account.getEmail()).orElseThrow(
+                ()-> new CustomException(ErrorCode.NotFoundUser));
+        refreshTokenRepository.deleteById(refreshToken.getRefreshId());
+        return GlobalResponseDto.ok("Success Logout", null);
     }
 }

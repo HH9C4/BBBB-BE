@@ -10,14 +10,19 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 public class Bookmark {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
     private boolean bookmarked;
+
     @ManyToOne
     @JoinColumn
     @JsonIgnore
     private Account account;
+
     @ManyToOne
     @JoinColumn
     private Gu gu;

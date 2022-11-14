@@ -10,8 +10,11 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @Builder
 public class GlobalResponseDto<T> {
+
     private String status;
+
     private String msg;
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 

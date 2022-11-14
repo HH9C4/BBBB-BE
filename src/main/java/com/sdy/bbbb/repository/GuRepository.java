@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface GuRepository extends JpaRepository<Gu, Long> {
     Optional<Gu> findGuByGuName(String gu);
+
 }
