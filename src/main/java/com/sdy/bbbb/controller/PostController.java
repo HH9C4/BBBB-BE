@@ -4,6 +4,7 @@ import com.sdy.bbbb.config.UserDetailsImpl;
 import com.sdy.bbbb.dto.request.PostRequestDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.dto.response.OnePostResponseDto;
+import com.sdy.bbbb.dto.response.PostListResponseDto;
 import com.sdy.bbbb.dto.response.PostResponseDto;
 import com.sdy.bbbb.service.PostService;
 import io.swagger.annotations.ApiOperation;
@@ -38,9 +39,9 @@ public class PostController {
     //게시글 조회
     @ApiOperation(value = "게시글 조회", notes = "설명")
     @GetMapping
-    public GlobalResponseDto<List<PostResponseDto>> getPost(@RequestParam("gu") String gu,
-                                                            @RequestParam("sort") String sort,
-                                                            @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public GlobalResponseDto<PostListResponseDto> getPost(@RequestParam("gu") String gu,
+                                                          @RequestParam("sort") String sort,
+                                                          @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         return postService.getPost(gu, sort, userDetails.getAccount());
     }

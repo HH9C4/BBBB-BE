@@ -1,16 +1,14 @@
 package com.sdy.bbbb.service;
 
 import com.sdy.bbbb.dto.request.PostRequestDto;
-import com.sdy.bbbb.dto.response.CommentResponseDto;
-import com.sdy.bbbb.dto.response.GlobalResponseDto;
-import com.sdy.bbbb.dto.response.OnePostResponseDto;
-import com.sdy.bbbb.dto.response.PostResponseDto;
+import com.sdy.bbbb.dto.response.*;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.Comment;
 import com.sdy.bbbb.entity.Image;
 import com.sdy.bbbb.entity.Post;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
+import com.sdy.bbbb.repository.BookmarkRepository;
 import com.sdy.bbbb.repository.ImageRepository;
 import com.sdy.bbbb.repository.LikeRepository;
 import com.sdy.bbbb.repository.PostRepository;
@@ -31,6 +29,8 @@ public class PostService {
     private final PostRepository postRepository;
     private final ImageRepository imageRepository;
     private final LikeRepository likeRepository;
+
+    private final BookmarkRepository bookmarkRepository;
     private final S3Uploader2 s3Uploader2;
 
     @Transactional
@@ -49,9 +49,9 @@ public class PostService {
                 new PostResponseDto(post, getImgUrl(post), false));
     }
 
-    //게시글 전체 조회
+    //게시글 전체 조회(구별)
     @Transactional(readOnly = true)
-    public GlobalResponseDto<List<PostResponseDto>> getPost(String gu,
+    public GlobalResponseDto<PostListResponseDto> getPost(String gu,
                                                             String sort,
                                                             Account account) {
         //구를 디비에서 찾아서 올바르게 들어왔는지 검사하는 로직이 필요할까?
@@ -77,7 +77,9 @@ public class PostService {
             postResponseDtoList.add(
                     new PostResponseDto(post, getImgUrl(post), amILikedPost(post, account)));
         }
-        return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
+
+        boolean isBookMarked = bookmarkRepository.existsByGu_GuNameAndAccount(gu, account);
+        return GlobalResponseDto.ok("조회 성공", new PostListResponseDto(isBookMarked, postResponseDtoList));
     }
 
 //    게시글 검색

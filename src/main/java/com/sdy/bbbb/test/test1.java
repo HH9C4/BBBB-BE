@@ -13,7 +13,7 @@ public class test1 {
     private final Test2 test2;
 
     @GetMapping("/api/test")
-    public void api () throws IOException {
+    public void api () throws Exception {
         test2.call();
     }
 }
