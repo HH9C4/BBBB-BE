@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class SchedulerService {
 
-    @Scheduled(cron="*/3 * * * * *")
-    public void scheduleRun(){
-        System.out.println("얄루");
-    }
+//    @Scheduled(cron="*/3 * * * * *")
+//    public void scheduleRun(){
+//        System.out.println("얄루");
+//    }
 
 }
