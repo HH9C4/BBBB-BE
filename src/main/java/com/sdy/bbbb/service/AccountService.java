@@ -10,6 +10,8 @@ import com.sdy.bbbb.dto.response.LoginResponseDto;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.MyPage;
 import com.sdy.bbbb.entity.RefreshToken;
+import com.sdy.bbbb.exception.CustomException;
+import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.jwt.JwtUtil;
 import com.sdy.bbbb.jwt.TokenDto;
 import com.sdy.bbbb.repository.AccountRepository;
@@ -200,5 +202,13 @@ public class AccountService {
         UserDetails userDetails = new UserDetailsImpl(kakaoUser);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    // logout
+    public GlobalResponseDto<String> logout(Account account) {
+        RefreshToken refreshToken = refreshTokenRepository.findByAccountEmail(account.getEmail()).orElseThrow(
+                ()-> new CustomException(ErrorCode.NotFoundUser));
+        refreshTokenRepository.deleteById(refreshToken.getRefreshId());
+        return GlobalResponseDto.ok("Success Logout", null);
     }
 }
