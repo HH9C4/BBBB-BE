@@ -9,8 +9,11 @@ public class LikeResponseDto {
 
     private Boolean isLiked;
 
-    public LikeResponseDto(Boolean isLiked) {
+    private Integer likeCount;
+
+    public LikeResponseDto(Boolean isLiked, Integer likeCount) {
         this.isLiked = isLiked;
+        this.likeCount = likeCount;
     }
 
 }
