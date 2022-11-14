@@ -20,7 +20,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         Account account = accountRepository.findByEmail(email).orElseThrow(
-                () -> new CustomException(ErrorCode.NotFoundUser)
+//                () -> new CustomException(ErrorCode.NotFoundUser)
+                () -> new IllegalArgumentException("NOTFOUNDUSER")
         );
 
         UserDetailsImpl userDetails = new UserDetailsImpl();
