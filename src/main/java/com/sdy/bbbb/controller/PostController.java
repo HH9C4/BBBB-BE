@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -29,7 +30,7 @@ public class PostController {
     @ApiOperation(value = "게시글 생성 create new post", notes = "create new post with PostRequestDto, Images")
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
-    public GlobalResponseDto<PostResponseDto> createPost(@RequestPart(name = "contents") PostRequestDto postRequestDto,
+    public GlobalResponseDto<PostResponseDto> createPost(@RequestPart(name = "contents") @Valid PostRequestDto postRequestDto,
                                                          @RequestPart(name = "imageList", required = false) List<MultipartFile> multipartFile,
                                                          @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
@@ -70,7 +71,7 @@ public class PostController {
     @PutMapping(value = "/{postId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
     public GlobalResponseDto<PostResponseDto> updatePost(@PathVariable Long postId,
-                                                @RequestPart(name = "contents") PostRequestDto postRequestDto,
+                                                @RequestPart(name = "contents") @Valid PostRequestDto postRequestDto,
                                                 @RequestPart(name = "imageList", required = false) List<MultipartFile> multipartFile,
                                                 @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
