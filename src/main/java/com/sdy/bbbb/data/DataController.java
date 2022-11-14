@@ -1,4 +1,4 @@
-package com.sdy.bbbb.test;
+package com.sdy.bbbb.data;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
