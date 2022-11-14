@@ -31,7 +31,7 @@ public class Post extends TimeStamped {
     @Column
     private String tag;
 
-    @Column
+//    @Column(nullable = false)
     private String category;
 
     @Column(nullable = false)
