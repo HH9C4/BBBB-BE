@@ -48,7 +48,7 @@ public class Post extends TimeStamped {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     @ApiModelProperty(hidden = true)
-    private List<Image> imageList = new ArrayList();
+    private List<Image> imageList = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     @ApiModelProperty(hidden = true)

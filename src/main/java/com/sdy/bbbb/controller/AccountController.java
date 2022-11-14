@@ -27,7 +27,7 @@ public class AccountController {
     //소셜 카카오 로그인
     @ApiOperation(value = "kakao login api info", notes = "For login, using kakao open api. Need to get authorization code.")
     @GetMapping("/user/kakao/callback")
-    public GlobalResponseDto<?> kakaoLogin(@RequestParam String code,
+    public GlobalResponseDto<LoginResponseDto> kakaoLogin(@RequestParam String code,
                                            HttpServletResponse response) throws JsonProcessingException {
 
         return accountService.kakaoLogin(code, response);
