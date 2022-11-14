@@ -11,7 +11,7 @@ import java.util.Set;
 
 public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom {
 
-//    @Query("select p from Post p join fetch Image where p.guName = ?1 order by p.createdAt desc")
+//    @Query("select p from Post p join fetch p.imageList")
     Set<Post> findPostsByGuNameOrderByCreatedAtDesc(String gu);
 
     List<Post> findPostsByGuNameOrderByLikeCountDescCreatedAtDesc(String gu);

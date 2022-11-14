@@ -75,7 +75,7 @@ public class PostService {
             //좋아요 확인
 
             postResponseDtoList.add(
-                    new PostResponseDto(post, getImgUrl(post), amILiked(post, account)));
+                    new PostResponseDto(post, getImgUrl(post), amILikedPost(post, account)));
         }
         return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
     }
@@ -100,7 +100,7 @@ public class PostService {
         for (Post post : postList) {
             //좋아요 확인
             postResponseDtoList.add(
-                    new PostResponseDto(post, getImgUrl(post), amILiked(post, account)));
+                    new PostResponseDto(post, getImgUrl(post), amILikedPost(post, account)));
         }
         return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
     }
@@ -115,10 +115,10 @@ public class PostService {
         //이미지 추출 함수로, DTO에 있는게 나을까?
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
         for(Comment comment : post.getCommentList()){
-            commentResponseDtoList.add(new CommentResponseDto(comment));
+            commentResponseDtoList.add(new CommentResponseDto(comment, amILikedComment(comment, account)));
         }
 
-        return GlobalResponseDto.ok("조회 성공", new OnePostResponseDto(post, getImgUrl(post), amILiked(post, account), commentResponseDtoList));
+        return GlobalResponseDto.ok("조회 성공", new OnePostResponseDto(post, getImgUrl(post), amILikedPost(post, account), commentResponseDtoList));
     }
 
     //게시글 수정
@@ -195,8 +195,13 @@ public class PostService {
     }
 
     //좋아요 여부
-    public boolean amILiked(Post post, Account currentAccount) {
-        return likeRepository.existsByPostAndAccount(post, currentAccount);
+    public boolean amILikedPost(Post post, Account account) {
+        //한번에 가져오고 엔티티로 찾는다?
+        return likeRepository.existsByPostAndAccount(post, account);
+    }
+
+    public boolean amILikedComment(Comment comment, Account account) {
+        return likeRepository.existsByCommentAndAccount(comment, account);
     }
 
     //utf-8 디코딩
