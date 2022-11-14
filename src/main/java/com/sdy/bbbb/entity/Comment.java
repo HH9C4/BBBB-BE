@@ -28,6 +28,7 @@ public class Comment extends TimeStamped {
     @Column
     private boolean isChecked;
 
+
     @ManyToOne
     @JoinColumn
     private Account account;

@@ -18,4 +18,6 @@ public class PostRequestDto {
 
     private String tag;
 
+    private String category;
+
 }
