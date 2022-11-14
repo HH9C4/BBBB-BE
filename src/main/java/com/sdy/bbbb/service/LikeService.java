@@ -23,6 +23,7 @@ public class LikeService {
     private final LikeRepository likeRepository;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
+
     @Transactional
     public GlobalResponseDto createPostLike(Long id, Integer level, Account account) {
         // level이 1이면 게시글 좋아요 생성
@@ -40,6 +41,8 @@ public class LikeService {
                 // 좋아요 저장
                 post.setLikeCount(post.getLikeCount() + 1);
                 // 게시글 좋아요 수 변경
+                postRepository.save(post);
+                // 게시글 저장
             }
             return GlobalResponseDto.created("success Likes!", new LikeResponseDto(amILiked(post, account), post.getLikeCount()));
         } // level이 1이 아니면 댓글 좋아요 생성
@@ -56,12 +59,14 @@ public class LikeService {
             // 좋아요 저장
             comment.setLikeCount(comment.getLikeCount() + 1);
             // 댓글 좋아요 수 변경
+            commentRepository.save(comment);
+            // 댓글 저장
         }
         return GlobalResponseDto.created("success Likes!", new LikeResponseDto(myLikedComment(comment, account), comment.getLikeCount()));
     }
 
     @Transactional
-    public GlobalResponseDto<LikeResponseDto> deletePostLike(Long id, Integer level, Account account){
+    public GlobalResponseDto<LikeResponseDto> deletePostLike(Long id, Integer level, Account account) {
         // level이 1이면 게시글 좋아요 삭제
         if (level == 1) {
             Post post = postRepository.findById(id).orElseThrow(
@@ -70,11 +75,13 @@ public class LikeService {
             Like like = likeRepository.findByPostAndAccount(post, account).orElseThrow(
                     () -> new CustomException(ErrorCode.AlreadyCancelLike));
             // 좋아요 정보 없으면 예외처리
-                likeRepository.delete(like);
-                // 좋아요 삭제
-                post.setLikeCount(post.getLikeCount() - 1);
-                // 게시글 좋아요 수 변경
-            return GlobalResponseDto.ok("delete Likes!",  new LikeResponseDto(amILiked(post, account), post.getLikeCount()));
+            likeRepository.delete(like);
+            // 좋아요 삭제
+            post.setLikeCount(post.getLikeCount() - 1);
+            // 게시글 좋아요 수 변경
+            postRepository.save(post);
+            // 게시글 저장
+            return GlobalResponseDto.ok("delete Likes!", new LikeResponseDto(amILiked(post, account), post.getLikeCount()));
         } // level이 1이 아니면 댓글 좋아요 삭제
         Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundPost));
@@ -82,11 +89,12 @@ public class LikeService {
         Like like = likeRepository.findByCommentAndAccount(comment, account).orElseThrow(
                 () -> new CustomException(ErrorCode.AlreadyCancelLike));
         // 좋아요 정보 없으면 예외처리
-            likeRepository.delete(like);
-            // 좋아요 삭제
-            comment.setLikeCount(comment.getLikeCount() - 1);
-            // 댓글 좋아요 수 변경
-
+        likeRepository.delete(like);
+        // 좋아요 삭제
+        comment.setLikeCount(comment.getLikeCount() - 1);
+        // 댓글 좋아요 수 변경
+        commentRepository.save(comment);
+        // 댓글 저장
         return GlobalResponseDto.ok("delete Likes!", new LikeResponseDto(myLikedComment(comment, account), comment.getLikeCount()));
     }
 
