@@ -10,7 +10,7 @@ public class BookmarkResponseDto {
 
     private String gu;
 
-    private boolean bookmarked;
+    private Boolean bookmarked;
 
     public BookmarkResponseDto(Bookmark bookmark) {
         this.gu = bookmark.getGu().getGuName();
