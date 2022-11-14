@@ -12,6 +12,8 @@ public class AlarmResponseDto {
 
     private Long postId;
 
+    private String content;
+
     private Long commentId;
 
     private String accountName;
@@ -24,6 +26,7 @@ public class AlarmResponseDto {
 
     public AlarmResponseDto(Comment comment) {
         this.postId = comment.getPost().getId();
+        this.content = comment.getPost().getContent().length() > 10 ? comment.getPost().getContent().substring(0 ,9) : comment.getPost().getContent();
         this.commentId = comment.getId();
         this.accountName = comment.getAccount().getAccountName();
         this.comment = comment.getComment();
