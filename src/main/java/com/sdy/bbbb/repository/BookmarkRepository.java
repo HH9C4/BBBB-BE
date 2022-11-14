@@ -12,6 +12,8 @@ public interface
 BookmarkRepository extends JpaRepository<Bookmark, Long> {
     boolean existsByGuAndAccount(Gu gu, Account account);
 
+    boolean existsByGu_GuNameAndAccount(String guName, Account account);
+
     Optional<Bookmark> findByGuAndAccount(Gu gu, Account account);
 
     List<Bookmark> findBookmarkByAccount_IdOrderByBookmarked(Long account_id);
