@@ -22,9 +22,6 @@ public class Comment extends TimeStamped {
     @Column(nullable = false)
     private String comment;
 
-    @Column(nullable = false)
-    private Integer commentLevel;
-
     @Column
     private boolean isChecked;
 
@@ -48,6 +45,5 @@ public class Comment extends TimeStamped {
         this.account = account;
         this.post = post;
         this.comment = requestDto.getComment();
-        this.commentLevel = requestDto.getCommentLevel();
     }
 }
