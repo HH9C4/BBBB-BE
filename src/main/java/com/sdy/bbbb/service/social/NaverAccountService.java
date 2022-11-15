@@ -84,7 +84,7 @@ public class NaverAccountService {
                 String ageRange = naverUser.getAge();
 
                 // 회원가입
-                naverAccount = new Account(nickname, encodedPassword, profileImage, email, naverId, gender, ageRange);
+                naverAccount = new Account(nickname, encodedPassword, email, profileImage, naverId, gender, ageRange);
 
                 //마이페이지 생성
                 naverAccount.setMyPage(new MyPage(naverAccount));
@@ -134,7 +134,7 @@ public class NaverAccountService {
             String sb = "grant_type=authorization_code" +
                     "&client_id=" + clientId +
                     "&client_secret=" + clientSecret +
-                    "&redirect_uri=http://localhost:3000/user/signin/naver" +
+                    "&redirect_uri= http://localhost:3000/user/signin/naver" +
                     "&code=" + code +
                     "&state=" + state;
             bw.write(sb);
@@ -168,17 +168,19 @@ public class NaverAccountService {
 
         // 코드를 네이버에 전달하여 엑세스 토큰 가져옴
         JsonElement tokenElement = jsonElement(codeReqURL, null, code, state);
+
         String access_Token = tokenElement.getAsJsonObject().get("access_token").getAsString();
         String refresh_token = tokenElement.getAsJsonObject().get("refresh_token").getAsString();
 
         // 엑세스 토큰을 네이버에 전달하여 유저정보 가져옴
         JsonElement userInfoElement = jsonElement(tokenReqURL, access_Token, null, null);
+
         String naverId = String.valueOf(userInfoElement.getAsJsonObject().get("response")
                 .getAsJsonObject().get("id"));
         String userEmail = String.valueOf(userInfoElement.getAsJsonObject().get("response")
                 .getAsJsonObject().get("email"));
         String nickName = String.valueOf(userInfoElement.getAsJsonObject().get("response")
-                .getAsJsonObject().get("name"));
+                .getAsJsonObject().get("nickname"));
         String profileImage = String.valueOf(userInfoElement.getAsJsonObject().get("response")
                 .getAsJsonObject().get("profile_image"));
         String age = String.valueOf(userInfoElement.getAsJsonObject().get("response")
