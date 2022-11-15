@@ -188,6 +188,12 @@ public class NaverAccountService {
         String gender = String.valueOf(userInfoElement.getAsJsonObject().get("response")
                 .getAsJsonObject().get("gender"));
 
+        userEmail = userEmail.substring(0, userEmail.length());
+        nickName = nickName.substring(0, nickName.length());
+        profileImage = profileImage.substring(0, profileImage.length());
+        age = age.substring(0, age.length()).replace('-', '~');
+        gender = gender.substring(0, gender.length()).equals("M") ? "male" : "female";
+
         return new NaverUserInfoDto(naverId, nickName, userEmail, profileImage, age, gender, access_Token, refresh_token);
     }
 
