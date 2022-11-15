@@ -60,11 +60,11 @@ public class NaverAccountService {
             //(1-1) 네이버에서 받아온 이메일로 account를 찾았을 때
             String naverEmail = naverUser.getUserEmail();
             Account sameEmailUser = accountRepository.findByEmail(naverEmail).orElse(null);
-            message += "\n기존에 가입하신 카카오 계정과 연동되었습니다!" ;
             //(1-1-1) null이 아니라면(카카오로 이미 가입한 유저)
             if (sameEmailUser != null) {
                 naverAccount = sameEmailUser;
                 naverAccount.setNaverId(naverId);
+                message += " 기존에 가입하신 카카오 계정과 연동되었습니다!";
             } else { //(1-1-2) null이라면
                 // 신규 회원가입
                 // nickname(accountName) = naverUser의 nickname
