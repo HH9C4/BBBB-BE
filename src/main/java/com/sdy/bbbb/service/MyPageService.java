@@ -31,7 +31,7 @@ public class MyPageService {
     @Transactional(readOnly = true)
     public GlobalResponseDto<List<AlarmResponseDto>> showAlarm(Account account) {
         //내가 쓴 게시글 조회
-        List<Post> myPosts = postRepository.findPostsByAccount_Id(account.getId());
+        List<Post> myPosts = postRepository.findPostsByAccount_IdOrderByCreatedAtDesc(account.getId());
         List<Comment> postsComment = new ArrayList<>();
         List<AlarmResponseDto> alarmResponseDtos = new ArrayList<>();
         for(Post post : myPosts) {
@@ -61,7 +61,7 @@ public class MyPageService {
     // 내가 작성한 게시글 조회
     @Transactional(readOnly = true)
     public GlobalResponseDto<List<PostResponseDto>> getMyPosts(Account account) {
-        List<Post> myPosts = postRepository.findPostsByAccount_Id(account.getId());
+        List<Post> myPosts = postRepository.findPostsByAccount_IdOrderByCreatedAtDesc(account.getId());
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
         for(Post foundPost : myPosts) {
             postResponseDtos.add(new PostResponseDto(foundPost, getImgUrl(foundPost), amILiked(foundPost, account)));
@@ -72,7 +72,7 @@ public class MyPageService {
     // 내가 좋아요한 게시글 조회
     @Transactional(readOnly = true)
     public GlobalResponseDto<List<PostResponseDto>> getMyLikes(Account account) {
-        List<Like> myLikes = likeRepository.findLikesByAccount_idAndLikeLevel(account.getId(), 1);
+        List<Like> myLikes = likeRepository.findLikesByAccount_idAndLikeLevelOrOrderByIdDesc(account.getId(), 1);
         List<Post> likedPost = new ArrayList<>();
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
         for(Like like: myLikes) {
