@@ -54,7 +54,7 @@ public class AccountService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public GlobalResponseDto<?> kakaoLogin(String code, HttpServletResponse response) throws JsonProcessingException {
+    public GlobalResponseDto<LoginResponseDto> kakaoLogin(String code, HttpServletResponse response) throws JsonProcessingException {
         // 1. "인가 코드"로 "액세스 토큰" 요청
         String accessToken = getAccessToken(code);
 
@@ -101,7 +101,7 @@ public class AccountService {
         // HTTP Body 생성
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
-        body.add("client_id", "a8c29f43cc985001f5fcd08bcbd9bbac");
+        body.add("client_id", "a8c29f43cc985001f5fcd08bcbd9bbac"); //Rest API 키
         body.add("redirect_uri", "http://localhost:3000/user/kakao/callback");
         body.add("code", code);
 

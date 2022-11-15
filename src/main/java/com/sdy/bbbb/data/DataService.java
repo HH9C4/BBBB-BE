@@ -1,9 +1,10 @@
-package com.sdy.bbbb.test;
+package com.sdy.bbbb.data;
 
 import com.sdy.bbbb.entity.Spot;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
@@ -22,6 +23,7 @@ public class DataService {
 
 
     @Transactional
+//    @Scheduled(cron = "0 2/5 * * * *")
     public void call() throws Exception {
 
 

@@ -31,7 +31,7 @@ public class Post extends TimeStamped {
     @Column
     private String tag;
 
-    @Column
+//    @Column(nullable = false)
     private String category;
 
     @Column(nullable = false)
@@ -48,7 +48,7 @@ public class Post extends TimeStamped {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     @ApiModelProperty(hidden = true)
-    private List<Image> imageList = new ArrayList();
+    private List<Image> imageList = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     @ApiModelProperty(hidden = true)
@@ -62,13 +62,13 @@ public class Post extends TimeStamped {
         this.account = account;
         this.guName = postRequestDto.getGu();
         this.tag = postRequestDto.getTag();
-        this.category = postRequestDto.getCategory();
+//        this.category = postRequestDto.getCategory();
     }
 
     public void update(PostRequestDto postRequestDto) {
         this.content = postRequestDto.getContent();
         this.tag = postRequestDto.getTag();
-        this.category = postRequestDto.getCategory();
+//        this.category = postRequestDto.getCategory();
     }
 
 }

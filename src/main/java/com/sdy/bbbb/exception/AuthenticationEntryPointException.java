@@ -22,7 +22,7 @@ public class AuthenticationEntryPointException implements AuthenticationEntryPoi
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().println(
                 new ObjectMapper().writeValueAsString(
-                        new GlobalResponseDto(HttpStatus.UNAUTHORIZED.toString(), "로그인이 필요합니다 hoxy",null)
+                        new GlobalResponseDto(HttpStatus.UNAUTHORIZED.toString(), "로그인이 필요합니다",null)
                 )
         );
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
