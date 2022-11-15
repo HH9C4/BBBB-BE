@@ -23,7 +23,7 @@ public class DataService {
 
 
     @Transactional
-//    @Scheduled(cron = "0 2/5 * * * *")
+    @Scheduled(cron = "0 2/5 * * * *")
     public void call() throws Exception {
 
 
