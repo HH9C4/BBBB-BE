@@ -82,7 +82,7 @@ public class WebSecurityConfig {
                 .authenticationEntryPoint(authenticationEntryPointException);
 
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/user/kakao/callback").permitAll()
+                .antMatchers(HttpMethod.GET, "/user/kakao/**").permitAll()
                 .antMatchers(PERMIT_URL_ARRAY).permitAll() //swagger 열어주기
                 .anyRequest().authenticated()
 //                .anyRequest().authenticated() //permitAll을 제외한 API는 모두 인증 필요

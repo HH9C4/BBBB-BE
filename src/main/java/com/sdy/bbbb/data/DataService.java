@@ -1,4 +1,4 @@
-package com.sdy.bbbb.test;
+package com.sdy.bbbb.data;
 
 import com.sdy.bbbb.entity.Spot;
 import com.sdy.bbbb.exception.CustomException;
@@ -23,7 +23,7 @@ public class DataService {
 
 
     @Transactional
-    @Scheduled(cron = "0 2/5 * * * *")
+//    @Scheduled(cron = "0 2/5 * * * *")
     public void call() throws Exception {
 
 

@@ -27,20 +27,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String refreshToken = jwtUtil.getHeaderToken(request, "Refresh");
 
         if(accessToken != null) {
-            if(!jwtUtil.tokenValidation(accessToken)){
-                jwtExceptionHandler(response, "Please Login", HttpStatus.UNAUTHORIZED);
-                return;
+            if(jwtUtil.tokenValidation(accessToken)){
+                setAuthentication(jwtUtil.getEmailFromToken(accessToken));
             }
-            setAuthentication(jwtUtil.getEmailFromToken(accessToken));
         }else if(refreshToken != null) {
-            if(!jwtUtil.refreshTokenValidation(refreshToken)){
-                jwtExceptionHandler(response, "Please Login", HttpStatus.UNAUTHORIZED);
-                return;
+            if(jwtUtil.refreshTokenValidation(refreshToken)){
+                setAuthentication(jwtUtil.getEmailFromToken(refreshToken));
             }
-            setAuthentication(jwtUtil.getEmailFromToken(refreshToken));
-        }else if(accessToken == null && refreshToken == null){
-            jwtExceptionHandler(response, "Please Login", HttpStatus.UNAUTHORIZED);
-            return;
         }
 
         filterChain.doFilter(request,response);
