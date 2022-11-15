@@ -5,10 +5,7 @@ import com.sdy.bbbb.dto.response.*;
 import com.sdy.bbbb.entity.*;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
-import com.sdy.bbbb.repository.BookmarkRepository;
-import com.sdy.bbbb.repository.ImageRepository;
-import com.sdy.bbbb.repository.LikeRepository;
-import com.sdy.bbbb.repository.PostRepository;
+import com.sdy.bbbb.repository.*;
 import com.sdy.bbbb.s3.S3Uploader2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +24,7 @@ public class PostService {
     private final ImageRepository imageRepository;
     private final LikeRepository likeRepository;
     private final BookmarkRepository bookmarkRepository;
+    private final HashTagRepository hashTagRepository;
     private final S3Uploader2 s3Uploader2;
 
     private final String[] guList = {"강남구", "강동구", "강북구", "강서구", "관악구", "광진구",
@@ -38,16 +36,20 @@ public class PostService {
     public GlobalResponseDto<PostResponseDto> createPost(PostRequestDto postRequestDto,
                                                          List<MultipartFile> multipartFile,
                                                          Account account) {
+        //올바른 구 인지 검증
         validateGu(postRequestDto.getGu());
+        //새로운 데이터 생성
         Post post = new Post(postRequestDto, account);
-        //쿼리 두번 보다 한번으로 하는게 낫겠쥐?
+
         postRepository.save(post);
 
         //이미지 있다면
         createImageIfNotNull(multipartFile, post);
+        //태그 있다면
+        createTagIfNotNull(postRequestDto.getTagList(), post);
 
         return GlobalResponseDto.created("게시글이 등록 되었습니다.",
-                new PostResponseDto(post, getImgUrl(post), false));
+                new PostResponseDto(post, getImgUrl(post),  getTag(post),false));
     }
 
     //게시글 전체 조회(구별)
@@ -77,7 +79,7 @@ public class PostService {
             //좋아요 확인
 
             postResponseDtoList.add(
-                    new PostResponseDto(post, getImgUrl(post), amILikedPost(post, account)));
+                    new PostResponseDto(post, getImgUrl(post), getTag(post), amILikedPost(post, account)));
         }
 
         boolean isBookMarked = bookmarkRepository.existsByGu_GuNameAndAccount(gu, account);
@@ -94,9 +96,9 @@ public class PostService {
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 
         if (sort.equals("new")) {
-            postList = postRepository.findPostsByTagContainsAndContentContainsOrderByCreatedAtDesc(searchWord, searchWord);
+            postList = postRepository.findPostsByContentContainsOrderByCreatedAtDesc(searchWord);
         } else if (sort.equals("hot")) {
-            postList = postRepository.findPostsByTagContainsAndContentContainsOrderByLikeCountDescCreatedAtDesc(searchWord, searchWord);
+            postList = postRepository.findPostsByContentContainsOrderByLikeCountDescCreatedAtDesc(searchWord);
         } else {
             throw new CustomException(ErrorCode.NotFoundSort);//잘못된 요청
         }
@@ -104,7 +106,7 @@ public class PostService {
         for (Post post : postList) {
             //좋아요 확인
             postResponseDtoList.add(
-                    new PostResponseDto(post, getImgUrl(post), amILikedPost(post, account)));
+                    new PostResponseDto(post, getImgUrl(post), getTag(post), amILikedPost(post, account)));
         }
         return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
     }
@@ -122,7 +124,18 @@ public class PostService {
             commentResponseDtoList.add(new CommentResponseDto(comment, amILikedComment(comment, account)));
         }
 
-        return GlobalResponseDto.ok("조회 성공", new OnePostResponseDto(post, getImgUrl(post), amILikedPost(post, account), commentResponseDtoList));
+        return GlobalResponseDto.ok("조회 성공", new OnePostResponseDto(post, getImgUrl(post), getTag(post), amILikedPost(post, account), commentResponseDtoList));
+    }
+
+    //핫태그 20
+    @Transactional(readOnly = true)
+    public GlobalResponseDto<TagResponseDto> hotTag20(String guName) {
+        List<HotTag> hashTagList = hashTagRepository.findHotTagWithNativeQuery(guName);
+        List<String> tagList = new ArrayList<>();
+        for(HotTag tag : hashTagList){
+            tagList.add(tag.getHot());
+        }
+        return GlobalResponseDto.ok("태그 조회 성공", new TagResponseDto(tagList));
     }
 
     //게시글 수정
@@ -151,9 +164,13 @@ public class PostService {
         //추가할 이미지 있다면
         createImageIfNotNull(multipartFile, post);
 
+        //태그 수정
+        hashTagRepository.deleteByPost(post);
+        createTagIfNotNull(postRequestDto.getTagList(), post);
+
         post.update(postRequestDto);
         return GlobalResponseDto.created("게시글 수정이 완료되었습니다.",
-                new PostResponseDto(post, getImgUrl(post), false));
+                new PostResponseDto(post, getImgUrl(post), getTag(post), amILikedPost(post, account)));
     }
 
     //게시글 삭제
@@ -171,7 +188,7 @@ public class PostService {
 
     //등록 할 이미지가 있다면 사용
     public void createImageIfNotNull(List<MultipartFile> multipartFile, Post post) {
-        if (multipartFile != null && multipartFile.size() != 0){
+        if (multipartFile != null && multipartFile.size() > 0){
             List<Image> imageList = new ArrayList<>();
             for (MultipartFile imgFile : multipartFile) {
                 Image image = new Image(post, s3Uploader2.upload(imgFile, "dir1"));
@@ -189,6 +206,27 @@ public class PostService {
             imageUrl.add(img.getImageUrl());
         }
         return imageUrl;
+    }
+
+    //태그가 있다면 태그 저장
+    private void createTagIfNotNull(List<String> tagList, Post post) {
+        if (tagList != null && tagList.size() > 0) {
+            List<HashTag> hashTagList = new ArrayList<>();
+            for (String tag : tagList) {
+                HashTag hashTag = new HashTag(post, tag);
+                hashTagList.add(hashTag);
+                hashTagRepository.save(hashTag);
+            }
+            post.setTagList(hashTagList);
+        }
+    }
+
+    private List<String> getTag(Post post){
+        List<String> tagList = new ArrayList<>();
+        for(HashTag hashTag : post.getTagList()){
+            tagList.add(hashTag.getTag());
+        }
+        return tagList;
     }
 
     //작성자 확인

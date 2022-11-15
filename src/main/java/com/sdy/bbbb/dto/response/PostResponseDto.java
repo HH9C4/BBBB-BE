@@ -8,7 +8,7 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class PostResponseDto {
+public class PostResponseDto extends TagResponseDto{
 
     private Long postId;
 
@@ -18,7 +18,6 @@ public class PostResponseDto {
 
     private String content;
 
-    private String tag;
 
     private String category;
 
@@ -42,7 +41,24 @@ public class PostResponseDto {
         this.imageUrl = imageUrl;
         this.content = post.getContent();
         this.gu = post.getGuName();
-        this.tag = post.getTag();
+//        this.tag = post.getTag();
+//        this.category = post.getCategory();
+        this.likeCount = post.getLikeCount();
+        this.commentCount = post.getCommentCount();
+        this.isLiked = isLiked;
+        this.views = post.getViews();
+        this.createdAt = Chrono.timesAgo(post.getCreatedAt());
+        this.modifiedAt = Chrono.timesAgo(post.getModifiedAt());
+    }
+
+    public PostResponseDto(Post post, List<String> imageUrl, List<String> tagList, boolean isLiked) {
+        super(tagList);
+        this.postId = post.getId();
+        this.accountName = post.getAccount().getAccountName();
+        this.imageUrl = imageUrl;
+        this.content = post.getContent();
+        this.gu = post.getGuName();
+//        this.tag = tagList;
 //        this.category = post.getCategory();
         this.likeCount = post.getLikeCount();
         this.commentCount = post.getCommentCount();

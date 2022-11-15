@@ -2,10 +2,7 @@ package com.sdy.bbbb.controller;
 
 import com.sdy.bbbb.config.UserDetailsImpl;
 import com.sdy.bbbb.dto.request.PostRequestDto;
-import com.sdy.bbbb.dto.response.GlobalResponseDto;
-import com.sdy.bbbb.dto.response.OnePostResponseDto;
-import com.sdy.bbbb.dto.response.PostListResponseDto;
-import com.sdy.bbbb.dto.response.PostResponseDto;
+import com.sdy.bbbb.dto.response.*;
 import com.sdy.bbbb.service.PostService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -64,6 +61,12 @@ public class PostController {
                                                                @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         return postService.searchPost(searchWord, sort, userDetails.getAccount());
+    }
+
+    //핫태그 검색
+    @GetMapping("/hottag")
+    public GlobalResponseDto<TagResponseDto> hotTag(@RequestParam("gu") String guName){
+        return postService.hotTag20(guName);
     }
 
     //게시글 수정
