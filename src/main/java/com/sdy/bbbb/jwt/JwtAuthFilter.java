@@ -28,16 +28,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         if(accessToken != null) {
             if(!jwtUtil.tokenValidation(accessToken)){
-                jwtExceptionHandler(response, "please login again", HttpStatus.BAD_REQUEST);
+                jwtExceptionHandler(response, "Please Login", HttpStatus.BAD_REQUEST);
                 return;
             }
             setAuthentication(jwtUtil.getEmailFromToken(accessToken));
         }else if(refreshToken != null) {
             if(!jwtUtil.refreshTokenValidation(refreshToken)){
-                jwtExceptionHandler(response, "please login again", HttpStatus.BAD_REQUEST);
+                jwtExceptionHandler(response, "Please Login", HttpStatus.BAD_REQUEST);
                 return;
             }
             setAuthentication(jwtUtil.getEmailFromToken(refreshToken));
+        }else if(accessToken == null && refreshToken == null){
+            jwtExceptionHandler(response, "Please Login", HttpStatus.BAD_REQUEST);
+            return;
         }
 
         filterChain.doFilter(request,response);
