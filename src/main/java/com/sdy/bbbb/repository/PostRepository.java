@@ -4,6 +4,7 @@ import com.sdy.bbbb.entity.Post;
 import com.sdy.bbbb.querydsl.PostRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,11 +17,12 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
 
     List<Post> findPostsByGuNameOrderByLikeCountDescCreatedAtDesc(String gu);
 
-    List<Post> findPostsByTagContainsAndContentContainsOrderByCreatedAtDesc(String searchWord, String searchWord1);
+    List<Post> findPostsByContentContainsOrderByCreatedAtDesc(String searchWord);
 
-    List<Post> findPostsByTagContainsAndContentContainsOrderByLikeCountDescCreatedAtDesc(String searchWord, String searchWord1);
+    List<Post> findPostsByContentContainsOrderByLikeCountDescCreatedAtDesc(String searchWord);
 
     Optional<Post> findById(Long id);
 
     List<Post> findPostsByAccount_IdOrderByCreatedAtDesc(Long accountId);
+
 }

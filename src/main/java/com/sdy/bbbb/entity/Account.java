@@ -42,7 +42,7 @@ public class Account extends TimeStamped {
     @Column(nullable = true)
     private String ageRange;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="myPageId")
     private MyPage myPage;
 
