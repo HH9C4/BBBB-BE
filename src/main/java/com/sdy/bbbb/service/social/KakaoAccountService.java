@@ -1,10 +1,10 @@
-package com.sdy.bbbb.service;
+package com.sdy.bbbb.service.social;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sdy.bbbb.config.UserDetailsImpl;
-import com.sdy.bbbb.dto.request.KakaoUserInfoDto;
+import com.sdy.bbbb.dto.request.loginRequestDto.KakaoUserInfoDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.dto.response.LoginResponseDto;
 import com.sdy.bbbb.entity.Account;
@@ -39,7 +39,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
-public class AccountService {
+public class KakaoAccountService {
 
     @Value("${kakao.rest.api.key}")
     private String kakaoApiKey;
@@ -51,7 +51,7 @@ public class AccountService {
 
 
     @Autowired
-    public AccountService(RefreshTokenRepository refreshTokenRepository, JwtUtil jwtUtil, AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
+    public KakaoAccountService(RefreshTokenRepository refreshTokenRepository, JwtUtil jwtUtil, AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
         this.refreshTokenRepository = refreshTokenRepository;
         this.jwtUtil = jwtUtil;
         this.accountRepository = accountRepository;
