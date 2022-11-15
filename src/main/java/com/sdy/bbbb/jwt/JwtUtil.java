@@ -3,6 +3,8 @@ package com.sdy.bbbb.jwt;
 import com.sdy.bbbb.config.UserDetailsServiceImpl;
 import com.sdy.bbbb.entity.RefreshToken;
 import com.sdy.bbbb.repository.RefreshTokenRepository;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -13,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -31,8 +34,9 @@ public class JwtUtil {
 
     private static final long ACCESS_TIME = 10 * 60 * 60 * 1000L; // 10시간
     private static final long REFRESH_TIME = 7 * 24 * 60 * 60 * 1000L; // 7일
-    public static final String ACCESS_TOKEN = "Access_Token";
-    public static final String REFRESH_TOKEN = "Refresh_Token";
+    public static final String ACCESS_TOKEN = "Authorization";
+    public static final String REFRESH_TOKEN = "Refresh";
+    public static String BEARER_PREFIX = "Bearer ";
 
 
     @Value("${jwt.secret.key}")
@@ -48,7 +52,12 @@ public class JwtUtil {
 
     // header 토큰을 가져오는 기능
     public String getHeaderToken(HttpServletRequest request, String type) {
-        return type.equals("Access") ? request.getHeader(ACCESS_TOKEN) :request.getHeader(REFRESH_TOKEN);
+        String bearerToken = type.equals("Access") ? request.getHeader(ACCESS_TOKEN) :request.getHeader(REFRESH_TOKEN);
+
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
+            return bearerToken.substring(7);
+        }
+        return null;
     }
 
     // 토큰 생성

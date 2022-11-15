@@ -1,6 +1,7 @@
 package com.sdy.bbbb.service;
 
 import com.sdy.bbbb.dto.request.CommentRequestDto;
+import com.sdy.bbbb.dto.response.CommentResponseDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.Comment;
@@ -21,7 +22,7 @@ public class CommentService {
     private final PostRepository postRepository;
 
     @Transactional
-    public GlobalResponseDto createComment(Long postId, CommentRequestDto requestDto, Account account){
+    public GlobalResponseDto<CommentResponseDto> createComment(Long postId, CommentRequestDto requestDto, Account account){
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundPost));
         // 게시글 없으면 예외 처리
@@ -29,13 +30,12 @@ public class CommentService {
         // request받은 댓글, 게시글, 유저정보
         commentRepository.save(comment);
         // 댓글 저장
-        post.getCommentList().add(comment);
-        //게시글에도 추가
-        post.setCommentCount(post.getCommentList().size());
+        post.setCommentCount(post.getCommentCount() +1);
         // 게시글에 달린 댓글 수 변경
         postRepository.save(post);
         // 게시글 저장
-        return GlobalResponseDto.created("댓글이 생성되었습니다");
+        CommentResponseDto responseDto = new CommentResponseDto(comment);
+        return GlobalResponseDto.created("댓글이 생성되었습니다", responseDto);
     }
   
     @Transactional
@@ -49,7 +49,7 @@ public class CommentService {
         }// 댓글 작성자 아니면 에러코드 (작성자가 아닙니다)
         commentRepository.delete(comment);
         // 댓글 삭제
-        post.setCommentCount(post.getCommentList().size());
+        post.setCommentCount(post.getCommentCount() -1);
         // 게시글에 달린 댓글 수 변경
         postRepository.save(post);
         // 게시글 저장

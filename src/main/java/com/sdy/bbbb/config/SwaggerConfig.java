@@ -28,7 +28,7 @@ public class SwaggerConfig {
                 .enable(true);
     }
 
-    private ApiInfo apiInfo(){
+    private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("BOOMBIBOOMBI Api Info")
                 .description("Swagger를 활용한 붐비붐비의 API 정보입니다.")

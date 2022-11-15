@@ -27,17 +27,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String refreshToken = jwtUtil.getHeaderToken(request, "Refresh");
 
         if(accessToken != null) {
-            if(!jwtUtil.tokenValidation(accessToken)){
-                jwtExceptionHandler(response, "please login again", HttpStatus.BAD_REQUEST);
-                return;
+            if(jwtUtil.tokenValidation(accessToken)){
+                setAuthentication(jwtUtil.getEmailFromToken(accessToken));
             }
-            setAuthentication(jwtUtil.getEmailFromToken(accessToken));
         }else if(refreshToken != null) {
-            if(!jwtUtil.refreshTokenValidation(refreshToken)){
-                jwtExceptionHandler(response, "please login again", HttpStatus.BAD_REQUEST);
-                return;
+            if(jwtUtil.refreshTokenValidation(refreshToken)){
+                setAuthentication(jwtUtil.getEmailFromToken(refreshToken));
             }
-            setAuthentication(jwtUtil.getEmailFromToken(refreshToken));
         }
 
         filterChain.doFilter(request,response);
@@ -52,11 +48,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         response.setStatus(status.value());
         response.setContentType("application/json");
         try {
-            String json = new ObjectMapper().writeValueAsString(new GlobalResponseDto(msg, "",""));
+            String json = new ObjectMapper().writeValueAsString(new GlobalResponseDto(status.toString(), msg,null));
             response.getWriter().write(json);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
     }
+
+
 
 }

@@ -1,6 +1,5 @@
 package com.sdy.bbbb.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sdy.bbbb.dto.request.PostRequestDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -12,30 +11,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Setter @Getter
+@Setter
+@Getter
 @NoArgsConstructor
-public class Post extends TimeStamped{
+public class Post extends TimeStamped {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     @ApiModelProperty(hidden = true)
     private Account account;
+
     @Column(nullable = false)
     private String guName;
+
     @Column
     private String tag;
+
+//    @Column(nullable = false)
+    private String category;
+
     @Column(nullable = false)
     private String content;
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
-    @JsonIgnore
-    @ApiModelProperty(hidden = true)
-    private List<Comment> commentList = new ArrayList<>();
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
-    @JsonIgnore
-    @ApiModelProperty(hidden = true)
-    private List<Like> likeList = new ArrayList<>();
 
     @Column(nullable = false)
     private int commentCount;
@@ -48,19 +48,27 @@ public class Post extends TimeStamped{
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     @ApiModelProperty(hidden = true)
-    private List<Image> imageList = new ArrayList();
+    private List<Image> imageList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @ApiModelProperty(hidden = true)
+    private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<Like> likeList = new ArrayList<>();
 
     public Post(PostRequestDto postRequestDto, Account account) {
         this.content = postRequestDto.getContent();
         this.account = account;
         this.guName = postRequestDto.getGu();
         this.tag = postRequestDto.getTag();
-//        this.commentCount = commentList.size();
-//        this.likeCount = likeList.size();
+//        this.category = postRequestDto.getCategory();
     }
 
     public void update(PostRequestDto postRequestDto) {
         this.content = postRequestDto.getContent();
-        this.guName = postRequestDto.getGu();
+        this.tag = postRequestDto.getTag();
+//        this.category = postRequestDto.getCategory();
     }
+
 }

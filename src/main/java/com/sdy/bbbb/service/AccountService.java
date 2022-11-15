@@ -10,12 +10,15 @@ import com.sdy.bbbb.dto.response.LoginResponseDto;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.MyPage;
 import com.sdy.bbbb.entity.RefreshToken;
+import com.sdy.bbbb.exception.CustomException;
+import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.jwt.JwtUtil;
 import com.sdy.bbbb.jwt.TokenDto;
 import com.sdy.bbbb.repository.AccountRepository;
 import com.sdy.bbbb.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -38,6 +41,9 @@ import java.util.UUID;
 @Service
 public class AccountService {
 
+    @Value("${kakao.rest.api.key}")
+    private String kakaoApiKey;
+
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
@@ -52,7 +58,7 @@ public class AccountService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public GlobalResponseDto<?> kakaoLogin(String code, HttpServletResponse response) throws JsonProcessingException {
+    public GlobalResponseDto<LoginResponseDto> kakaoLogin(String code, HttpServletResponse response) throws JsonProcessingException {
         // 1. "인가 코드"로 "액세스 토큰" 요청
         String accessToken = getAccessToken(code);
 
@@ -72,7 +78,7 @@ public class AccountService {
         Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(kakaoUserInfo.getEmail());
 
         // 로그아웃한 후 로그인을 다시 하는가?
-        if(refreshToken.isPresent()) {
+        if (refreshToken.isPresent()) {
             RefreshToken refreshToken1 = refreshToken.get().updateToken(tokenDto.getRefreshToken());
             refreshTokenRepository.save(refreshToken1);
         } else {
@@ -99,7 +105,7 @@ public class AccountService {
         // HTTP Body 생성
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
-        body.add("client_id", "a8c29f43cc985001f5fcd08bcbd9bbac");
+        body.add("client_id", kakaoApiKey); //Rest API 키
         body.add("redirect_uri", "http://localhost:3000/user/kakao/callback");
         body.add("code", code);
 
@@ -200,5 +206,13 @@ public class AccountService {
         UserDetails userDetails = new UserDetailsImpl(kakaoUser);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    // logout
+    public GlobalResponseDto<String> logout(Account account) {
+        RefreshToken refreshToken = refreshTokenRepository.findByAccountEmail(account.getEmail()).orElseThrow(
+                ()-> new CustomException(ErrorCode.NotFoundUser));
+        refreshTokenRepository.deleteById(refreshToken.getRefreshId());
+        return GlobalResponseDto.ok("Success Logout", null);
     }
 }

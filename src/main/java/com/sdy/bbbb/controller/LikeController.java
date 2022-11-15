@@ -1,8 +1,8 @@
 package com.sdy.bbbb.controller;
 
 import com.sdy.bbbb.config.UserDetailsImpl;
-import com.sdy.bbbb.dto.request.LikeRequestDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
+import com.sdy.bbbb.dto.response.LikeResponseDto;
 import com.sdy.bbbb.service.LikeService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -13,23 +13,24 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/likes/{postId}")
+@RequestMapping("/api/likes")
 public class LikeController {
     private final LikeService likeService;
 
-    @ApiOperation(value = "좋아요 생성", notes = "설명")
+    @ApiOperation(value = "좋아요 생성 create like", notes = "create like on the post")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public GlobalResponseDto createLike(@PathVariable Long postId,
-                                        @ModelAttribute LikeRequestDto requestDto,
-                                        @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return likeService.createLike(postId, requestDto.getLiketLevel(),  userDetails.getAccount());
+    public GlobalResponseDto<LikeResponseDto> createPostLike(@RequestParam Long id,
+                                                             @RequestParam Integer level,
+                                                             @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return likeService.createPostLike(id, level, userDetails.getAccount());
     }
 
-    @ApiOperation(value = "좋아요 삭제", notes = "설명")
+    @ApiOperation(value = "좋아요 삭제 cancle like", notes = "cancle like on the post")
     @DeleteMapping
-    public GlobalResponseDto deleteLike(@PathVariable Long postId,
-                                        @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return likeService.deleteLike(postId, userDetails.getAccount());
+    public GlobalResponseDto<LikeResponseDto> deletePostLike(@RequestParam Long id,
+                                            @RequestParam Integer level,
+                                            @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return likeService.deletePostLike(id, level, userDetails.getAccount());
     }
 }

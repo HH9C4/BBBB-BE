@@ -1,6 +1,5 @@
 package com.sdy.bbbb.dto.response;
 
-import com.sdy.bbbb.entity.Like;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,11 +7,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LikeResponseDto {
 
-    private Long postId;
+    private Boolean isLiked;
 
-    public LikeResponseDto(Like like){
+    private Integer likeCount;
 
-        this.postId = like.getPost().getId();
-
+    public LikeResponseDto(Boolean isLiked, Integer likeCount) {
+        this.isLiked = isLiked;
+        this.likeCount = likeCount;
     }
+
 }

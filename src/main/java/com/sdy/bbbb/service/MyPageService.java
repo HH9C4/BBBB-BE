@@ -4,24 +4,20 @@ import com.sdy.bbbb.dto.response.*;
 import com.sdy.bbbb.entity.*;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
+import com.sdy.bbbb.repository.BookmarkRepository;
 import com.sdy.bbbb.repository.CommentRepository;
 import com.sdy.bbbb.repository.LikeRepository;
-import com.sdy.bbbb.repository.MyPageRepository;
 import com.sdy.bbbb.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class MyPageService {
-
-    private final MyPageRepository myPageRepository;
 
     private final PostRepository postRepository;
 
@@ -29,11 +25,13 @@ public class MyPageService {
 
     private final CommentRepository commentRepository;
 
+    private final BookmarkRepository bookmarkRepository;
+
     // 내 게시글에 달린 댓글 알람 기능
     @Transactional(readOnly = true)
     public GlobalResponseDto<List<AlarmResponseDto>> showAlarm(Account account) {
         //내가 쓴 게시글 조회
-        List<Post> myPosts = postRepository.findPostsByAccount_Id(account.getId());
+        List<Post> myPosts = postRepository.findPostsByAccount_IdOrderByCreatedAtDesc(account.getId());
         List<Comment> postsComment = new ArrayList<>();
         List<AlarmResponseDto> alarmResponseDtos = new ArrayList<>();
         for(Post post : myPosts) {
@@ -63,10 +61,10 @@ public class MyPageService {
     // 내가 작성한 게시글 조회
     @Transactional(readOnly = true)
     public GlobalResponseDto<List<PostResponseDto>> getMyPosts(Account account) {
-        List<Post> myPosts = postRepository.findPostsByAccount_Id(account.getId());
+        List<Post> myPosts = postRepository.findPostsByAccount_IdOrderByCreatedAtDesc(account.getId());
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
         for(Post foundPost : myPosts) {
-            postResponseDtos.add(new PostResponseDto(foundPost, account, getImgUrl(foundPost), amILiked(foundPost, account)));
+            postResponseDtos.add(new PostResponseDto(foundPost, getImgUrl(foundPost), amILiked(foundPost, account)));
         }
         return GlobalResponseDto.ok("조회 성공!", postResponseDtos);
     }
@@ -74,18 +72,33 @@ public class MyPageService {
     // 내가 좋아요한 게시글 조회
     @Transactional(readOnly = true)
     public GlobalResponseDto<List<PostResponseDto>> getMyLikes(Account account) {
-        List<Like> myLikes = likeRepository.findByAccount_Id(account.getId());
+        List<Like> myLikes = likeRepository.findLikesByAccount_idAndLikeLevelOrderByIdDesc(account.getId(), 1);
         List<Post> likedPost = new ArrayList<>();
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
         for(Like like: myLikes) {
             likedPost.add(like.getPost());
         }
         for(Post post : likedPost) {
-            postResponseDtos.add(new PostResponseDto(post, account, getImgUrl(post), amILiked(post, account)));
+            postResponseDtos.add(new PostResponseDto(post, getImgUrl(post), amILiked(post, account)));
         }
         return GlobalResponseDto.ok("조회 성공!", postResponseDtos);
 
     }
+
+    // 내가 누른 북마크 목록
+    @Transactional(readOnly = true)
+    public GlobalResponseDto<List<BookmarkResponseDto>> getMyBookmarks(Account account) {
+
+        List<Bookmark> myBooks = bookmarkRepository.findBookmarkByAccount_IdOrderByBookmarked(account.getId());
+        List<BookmarkResponseDto> bookmarkResponseDtos = new ArrayList<>();
+        for(Bookmark bookmark : myBooks) {
+            bookmarkResponseDtos.add(
+                    new BookmarkResponseDto(bookmark)
+            );
+        }
+        return GlobalResponseDto.ok("조회 성공!", bookmarkResponseDtos);
+    }
+
 
     // 이미지 조회 함수
     public List<String> getImgUrl(Post post){
