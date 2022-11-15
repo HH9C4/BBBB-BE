@@ -28,16 +28,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         if(accessToken != null) {
             if(!jwtUtil.tokenValidation(accessToken)){
-                jwtExceptionHandler(response, "please login again", HttpStatus.BAD_REQUEST);
+                jwtExceptionHandler(response, "Please Login", HttpStatus.UNAUTHORIZED);
                 return;
             }
             setAuthentication(jwtUtil.getEmailFromToken(accessToken));
         }else if(refreshToken != null) {
             if(!jwtUtil.refreshTokenValidation(refreshToken)){
-                jwtExceptionHandler(response, "please login again", HttpStatus.BAD_REQUEST);
+                jwtExceptionHandler(response, "Please Login", HttpStatus.UNAUTHORIZED);
                 return;
             }
             setAuthentication(jwtUtil.getEmailFromToken(refreshToken));
+        }else if(accessToken == null && refreshToken == null){
+            jwtExceptionHandler(response, "Please Login", HttpStatus.UNAUTHORIZED);
+            return;
         }
 
         filterChain.doFilter(request,response);
@@ -52,7 +55,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         response.setStatus(status.value());
         response.setContentType("application/json");
         try {
-            String json = new ObjectMapper().writeValueAsString(new GlobalResponseDto(HttpStatus.UNAUTHORIZED.toString(), msg,null));
+            String json = new ObjectMapper().writeValueAsString(new GlobalResponseDto(status.toString(), msg,null));
             response.getWriter().write(json);
         } catch (Exception e) {
             log.error(e.getMessage());
