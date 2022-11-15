@@ -18,6 +18,7 @@ import com.sdy.bbbb.repository.AccountRepository;
 import com.sdy.bbbb.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -39,6 +40,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Service
 public class AccountService {
+
+    @Value("${kakao.rest.api.key}")
+    private String kakaoApiKey;
 
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
@@ -101,7 +105,7 @@ public class AccountService {
         // HTTP Body 생성
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
-        body.add("client_id", "${kakao.rest.api.key}"); //Rest API 키
+        body.add("client_id", kakaoApiKey); //Rest API 키
         body.add("redirect_uri", "http://localhost:3000/user/kakao/callback");
         body.add("code", code);
 
