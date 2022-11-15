@@ -1,5 +1,6 @@
 package com.sdy.bbbb.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,6 +34,9 @@ public class Account extends TimeStamped {
     @Column(unique = true)
     private Long kakaoId;
 
+    @Column(unique = true)
+    private String naverId;
+
     @Column(nullable = true)
     private String profileImage;
 
@@ -65,6 +69,16 @@ public class Account extends TimeStamped {
         this.profileImage = profileImage;
         this.email = email;
         this.kakaoId = kakaoId;
+        this.gender = gender;
+        this.ageRange = ageRange;
+    }
+
+    public Account(String nickname, String password, String email, String profileImage, String naverId, String gender, String ageRange) {
+        this.accountName = nickname;
+        this.password = password;
+        this.profileImage = profileImage;
+        this.email = email;
+        this.naverId = naverId;
         this.gender = gender;
         this.ageRange = ageRange;
     }
