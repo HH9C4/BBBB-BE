@@ -29,6 +29,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -58,7 +59,10 @@ public class KakaoAccountService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional
     public GlobalResponseDto<LoginResponseDto> kakaoLogin(String code, HttpServletResponse response) throws JsonProcessingException {
+        String message = "님 환영합니다.";
+
         // 1. "인가 코드"로 "액세스 토큰" 요청
         String accessToken = getAccessToken(code);
 
@@ -89,7 +93,7 @@ public class KakaoAccountService {
         //토큰을 header에 넣어서 클라이언트에게 전달하기
         setHeader(response, tokenDto);
 
-        return GlobalResponseDto.ok(kakaoUserInfo.getNickname() + "님 환영합니다.", new LoginResponseDto(kakaoUser));
+        return GlobalResponseDto.ok(kakaoUserInfo.getNickname() + message, new LoginResponseDto(kakaoUser));
     }
 
     private void setHeader(HttpServletResponse response, TokenDto tokenDto) {
@@ -160,6 +164,7 @@ public class KakaoAccountService {
         return new KakaoUserInfoDto(id, nickname, email, profileImage, gender, ageRange);
     }
 
+    @Transactional
     private Account registerKakaoUserIfNeeded(KakaoUserInfoDto kakaoUserInfo) {
         // DB 에 중복된 Kakao Id 가 있는지 확인
         Long kakaoId = kakaoUserInfo.getId();

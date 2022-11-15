@@ -1,6 +1,7 @@
 package com.sdy.bbbb.data;
 
 
+import com.sdy.bbbb.entity.TimeStamped;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SpotData {
+public class SpotData extends TimeStamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
