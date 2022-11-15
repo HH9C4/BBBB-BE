@@ -50,6 +50,8 @@ jobs:
           cloud.aws.s3.bucket: ${{ secrets.AWS_S3_BUCKET }}
           cloud.aws.credentials.access-key: ${{ secrets.AWS_S3_ACCESS_KEY }}
           cloud.aws.credentials.secret-key: ${{ secrets.AWS_S3_SECRET_KEY }}
+          cloud.aws.credentials.secret-key: ${{ secrets.AWS_S3_SECRET_KEY }}
+          kakao.rest.api.key: ${{ secrets.KAKAO_REST_API_KEY }}
 
 
         # (3) Gradle build (Test 제외)

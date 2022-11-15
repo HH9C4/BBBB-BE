@@ -44,3 +44,8 @@ spring:
 jwt:
   secret:
     key: ''
+
+kakao:
+  rest:
+    api:
+      key: ''

@@ -101,7 +101,7 @@ public class AccountService {
         // HTTP Body 생성
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
-        body.add("client_id", "a8c29f43cc985001f5fcd08bcbd9bbac"); //Rest API 키
+        body.add("client_id", "${kakao.rest.api.key}"); //Rest API 키
         body.add("redirect_uri", "http://localhost:3000/user/kakao/callback");
         body.add("code", code);
 
