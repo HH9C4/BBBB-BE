@@ -9,6 +9,9 @@ import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sdy.bbbb.entity.Post;
+import com.sdy.bbbb.entity.QComment;
+import com.sdy.bbbb.entity.QImage;
+import com.sdy.bbbb.entity.QPost;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -116,16 +119,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
 
 
-    //sort sort 별 구문
-//    private OrderSpecifier eqSort(String sort) {
-//        if(sort.equals("new")) {
-//            return null;
-//        } else if (sort.equals("hot")) {
-//            return post.likeCount.desc();
-//        } else {
-//            throw new CustomException(ErrorCode.NotFoundSort);
-//        }
-//    }
+
 
     // 게시글 전체 조회
 //    @Override
