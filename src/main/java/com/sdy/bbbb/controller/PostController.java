@@ -56,11 +56,12 @@ public class PostController {
     //게시글 검색
     @ApiOperation(value = "게시글 검색", notes = "설명")
     @GetMapping("/search")
-    public GlobalResponseDto<List<PostResponseDto>> searchPost(@RequestParam("searchWord") String searchWord,
+    public GlobalResponseDto<List<PostResponseDto>> searchPost(@RequestParam ("type") Integer type,
+                                                               @RequestParam("searchWord") String searchWord,
                                                                @RequestParam("sort") String sort,
                                                                @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        return postService.searchPost(searchWord, sort, userDetails.getAccount());
+        return postService.searchPost(type, searchWord, sort, userDetails.getAccount());
     }
 
     //핫태그 검색

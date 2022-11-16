@@ -64,7 +64,7 @@ public class MyPageService {
         List<Post> myPosts = postRepository.findPostsByAccount_IdOrderByCreatedAtDesc(account.getId());
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
         for(Post foundPost : myPosts) {
-            postResponseDtos.add(new PostResponseDto(foundPost, getImgUrl(foundPost), amILiked(foundPost, account)));
+            postResponseDtos.add(new PostResponseDto(foundPost, getImgUrl(foundPost), getTag(foundPost), amILiked(foundPost, account)));
         }
         return GlobalResponseDto.ok("조회 성공!", postResponseDtos);
     }
@@ -79,7 +79,7 @@ public class MyPageService {
             likedPost.add(like.getPost());
         }
         for(Post post : likedPost) {
-            postResponseDtos.add(new PostResponseDto(post, getImgUrl(post), amILiked(post, account)));
+            postResponseDtos.add(new PostResponseDto(post, getImgUrl(post), getTag(post) ,amILiked(post, account)));
         }
         return GlobalResponseDto.ok("조회 성공!", postResponseDtos);
 
@@ -112,6 +112,15 @@ public class MyPageService {
     // 좋아요 했는지 안했는지 확인하는 함수
     public boolean amILiked(Post post, Account currentAccount) {
         return likeRepository.existsByPostAndAccount(post, currentAccount);
+    }
+
+    //태그 추출 함수
+    private List<String> getTag(Post post){
+        List<String> tagList = new ArrayList<>();
+        for(HashTag hashTag : post.getTagList()){
+            tagList.add(hashTag.getTag());
+        }
+        return tagList;
     }
 
 

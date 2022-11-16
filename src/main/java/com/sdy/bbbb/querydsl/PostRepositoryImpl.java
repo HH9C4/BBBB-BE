@@ -12,6 +12,7 @@ import com.sdy.bbbb.entity.Post;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 import java.awt.print.Pageable;
 import java.time.LocalDateTime;
@@ -23,40 +24,83 @@ import java.util.Set;
 import static com.sdy.bbbb.entity.QPost.post;
 import static com.sdy.bbbb.entity.QImage.image;
 import static com.sdy.bbbb.entity.QComment.comment1;
+import static com.sdy.bbbb.entity.QHashTag.hashTag;
 
 @RequiredArgsConstructor
+@Repository
 public class PostRepositoryImpl implements PostRepositoryCustom {
 
-    //    private final ParsingEntityUtils parsingEntityUtils;
+
     private final JPAQueryFactory queryFactory;
 
 
     // 게시글 단건 조회
     @Override
     public Post searchOneById(Long postId) {
-        Post result = queryFactory
+        return queryFactory
                 .select(post)
                 .from(post)
                 .where(post.id.eq(postId))
-                .join(comment1).on(post.id.eq(comment1.id))
+                .leftJoin(comment1).on(post.id.eq(comment1.post.id))
                 .fetchOne();
-        if(result==null){
-            return null;
-        }else {
-            return result;
+    }
+
+    @Override
+    public List<Post> test2(String gu, String sort) {
+        return queryFactory
+                .select(post).distinct()
+                .from(post)
+                .leftJoin(post.tagList).fetchJoin()
+                .where(post.guName.eq(gu))
+//                .leftJoin(post.likeList)
+                .orderBy(eqSort(sort), post.createdAt.desc())
+//                .orderBy(post.createdAt.desc())
+                .fetch();
+    }
+
+    @Override
+    public List<Post> searchByTag(Integer type, String searchWord, String sort) {
+        return queryFactory
+                .select(post).distinct()
+                .from(post)
+                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id))
+                .where(tagOrNot(type, searchWord))
+                .orderBy(eqSort(sort), post.createdAt.desc())
+                .fetch();
+    }
+
+    //    sort sort 별 구문
+    private OrderSpecifier eqSort(String sort) {
+        if(sort.equals("new")) {
+            return post.createdAt.desc();
+            //나중에 생각해보자
+        } else if (sort.equals("hot")) {
+            return post.likeCount.desc();
+        } else {
+            throw new CustomException(ErrorCode.BadRequest);
         }
     }
 
-//    private OrderSpecifier eqSort2(String sort, Expression<T> target) {
+    private BooleanExpression tagOrNot(Integer type, String searchWord) {
+        if(type == 0){
+            return post.content.contains(searchWord).or(hashTag.tag.contains(searchWord));
+        }else if (type == 1) {
+            return hashTag.tag.contains(searchWord);
+        }else{
+            throw new CustomException(ErrorCode.BadRequest);
+        }
+    }
+
+    //        private OrderSpecifier eqSort2(String sort, Expression<T> target) {
 //        if(sort.equals("hot")) {
 //            post.likeCount.desc();
 //            post.createdAt.desc();
 //        } else if(sort.equals("new")) {
 //            post.createdAt.desc();
 //        } else {
-//            throw new CustomException(ErrorCode.NotFoundSort);
+//            throw new CustomException(ErrorCode.NotFoundPost);
 //        }
-//        return new OrderSpecifier<>()
+//        return new OrderSpecifier<>();
 //    }
 //
 //    PathBuilder orderByExpression = new PathBuilder(Post.class, "post");
