@@ -14,7 +14,7 @@ public enum ErrorCode {
     NotFoundComment(HttpStatus.NOT_FOUND.value(), "P002", "댓글을 찾을 수 없습니다."),
     NotFoundImage(HttpStatus.NOT_FOUND.value(), "P003", "삭제할 이미지를 찾을 수 없습니다."),
     NotFoundUser(HttpStatus.NOT_FOUND.value(), "A001", "계정을 찾을 수 없습니다."),
-    NotFoundSort(HttpStatus.BAD_REQUEST.value(), "P004", "잘못된 요청입니다."),
+    BadRequest(HttpStatus.BAD_REQUEST.value(), "P004", "잘못된 요청입니다."),
     NotFoundGu(HttpStatus.NOT_FOUND.value(), "G001", "구를 찾을 수 없습니다."),
 
     // 일치하지 않습니다

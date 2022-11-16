@@ -54,54 +54,62 @@ public class PostService {
 
     //게시글 전체 조회(구별)
     @Transactional(readOnly = true)
-    public GlobalResponseDto<PostListResponseDto> getPost(String gu,
+    public GlobalResponseDto<PostListResponseDto> getPost(String guName,
                                                             String sort,
                                                             Account account) {
         //구를 디비에서 찾아서 올바르게 들어왔는지 검사하는 로직이 필요할까?
-        gu = decoding(gu);
-        validateGu(gu);
-        List<Post> postList;
+        guName = decoding(guName);
+        validateGu(guName);
+//        List<Post> postList;
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
+
+        List<Post> postList1 = postRepository.test2(guName, sort);
 
 //        postList = postRepository.customSortByGu(gu);
 
-        if (sort.equals("new")) {
-            postList = List.copyOf(postRepository.findPostsByGuNameOrderByCreatedAtDesc(gu));
-//            postList = postRepository.customSortByGu(gu);
-        } else if (sort.equals("hot")) {
-//            postList = postRepository.customSortByGu2(gu);
-            postList = List.copyOf(postRepository.findPostsByGuNameOrderByLikeCountDescCreatedAtDesc(gu));
-        } else {
-            throw new CustomException(ErrorCode.NotFoundSort);//잘못된 요청
-        }
+//        if (sort.equals("new")) {
+//            postList = List.copyOf(postRepository.findPostsByGuNameOrderByCreatedAtDesc(guName));
+////            postList = postRepository.customSortByGu(gu);
+//        } else if (sort.equals("hot")) {
+////            postList = postRepository.customSortByGu2(gu);
+//            postList = postRepository.findPostsByGuNameOrderByLikeCountDescCreatedAtDesc(guName);
+//        } else {
+//            throw new CustomException(ErrorCode.BadRequest);//잘못된 요청
+//        }
 
-        for (Post post : postList) {
-            //좋아요 확인
-
+        for (Post post : postList1) {
             postResponseDtoList.add(
                     new PostResponseDto(post, getImgUrl(post), getTag(post), amILikedPost(post, account)));
         }
 
-        boolean isBookMarked = bookmarkRepository.existsByGu_GuNameAndAccount(gu, account);
+        boolean isBookMarked = bookmarkRepository.existsByGu_GuNameAndAccount(guName, account);
         return GlobalResponseDto.ok("조회 성공", new PostListResponseDto(isBookMarked, postResponseDtoList));
     }
 
 //    게시글 검색
     @Transactional(readOnly = true)
-    public GlobalResponseDto<List<PostResponseDto>> searchPost(String searchWord,
+    public GlobalResponseDto<List<PostResponseDto>> searchPost(Integer type,
+                                                               String searchWord,
                                                                String sort,
                                                                Account account) {
         searchWord = decoding(searchWord);
-        List<Post> postList;
+        List<Post> postList = postRepository.searchByTag(type, searchWord, sort);
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
-
-        if (sort.equals("new")) {
-            postList = postRepository.findPostsByContentContainsOrderByCreatedAtDesc(searchWord);
-        } else if (sort.equals("hot")) {
-            postList = postRepository.findPostsByContentContainsOrderByLikeCountDescCreatedAtDesc(searchWord);
-        } else {
-            throw new CustomException(ErrorCode.NotFoundSort);//잘못된 요청
-        }
+//        if (type == 0) {
+//            postRepository.test(type, searchWord, sort);
+//        }else if (type == 1) {
+//            String a = "where asdf";
+//            postRepository.test(type, searchWord, sort);
+//        }else {
+//            throw new CustomException(ErrorCode.BadRequest);
+//        }
+//        if (sort.equals("new")) {
+//            postList = postRepository.findPostsByContentContainsOrderByCreatedAtDesc(searchWord);
+//        } else if (sort.equals("hot")) {
+//            postList = postRepository.findPostsByContentContainsOrderByLikeCountDescCreatedAtDesc(searchWord);
+//        } else {
+//            throw new CustomException(ErrorCode.BadRequest);//잘못된 요청
+//        }
 
         for (Post post : postList) {
             //좋아요 확인
@@ -115,12 +123,15 @@ public class PostService {
     @Transactional
     public GlobalResponseDto<OnePostResponseDto> getOnePost(Long postId, Account account) {
 //        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
-        Post post = postRepository.searchOneById(postId);
+//        Post post = postRepository.searchOneById(postId);
+        Post post = postRepository.searchOneByIdWithNativeQuery(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
 
         post.setViews(post.getViews() + 1);
         //이미지 추출 함수로, DTO에 있는게 나을까?
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
+//        System.out.println("가져왔니!?"+post.getCommentList().size());
         for(Comment comment : post.getCommentList()){
+            System.out.println("쿼리 실행 됐니!?!?!?? 되면 안돼=========================================================");
             commentResponseDtoList.add(new CommentResponseDto(comment, amILikedComment(comment, account)));
         }
 
@@ -130,12 +141,14 @@ public class PostService {
     //핫태그 20
     @Transactional(readOnly = true)
     public GlobalResponseDto<TagResponseDto> hotTag20(String guName) {
+        guName = decoding(guName);
+        validateGu(guName);
         List<HotTag> hashTagList = hashTagRepository.findHotTagWithNativeQuery(guName);
         List<String> tagList = new ArrayList<>();
         for(HotTag tag : hashTagList){
             tagList.add(tag.getHot());
         }
-        return GlobalResponseDto.ok("태그 조회 성공", new TagResponseDto(tagList));
+        return GlobalResponseDto.ok("조회 성공", new TagResponseDto(tagList));
     }
 
     //게시글 수정

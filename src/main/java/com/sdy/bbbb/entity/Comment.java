@@ -26,11 +26,11 @@ public class Comment extends TimeStamped {
     private boolean isChecked;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private Account account;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private Post post;
 
