@@ -72,9 +72,9 @@ public class KakaoAccountService {
         // 3. "카카오 사용자 정보"로 필요시 회원가입
         Account kakaoUser = registerKakaoUserIfNeeded(kakaoUserInfo);
 
-        if(kakaoUser.getNaverId() != null){
-            message += " 기존에 가입하신 네이버 계정과 연동되었습니다!";
-        }
+//        if(kakaoUser.getNaverId() != null){
+//            message += " 기존에 가입하신 네이버 계정과 연동되었습니다!";
+//        }
 
         // 4. 강제 로그인 처리
         forceLogin(kakaoUser);
