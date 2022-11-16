@@ -54,7 +54,7 @@ spring:
     properties:
       hibernate:
         format_sql: 'true'
-        show_sql: 'true'
+#        show_sql: 'true'
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
