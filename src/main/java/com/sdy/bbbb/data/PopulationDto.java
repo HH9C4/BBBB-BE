@@ -10,4 +10,8 @@ public interface PopulationDto {
 
     Double getIncrease_Rate();
 
+    String getArea_Congest_Lvl();
+
+    Integer getRow_Num();
+
 }
