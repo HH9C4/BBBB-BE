@@ -7,21 +7,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PopulationChangesDto {
 
+    private Integer rowNum;
+
+    private String areaCongestLvl;
+
     private String areaNm;
 
     private Long plusMinus;
 
     private Double increaseRate;
 
-    private String areaCongestLvl;
-
-    private Integer rowNum;
 
     public PopulationChangesDto(PopulationDto populationDto) {
+        this.rowNum = populationDto.getRow_Num();
+        this.areaCongestLvl = populationDto.getArea_Congest_Lvl();
         this.areaNm = populationDto.getArea_Nm();
         this.plusMinus = populationDto.getPlus_Minus();
         this.increaseRate = populationDto.getIncrease_Rate();
-        this.areaCongestLvl = populationDto.getArea_Congest_Lvl();
-        this.rowNum = populationDto.getRow_Num();
     }
 }
