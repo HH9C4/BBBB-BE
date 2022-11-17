@@ -6,7 +6,7 @@ public interface PopulationDto {
 
     String getArea_Nm();
 
-    Integer getPlus_Minus();
+    Long getPlus_Minus();
 
     Double getIncrease_Rate();
 
