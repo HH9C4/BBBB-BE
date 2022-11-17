@@ -65,6 +65,7 @@ public class PostController {
     }
 
     //핫태그 검색
+    @ApiOperation(value = "핫 태그 20", notes = "설명")
     @GetMapping("/hottag")
     public GlobalResponseDto<TagResponseDto> hotTag(@RequestParam("gu") String guName){
         return postService.hotTag20(guName);
