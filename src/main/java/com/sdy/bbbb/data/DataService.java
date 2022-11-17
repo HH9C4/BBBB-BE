@@ -23,6 +23,13 @@ public class DataService {
     private final TestRepo testRepo;
     private final SpotRepository spotRepository;
 
+    public GlobalResponseDto<List<PopulationChangesDto>> getPopulationChanges() {
+        List<PopulationChangesDto> dtoList = new ArrayList<>();
+        for (PopulationDto pop : testRepo.getPopulationFromDb()) {
+            dtoList.add(new PopulationChangesDto(pop));
+        }
+        return GlobalResponseDto.ok("조회 성공", dtoList);
+    }
 
     @Transactional
     @Scheduled(cron = "0 2/5 * * * *")

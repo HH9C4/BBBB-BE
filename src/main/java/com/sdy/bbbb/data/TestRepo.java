@@ -1,6 +1,9 @@
 package com.sdy.bbbb.data;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 public interface TestRepo extends JpaRepository<SpotData, Long> {
 
