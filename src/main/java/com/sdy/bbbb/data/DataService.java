@@ -1,6 +1,5 @@
 package com.sdy.bbbb.data;
 
-import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.entity.Spot;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
@@ -13,7 +12,6 @@ import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,17 +20,6 @@ public class DataService {
 
     private final TestRepo testRepo;
     private final SpotRepository spotRepository;
-
-    @Transactional
-    public GlobalResponseDto<List<PopulationChangesDto>> getPopulationChanges(){
-        List<PopulationDto> popList = testRepo.getPopulation();
-        List<PopulationChangesDto> dtoList = new ArrayList<>();
-        for(PopulationDto pop : popList){
-            dtoList.add(new PopulationChangesDto(pop));
-        }
-        return GlobalResponseDto.ok("조회성공", dtoList);
-
-    }
 
 
     @Transactional
