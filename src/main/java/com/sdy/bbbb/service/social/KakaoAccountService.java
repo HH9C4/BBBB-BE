@@ -1,10 +1,10 @@
-package com.sdy.bbbb.service;
+package com.sdy.bbbb.service.social;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sdy.bbbb.config.UserDetailsImpl;
-import com.sdy.bbbb.dto.request.KakaoUserInfoDto;
+import com.sdy.bbbb.dto.request.loginRequestDto.KakaoUserInfoDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.dto.response.LoginResponseDto;
 import com.sdy.bbbb.entity.Account;
@@ -18,6 +18,7 @@ import com.sdy.bbbb.repository.AccountRepository;
 import com.sdy.bbbb.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -28,6 +29,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -38,7 +40,10 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
-public class AccountService {
+public class KakaoAccountService {
+
+    @Value("${kakao.rest.api.key}")
+    private String kakaoApiKey;
 
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
@@ -47,14 +52,17 @@ public class AccountService {
 
 
     @Autowired
-    public AccountService(RefreshTokenRepository refreshTokenRepository, JwtUtil jwtUtil, AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
+    public KakaoAccountService(RefreshTokenRepository refreshTokenRepository, JwtUtil jwtUtil, AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
         this.refreshTokenRepository = refreshTokenRepository;
         this.jwtUtil = jwtUtil;
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public GlobalResponseDto<?> kakaoLogin(String code, HttpServletResponse response) throws JsonProcessingException {
+    @Transactional
+    public GlobalResponseDto<LoginResponseDto> kakaoLogin(String code, HttpServletResponse response) throws JsonProcessingException {
+        String message = "님 환영합니다.";
+
         // 1. "인가 코드"로 "액세스 토큰" 요청
         String accessToken = getAccessToken(code);
 
@@ -63,6 +71,10 @@ public class AccountService {
 
         // 3. "카카오 사용자 정보"로 필요시 회원가입
         Account kakaoUser = registerKakaoUserIfNeeded(kakaoUserInfo);
+
+        if(kakaoUser.getNaverId() != null){
+            message += " 기존에 가입하신 네이버 계정과 연동되었습니다!";
+        }
 
         // 4. 강제 로그인 처리
         forceLogin(kakaoUser);
@@ -85,7 +97,7 @@ public class AccountService {
         //토큰을 header에 넣어서 클라이언트에게 전달하기
         setHeader(response, tokenDto);
 
-        return GlobalResponseDto.ok(kakaoUserInfo.getNickname() + "님 환영합니다.", new LoginResponseDto(kakaoUser));
+        return GlobalResponseDto.ok(kakaoUserInfo.getNickname() + message, new LoginResponseDto(kakaoUser));
     }
 
     private void setHeader(HttpServletResponse response, TokenDto tokenDto) {
@@ -101,7 +113,7 @@ public class AccountService {
         // HTTP Body 생성
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
-        body.add("client_id", "a8c29f43cc985001f5fcd08bcbd9bbac");
+        body.add("client_id", kakaoApiKey); //Rest API 키
         body.add("redirect_uri", "http://localhost:3000/user/kakao/callback");
         body.add("code", code);
 
@@ -156,6 +168,7 @@ public class AccountService {
         return new KakaoUserInfoDto(id, nickname, email, profileImage, gender, ageRange);
     }
 
+    @Transactional
     private Account registerKakaoUserIfNeeded(KakaoUserInfoDto kakaoUserInfo) {
         // DB 에 중복된 Kakao Id 가 있는지 확인
         Long kakaoId = kakaoUserInfo.getId();

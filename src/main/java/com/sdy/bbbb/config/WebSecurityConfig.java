@@ -82,11 +82,9 @@ public class WebSecurityConfig {
                 .authenticationEntryPoint(authenticationEntryPointException);
 
         http.authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/user/**").permitAll()
                 .antMatchers(PERMIT_URL_ARRAY).permitAll() //swagger 열어주기
-                .antMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/posts/**").permitAll()
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
 //                .anyRequest().authenticated() //permitAll을 제외한 API는 모두 인증 필요
 
 

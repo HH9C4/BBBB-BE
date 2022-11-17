@@ -1,5 +1,6 @@
 package com.sdy.bbbb.exception;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -61,6 +62,7 @@ public class CustomExceptionHandler {
     private static class ErrorResponse {
         private final int httpStatus;
         private final String errorCode;
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         private final String field;
         private final String message;
 

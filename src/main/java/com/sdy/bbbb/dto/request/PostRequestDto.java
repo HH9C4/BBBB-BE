@@ -16,9 +16,9 @@ public class PostRequestDto {
     @NotBlank(message = "gu 는 공백이거나 null 일 수 없습니다.")
     private String gu;
 
-    private String tag;
+    private List<String> tagList;
 
-    @NotBlank(message = "category 는 공백이거나 null 일 수 없습니다.")
-    private String category;
+//    @NotBlank(message = "category 는 공백이거나 null 일 수 없습니다.")
+//    private String category;
 
 }
