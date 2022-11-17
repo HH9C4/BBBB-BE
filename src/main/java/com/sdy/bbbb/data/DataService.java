@@ -24,8 +24,9 @@ public class DataService {
     private final SpotRepository spotRepository;
 
     public GlobalResponseDto<List<PopulationChangesDto>> getPopulationChanges() {
+        List<PopulationDto> popList = testRepo.getPopulationFromDb();
         List<PopulationChangesDto> dtoList = new ArrayList<>();
-        for (PopulationDto pop : testRepo.getPopulationFromDb()) {
+        for (PopulationDto pop : popList) {
             dtoList.add(new PopulationChangesDto(pop));
         }
         return GlobalResponseDto.ok("조회 성공", dtoList);

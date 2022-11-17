@@ -11,8 +11,8 @@ public class PopulationChangesDto {
     private Double increaseRate;
 
     public PopulationChangesDto(PopulationDto populationDto) {
-        this.areaNm = populationDto.getAreaNm();
-        this.plusMinus = populationDto.getPlusMinus();
-        this.increaseRate = populationDto.getIncreaseRate();
+        this.areaNm = populationDto.getArea_Nm();
+        this.plusMinus = populationDto.getPlus_Minus();
+        this.increaseRate = populationDto.getIncrease_Rate();
     }
 }
