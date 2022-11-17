@@ -9,9 +9,9 @@ public class PopulationChangesDto {
 
     private Integer rowNum;
 
-    private String areaCongestLvl;
-
     private String areaNm;
+
+    private String areaCongestLvl;
 
     private Long plusMinus;
 
@@ -20,8 +20,8 @@ public class PopulationChangesDto {
 
     public PopulationChangesDto(PopulationDto populationDto) {
         this.rowNum = populationDto.getRow_Num();
-        this.areaCongestLvl = populationDto.getArea_Congest_Lvl();
         this.areaNm = populationDto.getArea_Nm();
+        this.areaCongestLvl = populationDto.getArea_Congest_Lvl();
         this.plusMinus = populationDto.getPlus_Minus();
         this.increaseRate = populationDto.getIncrease_Rate();
     }
