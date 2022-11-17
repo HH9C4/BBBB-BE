@@ -9,9 +9,9 @@ public class PopulationChangesDto {
 
     private Integer rowNum;
 
-    private String areaCongestLvl;
-
     private String areaNm;
+
+    private String areaCongestLvl;
 
     private Long plusMinus;
 
