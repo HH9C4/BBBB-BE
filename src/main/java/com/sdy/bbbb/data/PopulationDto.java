@@ -4,10 +4,10 @@ package com.sdy.bbbb.data;
 
 public interface PopulationDto {
 
-    String getAreaNm();
+    String getArea_Nm();
 
-    Integer getPlusMinus();
+    Integer getPlus_Minus();
 
-    Double getIncreaseRate();
+    Double getIncrease_Rate();
 
 }
