@@ -54,6 +54,7 @@ spring:
     properties:
       hibernate:
         default_batch_fetch_size: 1000
+
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER

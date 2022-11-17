@@ -16,7 +16,7 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
     @Query(value = "select * from post p where p.content like %?2% order by p.created_at", nativeQuery = true)
     List<Post> test(Integer type, String searchWord, String sort);
 
-    @Query(value = "SELECT p FROM Post p join fetch p.commentList WHERE p.id = ?1")
+    @Query(value = "SELECT p FROM Post p left join fetch p.commentList WHERE p.id = ?1")
     Optional<Post> searchOneByIdWithNativeQuery(Long postId);
 
 //    @Query("select p from Post p join fetch p.imageList")
