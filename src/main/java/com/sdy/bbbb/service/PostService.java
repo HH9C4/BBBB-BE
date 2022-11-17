@@ -57,6 +57,7 @@ public class PostService {
     public GlobalResponseDto<PostListResponseDto> getPost(String guName,
                                                             String sort,
                                                             Account account) {
+        validateSort(sort);
         //구를 디비에서 찾아서 올바르게 들어왔는지 검사하는 로직이 필요할까?
         guName = decoding(guName);
         validateGu(guName);
@@ -92,7 +93,10 @@ public class PostService {
                                                                String searchWord,
                                                                String sort,
                                                                Account account) {
+        validateSort(sort);
+        validateType(type);
         searchWord = decoding(searchWord);
+        validateSearchWord(searchWord);
         List<Post> postList = postRepository.searchByTag(type, searchWord, sort);
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 //        if (type == 0) {
@@ -280,4 +284,20 @@ public class PostService {
         throw new CustomException(ErrorCode.NotFoundGu);
     }
 
+    private void validateSort(String sort) {
+        if(!(sort.equals("new") || sort.equals("hot"))){
+            throw new CustomException(ErrorCode.BadRequest);
+        }
+    }
+    private void validateType(Integer type) {
+        if(type != 0 && type != 1) {
+            throw new CustomException(ErrorCode.BadRequest);
+        }
+    }
+
+    private void validateSearchWord(String searchWord){
+        if(searchWord.length() < 2) {
+            throw new CustomException(ErrorCode.BadRequest);
+        }
+    }
 }
