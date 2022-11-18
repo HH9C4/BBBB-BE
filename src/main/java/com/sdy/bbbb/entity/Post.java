@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +56,7 @@ public class Post extends TimeStamped {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<HashTag> tagList = new ArrayList<>();
 
+
     public Post(PostRequestDto postRequestDto, Account account) {
         this.content = postRequestDto.getContent();
         this.account = account;
@@ -64,6 +66,7 @@ public class Post extends TimeStamped {
 
     public void update(PostRequestDto postRequestDto) {
         this.content = postRequestDto.getContent();
+        this.modifiedAt = LocalDateTime.now();
 //        this.category = postRequestDto.getCategory();
     }
 

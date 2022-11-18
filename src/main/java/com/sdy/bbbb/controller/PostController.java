@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -35,9 +37,9 @@ public class PostController {
     }
 
     //게시글 조회
-    @ApiOperation(value = "게시글 조회 ", notes = "설명")
+    @ApiOperation(value = "게시글 조회 ", notes = "get post with \"gu\" ,\"sort\"")
     @GetMapping
-    public GlobalResponseDto<PostListResponseDto> getPost(@RequestParam("gu") String gu,
+    public GlobalResponseDto<PostListResponseDto> getPost(@RequestParam("gu") @Valid String gu,
                                                           @RequestParam("sort") String sort,
                                                           @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
@@ -65,6 +67,7 @@ public class PostController {
     }
 
     //핫태그 검색
+    @ApiOperation(value = "핫 태그 조회", notes = "설명")
     @GetMapping("/hottag")
     public GlobalResponseDto<TagResponseDto> hotTag(@RequestParam("gu") String guName){
         return postService.hotTag20(guName);

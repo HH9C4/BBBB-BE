@@ -8,6 +8,7 @@ import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.repository.*;
 import com.sdy.bbbb.s3.S3Uploader2;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -128,14 +130,14 @@ public class PostService {
     public GlobalResponseDto<OnePostResponseDto> getOnePost(Long postId, Account account) {
 //        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
 //        Post post = postRepository.searchOneById(postId);
-        Post post = postRepository.searchOneByIdWithNativeQuery(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
+        Post post = postRepository.searchOneByIdWithCommentList(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
 
         post.setViews(post.getViews() + 1);
         //이미지 추출 함수로, DTO에 있는게 나을까?
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 //        System.out.println("가져왔니!?"+post.getCommentList().size());
         for(Comment comment : post.getCommentList()){
-            System.out.println("쿼리 실행 됐니!?!?!?? 되면 안돼=========================================================");
+
             commentResponseDtoList.add(new CommentResponseDto(comment, amILikedComment(comment, account)));
         }
 
@@ -286,6 +288,7 @@ public class PostService {
 
     private void validateSort(String sort) {
         if(!(sort.equals("new") || sort.equals("hot"))){
+
             throw new CustomException(ErrorCode.BadRequest);
         }
     }

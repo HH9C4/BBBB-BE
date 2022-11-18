@@ -1,7 +1,6 @@
 package com.sdy.bbbb.querydsl;
 
 import com.sdy.bbbb.entity.Post;
-import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import java.util.List;
 
