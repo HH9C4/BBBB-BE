@@ -128,7 +128,7 @@ public class PostService {
     public GlobalResponseDto<OnePostResponseDto> getOnePost(Long postId, Account account) {
 //        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
 //        Post post = postRepository.searchOneById(postId);
-        Post post = postRepository.searchOneByIdWithNativeQuery(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
+        Post post = postRepository.searchOneByIdWithCommentList(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
 
         post.setViews(post.getViews() + 1);
         //이미지 추출 함수로, DTO에 있는게 나을까?
