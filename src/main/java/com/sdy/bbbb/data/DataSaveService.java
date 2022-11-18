@@ -22,6 +22,7 @@ public class DataSaveService {
     private final SpotRepository spotRepository;
 
 
+
     @Transactional
     @Scheduled(cron = "0 2/5 * * * *")
     public void call() throws Exception {
