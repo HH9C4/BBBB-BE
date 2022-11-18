@@ -53,6 +53,7 @@ jobs:
           kakao.rest.api.key: ${{ secrets.KAKAO_REST_API_KEY }}
           spring.security.oauth2.client.registration.naver.client-id: ${{ secrets.NAVER_CLIENT_ID }}
           spring.security.oauth2.client.registration.naver.client-secret: ${{ secrets.NAVER_CLIENT_SECRET }}
+          sentry.dsn: ${{ secrets.SENTRY_DNS }}
 
 
         # (3) Gradle build (Test 제외)
