@@ -6,7 +6,7 @@
 
 
 
-## 📝 Technologies & Tools (BE)
+## 📝 Technologies & Tools (BE) 📝
 
 <br>
  
