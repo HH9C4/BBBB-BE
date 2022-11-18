@@ -14,6 +14,8 @@ public class PostResponseDto extends TagResponseDto{
 
     private String accountName;
 
+    private String profileImage;
+
     private List<String> imageUrl;
 
     private String content;
@@ -38,6 +40,7 @@ public class PostResponseDto extends TagResponseDto{
     public PostResponseDto(Post post, List<String> imageUrl, boolean isLiked) {
         this.postId = post.getId();
         this.accountName = post.getAccount().getAccountName();
+        this.profileImage = post.getAccount().getProfileImage();
         this.imageUrl = imageUrl;
         this.content = post.getContent();
         this.gu = post.getGuName();
@@ -55,6 +58,7 @@ public class PostResponseDto extends TagResponseDto{
         super(tagList);
         this.postId = post.getId();
         this.accountName = post.getAccount().getAccountName();
+        this.profileImage = post.getAccount().getProfileImage();
         this.imageUrl = imageUrl;
         this.content = post.getContent();
         this.gu = post.getGuName();
