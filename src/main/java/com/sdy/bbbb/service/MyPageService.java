@@ -23,7 +23,6 @@ public class MyPageService {
     private final LikeRepository likeRepository;
     private final CommentRepository commentRepository;
     private final BookmarkRepository bookmarkRepository;
-    private final ImageRepository imageRepository;
     private final S3Uploader2 s3Uploader2;
     private final AccountRepository accountRepository;
 
