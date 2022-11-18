@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class CommentResponseDto {
     private Long commentId;
     private String accountName;
+    private String profileImage;
     private String comment;
     private String createdAt;
     private Integer likeCount;
@@ -22,6 +23,7 @@ public class CommentResponseDto {
     public CommentResponseDto(Comment comment) {
         this.commentId = comment.getId();
         this.accountName = comment.getAccount().getAccountName();
+        this.profileImage = comment.getAccount().getProfileImage();
         this.comment = comment.getComment();
         this.createdAt = Chrono.timesAgo(comment.getCreatedAt());
         this.likeCount = comment.getLikeCount();
@@ -31,6 +33,7 @@ public class CommentResponseDto {
     public CommentResponseDto(Comment comment, boolean isLiked) {
         this.commentId = comment.getId();
         this.accountName = comment.getAccount().getAccountName();
+        this.profileImage = comment.getAccount().getProfileImage();
         this.comment = comment.getComment();
         this.createdAt = Chrono.timesAgo(comment.getCreatedAt());
         this.likeCount = comment.getLikeCount();
