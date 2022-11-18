@@ -69,6 +69,7 @@ public class PostService {
         List<Post> postList1 = postRepository.test2(guName, sort);
 
 //        postList = postRepository.customSortByGu(gu);
+//        List<Post> postList;
 
 //        if (sort.equals("new")) {
 //            postList = List.copyOf(postRepository.findPostsByGuNameOrderByCreatedAtDesc(guName));
