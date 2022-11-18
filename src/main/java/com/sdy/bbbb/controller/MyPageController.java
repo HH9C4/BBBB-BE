@@ -62,8 +62,8 @@ public class MyPageController {
     // 닉네임, 프로필 사진 수정
     @ApiOperation(value = "닉네임, 프로필 사진 수정", notes = "유저 정보 중 닉네임과 프로필 사진만 수정이 가능합니다.")
     @PutMapping("/myInfo")
-    public GlobalResponseDto<?> updateMyInfo(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails,
-                                             @RequestPart(name = "nickname", required = false) @Valid UpdateRequestDto updateRequestDto,
+    public GlobalResponseDto<LoginResponseDto> updateMyInfo(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails,
+                                             @RequestPart(name = "nickname", required = false) UpdateRequestDto updateRequestDto,
                                              @RequestPart(name = "image", required = false) MultipartFile multipartFile) {
         return myPageService.updateMyInfo(userDetails.getAccount(), updateRequestDto, multipartFile);
     }

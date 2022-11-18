@@ -6,6 +6,7 @@ import com.sdy.bbbb.entity.*;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.repository.*;
+import com.sdy.bbbb.s3.S3Uploader2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,8 @@ public class MyPageService {
     private final LikeRepository likeRepository;
     private final CommentRepository commentRepository;
     private final BookmarkRepository bookmarkRepository;
+    private final ImageRepository imageRepository;
+    private final S3Uploader2 s3Uploader2;
     private final AccountRepository accountRepository;
 
 
@@ -97,8 +100,15 @@ public class MyPageService {
     }
 
     // 마이페이지 수정 (프로필 이미지 사진 수정, 닉네임 수정)
-    public GlobalResponseDto<?> updateMyInfo(Account account, UpdateRequestDto updateRequestDto, MultipartFile multipartFile) {
-
+    @Transactional
+    public GlobalResponseDto<LoginResponseDto> updateMyInfo(Account account, UpdateRequestDto updateRequestDto, MultipartFile multipartFile) {
+        if (multipartFile != null){
+            account.setProfileImage(s3Uploader2.upload(multipartFile, "dir1"));
+        }
+        if(updateRequestDto != null){
+            account.setAccountName(updateRequestDto.getNickname());
+        }
+        return GlobalResponseDto.ok("수정완료", new LoginResponseDto(account));
     }
 
     // 이미지 조회 함수
@@ -123,6 +133,7 @@ public class MyPageService {
         }
         return tagList;
     }
+
 
 
 }
