@@ -2,14 +2,17 @@ package com.sdy.bbbb.controller;
 
 
 import com.sdy.bbbb.config.UserDetailsImpl;
+import com.sdy.bbbb.dto.request.UpdateRequestDto;
 import com.sdy.bbbb.dto.response.*;
 import com.sdy.bbbb.service.MyPageService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -51,8 +54,17 @@ public class MyPageController {
 
     // 내가 누른 북마크
     @ApiOperation(value = "내가 누른 북마크", notes = "설명")
-    @GetMapping("mybookmarks")
+    @GetMapping("/mybookmarks")
     public GlobalResponseDto<List<BookmarkResponseDto>> getMyBookmarks(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return myPageService.getMyBookmarks(userDetails.getAccount());
+    }
+
+    // 닉네임, 프로필 사진 수정
+    @ApiOperation(value = "닉네임, 프로필 사진 수정", notes = "유저 정보 중 닉네임과 프로필 사진만 수정이 가능합니다.")
+    @PutMapping("/myInfo")
+    public GlobalResponseDto<LoginResponseDto> updateMyInfo(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails,
+                                             @RequestPart(name = "nickname", required = false) UpdateRequestDto updateRequestDto,
+                                             @RequestPart(name = "image", required = false) MultipartFile multipartFile) {
+        return myPageService.updateMyInfo(userDetails.getAccount(), updateRequestDto, multipartFile);
     }
 }
