@@ -68,3 +68,7 @@ kakao:
   rest:
     api:
       key: ''
+
+# sentry
+sentry:
+  dsn: ''
