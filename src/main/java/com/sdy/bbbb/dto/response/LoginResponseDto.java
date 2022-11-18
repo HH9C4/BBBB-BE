@@ -21,11 +21,11 @@ public class LoginResponseDto {
     private String profileImage;
 
 
-    public LoginResponseDto(Account kakaoUser) {
-        this.accountName = kakaoUser.getAccountName();
-        this.ageRange = kakaoUser.getAgeRange();
-        this.email = kakaoUser.getEmail();
-        this.gender = kakaoUser.getGender();
-        this.profileImage = kakaoUser.getProfileImage();
+    public LoginResponseDto(Account account) {
+        this.accountName = account.getAccountName();
+        this.ageRange = account.getAgeRange();
+        this.email = account.getEmail();
+        this.gender = account.getGender();
+        this.profileImage = account.getProfileImage();
     }
 }

@@ -24,7 +24,7 @@ public class MyPageService {
     private final CommentRepository commentRepository;
     private final BookmarkRepository bookmarkRepository;
     private final S3Uploader2 s3Uploader2;
-    private final AccountRepository accountRepository;
+
 
 
     // 내 게시글에 달린 댓글 알람 기능

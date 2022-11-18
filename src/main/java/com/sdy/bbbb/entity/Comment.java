@@ -25,7 +25,6 @@ public class Comment extends TimeStamped {
     @Column
     private boolean isChecked;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private Account account;
