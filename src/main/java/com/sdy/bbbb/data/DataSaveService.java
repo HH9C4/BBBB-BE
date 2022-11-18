@@ -12,6 +12,7 @@ import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,6 +31,7 @@ public class DataSaveService {
 
         List<Spot> spots = spotRepository.findAll();
 
+        List<SpotData> spotDataList = new ArrayList<>();
         for (int i = 0; i < 49; i++) {
             // 1. URL을 만들기 위한 StringBuilder.
             StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088/4644556a44616e6639346c4c4a4175/xml/citydata"); /*URL*/
@@ -90,8 +92,11 @@ public class DataSaveService {
                     .guAdded(getElementText(documentInfo, "GU_ADDED"))
                     .build();
 
-            testRepo.save(spotData);
+            spotDataList.add(spotData);
+
         }
+        Iterable<SpotData> dataList = spotDataList;
+        testRepo.saveAll(dataList);
 
 //        System.out.println(documentInfo.getElementsByTagName("PPLTN_RATE_10").item(0).getTextContent());
 //        System.out.println(documentInfo.getElementsByTagName("AREA_CONGEST_MSG").item(0).getTextContent());
