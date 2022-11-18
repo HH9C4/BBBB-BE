@@ -8,6 +8,7 @@ import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.repository.*;
 import com.sdy.bbbb.s3.S3Uploader2;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -286,6 +288,7 @@ public class PostService {
 
     private void validateSort(String sort) {
         if(!(sort.equals("new") || sort.equals("hot"))){
+
             throw new CustomException(ErrorCode.BadRequest);
         }
     }

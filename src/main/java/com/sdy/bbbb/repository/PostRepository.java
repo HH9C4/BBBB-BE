@@ -17,7 +17,7 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
     @Query(value = "SELECT p FROM Post p left join fetch p.commentList WHERE p.id = ?1")
     Optional<Post> searchOneByIdWithCommentList(Long postId);
 
-//    @Query("select p from Post p join fetch p.imageList")
+//    @Query("select p from Post p join fetch p.imageList") set사용할거면 linked hash set, 그게아니면 distinct
     Set<Post> findPostsByGuNameOrderByCreatedAtDesc(String gu);
 
     List<Post> findPostsByGuNameOrderByLikeCountDescCreatedAtDesc(String gu);
