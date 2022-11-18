@@ -6,10 +6,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class BbbbApplicationTests {
 
-    @Test
-    void contextLoads() {
-        System.out.println("안녕!");
-    }
+//    @Test
+//    void contextLoads() {
+//        System.out.println("안녕!");
+//    }
 
 }
 
