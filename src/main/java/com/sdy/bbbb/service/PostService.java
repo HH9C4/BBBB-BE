@@ -137,7 +137,7 @@ public class PostService {
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 //        System.out.println("가져왔니!?"+post.getCommentList().size());
         for(Comment comment : post.getCommentList()){
-            System.out.println("쿼리 실행 됐니!?!?!?? 되면 안돼=========================================================");
+
             commentResponseDtoList.add(new CommentResponseDto(comment, amILikedComment(comment, account)));
         }
 
