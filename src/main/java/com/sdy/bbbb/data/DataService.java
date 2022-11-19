@@ -99,8 +99,9 @@ public class DataService {
                     .guAdded(getElementText(documentInfo, "GU_ADDED"))
                     .build();
 
-            testRepo.save(spotData);
+            testRepo.save(spotData);//save all
         }
+
 
 //        System.out.println(documentInfo.getElementsByTagName("PPLTN_RATE_10").item(0).getTextContent());
 //        System.out.println(documentInfo.getElementsByTagName("AREA_CONGEST_MSG").item(0).getTextContent());

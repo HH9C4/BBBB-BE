@@ -55,6 +55,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .from(post)
                 .leftJoin(post.tagList).fetchJoin()
                 .where(post.guName.eq(gu))
+                .leftJoin(post.tagList).fetchJoin()
 //                .leftJoin(post.likeList)
                 .orderBy(eqSort(sort), post.createdAt.desc())
 //                .orderBy(post.createdAt.desc())
