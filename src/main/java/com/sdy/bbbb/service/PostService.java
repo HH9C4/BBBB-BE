@@ -25,11 +25,13 @@ public class PostService {
     private final LikeRepository likeRepository;
     private final BookmarkRepository bookmarkRepository;
     private final HashTagRepository hashTagRepository;
+
+    private final GuRepository guRepository;
     private final S3Uploader2 s3Uploader2;
 
-    private final String[] guList = {"강남구", "강동구", "강북구", "강서구", "관악구", "광진구",
-            "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구",
-            "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"};
+//    private final String[] guList = {"강남구", "강동구", "강북구", "강서구", "관악구", "광진구",
+//            "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구",
+//            "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"};
 
     @Transactional
     //게시글 생성
@@ -275,9 +277,9 @@ public class PostService {
     }
 
     private void validateGu(String guName) {
-        //컬렉션으로 contains 하는게 나은가??
-        for(String gu : guList){
-            if(gu.equals(guName)){
+        List<Gu> guList = guRepository.findAll();
+        for(Gu gu : guList){
+            if(gu.getGuName().equals(guName)){
                 return;
             }
         }
