@@ -3,6 +3,7 @@ package com.sdy.bbbb.querydsl;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.sdy.bbbb.entity.HashTag;
 import com.sdy.bbbb.entity.Post;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
@@ -43,7 +44,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .from(post)
 //                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id)).fetchJoin()
                 .join(post.account).fetchJoin()
-                .leftJoin(post.tagList).fetchJoin()
+//                .leftJoin(post.tagList).fetchJoin()
                 .where(post.guName.eq(gu))
 //                .leftJoin(post.likeList)
                 .orderBy(eqSort(sort), post.createdAt.desc())
@@ -59,6 +60,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .leftJoin(post.tagList).fetchJoin()
                 .where(tagOrNot(type, searchWord))
                 .orderBy(eqSort(sort), post.createdAt.desc())
+                .orderBy(hashTag.id.asc())
                 .fetch();
     }
 
