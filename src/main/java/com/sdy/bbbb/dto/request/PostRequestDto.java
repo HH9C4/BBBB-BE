@@ -19,6 +19,6 @@ public class PostRequestDto {
     private List<String> tagList;
 
 //    @NotBlank(message = "category 는 공백이거나 null 일 수 없습니다.")
-//    private String category;
+    private String category;
 
 }
