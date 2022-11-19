@@ -145,7 +145,7 @@ public class PostService {
 
         for(Comment comment : post.getCommentList()){
 
-            commentResponseDtoList.add(new CommentResponseDto(comment, amILikedComment(comment, account)));
+            commentResponseDtoList.add(new CommentResponseDto(comment, amILikedComment(comment, likeList)));
         }
 
         return GlobalResponseDto.ok("조회 성공", new OnePostResponseDto(post, getImgUrl(post), getTag(post), amILikedPost(post, likeList), commentResponseDtoList));
@@ -276,8 +276,15 @@ public class PostService {
         return false;
     }
 
-    private boolean amILikedComment(Comment comment, Account account) {
-        return likeRepository.existsByCommentAndAccount(comment, account);
+    private boolean amILikedComment(Comment comment, List<Like> likeList) {
+        for (Like like : likeList){
+            System.out.println("포문돈다222222");
+            if (like.getComment() != null && like.getComment().getId().equals(comment.getId())){
+                return true;
+            }
+        }
+        System.out.println("다돌았다2222222");
+        return false;
     }
 
     //utf-8 디코딩
