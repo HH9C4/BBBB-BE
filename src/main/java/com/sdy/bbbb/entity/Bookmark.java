@@ -18,9 +18,8 @@ public class Bookmark {
     @Column
     private boolean bookmarked;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
-    @JsonIgnore
     private Account account;
 
     @ManyToOne
