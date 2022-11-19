@@ -68,3 +68,9 @@ kakao:
   rest:
     api:
       key: ''
+
+# 서울 공공 api url
+seoul:
+  open:
+    api:
+      url: ''
