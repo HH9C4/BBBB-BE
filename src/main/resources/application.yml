@@ -17,7 +17,7 @@ logging:
         coyote:
           http11: ERROR
     com:
-      example: ERROR
+      example: debug
 
 spring:
   # 네이버 관련
@@ -74,3 +74,8 @@ seoul:
   open:
     api:
       url: ''
+
+# sentry
+sentry:
+  dsn: ''
+

@@ -54,7 +54,6 @@ public class DataService {
             // 3. URL 객체 생성.
 //            String url2 = urlBuilder.toString();
 
-            // 4. 요청하고자 하는 URL과 통신하기 위한 Connection 객체 생성.
             Document documentInfo;
             documentInfo = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(url.toString());
 //            String ppltn_rate_10 = documentInfo.getElementsByTagName("PPLTN_RATE_10").item(0).getTextContent();
