@@ -5,6 +5,7 @@ import com.sdy.bbbb.entity.Spot;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DataService {
 
+    @Value("${seoul.open.api.url}")
+    private StringBuilder url;
     private final TestRepo testRepo;
     private final SpotRepository spotRepository;
 
@@ -38,24 +41,24 @@ public class DataService {
 
 
         List<Spot> spots = spotRepository.findAll();
-
-        for (int i = 0; i < 49; i++) {
+        List<SpotData> spotDataList = new ArrayList<>();
+        for (int i = 0; i < spots.size(); i++) {
             // 1. URL을 만들기 위한 StringBuilder.
-            StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088/4644556a44616e6639346c4c4a4175/xml/citydata"); /*URL*/
-
+//            StringBuilder urlBuilder = new StringBuilder(""); /*URL*/
+//            String s = "";
             // 2. 오픈 API의요청 규격에 맞는 파라미터 생성, 발급받은 인증키.
-            urlBuilder.append("/" + "1");
-            urlBuilder.append("/" + "5");
-            urlBuilder.append("/" + encoding(spots.get(i).getSpot()));
+//            urlBuilder.append("/" + "1");
+//            urlBuilder.append("/" + "5");
+            url.append("/" + encoding(spots.get(i).getSpot()));
 
             // 3. URL 객체 생성.
-            String url2 = urlBuilder.toString();
+//            String url2 = urlBuilder.toString();
 
             // 4. 요청하고자 하는 URL과 통신하기 위한 Connection 객체 생성.
             Document documentInfo;
-            documentInfo = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(url2);
-            String ppltn_rate_10 = documentInfo.getElementsByTagName("PPLTN_RATE_10").item(0).getTextContent();
-            String area_congest_msg = documentInfo.getElementsByTagName("AREA_CONGEST_MSG").item(0).getTextContent();
+            documentInfo = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(url.toString());
+//            String ppltn_rate_10 = documentInfo.getElementsByTagName("PPLTN_RATE_10").item(0).getTextContent();
+//            String area_congest_msg = documentInfo.getElementsByTagName("AREA_CONGEST_MSG").item(0).getTextContent();
 
 
 //            SpotData spotData = new SpotData(documentInfo.getElementsByTagName("PPLTN_RATE_10").item(0).getTextContent(),
@@ -63,45 +66,47 @@ public class DataService {
 //            testRepo.save(spotData);
 
             SpotData spotData = SpotData.builder()
-                    .areaNm(getElementText(documentInfo, "AREA_NM"))
-                    .areaCongestLvl(getElementText(documentInfo, "AREA_CONGEST_LVL"))
-                    .areaCongestMsg(getElementText(documentInfo, "AREA_CONGEST_MSG"))
-                    .areaPpltnMin(getElementText(documentInfo, "AREA_PPLTN_MIN"))
-                    .areaPpltnMax(getElementText(documentInfo, "AREA_PPLTN_MAX"))
-                    .malePpltnRate(getElementText(documentInfo, "MALE_PPLTN_RATE"))
-                    .femalePpltnRate(getElementText(documentInfo, "FEMALE_PPLTN_RATE"))
-                    .ppltnRate10(getElementText(documentInfo, "PPLTN_RATE_10"))
-                    .ppltnRate20(getElementText(documentInfo, "PPLTN_RATE_20"))
-                    .ppltnRate30(getElementText(documentInfo, "PPLTN_RATE_30"))
-                    .ppltnRate40(getElementText(documentInfo, "PPLTN_RATE_40"))
-                    .ppltnRate50(getElementText(documentInfo, "PPLTN_RATE_50"))
-                    .ppltnTime(getElementText(documentInfo, "PPLTN_TIME"))
-                    .temp(getElementText(documentInfo, "TEMP"))
-                    .sensibleTemp(getElementText(documentInfo, "SENSIBLE_TEMP"))
-                    .maxTemp(getElementText(documentInfo, "MAX_TEMP"))
-                    .minTemp(getElementText(documentInfo, "MIN_TEMP"))
-                    .humidity(getElementText(documentInfo, "HUMIDITY"))
-                    .precipitation(getElementText(documentInfo, "PRECIPITATION"))
-                    .precptType(getElementText(documentInfo, "PRECPT_TYPE"))
-                    .pcpMsg(getElementText(documentInfo, "PCP_MSG"))
-                    .uvIndex(getElementText(documentInfo, "UV_INDEX"))
-                    .uvMsg(getElementText(documentInfo, "UV_MSG"))
-                    .pm25Index(getElementText(documentInfo, "PM25_INDEX"))
-                    .pm25(getElementText(documentInfo, "PM25"))
-                    .pm10Index(getElementText(documentInfo, "PM10_INDEX"))
-                    .pm10(getElementText(documentInfo, "PM10"))
-                    .airIdx(getElementText(documentInfo, "AIR_IDX"))
-                    .airMsg(getElementText(documentInfo, "AIR_MSG"))
-                    .weatherTime(getElementText(documentInfo, "WEATHER_TIME"))
-                    .strdDt(getElementText(documentInfo, "STRD_DT"))
-                    .guNm(getElementText(documentInfo, "GU_NM"))
-                    .guConfirmed(getElementText(documentInfo, "GU_CONFIRMED"))
-                    .guAdded(getElementText(documentInfo, "GU_ADDED"))
+                    .areaNm(getElementText(documentInfo, DataTagName.AREA_NM.toString()))
+                    .areaCongestLvl(getElementText(documentInfo, DataTagName.AREA_CONGEST_LVL.toString()))
+//                    .areaCongestMsg(getElementText(documentInfo, "AREA_CONGEST_MSG"))
+                    .areaPpltnMin(getElementText(documentInfo, DataTagName.AREA_PPLTN_MIN.toString()))
+                    .areaPpltnMax(getElementText(documentInfo, DataTagName.AREA_PPLTN_MAX.toString()))
+                    .malePpltnRate(getElementText(documentInfo, DataTagName.MALE_PPLTN_RATE.toString()))
+                    .femalePpltnRate(getElementText(documentInfo, DataTagName.FEMALE_PPLTN_RATE.toString()))
+                    .ppltnRate10(getElementText(documentInfo, DataTagName.PPLTN_RATE_10.toString()))
+                    .ppltnRate20(getElementText(documentInfo, DataTagName.PPLTN_RATE_20.toString()))
+                    .ppltnRate30(getElementText(documentInfo, DataTagName.PPLTN_RATE_30.toString()))
+                    .ppltnRate40(getElementText(documentInfo, DataTagName.PPLTN_RATE_40.toString()))
+                    .ppltnRate50(getElementText(documentInfo, DataTagName.PPLTN_RATE_50.toString()))
+                    .ppltnTime(getElementText(documentInfo, DataTagName.PPLTN_TIME.toString()))
+                    .temp(getElementText(documentInfo,DataTagName.TEMP.toString()))
+//                    .sensibleTemp(getElementText(documentInfo, "SENSIBLE_TEMP"))
+                    .maxTemp(getElementText(documentInfo, DataTagName.MAX_TEMP.toString()))
+                    .minTemp(getElementText(documentInfo, DataTagName.MIN_TEMP.toString()))
+//                    .humidity(getElementText(documentInfo, "HUMIDITY"))
+//                    .precipitation(getElementText(documentInfo, "PRECIPITATION"))
+//                    .precptType(getElementText(documentInfo, "PRECPT_TYPE"))
+                    .pcpMsg(getElementText(documentInfo, DataTagName.PCP_MSG.toString()))
+//                    .uvIndex(getElementText(documentInfo, "UV_INDEX"))
+//                    .uvMsg(getElementText(documentInfo, "UV_MSG"))
+                    .pm25Index(getElementText(documentInfo,DataTagName.PM25_INDEX.toString() ))
+                    .pm25(getElementText(documentInfo, DataTagName.PM25.toString()))
+                    .pm10Index(getElementText(documentInfo, DataTagName.PM10_INDEX.toString()))
+                    .pm10(getElementText(documentInfo, DataTagName.PM10.toString()))
+//                    .airIdx(getElementText(documentInfo, "AIR_IDX"))
+                    .airMsg(getElementText(documentInfo, DataTagName.AIR_MSG.toString()))
+                    .weatherTime(getElementText(documentInfo, DataTagName.WEATHER_TIME.toString()))
+//                    .strdDt(getElementText(documentInfo, "STRD_DT"))
+                    .guNm(getElementText(documentInfo, DataTagName.GU_NM.toString()))
+                    .guConfirmed(getElementText(documentInfo, DataTagName.GU_CONFIRMED.toString()))
+                    .guAdded(getElementText(documentInfo,  DataTagName.GU_ADDED.toString()))
                     .build();
 
-            testRepo.save(spotData);//save all
+            spotDataList.add(spotData);
         }
 
+        Iterable<SpotData> dataList = spotDataList;
+        testRepo.saveAll(dataList);
 
 //        System.out.println(documentInfo.getElementsByTagName("PPLTN_RATE_10").item(0).getTextContent());
 //        System.out.println(documentInfo.getElementsByTagName("AREA_CONGEST_MSG").item(0).getTextContent());
