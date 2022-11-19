@@ -191,6 +191,7 @@ public class NaverAccountService {
         String gender = String.valueOf(userInfoElement.getAsJsonObject().get("response")
                 .getAsJsonObject().get("gender"));
 
+        naverId = naverId.substring(1, naverId.length()-1);
         userEmail = userEmail.substring(1, userEmail.length()-1);
         nickName = nickName.substring(1, nickName.length()-1);
         profileImage = profileImage.substring(1, profileImage.length()-1);
