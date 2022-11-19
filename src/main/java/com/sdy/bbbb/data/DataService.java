@@ -51,7 +51,7 @@ public class DataService {
 //            urlBuilder.append("/" + "5");
 
 //            url.append("/" + encoding(spots.get(i).getSpot()));
-            String url2 = url.append("/" + encoding(spots.get(i).getSpot())).toString();
+            String url2 = url + ("/" + encoding(spots.get(i).getSpot()));
             // 3. URL 객체 생성.
 //            String url2 = urlBuilder.toString();
 
