@@ -17,9 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -72,7 +71,7 @@ public class PostService {
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 
         List<Post> postList1 = postRepository.test2(guName, sort);
-        Set<Post> postSet = Set.copyOf(postList1);
+//        Set.copyOf(List)
 
 //        postList = postRepository.customSortByGu(gu);
 //        List<Post> postList;
@@ -87,7 +86,7 @@ public class PostService {
 //            throw new CustomException(ErrorCode.BadRequest);//잘못된 요청
 //        }
         List<Like> likeList = likeRepository.findLikesByAccount(account);
-        for (Post post : postSet) {
+        for (Post post : postList1) {
             postResponseDtoList.add(
                     new PostResponseDto(post, ServiceUtil.getImgUrl(post), ServiceUtil.getTag(post), ServiceUtil.amILikedPost(post, likeList)));
         }
