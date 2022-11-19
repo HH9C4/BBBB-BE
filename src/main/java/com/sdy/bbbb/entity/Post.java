@@ -68,6 +68,7 @@ public class Post extends TimeStamped {
 
     public void update(PostRequestDto postRequestDto) {
         this.content = postRequestDto.getContent();
+        this.category = postRequestDto.getCategory();
         this.modifiedAt = LocalDateTime.now();
     }
 
