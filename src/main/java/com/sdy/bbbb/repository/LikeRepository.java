@@ -21,4 +21,7 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
     // 댓글, 유저 정보
     boolean existsByCommentAndAccount(Comment comment, Account account);
 
+    List<Like> findLikesByPostAndAccount(Post post, Account account);
+
+    List<Like> findLikesByAccount(Account account);
 }

@@ -54,7 +54,7 @@ public class PostService {
         createTagIfNotNull(postRequestDto.getTagList(), post);
 
         return GlobalResponseDto.created("게시글이 등록 되었습니다.",
-                new PostResponseDto(post, getImgUrl(post),  getTag(post),false));
+                new PostResponseDto(post, getImgUrl(post), getTag(post),false));
     }
 
     //게시글 전체 조회(구별)
@@ -83,10 +83,10 @@ public class PostService {
 //        } else {
 //            throw new CustomException(ErrorCode.BadRequest);//잘못된 요청
 //        }
-
+        List<Like> likeList = likeRepository.findLikesByAccount(account);
         for (Post post : postList1) {
             postResponseDtoList.add(
-                    new PostResponseDto(post, getImgUrl(post), getTag(post), amILikedPost(post, account)));
+                    new PostResponseDto(post, getImgUrl(post), getTag(post), amILikedPost(post, likeList)));
         }
 
         boolean isBookMarked = bookmarkRepository.existsByGu_GuNameAndAccount(guName, account);
@@ -121,10 +121,11 @@ public class PostService {
 //            throw new CustomException(ErrorCode.BadRequest);//잘못된 요청
 //        }
 
+        List<Like> likeList = likeRepository.findLikesByAccount(account);
         for (Post post : postList) {
             //좋아요 확인
             postResponseDtoList.add(
-                    new PostResponseDto(post, getImgUrl(post), getTag(post), amILikedPost(post, account)));
+                    new PostResponseDto(post, getImgUrl(post), getTag(post), amILikedPost(post, likeList)));
         }
         return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
     }
@@ -140,12 +141,14 @@ public class PostService {
         //이미지 추출 함수로, DTO에 있는게 나을까?
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 //        System.out.println("가져왔니!?"+post.getCommentList().size());
+        List<Like> likeList = likeRepository.findLikesByAccount(account);
+
         for(Comment comment : post.getCommentList()){
 
-            commentResponseDtoList.add(new CommentResponseDto(comment, amILikedComment(comment, account)));
+            commentResponseDtoList.add(new CommentResponseDto(comment, amILikedComment(comment, likeList)));
         }
 
-        return GlobalResponseDto.ok("조회 성공", new OnePostResponseDto(post, getImgUrl(post), getTag(post), amILikedPost(post, account), commentResponseDtoList));
+        return GlobalResponseDto.ok("조회 성공", new OnePostResponseDto(post, getImgUrl(post), getTag(post), amILikedPost(post, likeList), commentResponseDtoList));
     }
 
     //핫태그 20
@@ -192,8 +195,9 @@ public class PostService {
         createTagIfNotNull(postRequestDto.getTagList(), post);
 
         post.update(postRequestDto);
+        List<Like> likeList = likeRepository.findLikesByAccount(account);
         return GlobalResponseDto.created("게시글 수정이 완료되었습니다.",
-                new PostResponseDto(post, getImgUrl(post), getTag(post), amILikedPost(post, account)));
+                new PostResponseDto(post, getImgUrl(post), getTag(post), amILikedPost(post, likeList)));
     }
 
     //게시글 삭제
@@ -260,13 +264,27 @@ public class PostService {
     }
 
     //좋아요 여부
-    private boolean amILikedPost(Post post, Account account) {
+    private boolean amILikedPost(Post post, List<Like> likeList) {
         //한번에 가져오고 엔티티로 찾는다?
-        return likeRepository.existsByPostAndAccount(post, account);
+        for (Like like : likeList){
+            System.out.println("포문돈다1111111");
+            if (like.getPost() != null && like.getPost().getId().equals(post.getId())){
+                return true;
+            }
+        }
+        System.out.println("다돌았다11111111");
+        return false;
     }
 
-    private boolean amILikedComment(Comment comment, Account account) {
-        return likeRepository.existsByCommentAndAccount(comment, account);
+    private boolean amILikedComment(Comment comment, List<Like> likeList) {
+        for (Like like : likeList){
+            System.out.println("포문돈다222222");
+            if (like.getComment() != null && like.getComment().getId().equals(comment.getId())){
+                return true;
+            }
+        }
+        System.out.println("다돌았다2222222");
+        return false;
     }
 
     //utf-8 디코딩

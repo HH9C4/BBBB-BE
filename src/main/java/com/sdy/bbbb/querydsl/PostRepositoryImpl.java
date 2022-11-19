@@ -29,8 +29,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return queryFactory
                 .select(post)
                 .from(post)
+                .join(post.account).fetchJoin()
+                .leftJoin(post.commentList).fetchJoin()
                 .where(post.id.eq(postId))
-                .leftJoin(comment1).on(post.id.eq(comment1.post.id))
                 .fetchOne();
     }
 
@@ -40,8 +41,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .select(post).distinct()
                 .from(post)
 //                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id)).fetchJoin()
-                .where(post.guName.eq(gu))
+                .join(post.account).fetchJoin()
                 .leftJoin(post.tagList).fetchJoin()
+                .where(post.guName.eq(gu))
 //                .leftJoin(post.likeList)
                 .orderBy(eqSort(sort), post.createdAt.desc())
 //                .orderBy(post.createdAt.desc())
