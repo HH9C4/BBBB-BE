@@ -61,14 +61,14 @@ public class Post extends TimeStamped {
         this.content = postRequestDto.getContent();
         this.account = account;
         this.guName = postRequestDto.getGu();
-        this.modifiedAt = LocalDateTime.now();
+        this.category = postRequestDto.getCategory() == null ? "일상" : postRequestDto.getCategory();
 //        this.category = postRequestDto.getCategory();
+        this.modifiedAt = LocalDateTime.now();
     }
 
     public void update(PostRequestDto postRequestDto) {
         this.content = postRequestDto.getContent();
         this.modifiedAt = LocalDateTime.now();
-//        this.category = postRequestDto.getCategory();
     }
 
 }

@@ -37,7 +37,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public List<Post> test2(String gu, String sort) {
+    public List<Post> test2(String gu, String category, String sort) {
         return queryFactory
                 .select(post)
 //                .distinct()
@@ -47,7 +47,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 //                .leftJoin(post.tagList).fetchJoin()
                 .where(post.guName.eq(gu))
 //                .leftJoin(post.likeList)
-                .orderBy(eqSort(sort), post.createdAt.desc())
+                .orderBy(eqSort2(sort), post.createdAt.desc())
+                //페이징 할 때 수정해야 할것이다!
 //                .orderBy(post.createdAt.desc())
                 .fetch();
     }
@@ -83,6 +84,14 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
             return hashTag.tag.contains(searchWord);
         }else{
             throw new CustomException(ErrorCode.BadRequest);
+        }
+    }
+
+    private BooleanExpression category(String category){
+        if (category.equals("All")){
+            return null;
+        }else {
+            return post.category.eq(category);
         }
     }
 

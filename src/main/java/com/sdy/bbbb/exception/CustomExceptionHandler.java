@@ -13,6 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.UnexpectedTypeException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class CustomExceptionHandler {
     }
 
     @ExceptionHandler(SizeLimitExceededException.class)
-    public ResponseEntity<String> sizeExceptionHandle(SizeLimitExceededException e) {
+    public ResponseEntity<String> handleSizeLimitException(SizeLimitExceededException e) {
 
 
         return ResponseEntity
@@ -54,8 +55,13 @@ public class CustomExceptionHandler {
                 .body("이미지 용량은 " + maxSize + " 를 초과할 수 없습니다.");
     }
 
+    @ExceptionHandler(UnexpectedTypeException.class)
+    public ResponseEntity<ErrorResponse> handleUnExpectedTypeException(UnexpectedTypeException e){
 
-    // test
+        return ErrorResponse.toResponseEntity(HttpStatus.BAD_REQUEST, "C001", "요청 인자가 올바르지 않습니다.");
+    }
+
+
     @RequiredArgsConstructor
     @Getter
     @Builder
@@ -73,6 +79,17 @@ public class CustomExceptionHandler {
                             .httpStatus(e.getErrorCode().getHttpStatus())
                             .errorCode(e.getErrorCode().getErrorCode())
                             .message(e.getErrorCode().getMessage())
+                            .build()
+                    );
+        }
+
+        public static ResponseEntity toResponseEntity(HttpStatus status, String errorCode, String message) {
+            return ResponseEntity
+                    .status(status)
+                    .body(ErrorResponse.builder()
+                            .httpStatus(status.value())
+                            .errorCode(errorCode)
+                            .message(message)
                             .build()
                     );
         }

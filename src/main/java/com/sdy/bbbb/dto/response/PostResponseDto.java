@@ -37,22 +37,6 @@ public class PostResponseDto extends TagResponseDto{
 
     private String modifiedAt;
 
-    public PostResponseDto(Post post, List<String> imageUrl, boolean isLiked) {
-        this.postId = post.getId();
-        this.accountName = post.getAccount().getAccountName();
-        this.profileImage = post.getAccount().getProfileImage();
-        this.imageUrl = imageUrl;
-        this.content = post.getContent();
-        this.gu = post.getGuName();
-//        this.tag = post.getTag();
-//        this.category = post.getCategory();
-        this.likeCount = post.getLikeCount();
-        this.commentCount = post.getCommentCount();
-        this.isLiked = isLiked;
-        this.views = post.getViews();
-        this.createdAt = Chrono.timesAgo(post.getCreatedAt());
-        this.modifiedAt = Chrono.timesAgo(post.getModifiedAt());
-    }
 
     public PostResponseDto(Post post, List<String> imageUrl, List<String> tagList, boolean isLiked) {
         super(tagList);
@@ -63,7 +47,7 @@ public class PostResponseDto extends TagResponseDto{
         this.content = post.getContent();
         this.gu = post.getGuName();
 //        this.tag = tagList;
-//        this.category = post.getCategory();
+        this.category = post.getCategory();
         this.likeCount = post.getLikeCount();
         this.commentCount = post.getCommentCount();
         this.isLiked = isLiked;
