@@ -7,6 +7,7 @@ import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.repository.*;
 import com.sdy.bbbb.s3.S3Uploader2;
+import com.sdy.bbbb.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.lang.reflect.Array;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -54,7 +56,7 @@ public class PostService {
         createTagIfNotNull(postRequestDto.getTagList(), post);
 
         return GlobalResponseDto.created("게시글이 등록 되었습니다.",
-                new PostResponseDto(post, getImgUrl(post), getTag(post),false));
+                new PostResponseDto(post, ServiceUtil.getImgUrl(post), ServiceUtil.getTag(post),false));
     }
 
     //게시글 전체 조회(구별)
@@ -70,6 +72,7 @@ public class PostService {
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 
         List<Post> postList1 = postRepository.test2(guName, sort);
+        Set<Post> postSet = Set.copyOf(postList1);
 
 //        postList = postRepository.customSortByGu(gu);
 //        List<Post> postList;
@@ -84,9 +87,9 @@ public class PostService {
 //            throw new CustomException(ErrorCode.BadRequest);//잘못된 요청
 //        }
         List<Like> likeList = likeRepository.findLikesByAccount(account);
-        for (Post post : postList1) {
+        for (Post post : postSet) {
             postResponseDtoList.add(
-                    new PostResponseDto(post, getImgUrl(post), getTag(post), amILikedPost(post, likeList)));
+                    new PostResponseDto(post, ServiceUtil.getImgUrl(post), ServiceUtil.getTag(post), ServiceUtil.amILikedPost(post, likeList)));
         }
 
         boolean isBookMarked = bookmarkRepository.existsByGu_GuNameAndAccount(guName, account);
@@ -125,7 +128,7 @@ public class PostService {
         for (Post post : postList) {
             //좋아요 확인
             postResponseDtoList.add(
-                    new PostResponseDto(post, getImgUrl(post), getTag(post), amILikedPost(post, likeList)));
+                    new PostResponseDto(post, ServiceUtil.getImgUrl(post), ServiceUtil.getTag(post), ServiceUtil.amILikedPost(post, likeList)));
         }
         return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
     }
@@ -145,10 +148,10 @@ public class PostService {
 
         for(Comment comment : post.getCommentList()){
 
-            commentResponseDtoList.add(new CommentResponseDto(comment, amILikedComment(comment, likeList)));
+            commentResponseDtoList.add(new CommentResponseDto(comment, ServiceUtil.amILikedComment(comment, likeList)));
         }
 
-        return GlobalResponseDto.ok("조회 성공", new OnePostResponseDto(post, getImgUrl(post), getTag(post), amILikedPost(post, likeList), commentResponseDtoList));
+        return GlobalResponseDto.ok("조회 성공", new OnePostResponseDto(post, ServiceUtil.getImgUrl(post), ServiceUtil.getTag(post), ServiceUtil.amILikedPost(post, likeList), commentResponseDtoList));
     }
 
     //핫태그 20
@@ -197,7 +200,7 @@ public class PostService {
         post.update(postRequestDto);
         List<Like> likeList = likeRepository.findLikesByAccount(account);
         return GlobalResponseDto.created("게시글 수정이 완료되었습니다.",
-                new PostResponseDto(post, getImgUrl(post), getTag(post), amILikedPost(post, likeList)));
+                new PostResponseDto(post, ServiceUtil.getImgUrl(post), ServiceUtil.getTag(post), ServiceUtil.amILikedPost(post, likeList)));
     }
 
     //게시글 삭제
@@ -227,13 +230,13 @@ public class PostService {
     }
 
     //Post 의 Image 의 url (string)추출
-    private List<String> getImgUrl(Post post){
-        List<String> imageUrl = new ArrayList<>();
-        for(Image img : post.getImageList()){
-            imageUrl.add(img.getImageUrl());
-        }
-        return imageUrl;
-    }
+//    private List<String> getImgUrl(Post post){
+//        List<String> imageUrl = new ArrayList<>();
+//        for(Image img : post.getImageList()){
+//            imageUrl.add(img.getImageUrl());
+//        }
+//        return imageUrl;
+//    }
 
     //태그가 있다면 태그 저장
     private void createTagIfNotNull(List<String> tagList, Post post) {
@@ -248,13 +251,13 @@ public class PostService {
         }
     }
 
-    private List<String> getTag(Post post){
-        List<String> tagList = new ArrayList<>();
-        for(HashTag hashTag : post.getTagList()){
-            tagList.add(hashTag.getTag());
-        }
-        return tagList;
-    }
+//    private List<String> getTag(Post post){
+//        List<String> tagList = new ArrayList<>();
+//        for(HashTag hashTag : post.getTagList()){
+//            tagList.add(hashTag.getTag());
+//        }
+//        return tagList;
+//    }
 
     //작성자 확인
     private void checkPostAuthor(Post post, Account account) {
@@ -264,28 +267,28 @@ public class PostService {
     }
 
     //좋아요 여부
-    private boolean amILikedPost(Post post, List<Like> likeList) {
-        //한번에 가져오고 엔티티로 찾는다?
-        for (Like like : likeList){
-            System.out.println("포문돈다1111111");
-            if (like.getPost() != null && like.getPost().getId().equals(post.getId())){
-                return true;
-            }
-        }
-        System.out.println("다돌았다11111111");
-        return false;
-    }
+//    private boolean amILikedPost(Post post, List<Like> likeList) {
+//        //한번에 가져오고 엔티티로 찾는다?
+//        for (Like like : likeList){
+//            System.out.println("포문돈다1111111");
+//            if (like.getPost() != null && like.getPost().getId().equals(post.getId())){
+//                return true;
+//            }
+//        }
+//        System.out.println("다돌았다11111111");
+//        return false;
+//    }
 
-    private boolean amILikedComment(Comment comment, List<Like> likeList) {
-        for (Like like : likeList){
-            System.out.println("포문돈다222222");
-            if (like.getComment() != null && like.getComment().getId().equals(comment.getId())){
-                return true;
-            }
-        }
-        System.out.println("다돌았다2222222");
-        return false;
-    }
+//    private boolean amILikedComment(Comment comment, List<Like> likeList) {
+//        for (Like like : likeList){
+//            System.out.println("포문돈다222222");
+//            if (like.getComment() != null && like.getComment().getId().equals(comment.getId())){
+//                return true;
+//            }
+//        }
+//        System.out.println("다돌았다2222222");
+//        return false;
+//    }
 
     //utf-8 디코딩
     private String decoding(String toDecode) {

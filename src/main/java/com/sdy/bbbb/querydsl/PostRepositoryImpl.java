@@ -38,7 +38,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     @Override
     public List<Post> test2(String gu, String sort) {
         return queryFactory
-                .select(post).distinct()
+                .select(post)
+//                .distinct()
                 .from(post)
 //                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id)).fetchJoin()
                 .join(post.account).fetchJoin()
