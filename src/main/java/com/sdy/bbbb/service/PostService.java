@@ -61,16 +61,18 @@ public class PostService {
     //게시글 전체 조회(구별)
     @Transactional(readOnly = true)
     public GlobalResponseDto<PostListResponseDto> getPost(String guName,
-                                                            String sort,
-                                                            Account account) {
+                                                          String category,
+                                                          String sort,
+                                                          Account account) {
         validateSort(sort);
         //구를 디비에서 찾아서 올바르게 들어왔는지 검사하는 로직이 필요할까?
         guName = decoding(guName);
+        category = decoding(category);
         validateGu(guName);
 //        List<Post> postList;
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 
-        List<Post> postList1 = postRepository.test2(guName, sort);
+        List<Post> postList1 = postRepository.test2(guName, category, sort);
 //        Set.copyOf(List)
 
 //        postList = postRepository.customSortByGu(gu);

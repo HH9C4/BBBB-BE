@@ -1,5 +1,6 @@
 package com.sdy.bbbb.querydsl;
 
+import com.querydsl.core.types.NullExpression;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -37,7 +38,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public List<Post> test2(String gu, String sort) {
+    public List<Post> test2(String gu, String category, String sort) {
         return queryFactory
                 .select(post)
 //                .distinct()
@@ -45,9 +46,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 //                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id)).fetchJoin()
                 .join(post.account).fetchJoin()
 //                .leftJoin(post.tagList).fetchJoin()
-                .where(post.guName.eq(gu))
+                .where(post.guName.eq(gu), category(category))
+//                .where(category(category))
 //                .leftJoin(post.likeList)
-                .orderBy(eqSort(sort), post.createdAt.desc())
+                .orderBy(eqSort2(sort), post.createdAt.desc())
+                //페이징 할 때 수정해야 할것이다!
 //                .orderBy(post.createdAt.desc())
                 .fetch();
     }
@@ -76,6 +79,17 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         }
     }
 
+    private OrderByNull eqSort2(String sort) {
+        if(sort.equals("new")) {
+            return OrderByNull.DEFAULT;
+            //나중에 생각해보자
+        } else if (sort.equals("hot")) {
+            return (OrderByNull) post.likeCount.desc();
+        } else {
+            throw new CustomException(ErrorCode.BadRequest);
+        }
+    }
+
     private BooleanExpression tagOrNot(Integer type, String searchWord) {
         if(type == 0){
             return post.content.contains(searchWord).or(hashTag.tag.contains(searchWord));
@@ -83,6 +97,14 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
             return hashTag.tag.contains(searchWord);
         }else{
             throw new CustomException(ErrorCode.BadRequest);
+        }
+    }
+
+    private BooleanExpression category(String category){
+        if (category.equals("All")){
+            return null;
+        }else {
+            return post.category.eq(category);
         }
     }
 

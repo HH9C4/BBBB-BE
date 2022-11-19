@@ -10,7 +10,7 @@ public interface PostRepositoryCustom {
 
 //    Post searchPostList(Long postId);
 //
-    List<Post> test2(String gu, String sort);
+    List<Post> test2(String gu, String category, String sort);
 
     List<Post> searchByTag(Integer type, String searchWord, String sort);
 

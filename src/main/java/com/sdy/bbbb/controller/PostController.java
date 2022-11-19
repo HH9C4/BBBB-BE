@@ -41,11 +41,12 @@ public class PostController {
     //게시글 조회
     @ApiOperation(value = "게시글 조회 ", notes = "get post with \"gu\" ,\"sort\"")
     @GetMapping
-    public GlobalResponseDto<PostListResponseDto> getPost(@RequestParam("gu") @Valid String gu,
+    public GlobalResponseDto<PostListResponseDto> getPost(@RequestParam("gu") String gu,
+                                                          @RequestParam("category") String category,
                                                           @RequestParam("sort") String sort,
                                                           @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         log.info("= = = = 게시글 조회 = = = = ");
-        return postService.getPost(gu, sort, userDetails.getAccount());
+        return postService.getPost(gu, category, sort, userDetails.getAccount());
     }
 
     //게시글 상세 조회
