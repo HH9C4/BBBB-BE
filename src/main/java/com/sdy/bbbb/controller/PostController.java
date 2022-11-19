@@ -6,6 +6,7 @@ import com.sdy.bbbb.dto.response.*;
 import com.sdy.bbbb.service.PostService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,8 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/posts")
 @RestController
@@ -30,17 +34,17 @@ public class PostController {
     public GlobalResponseDto<PostResponseDto> createPost(@RequestPart(name = "contents") @Valid PostRequestDto postRequestDto,
                                                          @RequestPart(name = "imageList", required = false) List<MultipartFile> multipartFile,
                                                          @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
+        log.info("= = = = 게시글 생성 = = = = ");
         return postService.createPost(postRequestDto, multipartFile, userDetails.getAccount());
     }
 
     //게시글 조회
-    @ApiOperation(value = "게시글 조회 ", notes = "설명")
+    @ApiOperation(value = "게시글 조회 ", notes = "get post with \"gu\" ,\"sort\"")
     @GetMapping
-    public GlobalResponseDto<PostListResponseDto> getPost(@RequestParam("gu") String gu,
+    public GlobalResponseDto<PostListResponseDto> getPost(@RequestParam("gu") @Valid String gu,
                                                           @RequestParam("sort") String sort,
                                                           @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
+        log.info("= = = = 게시글 조회 = = = = ");
         return postService.getPost(gu, sort, userDetails.getAccount());
     }
 
@@ -49,7 +53,7 @@ public class PostController {
     @GetMapping("/{postId}")
     public GlobalResponseDto<OnePostResponseDto> getOnePost(@PathVariable Long postId,
                                                             @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
+        log.info("= = = = 게시글 상세 조회 = = = = ");
         return postService.getOnePost(postId, userDetails.getAccount());
     }
 
@@ -60,13 +64,15 @@ public class PostController {
                                                                @RequestParam("searchWord") String searchWord,
                                                                @RequestParam("sort") String sort,
                                                                @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
+        log.info("= = = = 게시글 검색 = = = = ");
         return postService.searchPost(type, searchWord, sort, userDetails.getAccount());
     }
 
     //핫태그 검색
+    @ApiOperation(value = "핫 태그 조회", notes = "설명")
     @GetMapping("/hottag")
     public GlobalResponseDto<TagResponseDto> hotTag(@RequestParam("gu") String guName){
+        log.info("= = = = 핫태그 검색 = = = = ");
         return postService.hotTag20(guName);
     }
 
@@ -78,7 +84,7 @@ public class PostController {
                                                 @RequestPart(name = "contents") @Valid PostRequestDto postRequestDto,
                                                 @RequestPart(name = "imageList", required = false) List<MultipartFile> multipartFile,
                                                 @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
+        log.info("= = = = 게시글 수정 = = = = ");
         return postService.updatePost(postId, postRequestDto, multipartFile, userDetails.getAccount());
     }
 
@@ -87,7 +93,7 @@ public class PostController {
     @DeleteMapping("/{postId}")
     public GlobalResponseDto<String> deletePost(@PathVariable Long postId,
                                                 @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
+        log.info("= = = = 게시글 삭제 = = = = ");
         return postService.deletePost(postId, userDetails.getAccount());
     }
 

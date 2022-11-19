@@ -54,6 +54,7 @@ jobs:
           spring.security.oauth2.client.registration.naver.client-id: ${{ secrets.NAVER_CLIENT_ID }}
           spring.security.oauth2.client.registration.naver.client-secret: ${{ secrets.NAVER_CLIENT_SECRET }}
           seoul.open.api.url: ${{ secrets.SEOUL_OPEN_API }}
+          sentry.dsn: ${{ secrets.SENTRY_DNS }}
 
 
         # (3) Gradle build (Test 제외)
