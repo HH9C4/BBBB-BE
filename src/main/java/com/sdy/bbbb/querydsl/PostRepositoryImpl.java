@@ -45,7 +45,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .from(post)
 //                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id)).fetchJoin()
                 .join(post.account).fetchJoin()
-//                .leftJoin(post.tagList).fetchJoin()
+                .leftJoin(post.tagList).fetchJoin()
                 .where(post.guName.eq(gu), category(category))
 //                .where(category(category))
 //                .leftJoin(post.likeList)
@@ -63,7 +63,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .leftJoin(post.tagList).fetchJoin()
                 .where(tagOrNot(type, searchWord))
                 .orderBy(eqSort(sort), post.createdAt.desc())
-                .orderBy(hashTag.id.asc())
                 .fetch();
     }
 
