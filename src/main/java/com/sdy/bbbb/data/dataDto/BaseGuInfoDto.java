@@ -1,7 +1,12 @@
 package com.sdy.bbbb.data.dataDto;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
+@Getter
+@NoArgsConstructor
 public class BaseGuInfoDto {
 
     private String gu_nm;
