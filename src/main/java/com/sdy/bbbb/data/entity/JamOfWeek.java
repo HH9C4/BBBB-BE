@@ -16,7 +16,7 @@ public class JamOfWeek {
     private Long id;
 
     @Column
-    private Long rank;
+    private Long ranking;
 
     @Column
     private Long sumOfScore;
@@ -47,6 +47,5 @@ public class JamOfWeek {
         this.areaNm = jamDto.getArea_Nm();
         this.guNm = jamDto.getGu_Nm();
         this.savedWeek = jamDto.getWw();
-        this.isWeekend = isWeekend;
     }
 }
