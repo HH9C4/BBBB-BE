@@ -4,20 +4,13 @@ import com.sdy.bbbb.data.dataDto.JamDto;
 import com.sdy.bbbb.data.dataDto.JamTop5Dto;
 import com.sdy.bbbb.data.dataDto.PopulationChangesDto;
 import com.sdy.bbbb.data.dataDto.PopulationDto;
+import com.sdy.bbbb.data.entity.JamOfWeek;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
-import com.sdy.bbbb.entity.Spot;
-import com.sdy.bbbb.exception.CustomException;
-import com.sdy.bbbb.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.w3c.dom.Document;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +18,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DataService {
 
-    @Value("${seoul.open.api.url}")
-    private StringBuilder url;
     private final DataRepository dataRepository;
-    private final SpotRepository spotRepository;
+    private final JamRepository jamRepository;
 
     // 데이터 1번 조회 (점수 매기기)
     @Transactional(readOnly = true)
@@ -39,6 +30,22 @@ public class DataService {
             jamTop5Dtos.add(new JamTop5Dto(jam));
         }
         return GlobalResponseDto.ok("조회 성공", jamTop5Dtos);
+    }
+
+    // 데이터 1 - 주말 데이터 저장 로직
+    @Transactional(readOnly = true)
+    public GlobalResponseDto<?> test() {
+        List<JamDto> jamDtos = dataRepository.getJamWeekendFromDb();
+        List<JamTop5Dto> jamTop5Dtos = new ArrayList<>();
+        List<JamOfWeek> jamOfWeekList = new ArrayList<>();
+        for(JamDto jam : jamDtos) {
+            jamTop5Dtos.add(new JamTop5Dto(jam));
+            jamOfWeekList.add(new JamOfWeek(jam, true));
+        }
+
+        jamRepository.saveAll(jamOfWeekList);
+
+        return GlobalResponseDto.ok("저장 성공", jamTop5Dtos);
     }
 
 

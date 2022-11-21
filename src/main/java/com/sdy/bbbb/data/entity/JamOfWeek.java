@@ -1,5 +1,6 @@
 package com.sdy.bbbb.data.entity;
 
+import com.sdy.bbbb.data.dataDto.JamDto;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ public class JamOfWeek {
     private Long id;
 
     @Column
-    private String sumOfScore;
+    private Long sumOfScore;
 
     @Column
     private String areaNm;
@@ -22,7 +23,7 @@ public class JamOfWeek {
     private String guNm;
 
     @Column
-    private String savedWeek;
+    private Long savedWeek;
 
     @Column
     private Boolean isWeekend;

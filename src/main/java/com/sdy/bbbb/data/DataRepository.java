@@ -42,6 +42,7 @@ public interface DataRepository extends JpaRepository<SpotData, Long> {
             "order by score_sum desc " +
             "limit 5",
             nativeQuery = true)
-    List<JamDto> getJamFromDb();
+    List<JamDto> getJamWeekendFromDb();
+
 
 }

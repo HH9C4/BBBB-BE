@@ -15,10 +15,10 @@ public class DataController {
 
     private final DataService dataService;
 
-//    @GetMapping("/api/test")
-//    public void callApi() throws Exception {
-//        dataService.call();
-//    }
+    @GetMapping("/api/test")
+    public void callApi() throws Exception {
+        dataService.test();
+    }
 
 
     // 데이터 1번 호출
