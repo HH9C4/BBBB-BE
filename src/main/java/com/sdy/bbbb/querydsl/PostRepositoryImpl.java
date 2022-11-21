@@ -58,16 +58,18 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .fetch().stream().distinct().collect(Collectors.toList());
     }
 
-    // hot tag 20
+    // 검색
     @Override
     public List<Post> searchByTag(Integer type, String searchWord, String sort) {
         return queryFactory
-                .select(post).distinct()
+                .select(post)
                 .from(post)
-                .leftJoin(post.tagList).fetchJoin()
+//                .leftJoin(post.tagList).fetchJoin()
+                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id)).fetchJoin()
+//                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id))
                 .where(tagOrNot(type, searchWord))
                 .orderBy(eqSort(sort), post.createdAt.desc())
-                .fetch();
+                .fetch().stream().distinct().collect(Collectors.toList());
     }
 
 

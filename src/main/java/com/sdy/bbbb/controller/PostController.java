@@ -69,7 +69,7 @@ public class PostController {
     //게시글 검색
     @ApiOperation(value = "게시글 검색", notes = "설명")
     @GetMapping("/search")
-    public GlobalResponseDto<List<PostResponseDto>> searchPost(@RequestParam ("type") @Range(min = 0, max = 1) Integer type,
+    public GlobalResponseDto<PostListResponseDto> searchPost(@RequestParam ("type") @Range(min = 0, max = 1) Integer type,
                                                                @RequestParam("searchWord") @NotBlank String searchWord,
                                                                @RequestParam("sort") @ValidEnum(enumClass = SortEnum.class) String sort,
                                                                @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
