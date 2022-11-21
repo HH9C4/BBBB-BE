@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PopulationChangesDto {
 
-    private Integer rowNum;
+    private Integer ranking;
 
     private String areaNm;
 
@@ -18,12 +18,15 @@ public class PopulationChangesDto {
 
     private Double increaseRate;
 
+    private String guNm;
+
 
     public PopulationChangesDto(PopulationDto populationDto) {
-        this.rowNum = populationDto.getRow_Num();
+        this.ranking = populationDto.getRow_Num();
         this.areaNm = populationDto.getArea_Nm();
         this.areaCongestLvl = populationDto.getArea_Congest_Lvl();
         this.plusMinus = populationDto.getPlus_Minus();
         this.increaseRate = populationDto.getIncrease_Rate();
+        this.guNm = populationDto.getGu_Nm();
     }
 }

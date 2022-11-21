@@ -33,6 +33,9 @@ public enum ErrorCode {
     // 토큰 관련
     UnAuthorized(HttpStatus.UNAUTHORIZED.value(), "A003", "다시 로그인해주세요."),
 
+    // 데이터 관련
+    NotReadyForData(HttpStatus.NOT_FOUND.value(), "D001", "아직 준비중입니다.(데이터가 없습니다.)"),
+
     //디코딩 실패
     FailDecodeString(HttpStatus.BAD_REQUEST.value(), "D001", "디코딩 실패."),
 

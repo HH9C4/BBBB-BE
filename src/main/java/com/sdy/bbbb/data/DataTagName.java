@@ -25,5 +25,6 @@ public enum DataTagName {
     WEATHER_TIME,
     GU_NM,
     GU_CONFIRMED,
-    GU_ADDED
+    GU_ADDED,
+    SKY_STTS
 }

@@ -50,7 +50,6 @@ public class MyPageService {
         Comment comment = commentRepository.findCommentById(commentId).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundComment)
         );
-        ServiceUtil.checkCommentAuthor(comment, account);
         if (!comment.isChecked()) {
             comment.setChecked(true);
         } else {
