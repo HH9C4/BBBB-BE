@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface JamRepository extends JpaRepository<JamOfWeek, Long> {
 
+    List<JamOfWeek> findByIsWeekend(boolean isWeekend);
 }

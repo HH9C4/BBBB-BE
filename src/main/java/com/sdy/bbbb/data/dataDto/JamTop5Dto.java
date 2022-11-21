@@ -1,5 +1,6 @@
 package com.sdy.bbbb.data.dataDto;
 
+import com.sdy.bbbb.data.entity.JamOfWeek;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,8 @@ public class JamTop5Dto {
 
     private String guNm;
 
+    private Boolean isWeekend;
+
 
     public JamTop5Dto(JamOfWeek jamOfWeek) {
         this.ww =jamOfWeek.getSavedWeek();
@@ -23,5 +26,6 @@ public class JamTop5Dto {
         this.guNm = jamOfWeek.getGuNm();
         this.isWeekend = jamOfWeek.getIsWeekend();
     }
+
 }
 

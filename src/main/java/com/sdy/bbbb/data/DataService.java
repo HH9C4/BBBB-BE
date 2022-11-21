@@ -1,19 +1,19 @@
 package com.sdy.bbbb.data;
 
-import com.sdy.bbbb.data.dataDto.JamDto;
-import com.sdy.bbbb.data.dataDto.JamTop5Dto;
-import com.sdy.bbbb.data.dataDto.PopulationChangesDto;
-import com.sdy.bbbb.data.dataDto.PopulationDto;
+import com.sdy.bbbb.data.dataDto.*;
 import com.sdy.bbbb.data.entity.JamOfWeek;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DataService {
@@ -24,6 +24,7 @@ public class DataService {
 
 
     // 데이터 1 - 주말 데이터 저장 로직
+    @Scheduled(cron = "* * 01 * * MON")
     @Transactional
     public void saveWeekendData() {
         //새 주말 데이터
@@ -74,7 +75,8 @@ public class DataService {
         for (PopulationDto pop : popList) {
             dtoList.add(new PopulationChangesDto(pop));
         }
-        return GlobalResponseDto.ok("조회 성공", dtoList);
+
+        return GlobalResponseDto.ok("조회 성공", new DataResponseDto(jamDtoList, dtoList));
     }
 
 

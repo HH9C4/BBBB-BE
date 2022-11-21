@@ -38,4 +38,12 @@ public class JamOfWeek {
         this.savedWeek = jamDto.getWw();
         this.isWeekend = isWeekend;
     }
+
+    public void update(JamDto jamDto) {
+        this.sumOfScore = jamDto.getScore_Sum();
+        this.areaNm = jamDto.getArea_Nm();
+        this.guNm = jamDto.getGu_Nm();
+        this.savedWeek = jamDto.getWw();
+        this.isWeekend = isWeekend;
+    }
 }
