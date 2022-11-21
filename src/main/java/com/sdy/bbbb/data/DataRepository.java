@@ -26,9 +26,9 @@ public interface DataRepository extends JpaRepository<SpotData, Long> {
     List<PopulationDto> getPopulationFromDb();
 
     // 데이터 1번
-    @Query(value = "select week(now()) as ww, a.area_nm, sum(a.score1) as score_sum " +
+    @Query(value = "select week(now()) as ww, a.area_nm, a.gu_nm, sum(a.score1) as score_sum " +
             "from ( " +
-            "select area_nm, " +
+            "select area_nm, gu_nm, " +
             "case " +
             "when area_congest_lvl = '여유' then 1 " +
             "when area_congest_lvl = '보통' then 3 " +

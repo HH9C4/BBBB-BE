@@ -19,7 +19,7 @@ public class JamTop5Dto {
     public JamTop5Dto(JamDto jamDto) {
         this.ww = jamDto.getWw();
         this.areaNm = jamDto.getArea_Nm();
-        this.scoreSum = jamDto.getScore_Num();
+        this.scoreSum = jamDto.getScore_Sum();
         this.guNm = jamDto.getGu_Nm();
     }
 }

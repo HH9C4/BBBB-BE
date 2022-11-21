@@ -5,6 +5,6 @@ public interface JamDto {
     Long getWw();
     String getArea_Nm();
     String getGu_Nm();
-    Long getScore_Num();
+    Long getScore_Sum();
 
 }
