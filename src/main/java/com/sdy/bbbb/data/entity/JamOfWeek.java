@@ -1,11 +1,13 @@
 package com.sdy.bbbb.data.entity;
 
 import com.sdy.bbbb.data.dataDto.JamDto;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class JamOfWeek {
 
