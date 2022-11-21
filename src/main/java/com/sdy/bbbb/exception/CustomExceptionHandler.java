@@ -13,6 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.UnexpectedTypeException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,12 @@ public class CustomExceptionHandler {
                 .body(errors);
     }
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity handleConstraintViolationExceptions(ConstraintViolationException e) {
+
+        return ErrorResponse.toResponseEntityByErrorCode(ErrorCode.ParamArgumentNotValid, e);
+    }
+
     @ExceptionHandler(SizeLimitExceededException.class)
     public ResponseEntity<String> handleSizeLimitException(SizeLimitExceededException e) {
 
@@ -55,11 +62,6 @@ public class CustomExceptionHandler {
                 .body("이미지 용량은 " + maxSize + " 를 초과할 수 없습니다.");
     }
 
-    @ExceptionHandler(UnexpectedTypeException.class)
-    public ResponseEntity<ErrorResponse> handleUnExpectedTypeException(UnexpectedTypeException e){
-
-        return ErrorResponse.toResponseEntity(HttpStatus.BAD_REQUEST, "C001", "요청 인자가 올바르지 않습니다.");
-    }
 
 
     @RequiredArgsConstructor
@@ -83,13 +85,13 @@ public class CustomExceptionHandler {
                     );
         }
 
-        public static ResponseEntity toResponseEntity(HttpStatus status, String errorCode, String message) {
+        public static ResponseEntity toResponseEntityByErrorCode(ErrorCode errorCode, ConstraintViolationException e) {
             return ResponseEntity
-                    .status(status)
+                    .status(errorCode.getHttpStatus())
                     .body(ErrorResponse.builder()
-                            .httpStatus(status.value())
-                            .errorCode(errorCode)
-                            .message(message)
+                            .httpStatus(errorCode.getHttpStatus())
+                            .errorCode(errorCode.getErrorCode())
+                            .message(e.getMessage() + " " + errorCode.getMessage())
                             .build()
                     );
         }

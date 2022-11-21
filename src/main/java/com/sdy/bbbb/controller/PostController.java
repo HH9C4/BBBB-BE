@@ -4,17 +4,24 @@ import com.sdy.bbbb.config.UserDetailsImpl;
 import com.sdy.bbbb.dto.request.PostRequestDto;
 import com.sdy.bbbb.dto.response.*;
 import com.sdy.bbbb.service.PostService;
+import com.sdy.bbbb.util.request_enum.CategoryEnum;
+import com.sdy.bbbb.util.request_enum.SortEnum;
+import com.sdy.bbbb.util.request_enum.ValidEnum;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.util.List;
@@ -23,6 +30,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/posts")
 @RestController
+@Validated
 public class PostController {
 
     private final PostService postService;
@@ -42,8 +50,8 @@ public class PostController {
     @ApiOperation(value = "게시글 조회 ", notes = "get post with \"gu\" ,\"sort\"")
     @GetMapping
     public GlobalResponseDto<PostListResponseDto> getPost(@RequestParam("gu") String gu,
-                                                          @RequestParam("category") String category,
-                                                          @RequestParam("sort") String sort,
+                                                          @RequestParam("category") @ValidEnum(enumClass = CategoryEnum.class) String category,
+                                                          @RequestParam("sort") @ValidEnum(enumClass = SortEnum.class) String sort,
                                                           @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         log.info("= = = = 게시글 조회 = = = = ");
         return postService.getPost(gu, category, sort, userDetails.getAccount());
@@ -61,9 +69,9 @@ public class PostController {
     //게시글 검색
     @ApiOperation(value = "게시글 검색", notes = "설명")
     @GetMapping("/search")
-    public GlobalResponseDto<List<PostResponseDto>> searchPost(@RequestParam ("type") Integer type,
-                                                               @RequestParam("searchWord") String searchWord,
-                                                               @RequestParam("sort") String sort,
+    public GlobalResponseDto<List<PostResponseDto>> searchPost(@RequestParam ("type") @Range(min = 0, max = 1) Integer type,
+                                                               @RequestParam("searchWord") @NotBlank String searchWord,
+                                                               @RequestParam("sort") @ValidEnum(enumClass = SortEnum.class) String sort,
                                                                @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         log.info("= = = = 게시글 검색 = = = = ");
         return postService.searchPost(type, searchWord, sort, userDetails.getAccount());

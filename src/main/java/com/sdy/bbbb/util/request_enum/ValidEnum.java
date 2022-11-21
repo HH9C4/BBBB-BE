@@ -1,4 +1,4 @@
-package com.sdy.bbbb.util;
+package com.sdy.bbbb.util.request_enum;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -15,4 +15,6 @@ public @interface ValidEnum {
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
     Class<? extends java.lang.Enum<?>> enumClass();
+
+    boolean ignoreCase() default false;
 }

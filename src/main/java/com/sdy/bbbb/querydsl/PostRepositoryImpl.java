@@ -80,11 +80,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     private OrderByNull eqSort2(String sort) {
-        if(sort.equals("new")) {
+        if(sort.equalsIgnoreCase("new")) {
             return OrderByNull.DEFAULT;
             //나중에 생각해보자
-        } else if (sort.equals("hot")) {
-            return (OrderByNull) post.likeCount.desc();
+        } else if (sort.equalsIgnoreCase("hot")) {
+            return (OrderByNull)post.likeCount.desc();
         } else {
             throw new CustomException(ErrorCode.BadRequest);
         }
@@ -101,7 +101,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     private BooleanExpression category(String category){
-        if (category.equals("All")){
+        if (category.equalsIgnoreCase("all")){
             return null;
         }else {
             return post.category.eq(category);
