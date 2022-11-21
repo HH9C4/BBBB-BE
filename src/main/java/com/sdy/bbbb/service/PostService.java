@@ -177,7 +177,7 @@ public class PostService {
         //어차피 쓸거 일단 찾아
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
         //작성자 일치여부 확인
-        checkPostAuthor(post, account);
+        ServiceUtil.checkPostAuthor(post, account);
 
         //이미지 수정
         //삭제할 이미지 있다면
@@ -210,7 +210,7 @@ public class PostService {
         //어차피 쓸거 일단 찾아
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
         //작성자 일치여부 확인
-        checkPostAuthor(post, account);
+        ServiceUtil.checkPostAuthor(post, account);
 
         postRepository.delete(post);
         return GlobalResponseDto.ok("게시글 삭제가 완료되었습니다.", post.getGuName());
@@ -261,11 +261,11 @@ public class PostService {
 //    }
 
     //작성자 확인
-    private void checkPostAuthor(Post post, Account account) {
-        if (!post.getAccount().getId().equals(account.getId())){
-            throw new CustomException(ErrorCode.NotMatchAuthor);
-        }
-    }
+//    private void checkPostAuthor(Post post, Account account) {
+//        if (!post.getAccount().getId().equals(account.getId())){
+//            throw new CustomException(ErrorCode.NotMatchAuthor);
+//        }
+//    }
 
     //좋아요 여부
 //    private boolean amILikedPost(Post post, List<Like> likeList) {

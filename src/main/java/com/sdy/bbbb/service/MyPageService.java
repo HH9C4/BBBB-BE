@@ -7,6 +7,7 @@ import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.repository.*;
 import com.sdy.bbbb.s3.S3Uploader2;
+import com.sdy.bbbb.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,9 +47,10 @@ public class MyPageService {
     // 알람체크
     @Transactional
     public GlobalResponseDto<CommentResponseDto> checkAlarm(Long commentId, Account account) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(
+        Comment comment = commentRepository.findCommentById(commentId).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundComment)
         );
+        ServiceUtil.checkCommentAuthor(comment, account);
         if (!comment.isChecked()) {
             comment.setChecked(true);
         } else {
@@ -63,7 +65,7 @@ public class MyPageService {
         List<Post> myPosts = postRepository.findPostsByAccount_IdOrderByCreatedAtDesc(account.getId());
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
         for (Post foundPost : myPosts) {
-            postResponseDtos.add(new PostResponseDto(foundPost, getImgUrl(foundPost), getTag(foundPost), amILiked(foundPost, account)));
+            postResponseDtos.add(new PostResponseDto(foundPost, ServiceUtil.getImgUrl(foundPost), ServiceUtil.getTag(foundPost), amILiked(foundPost, account)));
         }
         return GlobalResponseDto.ok("조회 성공!", postResponseDtos);
     }
@@ -78,7 +80,7 @@ public class MyPageService {
             likedPost.add(like.getPost());
         }
         for (Post post : likedPost) {
-            postResponseDtos.add(new PostResponseDto(post, getImgUrl(post), getTag(post), amILiked(post, account)));
+            postResponseDtos.add(new PostResponseDto(post, ServiceUtil.getImgUrl(post), ServiceUtil.getTag(post), amILiked(post, account)));
         }
         return GlobalResponseDto.ok("조회 성공!", postResponseDtos);
 
@@ -110,28 +112,12 @@ public class MyPageService {
         return GlobalResponseDto.ok("수정완료", new LoginResponseDto(account));
     }
 
-    // 이미지 조회 함수
-    public List<String> getImgUrl(Post post) {
-        List<String> imageUrl = new ArrayList<>();
-        for (Image img : post.getImageList()) {
-            imageUrl.add(img.getImageUrl());
-        }
-        return imageUrl;
-    }
-
     // 좋아요 했는지 안했는지 확인하는 함수
     public boolean amILiked(Post post, Account currentAccount) {
         return likeRepository.existsByPostAndAccount(post, currentAccount);
     }
 
-    //태그 추출 함수
-    private List<String> getTag(Post post) {
-        List<String> tagList = new ArrayList<>();
-        for (HashTag hashTag : post.getTagList()) {
-            tagList.add(hashTag.getTag());
-        }
-        return tagList;
-    }
+
 
 
 

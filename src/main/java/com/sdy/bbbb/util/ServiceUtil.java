@@ -55,4 +55,18 @@ public class ServiceUtil {
         return false;
     }
 
+    //작성자 확인(Post)
+    public static void checkPostAuthor(Post post, Account account) {
+        if (!post.getAccount().getId().equals(account.getId())){
+            throw new CustomException(ErrorCode.NotMatchAuthor);
+        }
+    }
+
+    //작성자 확인(Comment)
+    public static void checkCommentAuthor(Comment comment, Account account) {
+        if (!comment.getAccount().getId().equals(account.getId())){
+            throw new CustomException(ErrorCode.NotMatchAuthor);
+        }
+    }
+
 }

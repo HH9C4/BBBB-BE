@@ -4,6 +4,7 @@ import com.querydsl.core.types.NullExpression;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.HashTag;
 import com.sdy.bbbb.entity.Post;
 import com.sdy.bbbb.exception.CustomException;
@@ -37,6 +38,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .fetchOne();
     }
 
+    //게시글 전체 조회
     @Override
     public List<Post> test2(String gu, String category, String sort) {
         return queryFactory
@@ -55,6 +57,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .fetch();
     }
 
+    // hot tag 20
     @Override
     public List<Post> searchByTag(Integer type, String searchWord, String sort) {
         return queryFactory
@@ -65,6 +68,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .orderBy(eqSort(sort), post.createdAt.desc())
                 .fetch();
     }
+
+
 
     //    sort sort 별 구문
     private OrderSpecifier eqSort(String sort) {
@@ -100,7 +105,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     private BooleanExpression category(String category){
-        if (category.equals("All")){
+        if (category.equals("all")){
             return null;
         }else {
             return post.category.eq(category);
