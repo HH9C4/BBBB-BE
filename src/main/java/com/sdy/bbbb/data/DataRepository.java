@@ -2,8 +2,10 @@ package com.sdy.bbbb.data;
 
 import com.sdy.bbbb.data.dataDto.JamDto;
 import com.sdy.bbbb.data.dataDto.PopulationDto;
+import org.geolatte.geom.M;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -62,6 +64,21 @@ public interface DataRepository extends JpaRepository<SpotData, Long> {
             "limit 3",
             nativeQuery = true)
     List<JamDto> getJamWeekDayFromDb();
+
+//    @Query(value = "select b.gu_nm, dayofweek(ppltn_time) as day_of_week, date(b.ppltn_time) as year_month_date, Hour(ppltn_time) as that_hour, b.area_nm, round(avg(b.ingu_avg)) as population_by_hour from " +
+//            "(select gu_nm, area_nm, ppltn_time, (area_ppltn_max+area_ppltn_min)/2 as ingu_avg from spot_data " +
+//            "where substr(ppltn_time, 1,10) = date_format(date_sub(now(), interval 1 day), '%Y-%m-%d') " +
+//            "and gu_nm = :gu " +
+//            ") as b " +
+//            "group by area_nm, that_hour",
+//            nativeQuery = true)
+//    List<JamDto> getGuInfo(String gu);
+//
+//    @Query(value = "")
+//    List<JamDto> getGuCorona(String gu);
+//
+//    @Query(value = "")
+//    List<>
 
     // 데이터 1번 지난 일주일 데이터
 //    @Query(value = "select week(now()) as ww, a.area_nm, a.gu_nm, sum(a.score1) as score_sum " +

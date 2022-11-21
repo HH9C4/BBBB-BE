@@ -3,6 +3,7 @@ package com.sdy.bbbb.data;
 import com.sdy.bbbb.data.dataDto.*;
 import com.sdy.bbbb.data.entity.JamOfWeek;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
+import com.sdy.bbbb.entity.Gu;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -80,7 +81,11 @@ public class DataService {
     }
 
 
+    // 구별 데이터 조회
+    public GlobalResponseDto<?> getGuInformation(String gu) {
 
 
+        return GlobalResponseDto.ok("조회 성공", null);
+    }
 }
 
