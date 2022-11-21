@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class JamTop5Dto {
 
-    private Long rowNum;
+    private Long rank;
 
 //    private Long ww;
 
@@ -22,7 +22,7 @@ public class JamTop5Dto {
 
 
     public JamTop5Dto(JamOfWeek jamOfWeek) {
-        this.rowNum = jamOfWeek.getId();
+        this.rank = jamOfWeek.getRank();
 //        this.ww =jamOfWeek.getSavedWeek();
         this.areaNm = jamOfWeek.getAreaNm();
         this.scoreSum = jamOfWeek.getSumOfScore();
