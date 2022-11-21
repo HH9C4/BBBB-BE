@@ -26,6 +26,7 @@ public class ApiScheduler {
     @Value("${seoul.open.api.url}")
     private StringBuilder url;
 
+
     @Transactional
     @Scheduled(cron = "0 2/5 * * * *")
     public void call() throws Exception {
@@ -126,4 +127,5 @@ public class ApiScheduler {
         String result = documentInfo.getElementsByTagName(tag).item(0).getTextContent();
         return result;
     }
+
 }

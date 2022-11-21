@@ -1,5 +1,6 @@
 package com.sdy.bbbb.data.dataDto;
 
+import com.sdy.bbbb.data.entity.JamOfWeek;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,12 +16,16 @@ public class JamTop5Dto {
 
     private String guNm;
 
+    private Boolean isWeekend;
 
-    public JamTop5Dto(JamDto jamDto) {
-        this.ww = jamDto.getWw();
-        this.areaNm = jamDto.getArea_Nm();
-        this.scoreSum = jamDto.getScore_Sum();
-        this.guNm = jamDto.getGu_Nm();
+
+    public JamTop5Dto(JamOfWeek jamOfWeek) {
+        this.ww =jamOfWeek.getSavedWeek();
+        this.areaNm = jamOfWeek.getAreaNm();
+        this.scoreSum = jamOfWeek.getSumOfScore();
+        this.guNm = jamOfWeek.getGuNm();
+        this.isWeekend = jamOfWeek.getIsWeekend();
     }
+
 }
 

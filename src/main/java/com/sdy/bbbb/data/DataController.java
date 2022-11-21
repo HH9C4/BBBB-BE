@@ -1,5 +1,6 @@
 package com.sdy.bbbb.data;
 
+import com.sdy.bbbb.data.dataDto.DataResponseDto;
 import com.sdy.bbbb.data.dataDto.PopulationChangesDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import io.swagger.annotations.ApiOperation;
@@ -15,23 +16,22 @@ public class DataController {
 
     private final DataService dataService;
 
-    @GetMapping("/api/test")
-    public void callApi() throws Exception {
-        dataService.test();
+    // 데이터 1번 주말데이터 저장
+    @GetMapping("/api/weekend")
+    public void saveWeekendData() {
+        dataService.saveWeekendData();
     }
 
-
-    // 데이터 1번 호출
-    @GetMapping("/api/jam")
-    @ApiOperation(value = "정보1번 지난 주 가장 혼잡했던 spot", notes = "내용입니다")
-    public GlobalResponseDto<?> getJam() {
-        return dataService.getJam();
+    // 데이터 1번 주중데이터 저장
+    @GetMapping("/api/weekday")
+    public void saveWeekdayData() {
+        dataService.saveWeekdayData();
     }
 
-    // 데이터 2번 호출
+    // 데이터 호출 api
     @GetMapping("/api/population")
     @ApiOperation(value = "정보2번 실시간 혼잡도", notes = "내용입니다")
-    public GlobalResponseDto<List<PopulationChangesDto>> getPopulation() {
+    public GlobalResponseDto<DataResponseDto> getPopulation() {
         return dataService.getPopulationChanges();
     }
 

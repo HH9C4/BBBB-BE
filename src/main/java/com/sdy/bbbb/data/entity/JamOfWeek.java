@@ -1,11 +1,13 @@
 package com.sdy.bbbb.data.entity;
 
 import com.sdy.bbbb.data.dataDto.JamDto;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class JamOfWeek {
 
@@ -30,6 +32,14 @@ public class JamOfWeek {
 
 
     public JamOfWeek(JamDto jamDto, Boolean isWeekend) {
+        this.sumOfScore = jamDto.getScore_Sum();
+        this.areaNm = jamDto.getArea_Nm();
+        this.guNm = jamDto.getGu_Nm();
+        this.savedWeek = jamDto.getWw();
+        this.isWeekend = isWeekend;
+    }
+
+    public void update(JamDto jamDto) {
         this.sumOfScore = jamDto.getScore_Sum();
         this.areaNm = jamDto.getArea_Nm();
         this.guNm = jamDto.getGu_Nm();
