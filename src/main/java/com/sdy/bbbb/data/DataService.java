@@ -4,6 +4,8 @@ import com.sdy.bbbb.data.dataDto.*;
 import com.sdy.bbbb.data.entity.JamOfWeek;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.entity.Gu;
+import com.sdy.bbbb.exception.CustomException;
+import com.sdy.bbbb.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -61,7 +64,7 @@ public class DataService {
 
     // 데이터 조회
     @Transactional(readOnly = true)
-    public GlobalResponseDto<DataResponseDto> getPopulationChanges() {
+    public GlobalResponseDto<DataResponseDto> getMainInfo() {
 
         // data 1
         List<JamOfWeek> jamList = jamRepository.findAll();
@@ -82,10 +85,32 @@ public class DataService {
 
 
     // 구별 데이터 조회
-    public GlobalResponseDto<?> getGuInformation(String gu) {
+    public GlobalResponseDto<BaseGuInfoDto> getGuInformation(String gu) {
+
+        //구valid 해야함(준비중)
+
+        List<GuBaseInfo> guBaseInfoList = dataRepository.getGuBaseInfo(gu);
+
+        GuBaseInfo guBaseInfos;
+        if (guBaseInfoList.size() != 0) {
+            guBaseInfos = guBaseInfoList.get(0);
+        }else {
+            throw new CustomException(ErrorCode.NotReadyForData);
+        }
+
+        List<SpotInfoDto> spotInfoDtoList = new ArrayList<>();
+        for(GuBaseInfo guBaseInfo : guBaseInfoList){
+            spotInfoDtoList.add(new SpotInfoDto(guBaseInfo));
+        }
 
 
-        return GlobalResponseDto.ok("조회 성공", null);
+        List<SpotCalculated> spotCalculateds = dataRepository.getGuInfo(gu);
+        List<SpotCalculatedDto> spotCalculatedDtoList = new ArrayList<>();
+        for(SpotCalculated spotData: spotCalculateds) {
+            spotCalculatedDtoList.add(new SpotCalculatedDto(spotData));
+        }
+
+        return GlobalResponseDto.ok("조회 성공", new BaseGuInfoDto(guBaseInfos, spotInfoDtoList, spotCalculatedDtoList));
     }
 }
 
