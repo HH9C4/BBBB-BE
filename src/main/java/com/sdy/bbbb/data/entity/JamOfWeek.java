@@ -30,7 +30,7 @@ public class JamOfWeek {
 
 
     public JamOfWeek(JamDto jamDto, Boolean isWeekend) {
-        this.sumOfScore = jamDto.getScore_Num();
+        this.sumOfScore = jamDto.getScore_Sum();
         this.areaNm = jamDto.getArea_Nm();
         this.guNm = jamDto.getGu_Nm();
         this.savedWeek = jamDto.getWw();
