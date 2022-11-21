@@ -5,5 +5,5 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public enum CategoryEnum {
-    공유, 질문, 맛집, 일상
+    ALL, 공유, 질문, 맛집, 일상
 }
