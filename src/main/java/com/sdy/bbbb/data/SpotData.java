@@ -155,6 +155,7 @@ public class SpotData extends TimeStamped {
     @Column(nullable = false)
     private String guAdded;
 
-
+    @Column(nullable = false)
+    private String skyStts;
 
 }

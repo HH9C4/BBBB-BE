@@ -92,6 +92,7 @@ public class ApiScheduler {
                     .guNm(getElementText(documentInfo, DataTagName.GU_NM.name()))
                     .guConfirmed(getElementText(documentInfo, DataTagName.GU_CONFIRMED.name()))
                     .guAdded(getElementText(documentInfo, DataTagName.GU_ADDED.name()))
+                    .guAdded(getElementText(documentInfo, DataTagName.SKY_STTS.name()))
                     .build();
 
             spotDataList.add(spotData);
