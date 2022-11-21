@@ -18,17 +18,17 @@ public class DataController {
 
     private final DataService dataService;
 
-    // 데이터 1번 주말데이터 저장
-    @GetMapping("/api/weekend")
-    public void saveWeekendData() {
-        dataService.saveWeekendData();
-    }
+    // 데이터 1번 주말데이터 저장 (테스트용)
+//    @GetMapping("/api/weekend")
+//    public void saveWeekendData() {
+//        dataService.saveWeekendData();
+//    }
 
-    // 데이터 1번 주중데이터 저장
-    @GetMapping("/api/weekday")
-    public void saveWeekdayData() {
-        dataService.saveWeekdayData();
-    }
+    // 데이터 1번 주중데이터 저장 (테스트용)
+//    @GetMapping("/api/weekday")
+//    public void saveWeekdayData() {
+//        dataService.saveWeekdayData();
+//    }
 
     // 데이터 호출 api
     @GetMapping("/api/maininfo")
