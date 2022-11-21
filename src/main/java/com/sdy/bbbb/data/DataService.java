@@ -33,7 +33,7 @@ public class DataService {
     }
 
     // 데이터 1 - 주말 데이터 저장 로직
-    @Transactional(readOnly = true)
+    @Transactional
     public GlobalResponseDto<?> test() {
         List<JamDto> jamDtos = dataRepository.getJamWeekendFromDb();
         List<JamTop5Dto> jamTop5Dtos = new ArrayList<>();
