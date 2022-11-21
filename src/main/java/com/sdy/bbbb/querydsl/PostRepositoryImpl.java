@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.sdy.bbbb.entity.QComment.comment1;
 import static com.sdy.bbbb.entity.QHashTag.hashTag;
@@ -52,7 +53,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .orderBy(eqSort2(sort), post.createdAt.desc())
                 //페이징 할 때 수정해야 할것이다!
 //                .orderBy(post.createdAt.desc())
-                .fetch();
+                .fetch().stream().distinct().collect(Collectors.toList());
     }
 
     @Override
