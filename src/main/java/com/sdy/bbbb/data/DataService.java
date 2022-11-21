@@ -61,7 +61,7 @@ public class DataService {
 
     // 데이터 조회
     @Transactional(readOnly = true)
-    public GlobalResponseDto<DataResponseDto> getPopulationChanges() {
+    public GlobalResponseDto<DataResponseDto> getMainInfo() {
 
         // data 1
         List<JamOfWeek> jamList = jamRepository.findAll();

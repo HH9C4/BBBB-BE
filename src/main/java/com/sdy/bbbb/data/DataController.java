@@ -1,5 +1,6 @@
 package com.sdy.bbbb.data;
 
+import com.sdy.bbbb.data.dataDto.BaseGuInfoDto;
 import com.sdy.bbbb.data.dataDto.DataResponseDto;
 import com.sdy.bbbb.data.dataDto.PopulationChangesDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
@@ -32,13 +33,13 @@ public class DataController {
     // 데이터 호출 api
     @GetMapping("/api/maininfo")
     @ApiOperation(value = "메인페이지 정보", notes = "내용입니다")
-    public GlobalResponseDto<DataResponseDto> getPopulation() {
-        return dataService.getPopulationChanges();
+    public GlobalResponseDto<DataResponseDto> getMainInfo() {
+        return dataService.getMainInfo();
     }
 
     @GetMapping("/api/guinfo")
     @ApiOperation(value = "구 별 정보", notes = "내용입니다")
-    public GlobalResponseDto<?> getGuInformation(@RequestParam String gu) {
+    public GlobalResponseDto<BaseGuInfoDto> getGuInformation(@RequestParam String gu) {
         return dataService.getGuInformation(gu);
     }
 
