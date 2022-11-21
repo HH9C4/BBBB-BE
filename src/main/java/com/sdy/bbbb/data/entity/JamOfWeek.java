@@ -16,6 +16,9 @@ public class JamOfWeek {
     private Long id;
 
     @Column
+    private Long rank;
+
+    @Column
     private Long sumOfScore;
 
     @Column
