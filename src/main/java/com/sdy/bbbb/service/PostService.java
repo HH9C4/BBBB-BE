@@ -99,7 +99,7 @@ public class PostService {
 
 //    게시글 검색
     @Transactional(readOnly = true)
-    public GlobalResponseDto<List<PostResponseDto>> searchPost(Integer type,
+    public GlobalResponseDto<PostListResponseDto> searchPost(Integer type,
                                                                String searchWord,
                                                                String sort,
                                                                Account account) {
@@ -131,7 +131,7 @@ public class PostService {
             postResponseDtoList.add(
                     new PostResponseDto(post, ServiceUtil.getImgUrl(post), ServiceUtil.getTag(post), ServiceUtil.amILikedPost(post, likeList)));
         }
-        return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
+        return GlobalResponseDto.ok("조회 성공", new PostListResponseDto(null, postResponseDtoList));
     }
 
     //게시글 상세 조회
