@@ -14,4 +14,6 @@ public interface PopulationDto {
 
     String getArea_Congest_Lvl();
 
+    String getGu_Nm();
+
 }

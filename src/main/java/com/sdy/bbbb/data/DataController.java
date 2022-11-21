@@ -15,10 +15,10 @@ public class DataController {
 
     private final DataService dataService;
 
-//    @GetMapping("/api/test")
-//    public void callApi() throws Exception {
-//        dataService.call();
-//    }
+    @GetMapping("/api/test")
+    public void callApi() throws Exception {
+        dataService.test();
+    }
 
 
     // 데이터 1번 호출
@@ -34,5 +34,6 @@ public class DataController {
     public GlobalResponseDto<List<PopulationChangesDto>> getPopulation() {
         return dataService.getPopulationChanges();
     }
+
 
 }
