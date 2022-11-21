@@ -10,6 +10,7 @@ import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.repository.CommentRepository;
 import com.sdy.bbbb.repository.PostRepository;
+import com.sdy.bbbb.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -39,14 +40,13 @@ public class CommentService {
     }
   
     @Transactional
-    public GlobalResponseDto deleteComment(Long id, Account account) {
+    public GlobalResponseDto<String> deleteComment(Long id, Account account) {
         Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundComment));
         // 댓글 없으면 예외처리 (댓글을 찾을 수 없습니다)
         Post post = comment.getPost();
-        if (!comment.getAccount().getId().equals(account.getId())) {
-            throw new CustomException(ErrorCode.NotMatchAuthor);
-        }// 댓글 작성자 아니면 에러코드 (작성자가 아닙니다)
+        // 댓글 작성자 아니면 에러코드 (작성자가 아닙니다)
+        ServiceUtil.checkCommentAuthor(comment, account);
         commentRepository.delete(comment);
         // 댓글 삭제
         post.setCommentCount(post.getCommentCount() -1);

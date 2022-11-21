@@ -1,5 +1,9 @@
 package com.sdy.bbbb.data;
 
+import com.sdy.bbbb.data.dataDto.JamDto;
+import com.sdy.bbbb.data.dataDto.JamTop5Dto;
+import com.sdy.bbbb.data.dataDto.PopulationChangesDto;
+import com.sdy.bbbb.data.dataDto.PopulationDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.entity.Spot;
 import com.sdy.bbbb.exception.CustomException;
@@ -23,11 +27,25 @@ public class DataService {
 
     @Value("${seoul.open.api.url}")
     private StringBuilder url;
-    private final TestRepo testRepo;
+    private final DataRepository dataRepository;
     private final SpotRepository spotRepository;
 
+    // 데이터 1번 조회
+    @Transactional(readOnly = true)
+    public GlobalResponseDto<?> getJam() {
+        List<JamDto> jamDtos = dataRepository.getJamFromDb();
+        List<JamTop5Dto> jamTop5Dtos = new ArrayList<>();
+        for(JamDto jam : jamDtos) {
+            jamTop5Dtos.add(new JamTop5Dto(jam));
+        }
+        return GlobalResponseDto.ok("조회 성공", jamTop5Dtos);
+    }
+
+
+    // 데이터 2번 조회
+    @Transactional(readOnly = true)
     public GlobalResponseDto<List<PopulationChangesDto>> getPopulationChanges() {
-        List<PopulationDto> popList = testRepo.getPopulationFromDb();
+        List<PopulationDto> popList = dataRepository.getPopulationFromDb();
         List<PopulationChangesDto> dtoList = new ArrayList<>();
         for (PopulationDto pop : popList) {
             dtoList.add(new PopulationChangesDto(pop));
@@ -106,7 +124,7 @@ public class DataService {
         }
 
         Iterable<SpotData> dataList = spotDataList;
-        testRepo.saveAll(dataList);
+        dataRepository.saveAll(dataList);
 
 //        System.out.println(documentInfo.getElementsByTagName("PPLTN_RATE_10").item(0).getTextContent());
 //        System.out.println(documentInfo.getElementsByTagName("AREA_CONGEST_MSG").item(0).getTextContent());

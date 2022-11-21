@@ -1,11 +1,13 @@
 package com.sdy.bbbb.data;
 
+import com.sdy.bbbb.data.dataDto.JamDto;
+import com.sdy.bbbb.data.dataDto.PopulationDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface TestRepo extends JpaRepository<SpotData, Long> {
+public interface DataRepository extends JpaRepository<SpotData, Long> {
 
     @Query(value = "with table1 as (select area_nm ,round(avg((area_ppltn_max + area_ppltn_min) / 2)) as ppltn_avg1 from spot_data " +
             "where ppltn_time between date_sub(now(), interval 155 minute) and date_sub(now(), interval 95 minute) " +
@@ -21,4 +23,24 @@ public interface TestRepo extends JpaRepository<SpotData, Long> {
             "limit 5",
             nativeQuery = true)
     List<PopulationDto> getPopulationFromDb();
+
+    @Query(value = "select week(now()) as ww, a.area_nm, sum(a.score1) as score_sum " +
+            "from ( " +
+            "select area_nm, " +
+            "case " +
+            "when area_congest_lvl = '여유' then 1 " +
+            "when area_congest_lvl = '보통' then 3 " +
+            "when area_congest_lvl = '붐빔' then 6 " +
+            "when area_congest_lvl = '매우 붐빔' then 10 " +
+            "end as 'score1' " +
+            "from spot_data sd " +
+            "where ppltn_time between date_format(date_sub(now(), interval 7 day), '%Y-%m-$d 00:00:00') and date_format(date_sub(now(), interval 1 day), '%Y-%m-%d 23:59:59') " +
+            "and dayofweek(ppltn_time) in (1,2,3,4,5,6,7) " +
+            ") as a " +
+            "group by area_nm " +
+            "order by score_sum desc " +
+            "limit 5",
+            nativeQuery = true)
+    List<JamDto> getJamFromDb();
+
 }
