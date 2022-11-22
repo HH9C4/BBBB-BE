@@ -5,6 +5,7 @@ import com.sdy.bbbb.dto.response.*;
 import com.sdy.bbbb.entity.*;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
+import com.sdy.bbbb.querydsl.CommentRepositoryImpl;
 import com.sdy.bbbb.repository.*;
 import com.sdy.bbbb.s3.S3Uploader2;
 import com.sdy.bbbb.util.ServiceUtil;
@@ -25,23 +26,23 @@ public class MyPageService {
     private final CommentRepository commentRepository;
     private final BookmarkRepository bookmarkRepository;
     private final S3Uploader2 s3Uploader2;
+    private final CommentRepositoryImpl commentRepositoryImpl;
 
 
 
     // 내 게시글에 달린 댓글 알람 기능
     @Transactional(readOnly = true)
     public GlobalResponseDto<List<AlarmResponseDto>> showAlarm(Account account) {
+        List<Comment> commentList = commentRepositoryImpl.searchCommentsInMyPosts(account);
         //내가 쓴 게시글 조회
-        List<Post> myPosts = postRepository.findPostsByAccount_IdOrderByCreatedAtDesc(account.getId());
-        List<Comment> postsComment = new ArrayList<>();
+//        List<Post> myPosts = postRepository.findPostsByAccount_IdOrderByCreatedAtDesc(account.getId());
+//        List<Comment> postsComment = new ArrayList<>();
         List<AlarmResponseDto> alarmResponseDtos = new ArrayList<>();
-        for (Post post : myPosts) {
-            postsComment.addAll(post.getCommentList());
-        }
-        for (Comment comment : postsComment) {
-            if (!comment.getAccount().getEmail().equals(account.getEmail())) {
+//        for (Post post : myPosts) {
+//            postsComment.addAll(post.getCommentList());
+//        }
+        for (Comment comment : commentList) {
                 alarmResponseDtos.add(new AlarmResponseDto(comment));
-            }
         }
         return GlobalResponseDto.ok("조회 성공!", alarmResponseDtos);
     }
