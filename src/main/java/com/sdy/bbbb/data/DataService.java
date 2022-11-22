@@ -4,8 +4,10 @@ import com.sdy.bbbb.data.dataDto.*;
 import com.sdy.bbbb.data.entity.JamOfWeek;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.entity.Gu;
+import com.sdy.bbbb.entity.Spot;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
+import com.sdy.bbbb.repository.GuRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,9 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -25,6 +25,7 @@ public class DataService {
     private final DataRepository dataRepository;
     private final JamRepository jamRepository;
 
+    private final GuRepository guRepository;
 
 
     // 데이터 1 - 주말 데이터 저장 로직
@@ -98,19 +99,33 @@ public class DataService {
             throw new CustomException(ErrorCode.NotReadyForData);
         }
 
-        List<SpotInfoDto> spotInfoDtoList = new ArrayList<>();
-        for(GuBaseInfo guBaseInfo : guBaseInfoList){
-            spotInfoDtoList.add(new SpotInfoDto(guBaseInfo));
-        }
-
 
         List<SpotCalculated> spotCalculateds = dataRepository.getGuInfo(gu);
-        List<SpotCalculatedDto> spotCalculatedDtoList = new ArrayList<>();
-        for(SpotCalculated spotData: spotCalculateds) {
-            spotCalculatedDtoList.add(new SpotCalculatedDto(spotData));
+//        List<SpotCalculatedDto> spotCalculatedDtoList = new ArrayList<>();
+//        for(SpotCalculated spotData: spotCalculateds) {
+//            spotCalculatedDtoList.add(new SpotCalculatedDto(spotData));
+//        }
+
+
+
+//        Gu gu1 = guRepository.findGuByGuName(gu).orElseThrow(() -> new CustomException(ErrorCode.NotFoundGu));
+//        List<Spot> spotList = gu1.getSpot();
+
+        List<SpotInfoDto> spotInfoDtoList = new ArrayList<>();
+        for(GuBaseInfo guBaseInfo : guBaseInfoList){
+            for(SpotCalculated spot1 : spotCalculateds) {
+                if (guBaseInfo.getArea_nm().equals(spot1.getArea_Nm())) {
+                    Map<String, String> popByHour =  new HashMap();
+                    popByHour.put(spot1.getThat_Hour(), spot1.getPopulation_By_Hour());
+                    spotInfoDtoList.add(new SpotInfoDto(guBaseInfo, popByHour));
+                }
+            }
         }
 
-        return GlobalResponseDto.ok("조회 성공", new BaseGuInfoDto(guBaseInfos, spotInfoDtoList, spotCalculatedDtoList));
+
+
+
+        return GlobalResponseDto.ok("조회 성공", new BaseGuInfoDto(guBaseInfos, spotInfoDtoList));
     }
 }
 
