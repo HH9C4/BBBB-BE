@@ -64,7 +64,7 @@ public class PostService {
                                                           String category,
                                                           String sort,
                                                           Account account) {
-        validateSort(sort);
+
         //구를 디비에서 찾아서 올바르게 들어왔는지 검사하는 로직이 필요할까?
         guName = ServiceUtil.decoding(guName);
         category = ServiceUtil.decoding(category);
@@ -99,14 +99,13 @@ public class PostService {
 
 //    게시글 검색
     @Transactional(readOnly = true)
-    public GlobalResponseDto<List<PostResponseDto>> searchPost(Integer type,
+    public GlobalResponseDto<PostListResponseDto> searchPost(Integer type,
                                                                String searchWord,
                                                                String sort,
                                                                Account account) {
-        validateSort(sort);
-        validateType(type);
+
         searchWord = ServiceUtil.decoding(searchWord);
-        validateSearchWord(searchWord);
+
         List<Post> postList = postRepository.searchByTag(type, searchWord, sort);
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 //        if (type == 0) {
@@ -131,7 +130,7 @@ public class PostService {
             postResponseDtoList.add(
                     new PostResponseDto(post, ServiceUtil.getImgUrl(post), ServiceUtil.getTag(post), ServiceUtil.amILikedPost(post, likeList)));
         }
-        return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
+        return GlobalResponseDto.ok("조회 성공", new PostListResponseDto(null, postResponseDtoList));
     }
 
     //게시글 상세 조회
@@ -312,21 +311,4 @@ public class PostService {
         throw new CustomException(ErrorCode.NotFoundGu);
     }
 
-    private void validateSort(String sort) {
-        if(!(sort.equals("new") || sort.equals("hot"))){
-
-            throw new CustomException(ErrorCode.BadRequest);
-        }
-    }
-    private void validateType(Integer type) {
-        if(type != 0 && type != 1) {
-            throw new CustomException(ErrorCode.BadRequest);
-        }
-    }
-
-    private void validateSearchWord(String searchWord){
-        if(searchWord.length() < 2) {
-            throw new CustomException(ErrorCode.BadRequest);
-        }
-    }
 }

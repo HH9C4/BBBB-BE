@@ -58,16 +58,18 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .fetch().stream().distinct().collect(Collectors.toList());
     }
 
-    // hot tag 20
+    // 검색
     @Override
     public List<Post> searchByTag(Integer type, String searchWord, String sort) {
         return queryFactory
-                .select(post).distinct()
+                .select(post)
                 .from(post)
-                .leftJoin(post.tagList).fetchJoin()
+//                .leftJoin(post.tagList).fetchJoin()
+                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id)).fetchJoin()
+//                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id))
                 .where(tagOrNot(type, searchWord))
                 .orderBy(eqSort(sort), post.createdAt.desc())
-                .fetch();
+                .fetch().stream().distinct().collect(Collectors.toList());
     }
 
 
@@ -85,11 +87,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     private OrderByNull eqSort2(String sort) {
-        if(sort.equals("new")) {
+        if(sort.equalsIgnoreCase("new")) {
             return OrderByNull.DEFAULT;
             //나중에 생각해보자
-        } else if (sort.equals("hot")) {
-            return (OrderByNull) post.likeCount.desc();
+        } else if (sort.equalsIgnoreCase("hot")) {
+            return (OrderByNull)post.likeCount.desc();
         } else {
             throw new CustomException(ErrorCode.BadRequest);
         }
@@ -106,7 +108,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     private BooleanExpression category(String category){
-        if (category.equals("all")){
+        if (category.equalsIgnoreCase("all")){
             return null;
         }else {
             return post.category.eq(category);

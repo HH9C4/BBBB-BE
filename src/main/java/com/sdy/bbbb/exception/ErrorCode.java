@@ -37,7 +37,10 @@ public enum ErrorCode {
     NotReadyForData(HttpStatus.NOT_FOUND.value(), "D001", "아직 준비중입니다.(데이터가 없습니다.)"),
 
     //디코딩 실패
-    FailDecodeString(HttpStatus.BAD_REQUEST.value(), "D001", "디코딩 실패");
+    FailDecodeString(HttpStatus.BAD_REQUEST.value(), "D001", "디코딩 실패."),
+
+    //requestParam
+    ParamArgumentNotValid(HttpStatus.BAD_REQUEST.value(), "R001", "요청 인자를 확인해주세요.");
 
 
 
