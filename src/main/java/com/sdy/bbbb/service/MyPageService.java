@@ -42,7 +42,9 @@ public class MyPageService {
 //            postsComment.addAll(post.getCommentList());
 //        }
         for (Comment comment : commentList) {
+            if (!comment.getAccount().getId().equals(account.getId())) {
                 alarmResponseDtos.add(new AlarmResponseDto(comment));
+            }
         }
         return GlobalResponseDto.ok("조회 성공!", alarmResponseDtos);
     }
