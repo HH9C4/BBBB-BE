@@ -86,8 +86,6 @@ public class WebSecurityConfig {
                 .antMatchers(PERMIT_URL_ARRAY).permitAll() //swagger 열어주기
                 .anyRequest().authenticated()
 //                .anyRequest().authenticated() //permitAll을 제외한 API는 모두 인증 필요
-
-
                 .and()
                 .addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
