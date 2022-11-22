@@ -8,6 +8,7 @@ import com.sdy.bbbb.entity.Spot;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.repository.GuRepository;
+import com.sdy.bbbb.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -87,7 +88,7 @@ public class DataService {
 
     // 구별 데이터 조회
     public GlobalResponseDto<BaseGuInfoDto> getGuInformation(String gu) {
-
+        gu = ServiceUtil.decoding(gu);
         //구valid 해야함(준비중)
 
         List<GuBaseInfo> guBaseInfoList = dataRepository.getGuBaseInfo(gu);
@@ -99,8 +100,6 @@ public class DataService {
             throw new CustomException(ErrorCode.NotReadyForData);
         }
 
-
-        List<SpotCalculated> spotCalculateds = dataRepository.getGuInfo(gu);
 //        List<SpotCalculatedDto> spotCalculatedDtoList = new ArrayList<>();
 //        for(SpotCalculated spotData: spotCalculateds) {
 //            spotCalculatedDtoList.add(new SpotCalculatedDto(spotData));
@@ -111,6 +110,13 @@ public class DataService {
 //        Gu gu1 = guRepository.findGuByGuName(gu).orElseThrow(() -> new CustomException(ErrorCode.NotFoundGu));
 //        List<Spot> spotList = gu1.getSpot();
 
+        //지난주 0요일
+        List<SpotCalculated> spotCalculateds = dataRepository.getGuInfo(gu);
+        //오늘
+        List<SpotCalculated> todaySpotCalculatedList = dataRepository.getGuInfoToday(gu);
+
+
+        //기존
         List<SpotInfoDto> spotInfoDtoList = new ArrayList<>();
         for(GuBaseInfo guBaseInfo : guBaseInfoList){
             List<Map<String, String>> mapList = new ArrayList<>();
@@ -121,11 +127,16 @@ public class DataService {
                     mapList.add(popByHour);
                 }
             }
-            spotInfoDtoList.add(new SpotInfoDto(guBaseInfo, mapList));
+            List<Map<String, String>> mapTodayList = new ArrayList<>();
+            for(SpotCalculated spot2 : todaySpotCalculatedList) {
+                if (guBaseInfo.getArea_nm().equals(spot2.getArea_Nm())) {
+                    Map<String, String> todayPopByHour = new HashMap<>();
+                    todayPopByHour.put(spot2.getThat_Hour(), spot2.getPopulation_By_Hour());
+                    mapTodayList.add(todayPopByHour);
+                }
+            }
+            spotInfoDtoList.add(new SpotInfoDto(guBaseInfo, mapList, mapTodayList));
         }
-
-
-
 
         return GlobalResponseDto.ok("조회 성공", new BaseGuInfoDto(guBaseInfos, spotInfoDtoList));
     }

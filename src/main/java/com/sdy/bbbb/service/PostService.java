@@ -64,10 +64,10 @@ public class PostService {
                                                           String category,
                                                           String sort,
                                                           Account account) {
-        validateSort(sort);
+
         //구를 디비에서 찾아서 올바르게 들어왔는지 검사하는 로직이 필요할까?
-        guName = decoding(guName);
-        category = decoding(category);
+        guName = ServiceUtil.decoding(guName);
+        category = ServiceUtil.decoding(category);
         validateGu(guName);
 //        List<Post> postList;
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
@@ -99,14 +99,13 @@ public class PostService {
 
 //    게시글 검색
     @Transactional(readOnly = true)
-    public GlobalResponseDto<List<PostResponseDto>> searchPost(Integer type,
+    public GlobalResponseDto<PostListResponseDto> searchPost(Integer type,
                                                                String searchWord,
                                                                String sort,
                                                                Account account) {
-        validateSort(sort);
-        validateType(type);
-        searchWord = decoding(searchWord);
-        validateSearchWord(searchWord);
+
+        searchWord = ServiceUtil.decoding(searchWord);
+
         List<Post> postList = postRepository.searchByTag(type, searchWord, sort);
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 //        if (type == 0) {
@@ -131,7 +130,7 @@ public class PostService {
             postResponseDtoList.add(
                     new PostResponseDto(post, ServiceUtil.getImgUrl(post), ServiceUtil.getTag(post), ServiceUtil.amILikedPost(post, likeList)));
         }
-        return GlobalResponseDto.ok("조회 성공", postResponseDtoList);
+        return GlobalResponseDto.ok("조회 성공", new PostListResponseDto(null, postResponseDtoList));
     }
 
     //게시글 상세 조회
@@ -158,7 +157,7 @@ public class PostService {
     //핫태그 20
     @Transactional(readOnly = true)
     public GlobalResponseDto<TagResponseDto> hotTag20(String guName) {
-        guName = decoding(guName);
+        guName = ServiceUtil.decoding(guName);
         validateGu(guName);
         List<HotTag> hashTagList = hashTagRepository.findHotTagWithNativeQuery(guName);
         List<String> tagList = new ArrayList<>();
@@ -292,15 +291,15 @@ public class PostService {
 //    }
 
     //utf-8 디코딩
-    private String decoding(String toDecode) {
-        String result = "";
-        try {
-            result = URLDecoder.decode(toDecode, "UTF-8");
-        }catch (UnsupportedEncodingException e){
-            throw new CustomException(ErrorCode.FailDecodeString);
-        }
-        return result;
-    }
+//    private String decoding(String toDecode) {
+//        String result = "";
+//        try {
+//            result = URLDecoder.decode(toDecode, "UTF-8");
+//        }catch (UnsupportedEncodingException e){
+//            throw new CustomException(ErrorCode.FailDecodeString);
+//        }
+//        return result;
+//    }
 
     private void validateGu(String guName) {
         List<Gu> guList = guRepository.findAll();
@@ -312,21 +311,4 @@ public class PostService {
         throw new CustomException(ErrorCode.NotFoundGu);
     }
 
-    private void validateSort(String sort) {
-        if(!(sort.equals("new") || sort.equals("hot"))){
-
-            throw new CustomException(ErrorCode.BadRequest);
-        }
-    }
-    private void validateType(Integer type) {
-        if(type != 0 && type != 1) {
-            throw new CustomException(ErrorCode.BadRequest);
-        }
-    }
-
-    private void validateSearchWord(String searchWord){
-        if(searchWord.length() < 2) {
-            throw new CustomException(ErrorCode.BadRequest);
-        }
-    }
 }
