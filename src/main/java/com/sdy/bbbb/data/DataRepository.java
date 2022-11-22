@@ -67,6 +67,7 @@ public interface DataRepository extends JpaRepository<SpotData, Long> {
             nativeQuery = true)
     List<JamDto> getJamWeekDayFromDb();
 
+    // 데이터 3번
     @Query(value = "select b.gu_nm, dayofweek(ppltn_time) as day_of_week, date(b.ppltn_time) as year_month_date, Hour(ppltn_time) as that_hour, b.area_nm, round(avg(b.ingu_avg)) as population_by_hour from " +
             "(select gu_nm, area_nm, ppltn_time, (area_ppltn_max+area_ppltn_min)/2 as ingu_avg from spot_data " +
             "where substr(ppltn_time, 1,10) = date_format(date_sub(now(), interval 1 day), '%Y-%m-%d') " +
