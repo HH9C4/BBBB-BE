@@ -5,11 +5,16 @@ import com.sdy.bbbb.dto.response.*;
 import com.sdy.bbbb.entity.*;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
+import com.sdy.bbbb.querydsl.PostRepositoryImpl;
 import com.sdy.bbbb.repository.*;
 import com.sdy.bbbb.s3.S3Uploader2;
 import com.sdy.bbbb.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +30,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
+    private final PostRepositoryImpl postRepositoryImpl;
     private final ImageRepository imageRepository;
     private final LikeRepository likeRepository;
     private final BookmarkRepository bookmarkRepository;
@@ -63,6 +69,7 @@ public class PostService {
     public GlobalResponseDto<PostListResponseDto> getPost(String guName,
                                                           String category,
                                                           String sort,
+                                                          Pageable pageable,
                                                           Account account) {
 
         //구를 디비에서 찾아서 올바르게 들어왔는지 검사하는 로직이 필요할까?
@@ -72,7 +79,7 @@ public class PostService {
 //        List<Post> postList;
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 
-        List<Post> postList1 = postRepository.test2(guName, category, sort);
+        List<Post> postList1 = postRepositoryImpl.test2(guName, category, sort, pageable);
 //        Set.copyOf(List)
 
 //        postList = postRepository.customSortByGu(gu);
@@ -100,13 +107,28 @@ public class PostService {
 //    게시글 검색
     @Transactional(readOnly = true)
     public GlobalResponseDto<PostListResponseDto> searchPost(Integer type,
-                                                               String searchWord,
-                                                               String sort,
-                                                               Account account) {
+                                                             String searchWord,
+                                                             String sort,
+                                                             Pageable pageable,
+                                                             Account account) {
 
         searchWord = ServiceUtil.decoding(searchWord);
-
-        List<Post> postList = postRepository.searchByTag(type, searchWord, sort);
+//        Page<Post> pp = new Page;
+//        pp.add(postRepositoryImpl.searchByTag(type, searchWord, sort, pageable));
+        Page<Post> postList = postRepositoryImpl.searchByTag(type, searchWord, sort, pageable);
+//        System.out.println("================================================");
+//        System.out.println(postList.getTotalElements());
+//        System.out.println("================================================");
+//        System.out.println(postList.getSize());
+//        System.out.println("================================================");
+//        System.out.println(postList.getTotalPages());
+//        System.out.println("================================================");
+//        System.out.println(postList.getContent());
+//        System.out.println("================================================");
+//        List<Post> postList1 = new ArrayList<>();
+//        for (Post post2 : postList) {
+//            postList1.add(post2);
+//        }
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 //        if (type == 0) {
 //            postRepository.test(type, searchWord, sort);
@@ -127,6 +149,7 @@ public class PostService {
         List<Like> likeList = likeRepository.findLikesByAccount(account);
         for (Post post : postList) {
             //좋아요 확인
+            System.out.println("포문도는 횟수++++++++++++++++++++++++++++++++++++++++++++++++++++");
             postResponseDtoList.add(
                     new PostResponseDto(post, ServiceUtil.getImgUrl(post), ServiceUtil.getTag(post), ServiceUtil.amILikedPost(post, likeList)));
         }
@@ -251,6 +274,16 @@ public class PostService {
         }
     }
 
+    private void validateGu(String guName) {
+        List<Gu> guList = guRepository.findAll();
+        for(Gu gu : guList){
+            if(gu.getGuName().equals(guName)){
+                return;
+            }
+        }
+        throw new CustomException(ErrorCode.NotFoundGu);
+    }
+
 //    private List<String> getTag(Post post){
 //        List<String> tagList = new ArrayList<>();
 //        for(HashTag hashTag : post.getTagList()){
@@ -301,14 +334,6 @@ public class PostService {
 //        return result;
 //    }
 
-    private void validateGu(String guName) {
-        List<Gu> guList = guRepository.findAll();
-        for(Gu gu : guList){
-            if(gu.getGuName().equals(guName)){
-                return;
-            }
-        }
-        throw new CustomException(ErrorCode.NotFoundGu);
-    }
+
 
 }

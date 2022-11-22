@@ -25,7 +25,7 @@ import static com.sdy.bbbb.entity.QHashTag.hashTag;
 import static com.sdy.bbbb.entity.QPost.post;
 
 @Repository
-public class PostRepositoryImpl extends QuerydslRepositorySupport implements PostRepositoryCustom {
+public class PostRepositoryImpl extends QuerydslRepositorySupport {
 
 
     private final JPAQueryFactory queryFactory;
@@ -47,7 +47,6 @@ public class PostRepositoryImpl extends QuerydslRepositorySupport implements Pos
 
 
     // 게시글 단건 조회
-    @Override
     public Post searchOneById(Long postId) {
         return queryFactory
                 .select(post)
@@ -59,10 +58,9 @@ public class PostRepositoryImpl extends QuerydslRepositorySupport implements Pos
     }
 
     //게시글 전체 조회
-    @Override
-    public List<Post> test2(String gu, String category, String sort) {
+    public List<Post> test2(String gu, String category, String sort, Pageable pageable) {
         return queryFactory
-                .select(post)
+                .select(post).distinct()
 //                .distinct()
                 .from(post)
 //                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id)).fetchJoin()
@@ -74,21 +72,29 @@ public class PostRepositoryImpl extends QuerydslRepositorySupport implements Pos
                 .orderBy(eqSort2(sort), post.createdAt.desc())
                 //페이징 할 때 수정해야 할것이다!
 //                .orderBy(post.createdAt.desc())
-                .fetch().stream().distinct().collect(Collectors.toList());
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .fetch();
+//                .stream().distinct().collect(Collectors.toList());
     }
 
     // 검색
-    @Override
-    public List<Post> searchByTag(Integer type, String searchWord, String sort) {
-        return queryFactory
-                .select(post)
+    public PageImpl<Post> searchByTag(Integer type, String searchWord, String sort, Pageable pageable) {
+        System.out.println("================================="+pageable.getPageSize());
+        List<Post> postList = queryFactory
+                .select(post).distinct()
                 .from(post)
 //                .leftJoin(post.tagList).fetchJoin()
                 .leftJoin(hashTag).on(post.id.eq(hashTag.post.id)).fetchJoin()
 //                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id))
                 .where(tagOrNot(type, searchWord))
                 .orderBy(eqSort(sort), post.createdAt.desc())
-                .fetch().stream().distinct().collect(Collectors.toList());
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .fetch();
+//                .stream().distinct().collect(Collectors.toList());
+
+        return new PageImpl<>(postList, pageable, postList.size());
     }
 
 
@@ -141,6 +147,19 @@ public class PostRepositoryImpl extends QuerydslRepositorySupport implements Pos
         }
     }
 
+//    private PageImpl toPage(List<Post> postList, Pageable pageable, Account account) {
+//        List<Post> eventPostAllResDtos = new ArrayList<>();
+//        for (Post post : postList) {
+//            boolean bookmark;
+//            if (member != null) {
+//                bookmark = eventPostLikeRepository.existsByMemberAndEventPost(member, eventPost);
+//            } else {
+//                bookmark = false;
+//            }
+//
+//            eventPostAllResDtos.add(EventPostAllResDto.toEPARD(eventPost, bookmark));
+//        }
+//        return new PageImpl<>(eventPostAllResDtos, pageable, eventPostList.size());
 
 
     //        private OrderSpecifier eqSort2(String sort, Expression<T> target) {
