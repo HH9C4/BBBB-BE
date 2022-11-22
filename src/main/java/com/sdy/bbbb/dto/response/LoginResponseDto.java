@@ -31,7 +31,7 @@ public class LoginResponseDto {
         this.email = account.getEmail();
         this.gender = account.getGender();
         this.profileImage = account.getProfileImage();
-        this.naverUser = !account.getNaverId().isEmpty();
-        this.kakaoUser = !account.getKakaoId().toString().isEmpty();
+        this.naverUser = account.getNaverId() != null;
+        this.kakaoUser = account.getKakaoId() != null;
     }
 }
