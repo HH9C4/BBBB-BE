@@ -4,8 +4,11 @@ import com.sdy.bbbb.data.dataDto.*;
 import com.sdy.bbbb.data.entity.JamOfWeek;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.entity.Gu;
+import com.sdy.bbbb.entity.Spot;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
+import com.sdy.bbbb.repository.GuRepository;
+import com.sdy.bbbb.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,9 +16,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -25,6 +26,7 @@ public class DataService {
     private final DataRepository dataRepository;
     private final JamRepository jamRepository;
 
+    private final GuRepository guRepository;
 
 
     // 데이터 1 - 주말 데이터 저장 로직
@@ -86,7 +88,7 @@ public class DataService {
 
     // 구별 데이터 조회
     public GlobalResponseDto<BaseGuInfoDto> getGuInformation(String gu) {
-
+        gu = ServiceUtil.decoding(gu);
         //구valid 해야함(준비중)
 
         List<GuBaseInfo> guBaseInfoList = dataRepository.getGuBaseInfo(gu);
@@ -98,19 +100,45 @@ public class DataService {
             throw new CustomException(ErrorCode.NotReadyForData);
         }
 
+//        List<SpotCalculatedDto> spotCalculatedDtoList = new ArrayList<>();
+//        for(SpotCalculated spotData: spotCalculateds) {
+//            spotCalculatedDtoList.add(new SpotCalculatedDto(spotData));
+//        }
+
+
+
+//        Gu gu1 = guRepository.findGuByGuName(gu).orElseThrow(() -> new CustomException(ErrorCode.NotFoundGu));
+//        List<Spot> spotList = gu1.getSpot();
+
+        //지난주 0요일
+        List<SpotCalculated> spotCalculateds = dataRepository.getGuInfo(gu);
+        //오늘
+        List<SpotCalculated> todaySpotCalculatedList = dataRepository.getGuInfoToday(gu);
+
+
+        //기존
         List<SpotInfoDto> spotInfoDtoList = new ArrayList<>();
         for(GuBaseInfo guBaseInfo : guBaseInfoList){
-            spotInfoDtoList.add(new SpotInfoDto(guBaseInfo));
+            List<Map<String, String>> mapList = new ArrayList<>();
+            for(SpotCalculated spot1 : spotCalculateds) {
+                if (guBaseInfo.getArea_nm().equals(spot1.getArea_Nm())) {
+                    Map<String, String> popByHour =  new HashMap();
+                    popByHour.put(spot1.getThat_Hour(), spot1.getPopulation_By_Hour());
+                    mapList.add(popByHour);
+                }
+            }
+            List<Map<String, String>> mapTodayList = new ArrayList<>();
+            for(SpotCalculated spot2 : todaySpotCalculatedList) {
+                if (guBaseInfo.getArea_nm().equals(spot2.getArea_Nm())) {
+                    Map<String, String> todayPopByHour = new HashMap<>();
+                    todayPopByHour.put(spot2.getThat_Hour(), spot2.getPopulation_By_Hour());
+                    mapTodayList.add(todayPopByHour);
+                }
+            }
+            spotInfoDtoList.add(new SpotInfoDto(guBaseInfo, mapList, mapTodayList));
         }
 
-
-        List<SpotCalculated> spotCalculateds = dataRepository.getGuInfo(gu);
-        List<SpotCalculatedDto> spotCalculatedDtoList = new ArrayList<>();
-        for(SpotCalculated spotData: spotCalculateds) {
-            spotCalculatedDtoList.add(new SpotCalculatedDto(spotData));
-        }
-
-        return GlobalResponseDto.ok("조회 성공", new BaseGuInfoDto(guBaseInfos, spotInfoDtoList, spotCalculatedDtoList));
+        return GlobalResponseDto.ok("조회 성공", new BaseGuInfoDto(guBaseInfos, spotInfoDtoList));
     }
 }
 
