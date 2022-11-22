@@ -66,8 +66,8 @@ public class PostService {
                                                           Account account) {
         validateSort(sort);
         //구를 디비에서 찾아서 올바르게 들어왔는지 검사하는 로직이 필요할까?
-        guName = decoding(guName);
-        category = decoding(category);
+        guName = ServiceUtil.decoding(guName);
+        category = ServiceUtil.decoding(category);
         validateGu(guName);
 //        List<Post> postList;
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
@@ -105,7 +105,7 @@ public class PostService {
                                                                Account account) {
         validateSort(sort);
         validateType(type);
-        searchWord = decoding(searchWord);
+        searchWord = ServiceUtil.decoding(searchWord);
         validateSearchWord(searchWord);
         List<Post> postList = postRepository.searchByTag(type, searchWord, sort);
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
@@ -158,7 +158,7 @@ public class PostService {
     //핫태그 20
     @Transactional(readOnly = true)
     public GlobalResponseDto<TagResponseDto> hotTag20(String guName) {
-        guName = decoding(guName);
+        guName = ServiceUtil.decoding(guName);
         validateGu(guName);
         List<HotTag> hashTagList = hashTagRepository.findHotTagWithNativeQuery(guName);
         List<String> tagList = new ArrayList<>();
@@ -292,15 +292,15 @@ public class PostService {
 //    }
 
     //utf-8 디코딩
-    private String decoding(String toDecode) {
-        String result = "";
-        try {
-            result = URLDecoder.decode(toDecode, "UTF-8");
-        }catch (UnsupportedEncodingException e){
-            throw new CustomException(ErrorCode.FailDecodeString);
-        }
-        return result;
-    }
+//    private String decoding(String toDecode) {
+//        String result = "";
+//        try {
+//            result = URLDecoder.decode(toDecode, "UTF-8");
+//        }catch (UnsupportedEncodingException e){
+//            throw new CustomException(ErrorCode.FailDecodeString);
+//        }
+//        return result;
+//    }
 
     private void validateGu(String guName) {
         List<Gu> guList = guRepository.findAll();

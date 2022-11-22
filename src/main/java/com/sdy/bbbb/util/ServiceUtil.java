@@ -5,6 +5,8 @@ import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import org.springframework.stereotype.Component;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +69,16 @@ public class ServiceUtil {
         if (!comment.getAccount().getId().equals(account.getId())){
             throw new CustomException(ErrorCode.NotMatchAuthor);
         }
+    }
+
+    public static String decoding(String toDecode) {
+        String result = "";
+        try {
+            result = URLDecoder.decode(toDecode, "UTF-8");
+        }catch (UnsupportedEncodingException e){
+            throw new CustomException(ErrorCode.FailDecodeString);
+        }
+        return result;
     }
 
 }

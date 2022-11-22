@@ -8,6 +8,7 @@ import com.sdy.bbbb.entity.Spot;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.repository.GuRepository;
+import com.sdy.bbbb.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -87,7 +88,7 @@ public class DataService {
 
     // 구별 데이터 조회
     public GlobalResponseDto<BaseGuInfoDto> getGuInformation(String gu) {
-
+        gu = ServiceUtil.decoding(gu);
         //구valid 해야함(준비중)
 
         List<GuBaseInfo> guBaseInfoList = dataRepository.getGuBaseInfo(gu);
