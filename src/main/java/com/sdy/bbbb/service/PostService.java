@@ -130,6 +130,8 @@ public class PostService {
 //            postList1.add(post2);
 //        }
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
+//        postResponseDtoList.add((PostResponseDto) postList);
+
 //        if (type == 0) {
 //            postRepository.test(type, searchWord, sort);
 //        }else if (type == 1) {
