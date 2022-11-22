@@ -22,4 +22,11 @@ public class BaseGuInfoDto {
         this.spotInfoList = spotInfoList;
         this.spotCalculatedList = spotCalculatedDtoList;
     }
+
+    public BaseGuInfoDto(GuBaseInfo guBaseInfo, List<SpotInfoDto> spotInfoList) {
+        this.gu_nm = guBaseInfo.getGu_nm();
+        this.gu_added = guBaseInfo.getGu_added();
+        this.gu_confirmed = guBaseInfo.getGu_confirmed();
+        this.spotInfoList = spotInfoList;
+    }
 }
