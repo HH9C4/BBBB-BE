@@ -3,6 +3,7 @@ package com.sdy.bbbb.data.dataDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -28,9 +29,9 @@ public class SpotInfoDto {
     private String ppltn_rate50;
     private String temp;
     private String sky_stts;
-    private Map<String, String> popByHour;
+    private List<Map<String, String>> popByHour;
 
-    public SpotInfoDto(GuBaseInfo guBaseInfo, Map<String, String> popByHour) {
+    public SpotInfoDto(GuBaseInfo guBaseInfo, List<Map<String, String>> popByHour) {
         this.area_nm = guBaseInfo.getArea_nm();
         this.air_msg = guBaseInfo.getAir_msg();
         this.area_congest_lvl = guBaseInfo.getArea_congest_lvl();
