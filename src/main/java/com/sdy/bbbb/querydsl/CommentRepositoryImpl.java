@@ -24,6 +24,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom{
                 .select(comment1)
                 .from(comment1)
                 .join(post).on(comment1.post.id.eq(post.id))
+                .join(comment1.account).fetchJoin()
                 .where(post.account.id.eq(account1.getId()))
                 .orderBy(comment1.id.desc())
                 .fetch();
