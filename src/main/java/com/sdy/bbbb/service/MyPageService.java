@@ -39,7 +39,9 @@ public class MyPageService {
             postsComment.addAll(post.getCommentList());
         }
         for (Comment comment : postsComment) {
-            alarmResponseDtos.add(new AlarmResponseDto(comment));
+            if (!comment.getAccount().equals(account)) {
+                alarmResponseDtos.add(new AlarmResponseDto(comment));
+            }
         }
         return GlobalResponseDto.ok("조회 성공!", alarmResponseDtos);
     }
