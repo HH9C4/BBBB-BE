@@ -25,20 +25,21 @@ import static com.sdy.bbbb.entity.QHashTag.hashTag;
 import static com.sdy.bbbb.entity.QPost.post;
 
 @Repository
-public class PostRepositoryImpl extends QuerydslRepositorySupport {
+@RequiredArgsConstructor
+public class PostRepositoryImpl {
 
 
     private final JPAQueryFactory queryFactory;
 
-    /**
-     * Creates a new {@link QuerydslRepositorySupport} instance for the given domain type.
-     *
-     * @param domainClass must not be {@literal null}.
-     */
-    public PostRepositoryImpl(JPAQueryFactory queryFactory) {
-        super(Post.class);
-        this.queryFactory = queryFactory;
-    }
+//    /**
+//     * Creates a new {@link QuerydslRepositorySupport} instance for the given domain type.
+//     *
+//     * @param domainClass must not be {@literal null}.
+//     */
+//    public PostRepositoryImpl(JPAQueryFactory queryFactory) {
+//        super(Post.class);
+//        this.queryFactory = queryFactory;
+//    }
 //    public EventPostRepositoryImpl(JPAQueryFactory queryFactory, EventPostLikeRepository eventPostLikeRepository) {
 //        super(EventPost.class);
 //        this.queryFactory = queryFactory;
