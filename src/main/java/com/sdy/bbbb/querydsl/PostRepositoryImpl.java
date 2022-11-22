@@ -1,6 +1,7 @@
 package com.sdy.bbbb.querydsl;
 
 import com.querydsl.core.types.NullExpression;
+import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -10,8 +11,12 @@ import com.sdy.bbbb.entity.Post;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,12 +24,26 @@ import static com.sdy.bbbb.entity.QComment.comment1;
 import static com.sdy.bbbb.entity.QHashTag.hashTag;
 import static com.sdy.bbbb.entity.QPost.post;
 
-@RequiredArgsConstructor
 @Repository
-public class PostRepositoryImpl implements PostRepositoryCustom {
+public class PostRepositoryImpl extends QuerydslRepositorySupport implements PostRepositoryCustom {
 
 
     private final JPAQueryFactory queryFactory;
+
+    /**
+     * Creates a new {@link QuerydslRepositorySupport} instance for the given domain type.
+     *
+     * @param domainClass must not be {@literal null}.
+     */
+    public PostRepositoryImpl(JPAQueryFactory queryFactory) {
+        super(Post.class);
+        this.queryFactory = queryFactory;
+    }
+//    public EventPostRepositoryImpl(JPAQueryFactory queryFactory, EventPostLikeRepository eventPostLikeRepository) {
+//        super(EventPost.class);
+//        this.queryFactory = queryFactory;
+//        this.eventPostLikeRepository = eventPostLikeRepository;
+//    }
 
 
     // 게시글 단건 조회
@@ -86,6 +105,13 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         }
     }
 
+//    public OrderSpecifier<?> listSort(String sort) {
+//        if ("최신순".equals(sort)) {
+//            return new OrderSpecifier<>(Order.DESC, post.createdAt);
+//        }
+//        return new OrderSpecifier<>(Order.DESC, post.likeCount);
+//    }
+
     private OrderByNull eqSort2(String sort) {
         if(sort.equalsIgnoreCase("new")) {
             return OrderByNull.DEFAULT;
@@ -114,6 +140,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
             return post.category.eq(category);
         }
     }
+
+
 
     //        private OrderSpecifier eqSort2(String sort, Expression<T> target) {
 //        if(sort.equals("hot")) {
