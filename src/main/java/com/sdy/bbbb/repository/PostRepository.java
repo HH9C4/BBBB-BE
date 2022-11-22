@@ -30,4 +30,6 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
 
     List<Post> findPostsByAccount_IdOrderByCreatedAtDesc(Long accountId);
 
+    List<Post> findPostsByAccount_IdOrderByCreatedAtAsc(Long accountId);
+
 }
