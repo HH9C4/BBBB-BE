@@ -39,7 +39,7 @@ public class MyPageService {
             postsComment.addAll(post.getCommentList());
         }
         for (Comment comment : postsComment) {
-            if (!comment.getAccount().equals(account)) {
+            if (!comment.getAccount().getEmail().equals(account.getEmail())) {
                 alarmResponseDtos.add(new AlarmResponseDto(comment));
             }
         }
