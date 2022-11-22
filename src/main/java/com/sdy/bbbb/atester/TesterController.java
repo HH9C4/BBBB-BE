@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class TesterController {
 
     private final TestService testService;
-    @GetMapping("/api/tester")
+    @GetMapping("/user/tester")
     public GlobalResponseDto<LoginResponseDto> login(HttpServletResponse response) {
         return testService.login(response);
     }
