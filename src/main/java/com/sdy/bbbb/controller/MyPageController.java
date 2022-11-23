@@ -66,7 +66,6 @@ public class MyPageController {
     public GlobalResponseDto<LoginResponseDto> updateMyInfo(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails,
                                              @RequestPart(name = "nickname", required = false) UpdateRequestDto updateRequestDto,
                                              @RequestPart(name = "image", required = false) MultipartFile multipartFile) {
-        System.out.println(updateRequestDto.getNickname());
         return myPageService.updateMyInfo(userDetails.getAccount(), updateRequestDto, multipartFile);
     }
 }
