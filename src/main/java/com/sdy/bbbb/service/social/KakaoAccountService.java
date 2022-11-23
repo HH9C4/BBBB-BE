@@ -163,10 +163,10 @@ public class KakaoAccountService {
                 .get("profile").get("profile_image_url").asText();
         JsonNode gender = jsonNode.get("kakao_account")
                 .get("gender");
-        String genderStr = gender.isNull() ? "비공개" : gender.asText();
+        String genderStr = gender.isNull() ? "비공개" : "왜안돼";
         JsonNode ageRange = jsonNode.get("kakao_account")
                 .get("age_range");
-        String ageRangeStr = ageRange.isNull() ? "비공개" : ageRange.asText();
+        String ageRangeStr = ageRange.isNull() ? "비공개" : "왜안돼";
         return new KakaoUserInfoDto(id, nickname, email, profileImage, genderStr, ageRangeStr);
     }
 
