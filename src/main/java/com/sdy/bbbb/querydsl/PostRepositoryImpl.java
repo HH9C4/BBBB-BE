@@ -70,7 +70,7 @@ public class PostRepositoryImpl {
                 .where(post.guName.eq(gu), category(category))
 //                .where(category(category))
 //                .leftJoin(post.likeList)
-                .orderBy(eqSort2(sort), post.createdAt.desc())
+                .orderBy(eqSort(sort), post.createdAt.desc())
                 //페이징 할 때 수정해야 할것이다!
 //                .orderBy(post.createdAt.desc())
                 .limit(pageable.getPageSize())
