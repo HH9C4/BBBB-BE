@@ -7,6 +7,7 @@ import com.sdy.bbbb.dto.response.*;
 import com.sdy.bbbb.service.MyPageService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -61,10 +62,11 @@ public class MyPageController {
 
     // 닉네임, 프로필 사진 수정
     @ApiOperation(value = "닉네임, 프로필 사진 수정", notes = "유저 정보 중 닉네임과 프로필 사진만 수정이 가능합니다.")
-    @PutMapping("/myInfo")
+    @PutMapping(value = "/myInfo", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public GlobalResponseDto<LoginResponseDto> updateMyInfo(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails,
                                              @RequestPart(required = false) String nickname,
                                              @RequestPart(name = "image", required = false) MultipartFile multipartFile) {
+        System.out.println(nickname);
         return myPageService.updateMyInfo(userDetails.getAccount(), nickname, multipartFile);
     }
 }
