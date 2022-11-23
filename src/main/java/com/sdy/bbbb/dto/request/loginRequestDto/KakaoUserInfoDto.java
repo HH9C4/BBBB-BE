@@ -1,4 +1,4 @@
-package com.sdy.bbbb.dto.request;
+package com.sdy.bbbb.dto.request.loginRequestDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

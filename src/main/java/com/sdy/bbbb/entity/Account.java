@@ -1,8 +1,6 @@
 package com.sdy.bbbb.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,7 +9,9 @@ import java.util.List;
 @Setter
 @Getter // get 함수를 일괄적으로 만들어줍니다.
 @NoArgsConstructor // 기본 생성자를 만들어줍니다.
-@Entity // DB 테이블 역할을 합니다.
+@Entity
+@AllArgsConstructor
+@Builder// DB 테이블 역할을 합니다.
 public class Account extends TimeStamped {
 
     // ID가 자동으로 생성 및 증가합니다.
@@ -33,6 +33,9 @@ public class Account extends TimeStamped {
     @Column(unique = true)
     private Long kakaoId;
 
+    @Column(unique = true)
+    private String naverId;
+
     @Column(nullable = true)
     private String profileImage;
 
@@ -42,7 +45,7 @@ public class Account extends TimeStamped {
     @Column(nullable = true)
     private String ageRange;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="myPageId")
     private MyPage myPage;
 
@@ -65,6 +68,16 @@ public class Account extends TimeStamped {
         this.profileImage = profileImage;
         this.email = email;
         this.kakaoId = kakaoId;
+        this.gender = gender;
+        this.ageRange = ageRange;
+    }
+
+    public Account(String nickname, String password, String email, String profileImage, String naverId, String gender, String ageRange) {
+        this.accountName = nickname;
+        this.password = password;
+        this.profileImage = profileImage;
+        this.email = email;
+        this.naverId = naverId;
         this.gender = gender;
         this.ageRange = ageRange;
     }

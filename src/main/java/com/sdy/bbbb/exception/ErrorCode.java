@@ -14,7 +14,7 @@ public enum ErrorCode {
     NotFoundComment(HttpStatus.NOT_FOUND.value(), "P002", "댓글을 찾을 수 없습니다."),
     NotFoundImage(HttpStatus.NOT_FOUND.value(), "P003", "삭제할 이미지를 찾을 수 없습니다."),
     NotFoundUser(HttpStatus.NOT_FOUND.value(), "A001", "계정을 찾을 수 없습니다."),
-    NotFoundSort(HttpStatus.BAD_REQUEST.value(), "P004", "잘못된 요청입니다."),
+    BadRequest(HttpStatus.BAD_REQUEST.value(), "P004", "잘못된 요청입니다."),
     NotFoundGu(HttpStatus.NOT_FOUND.value(), "G001", "구를 찾을 수 없습니다."),
 
     // 일치하지 않습니다
@@ -29,10 +29,18 @@ public enum ErrorCode {
     AlreadyExistsLike(HttpStatus.BAD_REQUEST.value(), "L002", "이미 좋아요를 눌렀습니다."),
     AlreadyCancelBookmark(HttpStatus.BAD_REQUEST.value(), "B001", "이미 북마크를 취소했습니다."),
     AlreadyExistsBookmark(HttpStatus.BAD_REQUEST.value(), "B002", "이미 북마크를 눌렀습니다."),
+
     // 토큰 관련
     UnAuthorized(HttpStatus.UNAUTHORIZED.value(), "A003", "다시 로그인해주세요."),
 
-    FailDecodeString(HttpStatus.BAD_REQUEST.value(), "D001", "디코딩 실패");
+    // 데이터 관련
+    NotReadyForData(HttpStatus.NOT_FOUND.value(), "D001", "아직 준비중입니다.(데이터가 없습니다.)"),
+
+    //디코딩 실패
+    FailDecodeString(HttpStatus.BAD_REQUEST.value(), "D001", "디코딩 실패."),
+
+    //requestParam
+    ParamArgumentNotValid(HttpStatus.BAD_REQUEST.value(), "R001", "요청 인자를 확인해주세요.");
 
 
 

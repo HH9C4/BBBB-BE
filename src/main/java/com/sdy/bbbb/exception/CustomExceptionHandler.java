@@ -1,5 +1,6 @@
 package com.sdy.bbbb.exception;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.UnexpectedTypeException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +47,14 @@ public class CustomExceptionHandler {
                 .body(errors);
     }
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity handleConstraintViolationExceptions(ConstraintViolationException e) {
+
+        return ErrorResponse.toResponseEntityByErrorCode(ErrorCode.ParamArgumentNotValid, e);
+    }
+
     @ExceptionHandler(SizeLimitExceededException.class)
-    public ResponseEntity<String> sizeExceptionHandle(SizeLimitExceededException e) {
+    public ResponseEntity<String> handleSizeLimitException(SizeLimitExceededException e) {
 
 
         return ResponseEntity
@@ -54,13 +63,14 @@ public class CustomExceptionHandler {
     }
 
 
-    // test
+
     @RequiredArgsConstructor
     @Getter
     @Builder
     private static class ErrorResponse {
         private final int httpStatus;
         private final String errorCode;
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         private final String field;
         private final String message;
 
@@ -71,6 +81,17 @@ public class CustomExceptionHandler {
                             .httpStatus(e.getErrorCode().getHttpStatus())
                             .errorCode(e.getErrorCode().getErrorCode())
                             .message(e.getErrorCode().getMessage())
+                            .build()
+                    );
+        }
+
+        public static ResponseEntity toResponseEntityByErrorCode(ErrorCode errorCode, ConstraintViolationException e) {
+            return ResponseEntity
+                    .status(errorCode.getHttpStatus())
+                    .body(ErrorResponse.builder()
+                            .httpStatus(errorCode.getHttpStatus())
+                            .errorCode(errorCode.getErrorCode())
+                            .message(e.getMessage() + " " + errorCode.getMessage())
                             .build()
                     );
         }

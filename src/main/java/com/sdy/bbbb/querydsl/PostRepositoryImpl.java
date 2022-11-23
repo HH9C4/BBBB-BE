@@ -1,62 +1,176 @@
 package com.sdy.bbbb.querydsl;
 
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.NullExpression;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.PathBuilder;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.sdy.bbbb.entity.Account;
+import com.sdy.bbbb.entity.HashTag;
 import com.sdy.bbbb.entity.Post;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+import org.springframework.stereotype.Repository;
 
-import java.awt.print.Pageable;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.stream.Collectors;
 
-import static com.sdy.bbbb.entity.QPost.post;
-import static com.sdy.bbbb.entity.QImage.image;
 import static com.sdy.bbbb.entity.QComment.comment1;
+import static com.sdy.bbbb.entity.QHashTag.hashTag;
+import static com.sdy.bbbb.entity.QPost.post;
 
+@Repository
 @RequiredArgsConstructor
-public class PostRepositoryImpl implements PostRepositoryCustom {
+public class PostRepositoryImpl {
 
-    //    private final ParsingEntityUtils parsingEntityUtils;
+
     private final JPAQueryFactory queryFactory;
+
+//    /**
+//     * Creates a new {@link QuerydslRepositorySupport} instance for the given domain type.
+//     *
+//     * @param domainClass must not be {@literal null}.
+//     */
+//    public PostRepositoryImpl(JPAQueryFactory queryFactory) {
+//        super(Post.class);
+//        this.queryFactory = queryFactory;
+//    }
+//    public EventPostRepositoryImpl(JPAQueryFactory queryFactory, EventPostLikeRepository eventPostLikeRepository) {
+//        super(EventPost.class);
+//        this.queryFactory = queryFactory;
+//        this.eventPostLikeRepository = eventPostLikeRepository;
+//    }
 
 
     // 게시글 단건 조회
-    @Override
     public Post searchOneById(Long postId) {
-        Post result = queryFactory
+        return queryFactory
                 .select(post)
                 .from(post)
+                .join(post.account).fetchJoin()
+                .leftJoin(post.commentList).fetchJoin()
                 .where(post.id.eq(postId))
-                .join(comment1).on(post.id.eq(comment1.id))
                 .fetchOne();
-        if(result==null){
-            return null;
-        }else {
-            return result;
+    }
+
+    //게시글 전체 조회
+    public List<Post> test2(String gu, String category, String sort, Pageable pageable) {
+        return queryFactory
+                .select(post).distinct()
+//                .distinct()
+                .from(post)
+//                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id)).fetchJoin()
+                .join(post.account).fetchJoin()
+                .leftJoin(post.tagList).fetchJoin()
+                .where(post.guName.eq(gu), category(category))
+//                .where(category(category))
+//                .leftJoin(post.likeList)
+                .orderBy(eqSort(sort), post.createdAt.desc())
+                //페이징 할 때 수정해야 할것이다!
+//                .orderBy(post.createdAt.desc())
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .fetch();
+//                .stream().distinct().collect(Collectors.toList());
+    }
+
+    // 검색
+    public PageImpl<Post> searchByTag(Integer type, String searchWord, String sort, Pageable pageable) {
+        System.out.println("================================="+pageable.getPageSize());
+        List<Post> postList = queryFactory
+                .select(post).distinct()
+                .from(post)
+//                .leftJoin(post.tagList).fetchJoin()
+                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id)).fetchJoin()
+//                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id))
+                .where(tagOrNot(type, searchWord))
+                .orderBy(eqSort(sort), post.createdAt.desc())
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .fetch();
+//                .stream().distinct().collect(Collectors.toList());
+
+        return new PageImpl<>(postList, pageable, postList.size());
+    }
+
+
+
+    //    sort sort 별 구문
+    private OrderSpecifier eqSort(String sort) {
+        if(sort.equalsIgnoreCase("new")) {
+            return post.createdAt.desc();
+            //나중에 생각해보자
+        } else {
+            return post.likeCount.desc();
         }
     }
 
-//    private OrderSpecifier eqSort2(String sort, Expression<T> target) {
+//    public OrderSpecifier<?> listSort(String sort) {
+//        if ("최신순".equals(sort)) {
+//            return new OrderSpecifier<>(Order.DESC, post.createdAt);
+//        }
+//        return new OrderSpecifier<>(Order.DESC, post.likeCount);
+//    }
+
+    private OrderByNull eqSort2(String sort) {
+        if(sort.equalsIgnoreCase("new")) {
+            return OrderByNull.DEFAULT;
+            //나중에 생각해보자
+        } else if (sort.equalsIgnoreCase("hot")) {
+            return (OrderByNull)post.likeCount.desc();
+        } else {
+            throw new CustomException(ErrorCode.BadRequest);
+        }
+    }
+
+    private BooleanExpression tagOrNot(Integer type, String searchWord) {
+        if(type == 0){
+            return post.content.contains(searchWord).or(hashTag.tag.contains(searchWord));
+        }else if (type == 1) {
+            return hashTag.tag.contains(searchWord);
+        }else{
+            throw new CustomException(ErrorCode.BadRequest);
+        }
+    }
+
+    private BooleanExpression category(String category){
+        if (category.equalsIgnoreCase("all")){
+            return null;
+        }else {
+            return post.category.eq(category);
+        }
+    }
+
+//    private PageImpl toPage(List<Post> postList, Pageable pageable, Account account) {
+//        List<Post> eventPostAllResDtos = new ArrayList<>();
+//        for (Post post : postList) {
+//            boolean bookmark;
+//            if (member != null) {
+//                bookmark = eventPostLikeRepository.existsByMemberAndEventPost(member, eventPost);
+//            } else {
+//                bookmark = false;
+//            }
+//
+//            eventPostAllResDtos.add(EventPostAllResDto.toEPARD(eventPost, bookmark));
+//        }
+//        return new PageImpl<>(eventPostAllResDtos, pageable, eventPostList.size());
+
+
+    //        private OrderSpecifier eqSort2(String sort, Expression<T> target) {
 //        if(sort.equals("hot")) {
 //            post.likeCount.desc();
 //            post.createdAt.desc();
 //        } else if(sort.equals("new")) {
 //            post.createdAt.desc();
 //        } else {
-//            throw new CustomException(ErrorCode.NotFoundSort);
+//            throw new CustomException(ErrorCode.NotFoundPost);
 //        }
-//        return new OrderSpecifier<>()
+//        return new OrderSpecifier<>();
 //    }
 //
 //    PathBuilder orderByExpression = new PathBuilder(Post.class, "post");
@@ -72,16 +186,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
 
 
-    //sort sort 별 구문
-//    private OrderSpecifier eqSort(String sort) {
-//        if(sort.equals("new")) {
-//            return null;
-//        } else if (sort.equals("hot")) {
-//            return post.likeCount.desc();
-//        } else {
-//            throw new CustomException(ErrorCode.NotFoundSort);
-//        }
-//    }
+
 
     // 게시글 전체 조회
 //    @Override

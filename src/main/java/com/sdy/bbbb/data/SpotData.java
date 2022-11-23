@@ -1,6 +1,7 @@
 package com.sdy.bbbb.data;
 
 
+import com.sdy.bbbb.entity.TimeStamped;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SpotData {
+public class SpotData extends TimeStamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +27,8 @@ public class SpotData {
     private String areaCongestLvl;
 
     //장소 혼잡도 지표 관련 메세지
-    @Column(nullable = false)
-    private String areaCongestMsg;
+//    @Column(nullable = false)
+//    private String areaCongestMsg;
 
     //실시간 인구 지표 최소값
     @Column(nullable = false)
@@ -75,8 +76,8 @@ public class SpotData {
     private String temp;
 
     //체감온도
-    @Column(nullable = false)
-    private String sensibleTemp;
+//    @Column(nullable = false)
+//    private String sensibleTemp;
 
     //일 최고온도
     @Column(nullable = false)
@@ -87,28 +88,28 @@ public class SpotData {
     private String minTemp;
 
     //습도
-    @Column(nullable = false)
-    private String humidity;
+//    @Column(nullable = false)
+//    private String humidity;
 
     //강수량
-    @Column(nullable = false)
-    private String precipitation;
+//    @Column(nullable = false)
+//    private String precipitation;
 
     //강수 형태
-    @Column(nullable = false)
-    private String precptType;
+//    @Column(nullable = false)
+//    private String precptType;
 
     //강수관련 메세지
     @Column(nullable = false)
     private String pcpMsg;
 
     //자외선 지수
-    @Column(nullable = false)
-    private String uvIndex;
+//    @Column(nullable = false)
+//    private String uvIndex;
 
     //자외선 메세지
-    @Column(nullable = false)
-    private String uvMsg;
+//    @Column(nullable = false)
+//    private String uvMsg;
 
     //초미세먼지지표
     @Column(nullable = false)
@@ -127,8 +128,8 @@ public class SpotData {
     private String pm10;
 
     //통합대기환경등급
-    @Column(nullable = false)
-    private String airIdx;
+//    @Column(nullable = false)
+//    private String airIdx;
 
     //통합대기환경등급별 메세지
     @Column(nullable = false)
@@ -139,8 +140,8 @@ public class SpotData {
     private String weatherTime;
 
     //기준일
-    @Column(nullable = false)
-    private String strdDt;
+//    @Column(nullable = false)
+//    private String strdDt;
 
     //소재한 자치구명
     @Column(nullable = false)
@@ -154,6 +155,7 @@ public class SpotData {
     @Column(nullable = false)
     private String guAdded;
 
-
+    @Column(nullable = false)
+    private String skyStts;
 
 }

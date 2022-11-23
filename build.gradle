@@ -63,9 +63,19 @@ dependencies {
     //swagger
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
 
+
+
     //sentry
     implementation 'io.sentry:sentry-spring-boot-starter:6.6.0'
     implementation 'io.sentry:sentry-logback:6.6.0'
+
+    //naver
+//    implementation 'com.navercorp.nid:oauth:5.0.0'
+
+    // json 파싱
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    implementation group: 'org.hibernate', name: 'hibernate-spatial', version: '5.5.7.Final'
+    implementation 'com.google.code.gson:gson:2.10'
 
     //websocket
     implementation 'org.springframework.boot:spring-boot-starter-websocket'

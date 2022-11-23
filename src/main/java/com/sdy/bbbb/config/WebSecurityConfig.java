@@ -36,7 +36,7 @@ public class WebSecurityConfig {
             /* swagger v3 */
             "/v3/api-docs/**",
             "/swagger-ui/**",
-            "/calculator/swagger-ui/**"
+            "/swagger-resources/**"
     };      // swagger 열어주기
 
     private final AuthenticationEntryPointException authenticationEntryPointException;
@@ -83,12 +83,10 @@ public class WebSecurityConfig {
                 .authenticationEntryPoint(authenticationEntryPointException);
 
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/user/kakao/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/user/**").permitAll()
                 .antMatchers(PERMIT_URL_ARRAY).permitAll() //swagger 열어주기
                 .anyRequest().authenticated()
 //                .anyRequest().authenticated() //permitAll을 제외한 API는 모두 인증 필요
-
-
                 .and()
                 .addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 

@@ -10,8 +10,8 @@ public class OnePostResponseDto extends PostResponseDto {
 
     private List<CommentResponseDto> commentList;
 
-    public OnePostResponseDto(Post post, List<String> imageUrl, boolean isLiked, List<CommentResponseDto> commentList) {
-        super(post, imageUrl, isLiked);
+    public OnePostResponseDto(Post post, List<String> imageUrl, List<String> tagList, boolean isLiked, List<CommentResponseDto> commentList) {
+        super(post, imageUrl, tagList, isLiked);
         this.commentList = commentList;
     }
 

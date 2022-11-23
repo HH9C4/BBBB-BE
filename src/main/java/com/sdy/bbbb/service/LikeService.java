@@ -39,6 +39,8 @@ public class LikeService {
                 // 좋아요 생성
                 likeRepository.save(like);
                 // 좋아요 저장
+//                post.setViews(post.getViews() -1);
+//                // 좋아요 시 조회수 보정
                 post.setLikeCount(post.getLikeCount() + 1);
                 // 게시글 좋아요 수 변경
             }
@@ -74,6 +76,8 @@ public class LikeService {
             likeRepository.delete(like);
             // 좋아요 삭제
             post.setLikeCount(post.getLikeCount() - 1);
+//            // 조회수 보정
+//            post.setViews(post.getViews() -1);
             // 게시글 좋아요 수 변경
             return GlobalResponseDto.ok("delete Likes!", new LikeResponseDto(amILiked(post, account), post.getLikeCount()));
         } // level이 1이 아니면 댓글 좋아요 삭제
