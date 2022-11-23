@@ -64,9 +64,9 @@ public class MyPageController {
     @ApiOperation(value = "닉네임, 프로필 사진 수정", notes = "유저 정보 중 닉네임과 프로필 사진만 수정이 가능합니다.")
     @PutMapping(value = "/myInfo", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public GlobalResponseDto<LoginResponseDto> updateMyInfo(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails,
-                                             @RequestPart(required = false) String nickname,
+                                             @RequestPart(required = false) UpdateRequestDto updateRequestDto,
                                              @RequestPart(name = "image", required = false) MultipartFile multipartFile) {
-        System.out.println(nickname);
-        return myPageService.updateMyInfo(userDetails.getAccount(), nickname, multipartFile);
+        System.out.println(updateRequestDto.getNickname());
+        return myPageService.updateMyInfo(userDetails.getAccount(), updateRequestDto, multipartFile);
     }
 }
