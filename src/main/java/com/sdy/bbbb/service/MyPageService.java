@@ -110,9 +110,12 @@ public class MyPageService {
         if (multipartFile != null){
             account.setProfileImage(s3Uploader2.upload(multipartFile, "dir1"));
         }
-        if(updateRequestDto.getNickname() != null){
-            account.setAccountName(updateRequestDto.getNickname());
-        }
+//        if(updateRequestDto.getNickname() != null){
+//            account.setAccountName(updateRequestDto.getNickname());
+//        }
+         if (updateRequestDto != null) {
+             account.setAccountName(updateRequestDto.getNickname());
+         }
         return GlobalResponseDto.ok("수정완료", new LoginResponseDto(account));
     }
 
