@@ -1,38 +1,32 @@
 
 <div align=center>
 
-# 👀 welcome to 붐비붐비 👀
+# 👀 welcome to ![image](https://user-images.githubusercontent.com/99253403/203619462-fcef5c78-16ad-4dc7-8a57-46dade14ab80.png) 👀
+
 ---
 
-붐비붐비는 **서울시 실시간 인구밀집도 api**를 활용하여 서울시의 여러 지역별 정보를 제공해주는 커뮤니티 서비스 입니다!
+붐비붐비는 👉 **서울시 실시간 인구밀집도 api** 👈를 활용하여 서울시의 여러 지역별 정보를 제공해주는 커뮤니티 서비스 입니다!
 
 서울시에 얼마나 많은 사람이 모였을까요?
 
 방문 전 지역별 실시간 인구 혼잡도를 확인하고, 지역구별 커뮤니티를 통해 소식을 확인해보세요!
+
 </div>
 
 <br><br>
 
 ## 👨‍👩‍👧‍👦 Our Team
-**💙BACKEND💙**
-|정성우|유도원|장윤서|
-|:---:|:---:|:---:|
-|@anfrosus|@dwon5001|@younddo|
-|VL|BE|BE|
 
-**💛FRONTEND💛**
-|오기쁨|임효진|
-|:---:|:---:|
-|@joyfive|@BLAKE198492|
-|TL|FE|
+|정성우|유도원|장윤서|오기쁨|임효진|이지혜|
+|:---:|:---:|:---:|:---:|:---:|:---:|
+|[@anfrosus](https://github.com/anfrosus)|[@dwon5001](https://github.com/dwon5001)|[@Younddo](https://github.com/Younddo)|[@joyfive](https://github.com/joyfive)|[@BLAKE198492](https://github.com/BLAKE198492)|aksjdffg@naver.com|
+|VL💛|BE💛|BE💛|TL💚|FE💚|DS💙|
 
-**💚DESIGNER💚**
-|이지혜|
-|:---:|
-|aksjdffg@naver.com|
-|DS|
+<br>
 
-<br><br>
+## [👊 팀 노션 바로가기](https://joyfive.notion.site/C-4-SA-9407bb7a0897420782b957a25036b092)
+
+<br>
 
 ## 📝 Technologies & Tools (BE) 📝
 
@@ -50,13 +44,50 @@
 
 ## ✨ 기능구현 목록
 
+### 1. OAuth를 통한 로그인 기능 (kakao, naver)
+### 2. 서울시 open api를 활용한 실시간 정보제공 기능
+ 2-1. 전체 데이터의 누적 통계를 활용한 정보제공 기능
+ 
+ 2-2. 구 별 코로나 정보, spot 별 날씨 정보 제공
+ 
+ 2-3. spot 별 누적 + 실시간 정보제공 기능
+ 
+### 3. 구 별 커뮤니티 (CRUD)
+
+### 4. 댓글, 좋아요, 북마크 기능
+
+### 5. 마이페이지 기능 (내가 작성한 글, 내가 좋아요한 글, 내 게시글에 달린 댓글, 내 정보 수정)
+
+### 6. 무한스크롤
+
+<br><br>
+
+## ✨ 그 외
+
+### 1. QueryDSL
+
+### 2. Swagger
+
+### 3. Sentry
+
+### 4. Github Actions & Code Deploy (CI/CD)
+
+### 5. Scheduler를 통한 open api 호출
+
+
+<br><br>
+
+## 📋 ERD Diagram
+
+![image](https://user-images.githubusercontent.com/99253403/203620279-59ac79b0-edc5-4d9e-b40b-56df55a60a49.png)
+
+
 <br><br>
 
 
-## 📝 Technologies & Tools (BE) 📝
+<div align=center>
 
+![image](https://user-images.githubusercontent.com/99253403/203619879-c68ee5ad-b7c6-496c-a0ca-d72fd19fafd2.png)
 
-
-# 😊 BBBB-BE Github 😊
 
 </div>
