@@ -59,6 +59,7 @@ spring:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
 
+
 jwt:
   secret:
     key: ''
@@ -80,8 +81,10 @@ sentry:
   dsn: ''
 
 # https
-server:
-  ssl:
-    key-store-password: ''
-    key-store-type: PKCS12
-    key-store:  classpath:keystore.p12
+#server:
+#  ssl:
+#    key-store-password: ''
+#    key-store-type: PKCS12
+#    key-store:  classpath:keystore.p12
+
+

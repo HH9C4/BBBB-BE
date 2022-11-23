@@ -26,6 +26,7 @@ public class LikeController {
         return likeService.createPostLike(id, level, userDetails.getAccount());
     }
 
+
     @ApiOperation(value = "좋아요 삭제 cancle like", notes = "cancle like on the post")
     @DeleteMapping
     public GlobalResponseDto<LikeResponseDto> deletePostLike(@RequestParam Long id,
