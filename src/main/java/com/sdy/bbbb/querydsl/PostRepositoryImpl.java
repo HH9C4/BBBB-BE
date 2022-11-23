@@ -102,13 +102,11 @@ public class PostRepositoryImpl {
 
     //    sort sort 별 구문
     private OrderSpecifier eqSort(String sort) {
-        if(sort.equals("new")) {
+        if(sort.equalsIgnoreCase("new")) {
             return post.createdAt.desc();
             //나중에 생각해보자
-        } else if (sort.equals("hot")) {
-            return post.likeCount.desc();
         } else {
-            throw new CustomException(ErrorCode.BadRequest);
+            return post.likeCount.desc();
         }
     }
 
