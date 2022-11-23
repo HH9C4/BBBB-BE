@@ -47,10 +47,17 @@ public class AccountController {
     }
 
     //로그아웃
-    @ApiOperation(value = "kakao logout api info", notes = "logout")
+    @ApiOperation(value = "logout api info", notes = "logout")
     @DeleteMapping("api/logout")
     public GlobalResponseDto<String> logout(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return kakaoAccountService.logout(userDetails.getAccount());
     }
+
+//    //카카오 회원탈퇴
+//    @ApiOperation(value = "", notes = "")
+//    @DeleteMapping("api/kakaowithdrawal")
+//    public GlobalResponseDto<?> withdrawal(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        return kakaoAccountService.kakaoWithdrawal(userDetails.getAccount());
+//    }
 
 }

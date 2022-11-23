@@ -4,6 +4,7 @@ public interface GuBaseInfo {
 
     String getGu_nm();
     String getArea_nm();
+    String getPpltn_time();
     String getGu_added();
     String getGu_confirmed();
     String getAir_msg();

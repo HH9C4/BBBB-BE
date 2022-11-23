@@ -168,7 +168,7 @@ public class KakaoAccountService {
         return new KakaoUserInfoDto(id, nickname, email, profileImage, gender, ageRange);
     }
 
-    @Transactional
+
     private Account registerKakaoUserIfNeeded(KakaoUserInfoDto kakaoUserInfo) {
         // DB 에 중복된 Kakao Id 가 있는지 확인
         Long kakaoId = kakaoUserInfo.getId();
@@ -218,10 +218,17 @@ public class KakaoAccountService {
     }
 
     // logout
+    @Transactional
     public GlobalResponseDto<String> logout(Account account) {
         RefreshToken refreshToken = refreshTokenRepository.findByAccountEmail(account.getEmail()).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundUser));
         refreshTokenRepository.deleteById(refreshToken.getRefreshId());
         return GlobalResponseDto.ok("Success Logout", null);
     }
+
+    // 카카오 회원 탈퇴 기능
+//    @Transactional
+//    public GlobalResponseDto<?> kakaoWithdrawal(Account account) {
+//
+//    }
 }
