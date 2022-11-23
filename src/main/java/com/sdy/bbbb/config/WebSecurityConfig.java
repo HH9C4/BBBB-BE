@@ -35,7 +35,8 @@ public class WebSecurityConfig {
     private static final String[] PERMIT_URL_ARRAY = {
             /* swagger v3 */
             "/v3/api-docs/**",
-            "/swagger-ui/**"
+            "/swagger-ui/**",
+            "/calculator/swagger-ui/**"
     };      // swagger 열어주기
 
     private final AuthenticationEntryPointException authenticationEntryPointException;

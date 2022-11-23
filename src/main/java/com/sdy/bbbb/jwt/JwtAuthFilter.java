@@ -54,7 +54,4 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             log.error(e.getMessage());
         }
     }
-
-
-
 }
