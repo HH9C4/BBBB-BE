@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -50,7 +51,7 @@ public class PostController {
     public GlobalResponseDto<PostListResponseDto> getPost(@RequestParam("gu") String gu,
                                                           @RequestParam("category") @ValidEnum(enumClass = CategoryEnum.class) String category,
                                                           @RequestParam("sort") @ValidEnum(enumClass = SortEnum.class) String sort,
-                                                          Pageable pageable,
+                                                          @PageableDefault(size = 5) Pageable pageable,
                                                           @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         log.info("= = = = 게시글 조회 = = = = ");
         return postService.getPost(gu, category, sort, pageable, userDetails.getAccount());
@@ -71,7 +72,7 @@ public class PostController {
     public GlobalResponseDto<PostListResponseDto> searchPost(@RequestParam ("type") @Range(min = 0, max = 1) Integer type,
                                                                @RequestParam("searchWord") @NotBlank String searchWord,
                                                                @RequestParam("sort") @ValidEnum(enumClass = SortEnum.class) String sort,
-                                                               Pageable pageable,
+                                                               @PageableDefault(size = 5) Pageable pageable,
                                                                @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         log.info("= = = = 게시글 검색 = = = = ");
         log.info(String.valueOf(pageable.getPageSize()));
