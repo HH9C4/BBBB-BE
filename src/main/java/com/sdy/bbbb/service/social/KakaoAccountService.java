@@ -161,11 +161,13 @@ public class KakaoAccountService {
                 .get("email").asText();
         String profileImage = jsonNode.get("kakao_account")
                 .get("profile").get("profile_image_url").asText();
-        String gender = jsonNode.get("kakao_account")
-                .get("gender").asText();
-        String ageRange = jsonNode.get("kakao_account")
-                .get("age_range").asText();
-        return new KakaoUserInfoDto(id, nickname, email, profileImage, gender, ageRange);
+        JsonNode gender = jsonNode.get("kakao_account")
+                .get("gender");
+        String genderStr = gender.isNull() ? "비공개" : gender.asText();
+        JsonNode ageRange = jsonNode.get("kakao_account")
+                .get("age_range");
+        String ageRangeStr = ageRange.isNull() ? "비공개" : ageRange.asText();
+        return new KakaoUserInfoDto(id, nickname, email, profileImage, genderStr, ageRangeStr);
     }
 
 
