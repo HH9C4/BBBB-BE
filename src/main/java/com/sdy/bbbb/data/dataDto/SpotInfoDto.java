@@ -11,6 +11,7 @@ import java.util.Map;
 public class SpotInfoDto {
 
     private String area_nm;
+    private String ppltn_time;
     private String air_msg;
     private String area_congest_lvl;
     private String female_ppltn_rate;
@@ -34,6 +35,7 @@ public class SpotInfoDto {
 
     public SpotInfoDto(GuBaseInfo guBaseInfo, List<Map<String, String>> popByHour, List<Map<String, String>> todayPopByHour) {
         this.area_nm = guBaseInfo.getArea_nm();
+        this.ppltn_time = guBaseInfo.getPpltn_time();
         this.air_msg = guBaseInfo.getAir_msg();
         this.area_congest_lvl = guBaseInfo.getArea_congest_lvl();
         this.female_ppltn_rate = guBaseInfo.getFemale_ppltn_rate();

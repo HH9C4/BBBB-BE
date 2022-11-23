@@ -87,7 +87,8 @@ public interface DataRepository extends JpaRepository<SpotData, Long> {
             nativeQuery = true)
     List<SpotCalculated> getGuInfoToday(String gu);
 
-    @Query(value = "select gu_nm, area_nm, gu_added, gu_confirmed, air_msg, area_congest_lvl, female_ppltn_rate, male_ppltn_rate, max_temp, min_temp, pcp_msg, pm10, pm10index, pm25, pm25index, ppltn_rate10, ppltn_rate20, ppltn_rate30, ppltn_rate40, ppltn_rate50, temp, sky_stts " +
+    // 데이터 3번 기본 정보
+    @Query(value = "select ppltn_time, gu_nm, area_nm, gu_added, gu_confirmed, air_msg, area_congest_lvl, female_ppltn_rate, male_ppltn_rate, max_temp, min_temp, pcp_msg, pm10, pm10index, pm25, pm25index, ppltn_rate10, ppltn_rate20, ppltn_rate30, ppltn_rate40, ppltn_rate50, temp, sky_stts " +
             "from spot_data " +
             "where weather_time between date_sub(now(), interval 30 minute) and now() " +
             "and gu_nm = :gu " +
