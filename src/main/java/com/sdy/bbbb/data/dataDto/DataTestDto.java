@@ -10,5 +10,8 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DataTestDto {
-    private Map<String, String> popByHour;
+    private Map<String, String> lastPopByHour;
+    private Map<String, String> todayPopByHour;
+
+
 }
