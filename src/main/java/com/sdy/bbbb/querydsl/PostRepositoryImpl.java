@@ -4,6 +4,8 @@ import com.querydsl.core.types.NullExpression;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Wildcard;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.HashTag;
@@ -59,8 +61,8 @@ public class PostRepositoryImpl {
     }
 
     //게시글 전체 조회
-    public List<Post> test2(String gu, String category, String sort, Pageable pageable) {
-        return queryFactory
+    public PageImpl<Post> test2(String gu, String category, String sort, Pageable pageable) {
+        List<Post> postList = queryFactory
                 .select(post).distinct()
 //                .distinct()
                 .from(post)
@@ -77,11 +79,17 @@ public class PostRepositoryImpl {
                 .offset(pageable.getOffset())
                 .fetch();
 //                .stream().distinct().collect(Collectors.toList());
+
+        Long totalCount = queryFactory.select(Wildcard.count)
+                .from(post)
+                .where(post.guName.eq(gu), category(category))
+                .fetchOne();
+
+        return new PageImpl<>(postList, pageable, totalCount);
     }
 
     // 검색
     public PageImpl<Post> searchByTag(Integer type, String searchWord, String sort, Pageable pageable) {
-        System.out.println("================================="+pageable.getPageSize());
         List<Post> postList = queryFactory
                 .select(post).distinct()
                 .from(post)
@@ -95,7 +103,13 @@ public class PostRepositoryImpl {
                 .fetch();
 //                .stream().distinct().collect(Collectors.toList());
 
-        return new PageImpl<>(postList, pageable, postList.size());
+            Long totalCount = queryFactory.select(Wildcard.count)
+                    .from(post)
+                    .leftJoin(hashTag).on(post.id.eq(hashTag.post.id)).fetchJoin()
+                    .where(tagOrNot(type, searchWord))
+                    .fetchOne();
+
+        return new PageImpl<>(postList, pageable, totalCount);
     }
 
 
