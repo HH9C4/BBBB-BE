@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -114,7 +115,7 @@ public class MyPageService {
         }
 
          if (updateRequestDto != null) {
-             if(updateRequestDto.getNickname() != null){
+             if(!Objects.equals(updateRequestDto.getNickname(), "") && !Objects.equals(updateRequestDto.getNickname(), null)){
                  account.setAccountName(updateRequestDto.getNickname());
              }
          }
