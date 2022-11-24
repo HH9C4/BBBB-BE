@@ -240,6 +240,18 @@ public class PostService {
         return GlobalResponseDto.ok("게시글 삭제가 완료되었습니다.", post.getGuName());
     }
 
+    @Transactional(readOnly = true)
+    public GlobalResponseDto<TagResponseDto> getTags(String gu) {
+        gu = ServiceUtil.decoding(gu);
+        List<HashTag> tagList = hashTagRepository.findByPost_GuName(gu);
+        List<String> tagStrList = new ArrayList<>();
+        for(HashTag tag : tagList){
+            tagStrList.add(tag.getTag());
+        }
+
+        return GlobalResponseDto.ok("조회완료", new TagResponseDto(tagStrList));
+    }
+
 
     //등록 할 이미지가 있다면 사용
     public void createImageIfNotNull(List<MultipartFile> multipartFile, Post post) {
@@ -285,6 +297,9 @@ public class PostService {
         }
         throw new CustomException(ErrorCode.NotFoundGu);
     }
+
+
+
 
 //    private List<String> getTag(Post post){
 //        List<String> tagList = new ArrayList<>();
