@@ -27,6 +27,7 @@ public class MyPageService {
     private final BookmarkRepository bookmarkRepository;
     private final S3Uploader2 s3Uploader2;
     private final CommentRepositoryImpl commentRepositoryImpl;
+    private final AccountRepository accountRepository;
 
 
 
@@ -117,6 +118,8 @@ public class MyPageService {
                  account.setAccountName(updateRequestDto.getNickname());
              }
          }
+
+         accountRepository.save(account);
 
         return GlobalResponseDto.ok("수정완료", new LoginResponseDto(account));
     }
