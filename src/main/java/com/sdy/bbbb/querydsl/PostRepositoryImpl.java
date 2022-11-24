@@ -80,7 +80,7 @@ public class PostRepositoryImpl {
                 .fetch();
 //                .stream().distinct().collect(Collectors.toList());
 
-        Long totalCount = queryFactory.select(Wildcard.count).distinct()
+        Long totalCount = queryFactory.select(post.id.count()).distinct()
                 .from(post)
 //                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id)).fetchJoin()
                 .where(post.guName.eq(gu), category(category))
@@ -108,7 +108,7 @@ public class PostRepositoryImpl {
                 .fetch();
 //                .stream().distinct().collect(Collectors.toList());
 
-            Long totalCount = queryFactory.select(Wildcard.count).distinct()
+            Long totalCount = queryFactory.select(post.id.count()).distinct()
                     .from(post)
 //                .leftJoin(post.tagList).fetchJoin()
                     .leftJoin(hashTag).on(post.id.eq(hashTag.post.id))
