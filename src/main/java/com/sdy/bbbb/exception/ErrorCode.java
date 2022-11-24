@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ErrorCode {
 
-
     // 데이터를 찾을 수 없습니다.
     NotFoundPost(HttpStatus.NOT_FOUND.value(), "P001", "게시글을 찾을 수 없습니다."),
     NotFoundComment(HttpStatus.NOT_FOUND.value(), "P002", "댓글을 찾을 수 없습니다."),
