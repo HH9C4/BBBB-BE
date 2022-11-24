@@ -11,12 +11,12 @@ import java.util.List;
 public class PostListResponseDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean isBookmarked;
-    private Integer sizeOfList;
+    private Long sizeOfList;
     private List<PostResponseDto> postList;
 
-    public PostListResponseDto(Boolean isBookmarked, List<PostResponseDto> postList) {
+    public PostListResponseDto(Boolean isBookmarked, List<PostResponseDto> postList, Long totalSize) {
         this.isBookmarked = isBookmarked;
         this.postList = postList;
-        this.sizeOfList = postList.size();
+        this.sizeOfList = totalSize;
     }
 }

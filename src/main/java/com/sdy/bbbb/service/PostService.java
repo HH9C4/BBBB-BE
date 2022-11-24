@@ -12,6 +12,7 @@ import com.sdy.bbbb.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.parameters.P;
@@ -79,7 +80,7 @@ public class PostService {
 //        List<Post> postList;
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 
-        List<Post> postList1 = postRepositoryImpl.test2(guName, category, sort, pageable);
+        PageImpl<Post> postList1 = postRepositoryImpl.test2(guName, category, sort, pageable);
 //        Set.copyOf(List)
 
 //        postList = postRepository.customSortByGu(gu);
@@ -101,7 +102,7 @@ public class PostService {
         }
 
         boolean isBookMarked = bookmarkRepository.existsByGu_GuNameAndAccount(guName, account);
-        return GlobalResponseDto.ok("조회 성공", new PostListResponseDto(isBookMarked, postResponseDtoList));
+        return GlobalResponseDto.ok("조회 성공", new PostListResponseDto(isBookMarked, postResponseDtoList, postList1.getTotalElements()));
     }
 
 //    게시글 검색
@@ -115,7 +116,11 @@ public class PostService {
         searchWord = ServiceUtil.decoding(searchWord);
 //        Page<Post> pp = new Page;
 //        pp.add(postRepositoryImpl.searchByTag(type, searchWord, sort, pageable));
-        Page<Post> postList = postRepositoryImpl.searchByTag(type, searchWord, sort, pageable);
+        PageImpl<Post> postList = postRepositoryImpl.searchByTag(type, searchWord, sort, pageable);
+
+        System.out.println(postList.isLast());
+        System.out.println(postList.getTotalElements());
+
 //        System.out.println("================================================");
 //        System.out.println(postList.getTotalElements());
 //        System.out.println("================================================");
@@ -155,7 +160,7 @@ public class PostService {
             postResponseDtoList.add(
                     new PostResponseDto(post, ServiceUtil.getImgUrl(post), ServiceUtil.getTag(post), ServiceUtil.amILikedPost(post, likeList)));
         }
-        return GlobalResponseDto.ok("조회 성공", new PostListResponseDto(null, postResponseDtoList));
+        return GlobalResponseDto.ok("조회 성공", new PostListResponseDto(null, postResponseDtoList, postList.getTotalElements()));
     }
 
     //게시글 상세 조회
