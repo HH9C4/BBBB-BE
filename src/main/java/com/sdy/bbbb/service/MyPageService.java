@@ -107,15 +107,17 @@ public class MyPageService {
     // 마이페이지 수정 (프로필 이미지 사진 수정, 닉네임 수정)
     @Transactional
     public GlobalResponseDto<LoginResponseDto> updateMyInfo(Account account, UpdateRequestDto updateRequestDto, MultipartFile multipartFile) {
+
         if (multipartFile != null){
             account.setProfileImage(s3Uploader2.upload(multipartFile, "dir1"));
         }
-//        if(updateRequestDto.getNickname() != null){
-//            account.setAccountName(updateRequestDto.getNickname());
-//        }
+
          if (updateRequestDto != null) {
-             account.setAccountName(updateRequestDto.getNickname());
+             if(updateRequestDto.getNickname() != null){
+                 account.setAccountName(updateRequestDto.getNickname());
+             }
          }
+
         return GlobalResponseDto.ok("수정완료", new LoginResponseDto(account));
     }
 
