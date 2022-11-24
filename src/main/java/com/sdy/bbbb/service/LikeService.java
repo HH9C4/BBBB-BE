@@ -54,7 +54,7 @@ public class LikeService {
                     () -> new CustomException(ErrorCode.NotFoundComment));
             // 댓글 없으면 에러처리
             if (likeRepository.existsByCommentAndAccount(comment, account)) {
-                likeRepository.deleteById(id);
+                likeRepository.deleteByCommentAndAccount(comment, account);
                 comment.setLikeCount(comment.getLikeCount() - 1);
                 // 좋아요 정보가 있는 상태 = 좋아요 취소
                 return GlobalResponseDto.ok("좋아요 취소", new LikeResponseDto(myLikedComment(comment, account), comment.getLikeCount()));
