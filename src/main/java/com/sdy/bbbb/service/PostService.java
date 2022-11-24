@@ -248,7 +248,7 @@ public class PostService {
         for(HashTag tag : tagList){
             tagStrList.add(tag.getTag());
         }
-
+        tagStrList.sort(Comparator.naturalOrder());
         return GlobalResponseDto.ok("조회완료", new TagResponseDto(tagStrList));
     }
 
