@@ -109,20 +109,20 @@ public class MyPageService {
     // 마이페이지 수정 (프로필 이미지 사진 수정, 닉네임 수정)
     @Transactional
     public GlobalResponseDto<LoginResponseDto> updateMyInfo(Account account, UpdateRequestDto updateRequestDto, MultipartFile multipartFile) {
-
+        Account account1 = accountRepository.findById(account.getId()).orElseThrow(
+                ()-> new CustomException(ErrorCode.NotFoundUser)
+        );
         if (multipartFile != null){
-            account.setProfileImage(s3Uploader2.upload(multipartFile, "dir1"));
+            account1.setProfileImage(s3Uploader2.upload(multipartFile, "dir1"));
         }
 
          if (updateRequestDto != null) {
              if(!Objects.equals(updateRequestDto.getNickname(), "") && !Objects.equals(updateRequestDto.getNickname(), null)){
-                 account.setAccountName(updateRequestDto.getNickname());
+                 account1.setAccountName(updateRequestDto.getNickname());
              }
          }
 
-         accountRepository.save(account);
-
-        return GlobalResponseDto.ok("수정완료", new LoginResponseDto(account));
+        return GlobalResponseDto.ok("수정완료", new LoginResponseDto(account1));
     }
 
     // 좋아요 했는지 안했는지 확인하는 함수
