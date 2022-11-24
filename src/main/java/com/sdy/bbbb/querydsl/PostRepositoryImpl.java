@@ -108,7 +108,7 @@ public class PostRepositoryImpl {
 //                .distinct()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
-                .fetch();
+                .distinct().fetch();
 //                .stream().distinct().collect(Collectors.toList());
 
             Long totalCount = queryFactory.select(post.id.countDistinct())
@@ -159,6 +159,7 @@ public class PostRepositoryImpl {
             return hashTag.tag.contains(searchWord);
 //                 post.tagList.getElementType().
         }else{
+//            return post.tagList.equals(hashTag.tag.contains(searchWord));
             throw new CustomException(ErrorCode.BadRequest);
         }
     }
