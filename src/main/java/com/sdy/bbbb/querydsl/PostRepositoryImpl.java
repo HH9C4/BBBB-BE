@@ -80,9 +80,19 @@ public class PostRepositoryImpl {
                 .fetch();
 //                .stream().distinct().collect(Collectors.toList());
 
-        Long totalCount = queryFactory.select(Wildcard.count)
+        Long totalCount = queryFactory.select(Wildcard.count).distinct()
                 .from(post)
+//                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id)).fetchJoin()
+                .join(post.account).fetchJoin()
+                .leftJoin(post.tagList).fetchJoin()
                 .where(post.guName.eq(gu), category(category))
+//                .where(category(category))
+//                .leftJoin(post.likeList)
+                .orderBy(eqSort(sort), post.createdAt.desc())
+                //페이징 할 때 수정해야 할것이다!
+//                .orderBy(post.createdAt.desc())
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
                 .fetchOne();
 
         return new PageImpl<>(postList, pageable, totalCount);
@@ -103,10 +113,15 @@ public class PostRepositoryImpl {
                 .fetch();
 //                .stream().distinct().collect(Collectors.toList());
 
-            Long totalCount = queryFactory.select(Wildcard.count)
+            Long totalCount = queryFactory.select(Wildcard.count).distinct()
                     .from(post)
+//                .leftJoin(post.tagList).fetchJoin()
                     .leftJoin(hashTag).on(post.id.eq(hashTag.post.id)).fetchJoin()
+//                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id))
                     .where(tagOrNot(type, searchWord))
+                    .orderBy(eqSort(sort), post.createdAt.desc())
+                    .limit(pageable.getPageSize())
+                    .offset(pageable.getOffset())
                     .fetchOne();
 
         return new PageImpl<>(postList, pageable, totalCount);
