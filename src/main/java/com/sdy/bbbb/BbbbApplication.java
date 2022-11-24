@@ -7,14 +7,21 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import javax.annotation.PostConstruct;
+import java.util.TimeZone;
+
 @EnableScheduling // scheduler 사용
 @SpringBootApplication
 @EnableJpaAuditing
 public class BbbbApplication {
-    public static void main(String[] args) {
-        System.out.println(DataTagName.AREA_NM.toString().equals("AREA_NM"));
-        SpringApplication.run(BbbbApplication.class, args);
 
+    @PostConstruct
+    public void started() {
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(BbbbApplication.class, args);
     }
 
 }
