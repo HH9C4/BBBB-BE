@@ -110,5 +110,11 @@ public class PostController {
         return postService.deletePost(postId, userDetails.getAccount());
     }
 
+    @ApiOperation(value = "태그 조회", notes = "설명")
+    @GetMapping("/tags")
+    public GlobalResponseDto<TagResponseDto> getTags(@RequestParam String gu){
+
+        return postService.getTags(gu);
+    }
 
 }
