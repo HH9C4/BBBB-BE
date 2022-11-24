@@ -85,7 +85,7 @@ public class DataService {
         return GlobalResponseDto.ok("조회 성공", new DataResponseDto(jamDtoList, dtoList));
     }
 
-    // 데이터 삭제 로직
+//     데이터 삭제 로직
 //    @Transactional
 //    @Scheduled(cron = "")
 //    public void deleteSpotData() {
