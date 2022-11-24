@@ -123,27 +123,31 @@ public class DataService {
         List<SpotCalculated> todaySpotCalculatedList = dataRepository.getGuInfoToday(gu);
 
 
-        //기존
+//        기존
         List<SpotInfoDto> spotInfoDtoList = new ArrayList<>();
         for(GuBaseInfo guBaseInfo : guBaseInfoList){
-            List<Map<String, String>> mapList = new ArrayList<>();
+//            List<Map<String, String>> mapList = new ArrayList<>();
+            Map<String, String> popByHour =  new HashMap();
             for(SpotCalculated spot1 : spotCalculateds) {
                 if (guBaseInfo.getArea_nm().equals(spot1.getArea_Nm())) {
-                    Map<String, String> popByHour =  new HashMap();
+
                     popByHour.put(spot1.getThat_Hour(), spot1.getPopulation_By_Hour());
-                    mapList.add(popByHour);
+//                    mapList.add(popByHour);
                 }
             }
-            List<Map<String, String>> mapTodayList = new ArrayList<>();
+//            List<Map<String, String>> mapTodayList = new ArrayList<>();
+            Map<String, String> todayPopByHour = new HashMap<>();
             for(SpotCalculated spot2 : todaySpotCalculatedList) {
                 if (guBaseInfo.getArea_nm().equals(spot2.getArea_Nm())) {
-                    Map<String, String> todayPopByHour = new HashMap<>();
+
                     todayPopByHour.put(spot2.getThat_Hour(), spot2.getPopulation_By_Hour());
-                    mapTodayList.add(todayPopByHour);
+//                    mapTodayList.add(todayPopByHour);
                 }
             }
-            spotInfoDtoList.add(new SpotInfoDto(guBaseInfo, mapList, mapTodayList));
+            spotInfoDtoList.add(new SpotInfoDto(guBaseInfo, popByHour, todayPopByHour));
         }
+
+
 
         return GlobalResponseDto.ok("조회 성공", new BaseGuInfoDto(guBaseInfos, spotInfoDtoList));
     }

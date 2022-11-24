@@ -30,10 +30,12 @@ public class SpotInfoDto {
     private String ppltn_rate50;
     private String temp;
     private String sky_stts;
-    private List<Map<String, String>> popByHour;
-    private List<Map<String, String>> todayPopByHour;
+//    private PopByHourDto lastPopByHour;
+//    private PopByHourDto todayPopByHour;
+    private Map<String, String> lastPopByHour;
+    private Map<String, String> todayPopByHour;
 
-    public SpotInfoDto(GuBaseInfo guBaseInfo, List<Map<String, String>> popByHour, List<Map<String, String>> todayPopByHour) {
+    public SpotInfoDto(GuBaseInfo guBaseInfo, Map<String, String> popByHour, Map<String, String> todayPopByHour) {
         this.area_nm = guBaseInfo.getArea_nm();
         this.ppltn_time = guBaseInfo.getPpltn_time();
         this.air_msg = guBaseInfo.getAir_msg();
@@ -54,7 +56,7 @@ public class SpotInfoDto {
         this.ppltn_rate50 = guBaseInfo.getPpltn_Rate50();
         this.temp = guBaseInfo.getTemp();
         this.sky_stts = guBaseInfo.getSky_Stts();
-        this.popByHour = popByHour;
+        this.lastPopByHour = popByHour;
         this.todayPopByHour = todayPopByHour;
     }
 
