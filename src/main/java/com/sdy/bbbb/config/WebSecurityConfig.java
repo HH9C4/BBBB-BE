@@ -84,6 +84,8 @@ public class WebSecurityConfig {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/user/**").permitAll()
+                .antMatchers("/api/maininfo").permitAll()
+                .antMatchers("/api/guinfo").permitAll()
                 .antMatchers(PERMIT_URL_ARRAY).permitAll() //swagger 열어주기
                 .anyRequest().authenticated()
 //                .anyRequest().authenticated() //permitAll을 제외한 API는 모두 인증 필요
