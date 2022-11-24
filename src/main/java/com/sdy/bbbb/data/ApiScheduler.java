@@ -13,6 +13,7 @@ import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,6 +96,7 @@ public class ApiScheduler {
                     .skyStts(getElementText(documentInfo, DataTagName.SKY_STTS.name()))
                     .build();
 
+            spotData.setModifiedAt(LocalDateTime.now());
             spotDataList.add(spotData);
         }
 
