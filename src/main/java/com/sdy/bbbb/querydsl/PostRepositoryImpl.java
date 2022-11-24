@@ -63,7 +63,7 @@ public class PostRepositoryImpl {
     //게시글 전체 조회
     public PageImpl<Post> test2(String gu, String category, String sort, Pageable pageable) {
         List<Post> postList = queryFactory
-                .select(post).distinct()
+                .select(post)
 //                .distinct()
                 .from(post)
 //                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id)).fetchJoin()
@@ -75,6 +75,7 @@ public class PostRepositoryImpl {
                 .orderBy(eqSort(sort), post.createdAt.desc())
                 //페이징 할 때 수정해야 할것이다!
 //                .orderBy(post.createdAt.desc())
+                .distinct()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();
@@ -96,13 +97,14 @@ public class PostRepositoryImpl {
     // 검색
     public PageImpl<Post> searchByTag(Integer type, String searchWord, String sort, Pageable pageable) {
         List<Post> postList = queryFactory
-                .select(post).distinct()
+                .select(post)
                 .from(post)
 //                .leftJoin(post.tagList).fetchJoin()
                 .leftJoin(hashTag).on(post.id.eq(hashTag.post.id)).fetchJoin()
 //                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id))
                 .where(tagOrNot(type, searchWord))
                 .orderBy(eqSort(sort), post.createdAt.desc())
+                .distinct()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();
