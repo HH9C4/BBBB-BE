@@ -78,10 +78,10 @@ public class PostRepositoryImpl {
                 .distinct()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
-                .fetch();
-//                .stream().distinct().collect(Collectors.toList());
+                .fetch()
+                .stream().distinct().collect(Collectors.toList());
 
-        Long totalCount = queryFactory.select(post.id.count()).distinct()
+        Long totalCount = queryFactory.select(post.id.countDistinct())
                 .from(post)
 //                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id)).fetchJoin()
                 .where(post.guName.eq(gu), category(category))
@@ -99,18 +99,19 @@ public class PostRepositoryImpl {
         List<Post> postList = queryFactory
                 .select(post)
                 .from(post)
+                .join(post.account).fetchJoin()
+                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id))
 //                .leftJoin(post.tagList).fetchJoin()
-                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id)).fetchJoin()
 //                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id))
                 .where(tagOrNot(type, searchWord))
                 .orderBy(eqSort(sort), post.createdAt.desc())
-                .distinct()
+//                .distinct()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
-                .fetch();
+                .distinct().fetch();
 //                .stream().distinct().collect(Collectors.toList());
 
-            Long totalCount = queryFactory.select(post.id.count()).distinct()
+            Long totalCount = queryFactory.select(post.id.countDistinct())
                     .from(post)
 //                .leftJoin(post.tagList).fetchJoin()
                     .leftJoin(hashTag).on(post.id.eq(hashTag.post.id))
@@ -156,7 +157,9 @@ public class PostRepositoryImpl {
             return post.content.contains(searchWord).or(hashTag.tag.contains(searchWord));
         }else if (type == 1) {
             return hashTag.tag.contains(searchWord);
+//                 post.tagList.getElementType().
         }else{
+//            return post.tagList.equals(hashTag.tag.contains(searchWord));
             throw new CustomException(ErrorCode.BadRequest);
         }
     }
