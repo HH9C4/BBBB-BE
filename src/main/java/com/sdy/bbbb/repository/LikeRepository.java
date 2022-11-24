@@ -28,4 +28,6 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
     void deleteByPostAndAccount(Post post, Account account);
 
     Optional<Like> findByPostIdAndAccount(Long postId, Account account);
+
+    void deleteByCommentAndAccount(Comment comment, Account account);
 }
