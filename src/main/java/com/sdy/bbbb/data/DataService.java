@@ -85,12 +85,14 @@ public class DataService {
         return GlobalResponseDto.ok("조회 성공", new DataResponseDto(jamDtoList, dtoList));
     }
 
-//     데이터 삭제 로직
-//    @Transactional
-//    @Scheduled(cron = "")
-//    public void deleteSpotData() {
-//
-//    }
+    // 데이터 삭제 로직 데이터 삭제는 언제할까요!? 매일 밤 ?멀라유 ㅋ 0으로 한거는 12시 라는 거였는데 밤
+    // 긋 몇  ㅅ시?사람사람 없을 때 한 세시??사ㅁ일케? 좋아염근데이거 분 아닌가요?
+    @Transactional
+    @Scheduled(cron = "0 0 3 * * *")
+    public void deleteSpotData() {
+        int affectedRows = dataRepository.clearDb();
+        log.info(affectedRows + " 건의 데이터 삭제 완료");
+    }
 
 
     // 구별 데이터 조회
@@ -147,9 +149,9 @@ public class DataService {
             spotInfoDtoList.add(new SpotInfoDto(guBaseInfo,new DataTestDto(lastPopByHour, todayPopByHour)));
         }
 
-
-
         return GlobalResponseDto.ok("조회 성공", new BaseGuInfoDto(guBaseInfos, spotInfoDtoList));
     }
+
+
 }
 

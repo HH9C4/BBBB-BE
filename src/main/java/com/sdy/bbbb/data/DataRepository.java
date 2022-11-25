@@ -99,10 +99,11 @@ public interface DataRepository extends JpaRepository<SpotData, Long> {
 
 
     // 데이터 삭제 로직
-//    @Query(value = "delete from spot_data " +
-//            "where created_at < date_sub(now(), interval 9 day)",
-//            nativeQuery = true)
-
+    @Modifying
+    @Query(value = "delete from spot_data " +
+            "where created_at < date_sub(now(), interval 9 day)",
+            nativeQuery = true)
+    int clearDb();
 
     //  코로나 데이터만 가져오는 경우
     //    @Query(value = "select gu_nm, gu_confirmed, gu_added " +
