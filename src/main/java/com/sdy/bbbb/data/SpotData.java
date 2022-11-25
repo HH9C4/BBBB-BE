@@ -26,10 +26,6 @@ public class SpotData extends TimeStamped {
     @Column(nullable = false)
     private String areaCongestLvl;
 
-    //장소 혼잡도 지표 관련 메세지
-//    @Column(nullable = false)
-//    private String areaCongestMsg;
-
     //실시간 인구 지표 최소값
     @Column(nullable = false)
     private String areaPpltnMin;
@@ -75,10 +71,6 @@ public class SpotData extends TimeStamped {
     @Column(nullable = false)
     private String temp;
 
-    //체감온도
-//    @Column(nullable = false)
-//    private String sensibleTemp;
-
     //일 최고온도
     @Column(nullable = false)
     private String maxTemp;
@@ -87,29 +79,9 @@ public class SpotData extends TimeStamped {
     @Column(nullable = false)
     private String minTemp;
 
-    //습도
-//    @Column(nullable = false)
-//    private String humidity;
-
-    //강수량
-//    @Column(nullable = false)
-//    private String precipitation;
-
-    //강수 형태
-//    @Column(nullable = false)
-//    private String precptType;
-
     //강수관련 메세지
     @Column(nullable = false)
     private String pcpMsg;
-
-    //자외선 지수
-//    @Column(nullable = false)
-//    private String uvIndex;
-
-    //자외선 메세지
-//    @Column(nullable = false)
-//    private String uvMsg;
 
     //초미세먼지지표
     @Column(nullable = false)
@@ -127,10 +99,6 @@ public class SpotData extends TimeStamped {
     @Column(nullable = false)
     private String pm10;
 
-    //통합대기환경등급
-//    @Column(nullable = false)
-//    private String airIdx;
-
     //통합대기환경등급별 메세지
     @Column(nullable = false)
     private String airMsg;
@@ -138,10 +106,6 @@ public class SpotData extends TimeStamped {
     //날씨 업데이트 시간
     @Column(nullable = false)
     private String weatherTime;
-
-    //기준일
-//    @Column(nullable = false)
-//    private String strdDt;
 
     //소재한 자치구명
     @Column(nullable = false)

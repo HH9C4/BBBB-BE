@@ -106,33 +106,5 @@ public interface DataRepository extends JpaRepository<SpotData, Long> {
             nativeQuery = true)
     int clearDb();
 
-    //  코로나 데이터만 가져오는 경우
-    //    @Query(value = "select gu_nm, gu_confirmed, gu_added " +
-//            "from spot_data " +
-//            "where weather_time between date_sub(now(), interval 30 minute) and now() " +
-//            "and gu_nm = :gu " +
-//            "group by gu_nm ",
-//            nativeQuery = true)
-//    JamDto getGuCorona(String gu);
-
-
-    // 데이터 1번 지난 일주일 데이터
-//    @Query(value = "select week(now()) as ww, a.area_nm, a.gu_nm, sum(a.score1) as score_sum " +
-//            "from ( " +
-//            "select area_nm, gu_nm, " +
-//            "case " +
-//            "when area_congest_lvl = '여유' then 1 " +
-//            "when area_congest_lvl = '보통' then 3 " +
-//            "when area_congest_lvl = '붐빔' then 6 " +
-//            "when area_congest_lvl = '매우 붐빔' then 10 " +
-//            "end as 'score1' " +
-//            "from spot_data sd " +
-//            "where ppltn_time between date_format(date_sub(now(), interval 7 day), '%Y-%m-$d 00:00:00') and date_format(date_sub(now(), interval 1 day), '%Y-%m-%d 23:59:59') " +
-//            ") as a " +
-//            "group by area_nm " +
-//            "order by score_sum desc " +
-//            "limit 3",
-//            nativeQuery = true)
-//    List<JamDto> getJamFromDb();
 
 }

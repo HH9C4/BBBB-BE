@@ -10,8 +10,6 @@ public class JamTop5Dto {
 
     private Long ranking;
 
-//    private Long ww;
-
     private String areaNm;
 
     private Long scoreSum;
@@ -23,7 +21,6 @@ public class JamTop5Dto {
 
     public JamTop5Dto(JamOfWeek jamOfWeek) {
         this.ranking = jamOfWeek.getRanking();
-//        this.ww =jamOfWeek.getSavedWeek();
         this.areaNm = jamOfWeek.getAreaNm();
         this.scoreSum = jamOfWeek.getSumOfScore();
         this.guNm = jamOfWeek.getGuNm();

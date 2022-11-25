@@ -30,11 +30,8 @@ public class SpotInfoDto {
     private String ppltn_rate50;
     private String temp;
     private String sky_stts;
-//  private PopByHourDto lastPopByHour;
-//  private PopByHourDto todayPopByHour;
     private DataTestDto hour;
-//    private Map<String, String> lastPopByHour;
-//    private Map<String, String> todayPopByHour;
+
 
     public SpotInfoDto(GuBaseInfo guBaseInfo, DataTestDto hour) {
         this.area_nm = guBaseInfo.getArea_nm();
@@ -60,28 +57,5 @@ public class SpotInfoDto {
         this.hour = hour;
     }
 
-//    public SpotInfoDto(GuBaseInfo guBaseInfo, PopByHourDto lastPopByHour, PopByHourDto todayPopByHour ) {
-//        this.area_nm = guBaseInfo.getArea_nm();
-//        this.ppltn_time = guBaseInfo.getPpltn_time();
-//        this.air_msg = guBaseInfo.getAir_msg();
-//        this.area_congest_lvl = guBaseInfo.getArea_congest_lvl();
-//        this.female_ppltn_rate = guBaseInfo.getFemale_ppltn_rate();
-//        this.male_ppltn_rate = guBaseInfo.getMale_ppltn_rate();
-//        this.max_temp = guBaseInfo.getMax_temp();
-//        this.min_temp = guBaseInfo.getMin_temp();
-//        this.pcp_msg = guBaseInfo.getPcp_msg();
-//        this.pm10 = guBaseInfo.getPm10();
-//        this.pm10index = guBaseInfo.getPm10index();
-//        this.pm25 = guBaseInfo.getPm25();
-//        this.pm25index = guBaseInfo.getPm25Index();
-//        this.ppltn_rate10 = guBaseInfo.getPpltn_Rate10();
-//        this.ppltn_rate20 = guBaseInfo.getPpltn_Rate20();
-//        this.ppltn_rate30 = guBaseInfo.getPpltn_Rate30();
-//        this.ppltn_rate40 = guBaseInfo.getPpltn_Rate40();
-//        this.ppltn_rate50 = guBaseInfo.getPpltn_Rate50();
-//        this.temp = guBaseInfo.getTemp();
-//        this.sky_stts = guBaseInfo.getSky_Stts();
-//        this.lastPopByHour = lastPopByHour;
-//        this.todayPopByHour = todayPopByHour;
-//    }
+
 }
