@@ -30,8 +30,8 @@ public class SpotInfoDto {
     private String ppltn_rate50;
     private String temp;
     private String sky_stts;
-//       private PopByHourDto lastPopByHour;
-//    private PopByHourDto todayPopByHour;
+//  private PopByHourDto lastPopByHour;
+//  private PopByHourDto todayPopByHour;
     private DataTestDto hour;
 //    private Map<String, String> lastPopByHour;
 //    private Map<String, String> todayPopByHour;
