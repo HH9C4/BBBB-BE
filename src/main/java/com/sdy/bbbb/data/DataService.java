@@ -129,16 +129,16 @@ public class DataService {
         List<SpotInfoDto> spotInfoDtoList = new ArrayList<>();
         for(GuBaseInfo guBaseInfo : guBaseInfoList){
 //            List<Map<String, String>> mapList = new ArrayList<>();
-            Map<String, Integer> lastPopByHour =  new HashMap();
+            Map<String, Long> lastPopByHour =  new HashMap();
             for(SpotCalculated spot1 : spotCalculateds) {
                 if (guBaseInfo.getArea_nm().equals(spot1.getArea_Nm())) {
 
-                    lastPopByHour.put("L" + spot1.getThat_Hour(), Integer.parseInt(spot1.getPopulation_By_Hour()));
+                    lastPopByHour.put("L" + spot1.getThat_Hour(), Long.parseLong(spot1.getPopulation_By_Hour()));
 //                    mapList.add(popByHour);
                 }
             }
 //            List<Map<String, String>> mapTodayList = new ArrayList<>();
-            Map<String, Integer> todayPopByHour = new HashMap<>();
+            Map<String, Long> todayPopByHour = new HashMap<>();
             for(SpotCalculated spot2 : todaySpotCalculatedList) {
                 if (guBaseInfo.getArea_nm().equals(spot2.getArea_Nm())) {
 
