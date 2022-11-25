@@ -131,7 +131,7 @@ public class DataService {
             for(SpotCalculated spot1 : spotCalculateds) {
                 if (guBaseInfo.getArea_nm().equals(spot1.getArea_Nm())) {
 
-                    lastPopByHour.put(spot1.getThat_Hour(), spot1.getPopulation_By_Hour());
+                    lastPopByHour.put("L"+spot1.getThat_Hour(), spot1.getPopulation_By_Hour());
 //                    mapList.add(popByHour);
                 }
             }
@@ -140,7 +140,7 @@ public class DataService {
             for(SpotCalculated spot2 : todaySpotCalculatedList) {
                 if (guBaseInfo.getArea_nm().equals(spot2.getArea_Nm())) {
 
-                    todayPopByHour.put(spot2.getThat_Hour(), spot2.getPopulation_By_Hour());
+                    todayPopByHour.put("T"+spot2.getThat_Hour(), spot2.getPopulation_By_Hour());
 //                    mapTodayList.add(todayPopByHour);
                 }
             }
