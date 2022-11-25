@@ -62,8 +62,6 @@ public class DataService {
     }
 
 
-
-
     // 데이터 조회
     @Transactional(readOnly = true)
     public GlobalResponseDto<DataResponseDto> getMainInfo() {
@@ -85,8 +83,7 @@ public class DataService {
         return GlobalResponseDto.ok("조회 성공", new DataResponseDto(jamDtoList, dtoList));
     }
 
-    // 데이터 삭제 로직 데이터 삭제는 언제할까요!? 매일 밤 ?멀라유 ㅋ 0으로 한거는 12시 라는 거였는데 밤
-    // 긋 몇  ㅅ시?사람사람 없을 때 한 세시??사ㅁ일케? 좋아염근데이거 분 아닌가요?
+    // 데이터 삭제 로직
     @Transactional
     @Scheduled(cron = "0 0 3 * * *")
     public void deleteSpotData() {
@@ -109,15 +106,6 @@ public class DataService {
             throw new CustomException(ErrorCode.NotReadyForData);
         }
 
-//        List<SpotCalculatedDto> spotCalculatedDtoList = new ArrayList<>();
-//        for(SpotCalculated spotData: spotCalculateds) {
-//            spotCalculatedDtoList.add(new SpotCalculatedDto(spotData));
-//        }
-
-
-
-//        Gu gu1 = guRepository.findGuByGuName(gu).orElseThrow(() -> new CustomException(ErrorCode.NotFoundGu));
-//        List<Spot> spotList = gu1.getSpot();
 
         //지난주 0요일
         List<SpotCalculated> spotCalculateds = dataRepository.getGuInfo(gu);
@@ -128,22 +116,17 @@ public class DataService {
 //        기존
         List<SpotInfoDto> spotInfoDtoList = new ArrayList<>();
         for(GuBaseInfo guBaseInfo : guBaseInfoList){
-//            List<Map<String, String>> mapList = new ArrayList<>();
             Map<String, Long> lastPopByHour =  new HashMap();
             for(SpotCalculated spot1 : spotCalculateds) {
                 if (guBaseInfo.getArea_nm().equals(spot1.getArea_Nm())) {
-
                     lastPopByHour.put("L" + spot1.getThat_Hour(), (long)Double.parseDouble(spot1.getPopulation_By_Hour()));
-//                    mapList.add(popByHour);
                 }
             }
-//            List<Map<String, String>> mapTodayList = new ArrayList<>();
+
             Map<String, Long> todayPopByHour = new HashMap<>();
             for(SpotCalculated spot2 : todaySpotCalculatedList) {
                 if (guBaseInfo.getArea_nm().equals(spot2.getArea_Nm())) {
-
                     todayPopByHour.put("T" + spot2.getThat_Hour(), (long)Double.parseDouble(spot2.getPopulation_By_Hour()));
-//                    mapTodayList.add(todayPopByHour);
                 }
             }
             spotInfoDtoList.add(new SpotInfoDto(guBaseInfo,new DataTestDto(lastPopByHour, todayPopByHour)));
