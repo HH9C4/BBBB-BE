@@ -24,7 +24,6 @@ import java.io.IOException;
 public class AccountController {
 
     private final KakaoAccountService kakaoAccountService;
-
     private final NaverAccountService naverAccountService;
 
 
