@@ -11,7 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 public class Gu {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

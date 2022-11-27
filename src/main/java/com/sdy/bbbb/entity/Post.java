@@ -29,7 +29,7 @@ public class Post extends TimeStamped {
     @Column(nullable = false)
     private String guName;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String category;
 
     @Column(nullable = false)
