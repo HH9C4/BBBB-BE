@@ -21,7 +21,7 @@ public class PostRequestDto {
 
     private List<String> tagList;
 
-//    @NotBlank(message = "category 는 공백이거나 null 일 수 없습니다.")
+    @NotBlank(message = "category 는 공백이거나 null 일 수 없습니다.")
     @ValidEnum(enumClass = CategoryEnum.class, message = "category 가 올바르지 않습니다.")
     private String category;
 

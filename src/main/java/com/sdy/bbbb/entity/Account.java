@@ -14,14 +14,13 @@ import java.util.List;
 @Builder// DB 테이블 역할을 합니다.
 public class Account extends TimeStamped {
 
-    // ID가 자동으로 생성 및 증가합니다.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     // nullable: null 허용 여부
     // unique: 중복 허용 여부 (false 일때 중복 허용)
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String accountName;
 
     @Column(nullable = false)
