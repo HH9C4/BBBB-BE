@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    @Query(value = "select '*' from Comment join fetch Comment.post")
+    @Query(value = "select c from Comment c join fetch c.post where c.id = ?1")
     Optional<Comment> findCommentById(Long id);
 
 }
