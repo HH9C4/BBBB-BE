@@ -2,6 +2,7 @@ package com.sdy.bbbb.repository;
 
 import com.sdy.bbbb.entity.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -31,4 +32,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findPostsByAccount_IdOrderByCreatedAtAsc(Long accountId);
 
+//    @Modifying
+//    @Query(value = "DELETE from Post p where p.id > ?1" )
+//    int deleteReturnAffectedRows(Long postId);
 }

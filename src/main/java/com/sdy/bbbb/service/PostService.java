@@ -242,12 +242,14 @@ public class PostService {
         ServiceUtil.checkPostAuthor(post, account);
 
         postRepository.delete(post);
+//        int result = postRepository.deleteReturnAffectedRows(post.getId());
         return GlobalResponseDto.ok("게시글 삭제가 완료되었습니다.", post.getGuName());
     }
 
     @Transactional(readOnly = true)
     public GlobalResponseDto<TagResponseDto> getTags(String gu) {
         gu = ServiceUtil.decoding(gu);
+        validateGu(gu);
         List<HashTag> tagList = hashTagRepository.findByPost_GuName(gu);
         List<String> tagStrList = new ArrayList<>();
         for(HashTag tag : tagList){
@@ -256,6 +258,7 @@ public class PostService {
         tagStrList.sort(Comparator.naturalOrder());
         return GlobalResponseDto.ok("조회완료", new TagResponseDto(tagStrList));
     }
+
 
 
     //등록 할 이미지가 있다면 사용
