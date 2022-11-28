@@ -71,6 +71,7 @@ public class ServiceUtil {
         }
     }
 
+    // 디코딩
     public static String decoding(String toDecode) {
         String result = "";
         try {
