@@ -44,6 +44,9 @@ public class Account extends TimeStamped {
     @Column(nullable = true)
     private String ageRange;
 
+    @Column(nullable = false)
+    private int reportedCount;
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="myPageId")
     private MyPage myPage;
