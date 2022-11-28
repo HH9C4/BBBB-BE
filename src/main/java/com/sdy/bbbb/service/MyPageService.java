@@ -53,10 +53,14 @@ public class MyPageService {
         Comment comment = commentRepository.findCommentById(commentId).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundComment)
         );
-        if (!comment.isChecked()) {
-            comment.setChecked(true);
-        } else {
-            throw new CustomException(ErrorCode.AlreadyCheckAlarm);
+        Post post = comment.getPost();
+        List<Comment> commentList = post.getCommentList();
+        for(Comment comment1 : commentList) {
+            if (!comment1.isChecked()) {
+                comment1.setChecked(true);
+            } else {
+                throw new CustomException(ErrorCode.AlreadyCheckAlarm);
+            }
         }
         return GlobalResponseDto.ok("알람 확인!", new CommentResponseDto(comment));
     }
