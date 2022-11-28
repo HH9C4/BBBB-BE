@@ -44,6 +44,12 @@ public class Post extends TimeStamped {
     @Column(nullable = false)
     private int views;
 
+    @Column
+    private boolean hide;
+
+    @Column(nullable = false)
+    private int reportedCount;
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Image> imageList = new ArrayList<>();
 

@@ -41,6 +41,11 @@ public class Comment extends TimeStamped {
     @Column(nullable = false)
     private int likeCount;
 
+    @Column(nullable = false)
+    private int reportedCount;
+
+    @Column
+    private boolean hide;
 
     public Comment(CommentRequestDto requestDto, Post post, Account account) {
         this.account = account;

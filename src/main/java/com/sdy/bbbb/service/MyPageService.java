@@ -36,13 +36,9 @@ public class MyPageService {
     @Transactional(readOnly = true)
     public GlobalResponseDto<List<AlarmResponseDto>> showAlarm(Account account) {
         List<Comment> commentList = commentRepositoryImpl.searchCommentsInMyPosts(account);
-        //내가 쓴 게시글 조회
-//        List<Post> myPosts = postRepository.findPostsByAccount_IdOrderByCreatedAtDesc(account.getId());
-//        List<Comment> postsComment = new ArrayList<>();
+
         List<AlarmResponseDto> alarmResponseDtos = new ArrayList<>();
-//        for (Post post : myPosts) {
-//            postsComment.addAll(post.getCommentList());
-//        }
+
         for (Comment comment : commentList) {
             if (!comment.getAccount().getId().equals(account.getId())) {
                 alarmResponseDtos.add(new AlarmResponseDto(comment));

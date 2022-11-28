@@ -44,7 +44,7 @@ public class PostResponseDto extends TagResponseDto{
         this.accountName = post.getAccount().getAccountName();
         this.profileImage = post.getAccount().getProfileImage();
         this.imageUrl = imageUrl;
-        this.content = post.getContent();
+        this.content = post.isHide() ? "신고 누적으로 비공개 처리 되었습니다." : post.getContent();
         this.gu = post.getGuName();
 //        this.tag = tagList;
         this.category = post.getCategory();
