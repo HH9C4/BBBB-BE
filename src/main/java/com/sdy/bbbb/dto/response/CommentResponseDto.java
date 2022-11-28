@@ -34,7 +34,7 @@ public class CommentResponseDto {
         this.commentId = comment.getId();
         this.accountName = comment.getAccount().getAccountName();
         this.profileImage = comment.getAccount().getProfileImage();
-        this.comment = comment.getComment();
+        this.comment = comment.isHide() ? "신고 누적으로 비공개 처리 되었습니다." : comment.getComment();
         this.createdAt = Chrono.timesAgo(comment.getCreatedAt());
         this.likeCount = comment.getLikeCount();
         this.isChecked = comment.isChecked();
