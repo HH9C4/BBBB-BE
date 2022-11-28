@@ -34,7 +34,7 @@ public class ReportService {
         Long reportedId = reportRequestDto.getReportedId();
 
         if (reportRepository.existsByLevelAndReporterIdAndReportedId(level, reporterId, reportedId)){
-            throw new CustomException(ErrorCode.AlreadyCheckAlarm);
+            throw new CustomException(ErrorCode.AlreadyReported);
         }
 
         Report report = new Report(reportRequestDto);
@@ -42,7 +42,8 @@ public class ReportService {
         reportRepository.save(report);
 
         if(level.equals(1L)){
-            Account account1 = accountRepository.findById(reportedId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundUser));
+            Account account1 = accountRepository.findById(reportedId).orElseThrow(
+                    () -> new CustomException(ErrorCode.NotFoundUser));
             if(account1.getReportedCount() > 9) {
                 account1.setAccountName("부적절한닉네임");
                 reportRepository.deleteAllByLevelAndReportedId(level, reportedId);
@@ -51,7 +52,8 @@ public class ReportService {
             }
 
         }else if(level.equals(2L)){
-            Post post = postRepository.findById(report.getReportedId()).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
+            Post post = postRepository.findById(report.getReportedId()).orElseThrow(
+                    () -> new CustomException(ErrorCode.NotFoundPost));
             if(post.getReportedCount() > 9) {
                 post.setHide(true);
                 postRepository.save(post);
@@ -60,7 +62,8 @@ public class ReportService {
             }
 
         }else if (level.equals(3L)) {
-            Comment comment = commentRepository.findById(report.getReporterId()).orElseThrow(()-> new CustomException(ErrorCode.NotFoundComment));
+            Comment comment = commentRepository.findById(report.getReporterId()).orElseThrow(
+                    ()-> new CustomException(ErrorCode.NotFoundComment));
             if(comment.getReportedCount() > 9) {
                 comment.setHide(true);
                 commentRepository.save(comment);

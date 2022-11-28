@@ -39,7 +39,9 @@ public enum ErrorCode {
     FailDecodeString(HttpStatus.BAD_REQUEST.value(), "D001", "디코딩 실패."),
 
     //requestParam
-    ParamArgumentNotValid(HttpStatus.BAD_REQUEST.value(), "R001", "요청 인자를 확인해주세요.");
+    ParamArgumentNotValid(HttpStatus.BAD_REQUEST.value(), "R001", "요청 인자를 확인해주세요."),
+
+    AlreadyReported(HttpStatus.BAD_REQUEST.value(), "R002", "이미 신고하셨습니다.");
 
 
 
