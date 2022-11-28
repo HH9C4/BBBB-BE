@@ -30,14 +30,14 @@ public class ReportService {
     @Transactional
     public GlobalResponseDto<?> report(Account account, ReportRequestDto reportRequestDto){
         Long level = reportRequestDto.getLevel();
-        Long reporterId = reportRequestDto.getReporterId();
+        Long reporterId = account.getId();
         Long reportedId = reportRequestDto.getReportedId();
 
         if (reportRepository.existsByLevelAndReporterIdAndReportedId(level, reporterId, reportedId)){
             throw new CustomException(ErrorCode.AlreadyReported);
         }
 
-        Report report = new Report(reportRequestDto);
+        Report report = new Report(reportRequestDto, account);
 
         reportRepository.save(report);
 
