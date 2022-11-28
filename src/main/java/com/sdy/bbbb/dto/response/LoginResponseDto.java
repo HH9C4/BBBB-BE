@@ -24,6 +24,8 @@ public class LoginResponseDto {
 
     private boolean kakaoUser;
 
+    private int reportedCount;
+
 
     public LoginResponseDto(Account account) {
         this.accountName = account.getAccountName();
@@ -33,5 +35,6 @@ public class LoginResponseDto {
         this.profileImage = account.getProfileImage();
         this.naverUser = account.getNaverId() != null;
         this.kakaoUser = account.getKakaoId() != null;
+        this.reportedCount = account.getReportedCount();
     }
 }

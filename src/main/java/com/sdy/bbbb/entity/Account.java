@@ -69,6 +69,7 @@ public class Account extends TimeStamped {
         this.kakaoId = kakaoId;
         this.gender = gender;
         this.ageRange = ageRange;
+        this.reportedCount = 0;
     }
 
     public Account(String nickname, String password, String email, String profileImage, String naverId, String gender, String ageRange) {
@@ -79,6 +80,7 @@ public class Account extends TimeStamped {
         this.naverId = naverId;
         this.gender = gender;
         this.ageRange = ageRange;
+        this.reportedCount = 0;
     }
 
 }
