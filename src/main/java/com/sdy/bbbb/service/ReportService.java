@@ -62,7 +62,7 @@ public class ReportService {
             }
 
         }else if (level.equals(3L)) {
-            Comment comment = commentRepository.findById(report.getReporterId()).orElseThrow(
+            Comment comment = commentRepository.findById(report.getReportedId()).orElseThrow(
                     ()-> new CustomException(ErrorCode.NotFoundComment));
             if(comment.getReportedCount() > 9) {
                 comment.setHide(true);
