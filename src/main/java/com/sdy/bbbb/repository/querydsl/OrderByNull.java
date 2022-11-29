@@ -1,4 +1,4 @@
-package com.sdy.bbbb.querydsl;
+package com.sdy.bbbb.repository.querydsl;
 
 import com.querydsl.core.types.NullExpression;
 import com.querydsl.core.types.Order;
