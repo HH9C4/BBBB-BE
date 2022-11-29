@@ -21,8 +21,8 @@ public class PopulationChangesDto {
     private String guNm;
 
 
-    public PopulationChangesDto(PopulationDto populationDto) {
-        this.ranking = populationDto.getRow_Num();
+    public PopulationChangesDto(PopulationDto populationDto, int i) {
+        this.ranking = i;
         this.areaNm = populationDto.getArea_Nm();
         this.areaCongestLvl = populationDto.getArea_Congest_Lvl();
         this.plusMinus = populationDto.getPlus_Minus();
