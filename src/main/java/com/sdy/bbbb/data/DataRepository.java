@@ -116,9 +116,8 @@ public interface DataRepository extends JpaRepository<SpotData, Long> {
 
     // 데이터 3번 기본 정보 (데이터 안들어올 때)
     @Query(value = "select ppltn_time, gu_nm, area_nm, gu_added, gu_confirmed, air_msg, area_congest_lvl, female_ppltn_rate, male_ppltn_rate, max_temp, min_temp, pcp_msg, pm10, pm10index, pm25, pm25index, ppltn_rate10, ppltn_rate20, ppltn_rate30, ppltn_rate40, ppltn_rate50, temp, sky_stts " +
-            "from spot_data " +
-            "where weather_time between date_sub(now(), interval 30 minute) and now() " +
-            "and gu_nm = :gu " +
+            "from (select * from spot_data order by id desc limit 49) as t1 " +
+            "where gu_nm = :gu " +
             "group by area_nm " +
             "order by weather_time desc",
             nativeQuery = true)
