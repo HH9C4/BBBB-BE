@@ -1,4 +1,4 @@
-package com.sdy.bbbb.querydsl;
+package com.sdy.bbbb.repository.querydsl;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sdy.bbbb.entity.Account;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import static com.sdy.bbbb.entity.QComment.comment1;
 import static com.sdy.bbbb.entity.QPost.post;
-import static com.sdy.bbbb.entity.QAccount.account;
 
 
 @Repository

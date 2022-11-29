@@ -1,4 +1,4 @@
-package com.sdy.bbbb.querydsl;
+package com.sdy.bbbb.repository.querydsl;
 
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.Comment;
