@@ -31,7 +31,6 @@ public class MyPageService {
     private final AccountRepository accountRepository;
 
 
-
     // 내 게시글에 달린 댓글 알람 기능
     @Transactional(readOnly = true)
     public GlobalResponseDto<List<AlarmResponseDto>> showAlarm(Account account) {
@@ -110,25 +109,25 @@ public class MyPageService {
     @Transactional
     public GlobalResponseDto<LoginResponseDto> updateMyInfo(Account account, UpdateRequestDto updateRequestDto, MultipartFile multipartFile) {
         Account account1 = accountRepository.findById(account.getId()).orElseThrow(
-                ()-> new CustomException(ErrorCode.NotFoundUser)
+                () -> new CustomException(ErrorCode.NotFoundUser)
         );
-        if (multipartFile != null){
+        if (multipartFile != null) {
             account1.setProfileImage(s3Uploader.upload(multipartFile, "dir1"));
         }
 
-         if (updateRequestDto != null) {
-             if(!Objects.equals(updateRequestDto.getNickname(), "") && !Objects.equals(updateRequestDto.getNickname(), null)){
-                 account1.setAccountName(updateRequestDto.getNickname());
-             }
-         }
+        if (updateRequestDto != null) {
+            if (!Objects.equals(updateRequestDto.getNickname(), "") && !Objects.equals(updateRequestDto.getNickname(), null)) {
+                account1.setAccountName(updateRequestDto.getNickname());
+            }
+        }
 
         return GlobalResponseDto.ok("수정완료", new LoginResponseDto(account1));
     }
 
     // 닉네임 중복 확인
     public GlobalResponseDto<UpdateRequestDto> checkNickname(Account account, UpdateRequestDto updateRequestDto) {
-        Account account1 = accountRepository.findById(account.getId()).orElseThrow(()-> new CustomException(ErrorCode.NotFoundUser));
-        if(accountRepository.existsAccountByAccountName(updateRequestDto.getNickname())) {
+        Account account1 = accountRepository.findById(account.getId()).orElseThrow(() -> new CustomException(ErrorCode.NotFoundUser));
+        if (accountRepository.existsAccountByAccountName(updateRequestDto.getNickname())) {
             return GlobalResponseDto.fail("이미 존재하는 닉네임입니다.");
         } else {
             return GlobalResponseDto.ok("사용가능한 닉네임입니다!", updateRequestDto);
