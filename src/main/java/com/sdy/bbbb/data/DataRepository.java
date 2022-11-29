@@ -15,10 +15,26 @@ import java.util.List;
 public interface DataRepository extends JpaRepository<SpotData, Long> {
 
     // 데이터 2번
-    @Query(value = "with table1 as (select gu_nm, area_nm ,round(avg((area_ppltn_max + area_ppltn_min) / 2)) as ppltn_avg1 from spot_data " +
-            "where ppltn_time between date_sub(now(), interval 155 minute) and date_sub(now(), interval 95 minute) " +
-            "group by area_nm), table2 as (select area_congest_lvl, area_nm, round(avg((area_ppltn_max + area_ppltn_min) / 2)) as ppltn_avg2 from spot_data " +
-            "where ppltn_time between date_sub(now(), interval 95 minute) and date_sub(now(), interval 35 minute) " +
+//    @Query(value = "with table1 as (select gu_nm, area_nm ,round(avg((area_ppltn_max + area_ppltn_min) / 2)) as ppltn_avg1 from spot_data " +
+//            "where ppltn_time between date_sub(now(), interval 155 minute) and date_sub(now(), interval 95 minute) " +
+//            "group by area_nm), table2 as (select area_congest_lvl, area_nm, round(avg((area_ppltn_max + area_ppltn_min) / 2)) as ppltn_avg2 from spot_data " +
+//            "where ppltn_time between date_sub(now(), interval 95 minute) and date_sub(now(), interval 35 minute) " +
+//            "group by area_nm) " +
+//            "select row_number() over(order by round(abs((table2.ppltn_avg2 - ppltn_avg1) / ppltn_avg1) * 100, 2) desc) as row_num, "+
+//            "table2.area_congest_lvl, table1.gu_nm, table1.area_nm, (table2.ppltn_avg2 - table1.ppltn_avg1) as plus_minus, "+
+//            "round(abs((table2.ppltn_avg2 - ppltn_avg1) / ppltn_avg1) * 100, 2) as increase_rate " +
+//            "from table1 " +
+//            "join table2 on table1.area_nm = table2.area_nm " +
+//            "order by increase_rate desc " +
+//            "limit 5",
+//            nativeQuery = true)
+//    List<PopulationDto> getPopulationFromDb();
+
+    // 데이터 2-1번
+    @Query(value = "with table1 as (select gu_nm, area_nm ,round(avg((area_ppltn_max + area_ppltn_min) / 2)) as ppltn_avg1 from (select * from spot_data " +
+            "order by id desc limit 1176, 588 ) as s1 " +
+            "group by area_nm), table2 as (select area_congest_lvl, area_nm, round(avg((area_ppltn_max + area_ppltn_min) / 2)) as ppltn_avg2 from (select * from spot_data " +
+            "order by id desc limit 1176, 588) as s1 " +
             "group by area_nm) " +
             "select row_number() over(order by round(abs((table2.ppltn_avg2 - ppltn_avg1) / ppltn_avg1) * 100, 2) desc) as row_num, "+
             "table2.area_congest_lvl, table1.gu_nm, table1.area_nm, (table2.ppltn_avg2 - table1.ppltn_avg1) as plus_minus, "+
@@ -88,7 +104,17 @@ public interface DataRepository extends JpaRepository<SpotData, Long> {
             nativeQuery = true)
     List<SpotCalculated> getGuInfoToday(String gu);
 
-    // 데이터 3번 기본 정보
+//    // 데이터 3번 기본 정보
+//    @Query(value = "select ppltn_time, gu_nm, area_nm, gu_added, gu_confirmed, air_msg, area_congest_lvl, female_ppltn_rate, male_ppltn_rate, max_temp, min_temp, pcp_msg, pm10, pm10index, pm25, pm25index, ppltn_rate10, ppltn_rate20, ppltn_rate30, ppltn_rate40, ppltn_rate50, temp, sky_stts " +
+//            "from spot_data " +
+//            "where weather_time between date_sub(now(), interval 30 minute) and now() " +
+//            "and gu_nm = :gu " +
+//            "group by area_nm " +
+//            "order by weather_time desc",
+//            nativeQuery = true)
+//    List<GuBaseInfo> getGuBaseInfo(String gu);
+
+    // 데이터 3번 기본 정보 (데이터 안들어올 때)
     @Query(value = "select ppltn_time, gu_nm, area_nm, gu_added, gu_confirmed, air_msg, area_congest_lvl, female_ppltn_rate, male_ppltn_rate, max_temp, min_temp, pcp_msg, pm10, pm10index, pm25, pm25index, ppltn_rate10, ppltn_rate20, ppltn_rate30, ppltn_rate40, ppltn_rate50, temp, sky_stts " +
             "from spot_data " +
             "where weather_time between date_sub(now(), interval 30 minute) and now() " +
