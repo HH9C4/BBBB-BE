@@ -49,6 +49,7 @@ public class KakaoAccountService {
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final AccountRepository accountRepository;
+    private final RedisTemplate<String, String> redisTemplate;
 
 
     @Autowired
