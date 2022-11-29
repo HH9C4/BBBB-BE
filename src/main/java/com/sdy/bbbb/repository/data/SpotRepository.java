@@ -1,4 +1,4 @@
-package com.sdy.bbbb.data;
+package com.sdy.bbbb.repository.data;
 
 import com.sdy.bbbb.entity.Spot;
 import org.springframework.data.jpa.repository.JpaRepository;

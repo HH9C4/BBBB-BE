@@ -1,14 +1,13 @@
-package com.sdy.bbbb.data;
+package com.sdy.bbbb.repository.data;
 
-import com.sdy.bbbb.data.dataDto.GuBaseInfo;
-import com.sdy.bbbb.data.dataDto.JamDto;
-import com.sdy.bbbb.data.dataDto.PopulationDto;
-import com.sdy.bbbb.data.dataDto.SpotCalculated;
-import org.geolatte.geom.M;
+import com.sdy.bbbb.entity.data.SpotData;
+import com.sdy.bbbb.dto.response.data.GuBaseInfo;
+import com.sdy.bbbb.dto.response.data.JamDto;
+import com.sdy.bbbb.dto.response.data.PopulationDto;
+import com.sdy.bbbb.dto.response.data.SpotCalculated;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 

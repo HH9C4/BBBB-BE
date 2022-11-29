@@ -1,6 +1,6 @@
-package com.sdy.bbbb.data.entity;
+package com.sdy.bbbb.entity.data;
 
-import com.sdy.bbbb.data.dataDto.JamDto;
+import com.sdy.bbbb.dto.response.data.JamDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

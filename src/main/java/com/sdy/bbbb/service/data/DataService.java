@@ -1,17 +1,16 @@
-package com.sdy.bbbb.data;
+package com.sdy.bbbb.service.data;
 
-import com.sdy.bbbb.data.dataDto.*;
-import com.sdy.bbbb.data.entity.JamOfWeek;
+import com.sdy.bbbb.repository.data.DataRepository;
+import com.sdy.bbbb.repository.data.JamRepository;
+import com.sdy.bbbb.entity.data.JamOfWeek;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
-import com.sdy.bbbb.entity.Gu;
-import com.sdy.bbbb.entity.Spot;
+import com.sdy.bbbb.dto.response.data.*;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.repository.GuRepository;
 import com.sdy.bbbb.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

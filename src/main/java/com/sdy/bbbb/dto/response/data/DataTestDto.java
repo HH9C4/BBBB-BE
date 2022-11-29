@@ -1,4 +1,4 @@
-package com.sdy.bbbb.data.dataDto;
+package com.sdy.bbbb.dto.response.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
