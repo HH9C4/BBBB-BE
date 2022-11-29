@@ -7,7 +7,7 @@ import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.querydsl.CommentRepositoryImpl;
 import com.sdy.bbbb.repository.*;
-import com.sdy.bbbb.s3.S3Uploader2;
+import com.sdy.bbbb.s3.S3Uploader;
 import com.sdy.bbbb.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class MyPageService {
     private final LikeRepository likeRepository;
     private final CommentRepository commentRepository;
     private final BookmarkRepository bookmarkRepository;
-    private final S3Uploader2 s3Uploader2;
+    private final S3Uploader s3Uploader;
     private final CommentRepositoryImpl commentRepositoryImpl;
     private final AccountRepository accountRepository;
 
@@ -113,7 +113,7 @@ public class MyPageService {
                 ()-> new CustomException(ErrorCode.NotFoundUser)
         );
         if (multipartFile != null){
-            account1.setProfileImage(s3Uploader2.upload(multipartFile, "dir1"));
+            account1.setProfileImage(s3Uploader.upload(multipartFile, "dir1"));
         }
 
          if (updateRequestDto != null) {

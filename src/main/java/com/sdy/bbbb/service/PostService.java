@@ -7,24 +7,17 @@ import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.querydsl.PostRepositoryImpl;
 import com.sdy.bbbb.repository.*;
-import com.sdy.bbbb.s3.S3Uploader2;
+import com.sdy.bbbb.s3.S3Uploader;
 import com.sdy.bbbb.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
-import java.net.URLDecoder;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -38,7 +31,7 @@ public class PostService {
     private final HashTagRepository hashTagRepository;
 
     private final GuRepository guRepository;
-    private final S3Uploader2 s3Uploader2;
+    private final S3Uploader s3Uploader;
 
 //    private final String[] guList = {"강남구", "강동구", "강북구", "강서구", "관악구", "광진구",
 //            "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구",
@@ -266,7 +259,7 @@ public class PostService {
         if (multipartFile != null && multipartFile.size() > 0){
             List<Image> imageList = new ArrayList<>();
             for (MultipartFile imgFile : multipartFile) {
-                Image image = new Image(post, s3Uploader2.upload(imgFile, "dir1"));
+                Image image = new Image(post, s3Uploader.upload(imgFile, "dir1"));
                 imageList.add(image);
                 imageRepository.save(image);
             }

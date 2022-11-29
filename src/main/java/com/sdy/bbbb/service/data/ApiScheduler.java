@@ -1,5 +1,9 @@
-package com.sdy.bbbb.data;
+package com.sdy.bbbb.service.data;
 
+import com.sdy.bbbb.repository.data.DataRepository;
+import com.sdy.bbbb.util.DataTagName;
+import com.sdy.bbbb.repository.data.SpotRepository;
+import com.sdy.bbbb.entity.data.SpotData;
 import com.sdy.bbbb.entity.Spot;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;

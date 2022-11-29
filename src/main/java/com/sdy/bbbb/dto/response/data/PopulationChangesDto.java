@@ -1,6 +1,5 @@
-package com.sdy.bbbb.data.dataDto;
+package com.sdy.bbbb.dto.response.data;
 
-import com.sdy.bbbb.data.dataDto.PopulationDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

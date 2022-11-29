@@ -1,16 +1,14 @@
-package com.sdy.bbbb.data;
+package com.sdy.bbbb.controller;
 
-import com.sdy.bbbb.data.dataDto.BaseGuInfoDto;
-import com.sdy.bbbb.data.dataDto.DataResponseDto;
-import com.sdy.bbbb.data.dataDto.PopulationChangesDto;
+import com.sdy.bbbb.dto.response.data.BaseGuInfoDto;
+import com.sdy.bbbb.dto.response.data.DataResponseDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
+import com.sdy.bbbb.service.data.DataService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

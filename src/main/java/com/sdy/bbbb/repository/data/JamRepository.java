@@ -1,6 +1,6 @@
-package com.sdy.bbbb.data;
+package com.sdy.bbbb.repository.data;
 
-import com.sdy.bbbb.data.entity.JamOfWeek;
+import com.sdy.bbbb.entity.data.JamOfWeek;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

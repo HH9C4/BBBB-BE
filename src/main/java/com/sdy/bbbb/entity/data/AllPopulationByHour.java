@@ -1,4 +1,4 @@
-package com.sdy.bbbb.data.entity;
+package com.sdy.bbbb.entity.data;
 
 import lombok.NoArgsConstructor;
 

@@ -1,4 +1,4 @@
-package com.sdy.bbbb.data;
+package com.sdy.bbbb.util;
 
 public enum DataTagName {
     AREA_NM,

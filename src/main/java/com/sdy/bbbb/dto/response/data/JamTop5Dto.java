@@ -1,6 +1,6 @@
-package com.sdy.bbbb.data.dataDto;
+package com.sdy.bbbb.dto.response.data;
 
-import com.sdy.bbbb.data.entity.JamOfWeek;
+import com.sdy.bbbb.entity.data.JamOfWeek;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
