@@ -33,7 +33,7 @@ public interface DataRepository extends JpaRepository<SpotData, Long> {
     @Query(value = "with table1 as (select gu_nm, area_nm ,round(avg((area_ppltn_max + area_ppltn_min) / 2)) as ppltn_avg1 from (select * from spot_data " +
             "order by id desc limit 1176, 588 ) as s1 " +
             "group by area_nm), table2 as (select area_congest_lvl, area_nm, round(avg((area_ppltn_max + area_ppltn_min) / 2)) as ppltn_avg2 from (select * from spot_data " +
-            "order by id desc limit 1176, 588) as s1 " +
+            "order by id desc limit 588) as s1 " +
             "group by area_nm) " +
             "select row_number() over(order by round(abs((table2.ppltn_avg2 - ppltn_avg1) / ppltn_avg1) * 100, 2) desc) as row_num, "+
             "table2.area_congest_lvl, table1.gu_nm, table1.area_nm, (table2.ppltn_avg2 - table1.ppltn_avg1) as plus_minus, "+
