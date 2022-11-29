@@ -69,6 +69,8 @@ public class NaverAccountService {
                 // 신규 회원가입
                 // nickname(accountName) = naverUser의 nickname
                 String nickname = naverUser.getNickname();
+                int count = accountRepository.countByAccountName(nickname);
+                nickname = count == 0 ? nickname : nickname + count;
 
                 // 임의비밀번호 생성
                 String password = UUID.randomUUID().toString();

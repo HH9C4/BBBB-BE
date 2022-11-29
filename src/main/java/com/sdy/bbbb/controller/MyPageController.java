@@ -68,4 +68,12 @@ public class MyPageController {
                                              @RequestPart(name = "image", required = false) MultipartFile multipartFile) {
         return myPageService.updateMyInfo(userDetails.getAccount(), updateRequestDto, multipartFile);
     }
+
+    // 닉네임 중복확인 기능
+    @ApiOperation(value = "닉네임 중복확인 기능", notes = "닉네임 중복확인 기능입니다.")
+    @GetMapping(value = "/namecheck")
+    public GlobalResponseDto<UpdateRequestDto> checkNickname(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                              @RequestBody UpdateRequestDto updateRequestDto) {
+        return myPageService.checkNickname(userDetails.getAccount(), updateRequestDto);
+    }
 }
