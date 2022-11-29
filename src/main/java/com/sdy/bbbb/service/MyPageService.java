@@ -103,7 +103,7 @@ public class MyPageService {
         return GlobalResponseDto.ok("조회 성공!", bookmarkResponseDtos);
     }
 
-    // 마이페이지 수정 (프로필 이미지 사진 수정, 닉네임 수정)
+    // 마이페이지 수정 (프로필 이미지 사진 수정, 닉네임 수정) + 닉네임 중복확인
     @Transactional
     public GlobalResponseDto<LoginResponseDto> updateMyInfo(Account account, UpdateRequestDto updateRequestDto, MultipartFile multipartFile) {
         Account account1 = accountRepository.findById(account.getId()).orElseThrow(
@@ -112,9 +112,10 @@ public class MyPageService {
         if (multipartFile != null) {
             account1.setProfileImage(s3Uploader.upload(multipartFile, "dir1"));
         }
-
         if (updateRequestDto != null) {
-            if (!Objects.equals(updateRequestDto.getNickname(), "") && !Objects.equals(updateRequestDto.getNickname(), null)) {
+            if (accountRepository.existsAccountByAccountName(updateRequestDto.getNickname())) {
+                return GlobalResponseDto.fail("이미 존재하는 닉네임입니다.");
+            } else if (!Objects.equals(updateRequestDto.getNickname(), "") && !Objects.equals(updateRequestDto.getNickname(), null)) {
                 account1.setAccountName(updateRequestDto.getNickname());
             }
         }
@@ -122,14 +123,14 @@ public class MyPageService {
         return GlobalResponseDto.ok("수정완료", new LoginResponseDto(account1));
     }
 
-    // 닉네임 중복 확인
-    public GlobalResponseDto<UpdateRequestDto> checkNickname(Account account, UpdateRequestDto updateRequestDto) {
-        Account account1 = accountRepository.findById(account.getId()).orElseThrow(() -> new CustomException(ErrorCode.NotFoundUser));
-        if (accountRepository.existsAccountByAccountName(updateRequestDto.getNickname())) {
-            return GlobalResponseDto.fail("이미 존재하는 닉네임입니다.");
-        } else {
-            return GlobalResponseDto.ok("사용가능한 닉네임입니다!", updateRequestDto);
+    // 닉네임 중복 확인용 닉네임 리스트
+    public GlobalResponseDto<List<String>> checkNickname() {
+        List<String> nicknameList = new ArrayList<>();
+        List<Account> accounts = accountRepository.findAll();
+        for(Account nickname : accounts) {
+            nicknameList.add(nickname.getAccountName());
         }
+        return GlobalResponseDto.ok("닉네임 리스트 조회 성공", nicknameList);
     }
 
     // 좋아요 했는지 안했는지 확인하는 함수
