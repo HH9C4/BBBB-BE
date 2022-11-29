@@ -129,7 +129,7 @@ public class DataService {
                     todayPopByHour.put("T" + spot2.getThat_Hour(), (long)Double.parseDouble(spot2.getPopulation_By_Hour()));
                 }
             }
-            spotInfoDtoList.add(new SpotInfoDto(guBaseInfo,new DataTestDto(lastPopByHour, todayPopByHour)));
+            spotInfoDtoList.add(new SpotInfoDto(guBaseInfo,new HourDataDto(lastPopByHour, todayPopByHour)));
         }
 
         return GlobalResponseDto.ok("조회 성공", new BaseGuInfoDto(guBaseInfos, spotInfoDtoList));

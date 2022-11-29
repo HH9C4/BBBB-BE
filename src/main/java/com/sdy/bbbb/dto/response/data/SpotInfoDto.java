@@ -27,10 +27,10 @@ public class SpotInfoDto {
     private String ppltn_rate50;
     private String temp;
     private String sky_stts;
-    private DataTestDto hour;
+    private HourDataDto hour;
 
 
-    public SpotInfoDto(GuBaseInfo guBaseInfo, DataTestDto hour) {
+    public SpotInfoDto(GuBaseInfo guBaseInfo, HourDataDto hour) {
         this.area_nm = guBaseInfo.getArea_nm();
         this.ppltn_time = guBaseInfo.getPpltn_time();
         this.air_msg = guBaseInfo.getAir_msg();

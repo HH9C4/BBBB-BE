@@ -9,7 +9,7 @@ import java.util.Map;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DataTestDto {
+public class HourDataDto {
     private Map<String, Long> lastPopByHour;
     private Map<String, Long> todayPopByHour;
 
