@@ -69,11 +69,10 @@ public class MyPageController {
         return myPageService.updateMyInfo(userDetails.getAccount(), updateRequestDto, multipartFile);
     }
 
-    // 닉네임 중복확인 기능
+    // 닉네임 중복확인 기능 (닉네임 리스트 전송)
     @ApiOperation(value = "닉네임 중복확인 기능", notes = "닉네임 중복확인 기능입니다.")
     @GetMapping(value = "/namecheck")
-    public GlobalResponseDto<UpdateRequestDto> checkNickname(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                             @RequestBody UpdateRequestDto updateRequestDto) {
-        return myPageService.checkNickname(userDetails.getAccount(), updateRequestDto);
+    public GlobalResponseDto<List<String>> checkNickname() {
+        return myPageService.checkNickname();
     }
 }
