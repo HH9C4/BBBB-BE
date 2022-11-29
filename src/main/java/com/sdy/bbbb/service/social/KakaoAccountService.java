@@ -19,6 +19,8 @@ import com.sdy.bbbb.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -35,8 +37,13 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 @Service
@@ -49,15 +56,17 @@ public class KakaoAccountService {
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final AccountRepository accountRepository;
+    private final RedisTemplate<String, String> redisTemplate;
 
 
-    @Autowired
-    public KakaoAccountService(RefreshTokenRepository refreshTokenRepository, JwtUtil jwtUtil, AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
-        this.refreshTokenRepository = refreshTokenRepository;
-        this.jwtUtil = jwtUtil;
-        this.accountRepository = accountRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+//    @Autowired
+//    public KakaoAccountService(RefreshTokenRepository refreshTokenRepository, JwtUtil jwtUtil, AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
+//        this.refreshTokenRepository = refreshTokenRepository;
+//        this.jwtUtil = jwtUtil;
+//        this.accountRepository = accountRepository;
+//        this.passwordEncoder = passwordEncoder;
+//
+//    }
 
     @Transactional
     public GlobalResponseDto<LoginResponseDto> kakaoLogin(String code, HttpServletResponse response) throws JsonProcessingException {
@@ -83,7 +92,21 @@ public class KakaoAccountService {
         //토큰 발급
         TokenDto tokenDto = jwtUtil.createAllToken(kakaoUserInfo.getEmail());
 
+
+        //레디스에서 옵셔널로 받아오기
+        //레디스의 영역**
+//        String refreshToken2 = tokenDto.getRefreshToken();
+//        Date date = jwtUtil.getDateFromToken(refreshToken2);
+//        LocalDateTime exp = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+//        long gap = ChronoUnit.SECONDS.between(exp, LocalDateTime.now());
+//        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+//        valueOperations.set(kakaoUser.getEmail(), refreshToken2, gap, TimeUnit.SECONDS);
+        //토큰 -> 만료시간 -> now() -> 초로 환산해 -> eamil + 만료시간 +
+        //레디스의 영역**
+
+
         Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(kakaoUserInfo.getEmail());
+        //레디스에서 찾아와야함
 
         // 로그아웃한 후 로그인을 다시 하는가?
         if (refreshToken.isPresent()) {

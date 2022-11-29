@@ -244,10 +244,11 @@ public class PostService {
         gu = ServiceUtil.decoding(gu);
         validateGu(gu);
         List<HashTag> tagList = hashTagRepository.findByPost_GuName(gu);
-        List<String> tagStrList = new ArrayList<>();
+        Set<String> tagStrSet = new HashSet<>();
         for(HashTag tag : tagList){
-            tagStrList.add(tag.getTag());
+            tagStrSet.add(tag.getTag());
         }
+        List<String> tagStrList = new ArrayList<>(List.copyOf(tagStrSet));
         tagStrList.sort(Comparator.naturalOrder());
         return GlobalResponseDto.ok("조회완료", new TagResponseDto(tagStrList));
     }
