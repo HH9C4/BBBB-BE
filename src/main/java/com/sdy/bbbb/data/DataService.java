@@ -76,8 +76,8 @@ public class DataService {
         // data 2
         List<PopulationDto> popList = dataRepository.getPopulationFromDb();
         List<PopulationChangesDto> dtoList = new ArrayList<>();
+        int i = 1;
         for (PopulationDto pop : popList) {
-            int i = 1;
             dtoList.add(new PopulationChangesDto(pop, i++));
         }
 
