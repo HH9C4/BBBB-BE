@@ -186,6 +186,8 @@ public class KakaoAccountService {
                 // 신규 회원가입
                 // username: kakao nickname
                 String nickname = kakaoUserInfo.getNickname();
+                int count = accountRepository.countByAccountName(nickname);
+                nickname = count == 0 ? nickname : nickname + count;
 
                 // password: random UUID
                 String password = UUID.randomUUID().toString();

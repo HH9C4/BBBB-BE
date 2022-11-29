@@ -125,13 +125,20 @@ public class MyPageService {
         return GlobalResponseDto.ok("수정완료", new LoginResponseDto(account1));
     }
 
+    // 닉네임 중복 확인
+    public GlobalResponseDto<UpdateRequestDto> checkNickname(Account account, UpdateRequestDto updateRequestDto) {
+        Account account1 = accountRepository.findById(account.getId()).orElseThrow(()-> new CustomException(ErrorCode.NotFoundUser));
+        if(accountRepository.existsAccountByAccountName(updateRequestDto.getNickname())) {
+            return GlobalResponseDto.fail("이미 존재하는 닉네임입니다.");
+        } else {
+            return GlobalResponseDto.ok("사용가능한 닉네임입니다!", updateRequestDto);
+        }
+    }
+
     // 좋아요 했는지 안했는지 확인하는 함수
     public boolean amILiked(Post post, Account currentAccount) {
         return likeRepository.existsByPostAndAccount(post, currentAccount);
     }
-
-
-
 
 
 }
