@@ -77,7 +77,8 @@ public class DataService {
         List<PopulationDto> popList = dataRepository.getPopulationFromDb();
         List<PopulationChangesDto> dtoList = new ArrayList<>();
         for (PopulationDto pop : popList) {
-            dtoList.add(new PopulationChangesDto(pop));
+            int i = 1;
+            dtoList.add(new PopulationChangesDto(pop, i++));
         }
 
         return GlobalResponseDto.ok("조회 성공", new DataResponseDto(jamDtoList, dtoList));
