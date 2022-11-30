@@ -4,11 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sdy.bbbb.config.UserDetailsImpl;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.dto.response.LoginResponseDto;
+import com.sdy.bbbb.jwt.JwtUtil;
 import com.sdy.bbbb.service.social.KakaoAccountService;
 import com.sdy.bbbb.service.social.NaverAccountService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,7 @@ public class AccountController {
 
     private final KakaoAccountService kakaoAccountService;
     private final NaverAccountService naverAccountService;
+    private final JwtUtil jwtUtil;
 
 
     //소셜 카카오 로그인
@@ -50,6 +53,15 @@ public class AccountController {
     @DeleteMapping("api/logout")
     public GlobalResponseDto<String> logout(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return kakaoAccountService.logout(userDetails.getAccount());
+    }
+
+
+    @ApiOperation(value = "reissue", notes = "토큰재발급")
+    @GetMapping("/user/reissue") // access token이 만료됐을 경우
+    public GlobalResponseDto issuedToken(@AuthenticationPrincipal UserDetailsImpl userDetails, HttpServletResponse response){
+        response.addHeader(JwtUtil.ACCESS_TOKEN, JwtUtil.BEARER_PREFIX + " " + jwtUtil.createToken(userDetails.getAccount().getEmail(), "Access"));
+
+        return GlobalResponseDto.ok("재발급", null);
     }
 
 //    //카카오 회원탈퇴

@@ -33,7 +33,7 @@ public class ApiScheduler {
 
 
     @Transactional
-    @Scheduled(cron = "0 2/5 * * * *")
+//    @Scheduled(cron = "0 2/5 * * * *")
     public void call() throws Exception {
 
 

@@ -25,10 +25,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String accessToken = jwtUtil.getHeaderToken(request, "Access");
         String refreshToken = jwtUtil.getHeaderToken(request, "Refresh");
-
         if(accessToken != null) {
-            if(jwtUtil.tokenValidation(accessToken)){
+            if(jwtUtil.validateAccessToken(accessToken) == 1){
                 setAuthentication(jwtUtil.getEmailFromToken(accessToken));
+            }else if(jwtUtil.validateAccessToken(accessToken) == 2){
+                //다른 리턴
+                jwtExceptionHandler(response, "REISSUE 재발급", HttpStatus.SEE_OTHER);
+                return;
             }
         }else if(refreshToken != null) {
             if(jwtUtil.refreshTokenValidation(refreshToken)){
@@ -46,7 +49,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     public void jwtExceptionHandler(HttpServletResponse response, String msg, HttpStatus status) {
         response.setStatus(status.value());
-        response.setContentType("application/json");
+        response.setContentType("application/json;charset=UTF-8");
         try {
             String json = new ObjectMapper().writeValueAsString(new GlobalResponseDto(status.toString(), msg,null));
             response.getWriter().write(json);
