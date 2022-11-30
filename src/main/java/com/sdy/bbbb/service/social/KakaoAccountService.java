@@ -94,15 +94,27 @@ public class KakaoAccountService {
 
 
         //레디스에서 옵셔널로 받아오기
+        Optional<RedisEntity> refreshToken3 = redisRepository.findById(kakaoUser.getEmail());
+
+
+        String refreshToken2 = tokenDto.getRefreshToken();
+        Date date = jwtUtil.getDateFromToken(refreshToken2);
+        LocalDateTime exp = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+        long expiration = ChronoUnit.SECONDS.between(exp, LocalDateTime.now());
         //레디스의 영역**
-//        String refreshToken2 = tokenDto.getRefreshToken();
-//        Date date = jwtUtil.getDateFromToken(refreshToken2);
-//        LocalDateTime exp = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
-//        long gap = ChronoUnit.SECONDS.between(exp, LocalDateTime.now());
+        if(refreshToken3.isPresent()){
+            RedisEntity savedRefresh = refreshToken3.get().updateToken(tokenDto.getRefreshToken(), expiration);
+            redisRepository.save(savedRefresh);
+        }else{
+            RedisEntity refreshToSave = new RedisEntity(kakaoUser.getEmail(), tokenDto.getRefreshToken(), expiration);
+            redisRepository.save(refreshToSave);
+        }
+
 //        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 //        valueOperations.set(kakaoUser.getEmail(), refreshToken2, gap, TimeUnit.SECONDS);
-        //토큰 -> 만료시간 -> now() -> 초로 환산해 -> eamil + 만료시간 +
-        //레디스의 영역**
+//        valueOperations.get()
+//        토큰 -> 만료시간 -> now() -> 초로 환산해 -> eamil + 만료시간 +
+//        레디스의 영역**
 
 
         Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(kakaoUserInfo.getEmail());

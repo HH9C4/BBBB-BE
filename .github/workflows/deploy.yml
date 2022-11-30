@@ -56,6 +56,7 @@ jobs:
           seoul.open.api.url: ${{ secrets.SEOUL_OPEN_API }}
           sentry.dsn: ${{ secrets.SENTRY_DNS }}
           server.ssl.key-store-password: ${{ secrets.HTTPS_PW }}
+          spring.redis.host: ${{ secrets.UBUNTU_IP }}
 
 
         # (3) Gradle build (Test 제외)

@@ -20,6 +20,9 @@ logging:
       example: debug
 
 spring:
+  redis:
+    port: 6379
+    host: ''
   # 네이버 관련
   security:
     oauth2:
