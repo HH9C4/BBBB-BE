@@ -14,8 +14,6 @@ import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.jwt.JwtUtil;
 import com.sdy.bbbb.jwt.TokenDto;
-import com.sdy.bbbb.redis.RedisEntity;
-import com.sdy.bbbb.redis.RedisRepository;
 import com.sdy.bbbb.repository.AccountRepository;
 import com.sdy.bbbb.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
@@ -58,8 +56,8 @@ public class KakaoAccountService {
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final AccountRepository accountRepository;
-    private final RedisTemplate<String, String> redisTemplate;
-    private final RedisRepository redisRepository;
+//    private final RedisTemplate<String, String> redisTemplate;
+//    private final RedisRepository redisRepository;
 
 
 //    @Autowired
@@ -96,23 +94,23 @@ public class KakaoAccountService {
         TokenDto tokenDto = jwtUtil.createAllToken(kakaoUserInfo.getEmail());
 
 
-        //레디스에서 옵셔널로 받아오기
-        Optional<RedisEntity> refreshToken3 = redisRepository.findById(kakaoUser.getEmail());
-
-
-        String refreshToken2 = tokenDto.getRefreshToken();
-//        Date date = jwtUtil.getDateFromToken(refreshToken2);
-//        LocalDateTime exp = LocalDateTime.ofInstant(JwtUtil, ZoneId.systemDefault());
-//        long expiration = ChronoUnit.SECONDS.between(exp, LocalDateTime.now());
-        long expiration = JwtUtil.REFRESH_TIME / 1000;
-        //레디스의 영역**
-        if(refreshToken3.isPresent()){
-            RedisEntity savedRefresh = refreshToken3.get().updateToken(tokenDto.getRefreshToken(), expiration);
-            redisRepository.save(savedRefresh);
-        }else{
-            RedisEntity refreshToSave = new RedisEntity(kakaoUser.getEmail(), tokenDto.getRefreshToken(), expiration);
-            redisRepository.save(refreshToSave);
-        }
+//        //레디스에서 옵셔널로 받아오기
+//        Optional<RedisEntity> refreshToken3 = redisRepository.findById(kakaoUser.getEmail());
+//
+//
+//        String refreshToken2 = tokenDto.getRefreshToken();
+////        Date date = jwtUtil.getDateFromToken(refreshToken2);
+////        LocalDateTime exp = LocalDateTime.ofInstant(JwtUtil, ZoneId.systemDefault());
+////        long expiration = ChronoUnit.SECONDS.between(exp, LocalDateTime.now());
+//        long expiration = JwtUtil.REFRESH_TIME / 1000;
+//        //레디스의 영역**
+//        if(refreshToken3.isPresent()){
+//            RedisEntity savedRefresh = refreshToken3.get().updateToken(tokenDto.getRefreshToken(), expiration);
+//            redisRepository.save(savedRefresh);
+//        }else{
+//            RedisEntity refreshToSave = new RedisEntity(kakaoUser.getEmail(), tokenDto.getRefreshToken(), expiration);
+//            redisRepository.save(refreshToSave);
+//        }
 
 //        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 //        valueOperations.set(kakaoUser.getEmail(), refreshToken2, gap, TimeUnit.SECONDS);
