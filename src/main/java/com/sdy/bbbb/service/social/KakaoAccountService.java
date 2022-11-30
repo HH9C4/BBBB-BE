@@ -14,6 +14,8 @@ import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.jwt.JwtUtil;
 import com.sdy.bbbb.jwt.TokenDto;
+import com.sdy.bbbb.redis.RedisEntity;
+import com.sdy.bbbb.redis.RedisRepository;
 import com.sdy.bbbb.repository.AccountRepository;
 import com.sdy.bbbb.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
@@ -57,6 +59,7 @@ public class KakaoAccountService {
     private final PasswordEncoder passwordEncoder;
     private final AccountRepository accountRepository;
     private final RedisTemplate<String, String> redisTemplate;
+    private final RedisRepository redisRepository;
 
 
 //    @Autowired
