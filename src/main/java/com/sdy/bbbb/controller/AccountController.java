@@ -27,6 +27,7 @@ public class AccountController {
 
     private final KakaoAccountService kakaoAccountService;
     private final NaverAccountService naverAccountService;
+    private final JwtUtil jwtUtil;
 
 
     //소셜 카카오 로그인

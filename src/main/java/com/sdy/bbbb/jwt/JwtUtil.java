@@ -29,7 +29,7 @@ public class JwtUtil {
     private final UserDetailsServiceImpl userDetailsService;
     private final RefreshTokenRepository refreshTokenRepository;
 
-    private static final long ACCESS_TIME = 10 * 60 * 60 * 1000L; // 10시간
+    private static final long ACCESS_TIME =  10 * 1000L; // 10시간 10 * 60 *
     private static final long REFRESH_TIME = 7 * 24 * 60 * 60 * 1000L; // 7일
     public static final String ACCESS_TOKEN = "Authorization";
     public static final String REFRESH_TOKEN = "Refresh";
@@ -88,16 +88,30 @@ public class JwtUtil {
         }
     }
 
+    public Integer validateAccessToken(String accessToken) {
+        try {
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken);  //parseClaimsJws 들어가면 예외 볼수있음
+            return 1;
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            return 0;
+        } catch (ExpiredJwtException e) {
+            return 2;
+        } catch (UnsupportedJwtException e) {
+            return 0;
+        } catch (IllegalArgumentException e) {
+            return 0;
+        }
+    }
+
     // refreshToken 토큰 검증
     public Boolean refreshTokenValidation(String token) {
-
         // 1차 토큰 검증
         if(!tokenValidation(token)) return false;
 
         // DB에 저장한 토큰 비교
         Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(getEmailFromToken(token));
 
-        return refreshToken.isPresent() && token.equals(refreshToken.get().getRefreshToken());
+        return refreshToken.isPresent() && token.equals(refreshToken.get().getRefreshToken().substring(7));
     }
 
     // 인증 객체 생성
