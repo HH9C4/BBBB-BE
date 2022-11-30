@@ -57,6 +57,7 @@ jobs:
           sentry.dsn: ${{ secrets.SENTRY_DNS }}
           server.ssl.key-store-password: ${{ secrets.HTTPS_PW }}
           spring.redis.host: ${{ secrets.UBUNTU_IP }}
+          spring.redis.password: $${{ secrets.REDIS_PW }}
 
 
         # (3) Gradle build (Test 제외)
