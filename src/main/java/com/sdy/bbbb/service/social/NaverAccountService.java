@@ -139,7 +139,7 @@ public class NaverAccountService {
             String sb = "grant_type=authorization_code" +
                     "&client_id=" + clientId +
                     "&client_secret=" + clientSecret +
-                    "&redirect_uri= https://boombiboombi.vercel.app/user/signin/naver" +
+                    "&redirect_uri= https://boombiboombi.com/user/signin/naver" +
                     "&code=" + code +
                     "&state=" + state;
             bw.write(sb);
