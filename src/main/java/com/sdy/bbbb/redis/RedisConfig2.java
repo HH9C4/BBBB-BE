@@ -23,8 +23,9 @@ public class RedisConfig2 {
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(redisHost, redisPort);
-
+        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(redisHost, redisPort);
+        lettuceConnectionFactory.setPassword(password);
+        return lettuceConnectionFactory;
     }
 
     @Bean
