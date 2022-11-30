@@ -5,6 +5,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
 
+import java.util.concurrent.TimeUnit;
+
 @Getter
 @RedisHash("refresh")
 public class RedisEntity {
@@ -12,7 +14,7 @@ public class RedisEntity {
     private String email;
     private String refreshToken;
 
-    @TimeToLive
+    @TimeToLive(unit = TimeUnit.MILLISECONDS)
     private Long expiration;
 
     public RedisEntity(String email, String refreshToken, Long expiration) {
