@@ -101,9 +101,10 @@ public class KakaoAccountService {
 
 
         String refreshToken2 = tokenDto.getRefreshToken();
-        Date date = jwtUtil.getDateFromToken(refreshToken2);
-        LocalDateTime exp = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
-        long expiration = ChronoUnit.SECONDS.between(exp, LocalDateTime.now());
+//        Date date = jwtUtil.getDateFromToken(refreshToken2);
+//        LocalDateTime exp = LocalDateTime.ofInstant(JwtUtil, ZoneId.systemDefault());
+//        long expiration = ChronoUnit.SECONDS.between(exp, LocalDateTime.now());
+        long expiration = JwtUtil.REFRESH_TIME;
         //레디스의 영역**
         if(refreshToken3.isPresent()){
             RedisEntity savedRefresh = refreshToken3.get().updateToken(tokenDto.getRefreshToken(), expiration);
