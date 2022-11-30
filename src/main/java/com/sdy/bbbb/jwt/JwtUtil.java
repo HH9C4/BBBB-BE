@@ -29,8 +29,8 @@ public class JwtUtil {
     private final UserDetailsServiceImpl userDetailsService;
     private final RefreshTokenRepository refreshTokenRepository;
 
-    private static final long ACCESS_TIME =  5 * 1000L; // 1일 / 당분간 5초 
-    private static final long REFRESH_TIME = 7 * 24 * 60 * 60 * 1000L; // 7일
+    private static final long ACCESS_TIME =  5 * 1000L; // 1일 / 당분간 5초
+    public static final long REFRESH_TIME = 7 * 24 * 60 * 60 * 1000L; // 7일
     public static final String ACCESS_TOKEN = "Authorization";
     public static final String REFRESH_TOKEN = "Refresh";
     public static String BEARER_PREFIX = "Bearer ";
@@ -125,8 +125,8 @@ public class JwtUtil {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
     }
 
-    public Date getDateFromToken(String token){
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration();
-    }
+//    public Date getDateFromToken(String token){
+//        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration();
+//    }
 
 }
