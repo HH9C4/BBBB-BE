@@ -30,7 +30,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 setAuthentication(jwtUtil.getEmailFromToken(accessToken));
             }else if(jwtUtil.validateAccessToken(accessToken) == 2){
                 //다른 리턴
-                jwtExceptionHandler(response, "REISSUE 재발급", HttpStatus.SEE_OTHER);
+                jwtExceptionHandler(response, "REISSUE", HttpStatus.SEE_OTHER);
                 return;
             }
         }else if(refreshToken != null) {
