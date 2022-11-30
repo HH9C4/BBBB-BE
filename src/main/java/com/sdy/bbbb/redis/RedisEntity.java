@@ -14,7 +14,7 @@ public class RedisEntity {
     private String email;
     private String refreshToken;
 
-    @TimeToLive(unit = TimeUnit.MILLISECONDS)
+    @TimeToLive(unit = TimeUnit.SECONDS)
     private Long expiration;
 
     public RedisEntity(String email, String refreshToken, Long expiration) {
