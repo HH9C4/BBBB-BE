@@ -29,7 +29,7 @@ public class LoginResponseDto {
 
     private int reportedCount;
 
-    private List<Bookmark> bookmarkList;
+    private List<String> bookmarkList;
 
 
     public LoginResponseDto(Account account) {
