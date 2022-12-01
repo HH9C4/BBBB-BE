@@ -3,6 +3,7 @@ package com.sdy.bbbb.atester;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.dto.response.LoginResponseDto;
 import com.sdy.bbbb.entity.Account;
+import com.sdy.bbbb.entity.Bookmark;
 import com.sdy.bbbb.entity.RefreshToken;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
@@ -14,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import java.awt.print.Book;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,7 +45,13 @@ public class TestService {
         setHeader(response, tokenDto);
         Account account = accountRepository.findByEmail("tester").orElseThrow(()-> new CustomException(ErrorCode.NotFoundUser));
 
-        return GlobalResponseDto.ok("tester 로그인" , new LoginResponseDto(account));
+        List<String> bookmarkList = new ArrayList<>();
+        List<Bookmark> bookmarks = bookmarkRepository.findBookmarksByAccountId(account.getId());
+        for(Bookmark bookmark : bookmarks) {
+            bookmarkList.add(bookmark.getGu().getGuName());
+        }
+
+        return GlobalResponseDto.ok("tester 로그인" , new LoginResponseDto(account, bookmarkList));
     }
 
     private void setHeader(HttpServletResponse response, TokenDto tokenDto) {
