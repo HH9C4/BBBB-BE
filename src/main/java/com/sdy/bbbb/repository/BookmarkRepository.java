@@ -4,6 +4,7 @@ import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.Bookmark;
 import com.sdy.bbbb.entity.Gu;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,4 +18,8 @@ BookmarkRepository extends JpaRepository<Bookmark, Long> {
     Optional<Bookmark> findByGuAndAccount(Gu gu, Account account);
 
     List<Bookmark> findBookmarkByAccount_IdOrderByBookmarked(Long account_id);
+
+
+    @Query(value = "select b from Bookmark b join fetch b.gu where b.account.id = ?1")
+    List<Bookmark> findBookmarksByAccountId(Long id);
 }

@@ -29,10 +29,10 @@ public class LoginResponseDto {
 
     private int reportedCount;
 
-    private List<Bookmark> bookmarkList;
+    private List<String> bookmarkList;
 
 
-    public LoginResponseDto(Account account) {
+    public LoginResponseDto(Account account, List<String> bookmarkList) {
         this.accountName = account.getAccountName();
         this.ageRange = account.getAgeRange();
         this.email = account.getEmail();
@@ -41,6 +41,6 @@ public class LoginResponseDto {
         this.naverUser = account.getNaverId() != null;
         this.kakaoUser = account.getKakaoId() != null;
         this.reportedCount = account.getReportedCount();
-        this.bookmarkList = account.getBookmarks();
+        this.bookmarkList = bookmarkList;
     }
 }

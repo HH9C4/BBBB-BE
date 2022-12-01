@@ -8,6 +8,7 @@ import com.sdy.bbbb.dto.request.loginRequestDto.KakaoUserInfoDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.dto.response.LoginResponseDto;
 import com.sdy.bbbb.entity.Account;
+import com.sdy.bbbb.entity.Bookmark;
 import com.sdy.bbbb.entity.MyPage;
 import com.sdy.bbbb.entity.RefreshToken;
 import com.sdy.bbbb.exception.CustomException;
@@ -17,6 +18,7 @@ import com.sdy.bbbb.jwt.TokenDto;
 import com.sdy.bbbb.redis.RedisEntity;
 import com.sdy.bbbb.redis.RedisRepository;
 import com.sdy.bbbb.repository.AccountRepository;
+import com.sdy.bbbb.repository.BookmarkRepository;
 import com.sdy.bbbb.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +44,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
@@ -53,13 +53,11 @@ public class KakaoAccountService {
 
     @Value("${kakao.rest.api.key}")
     private String kakaoApiKey;
-
-    private final RefreshTokenRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final AccountRepository accountRepository;
-    private final RedisTemplate<String, String> redisTemplate;
     private final RedisRepository redisRepository;
+    private final BookmarkRepository bookmarkRepository;
 
 
 //    @Autowired
@@ -133,7 +131,13 @@ public class KakaoAccountService {
         //토큰을 header에 넣어서 클라이언트에게 전달하기
         setHeader(response, tokenDto);
 
-        return GlobalResponseDto.ok(kakaoUserInfo.getNickname() + message, new LoginResponseDto(kakaoUser));
+        List<String> bookmarkList = new ArrayList<>();
+        List<Bookmark> bookmarks = bookmarkRepository.findBookmarksByAccountId(kakaoUser.getId());
+        for(Bookmark bookmark : bookmarks) {
+            bookmarkList.add(bookmark.getGu().getGuName());
+        }
+
+        return GlobalResponseDto.ok(kakaoUserInfo.getNickname() + message, new LoginResponseDto(kakaoUser, bookmarkList));
     }
 
     private void setHeader(HttpServletResponse response, TokenDto tokenDto) {
