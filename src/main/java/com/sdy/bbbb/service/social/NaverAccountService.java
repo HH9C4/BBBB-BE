@@ -9,6 +9,8 @@ import com.sdy.bbbb.entity.MyPage;
 import com.sdy.bbbb.entity.RefreshToken;
 import com.sdy.bbbb.jwt.JwtUtil;
 import com.sdy.bbbb.jwt.TokenDto;
+import com.sdy.bbbb.redis.RedisEntity;
+import com.sdy.bbbb.redis.RedisRepository;
 import com.sdy.bbbb.repository.AccountRepository;
 import com.sdy.bbbb.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +45,7 @@ public class NaverAccountService {
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
+    private final RedisRepository redisRepository;
 
     //네이버 로그인 로직
     @Transactional
@@ -104,16 +107,29 @@ public class NaverAccountService {
         //토큰 발급
         TokenDto tokenDto = jwtUtil.createAllToken(naverAccount.getEmail());
 
-        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(naverAccount.getEmail());
-
-        // 로그아웃한 후 로그인을 다시 하는가?
-        if (refreshToken.isPresent()) {
-            RefreshToken refreshToken1 = refreshToken.get().updateToken(tokenDto.getRefreshToken());
-            refreshTokenRepository.save(refreshToken1);
-        } else {
-            RefreshToken newToken = new RefreshToken(tokenDto.getRefreshToken(), naverAccount.getEmail());
-            refreshTokenRepository.save(newToken);
+        //레디스에서 옵셔널로 받아오기
+        Optional<RedisEntity> refreshToken3 = redisRepository.findById(naverAccount.getEmail());
+        long expiration = JwtUtil.REFRESH_TIME / 1000;
+        //레디스의 영역**
+        if(refreshToken3.isPresent()){
+            RedisEntity savedRefresh = refreshToken3.get().updateToken(tokenDto.getRefreshToken(), expiration);
+            redisRepository.save(savedRefresh);
+        }else{
+            RedisEntity refreshToSave = new RedisEntity(naverAccount.getEmail(), tokenDto.getRefreshToken(), expiration);
+            redisRepository.save(refreshToSave);
         }
+
+
+//        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(naverAccount.getEmail());
+//
+//        // 로그아웃한 후 로그인을 다시 하는가?
+//        if (refreshToken.isPresent()) {
+//            RefreshToken refreshToken1 = refreshToken.get().updateToken(tokenDto.getRefreshToken());
+//            refreshTokenRepository.save(refreshToken1);
+//        } else {
+//            RefreshToken newToken = new RefreshToken(tokenDto.getRefreshToken(), naverAccount.getEmail());
+//            refreshTokenRepository.save(newToken);
+//        }
 
         //토큰을 header에 넣어서 클라이언트에게 전달하기
         setHeader(response, tokenDto);
