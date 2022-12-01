@@ -1,5 +1,6 @@
 package com.sdy.bbbb.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sdy.bbbb.entity.Account;
 
 import com.sdy.bbbb.entity.Bookmark;
@@ -28,7 +29,7 @@ public class LoginResponseDto {
     private boolean kakaoUser;
 
     private int reportedCount;
-
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<String> bookmarkList;
 
 
