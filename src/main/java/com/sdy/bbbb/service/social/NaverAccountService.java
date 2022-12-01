@@ -120,16 +120,16 @@ public class NaverAccountService {
         }
 
 
-        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(naverAccount.getEmail());
-
-        // 로그아웃한 후 로그인을 다시 하는가?
-        if (refreshToken.isPresent()) {
-            RefreshToken refreshToken1 = refreshToken.get().updateToken(tokenDto.getRefreshToken());
-            refreshTokenRepository.save(refreshToken1);
-        } else {
-            RefreshToken newToken = new RefreshToken(tokenDto.getRefreshToken(), naverAccount.getEmail());
-            refreshTokenRepository.save(newToken);
-        }
+//        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(naverAccount.getEmail());
+//
+//        // 로그아웃한 후 로그인을 다시 하는가?
+//        if (refreshToken.isPresent()) {
+//            RefreshToken refreshToken1 = refreshToken.get().updateToken(tokenDto.getRefreshToken());
+//            refreshTokenRepository.save(refreshToken1);
+//        } else {
+//            RefreshToken newToken = new RefreshToken(tokenDto.getRefreshToken(), naverAccount.getEmail());
+//            refreshTokenRepository.save(newToken);
+//        }
 
         //토큰을 header에 넣어서 클라이언트에게 전달하기
         setHeader(response, tokenDto);
