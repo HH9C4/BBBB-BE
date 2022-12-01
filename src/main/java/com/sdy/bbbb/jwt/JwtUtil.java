@@ -2,6 +2,8 @@ package com.sdy.bbbb.jwt;
 
 import com.sdy.bbbb.config.UserDetailsServiceImpl;
 import com.sdy.bbbb.entity.RefreshToken;
+import com.sdy.bbbb.redis.RedisEntity;
+import com.sdy.bbbb.redis.RedisRepository;
 import com.sdy.bbbb.repository.RefreshTokenRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -28,6 +30,7 @@ public class JwtUtil {
 
     private final UserDetailsServiceImpl userDetailsService;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final RedisRepository redisRepository;
 
     private static final long ACCESS_TIME =  24 * 60 * 60 * 1000L; // 1일
     public static final long REFRESH_TIME = 7 * 24 * 60 * 60 * 1000L; // 7일
@@ -109,7 +112,8 @@ public class JwtUtil {
         if(!tokenValidation(token)) return false;
 
         // DB에 저장한 토큰 비교
-        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(getEmailFromToken(token));
+//        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(getEmailFromToken(token));
+        Optional<RedisEntity> refreshToken = redisRepository.findById(getEmailFromToken(token));
 
         return refreshToken.isPresent() && token.equals(refreshToken.get().getRefreshToken().substring(7));
     }
