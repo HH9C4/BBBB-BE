@@ -12,24 +12,23 @@ permissions:
     group: ubuntu
 
 hooks:
-#  AfterInstall:
-#    - location: scripts/stop.sh
-#      timeout: 60
-#      runas: ubuntu
-  #
+  AfterInstall:
+    - location: scripts/stop.sh
+      timeout: 60
+      runas: ubuntu
   ApplicationStart:
-    - location: scripts/run_new_was.sh
-      timeout: 180
-      runas: ec2-user
-    - location: scripts/health_check.sh
-      timeout: 180
-      runas: ec2-user
-    - location: scripts/switch.sh
-      timeout: 180
-      runas: ec2-user
-#    - location: scripts/start.sh
-#      timeout: 60
-#      runas: ubuntu
+#    - location: scripts/run_new_was.sh
+#      timeout: 180
+#      runas: ec2-user
+#    - location: scripts/health_check.sh
+#      timeout: 180
+#      runas: ec2-user
+#    - location: scripts/switch.sh
+#      timeout: 180
+#      runas: ec2-user
+    - location: scripts/start.sh
+      timeout: 60
+      runas: ubuntu
 
 
 
