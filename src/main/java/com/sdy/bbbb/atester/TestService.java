@@ -10,6 +10,7 @@ import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.jwt.JwtUtil;
 import com.sdy.bbbb.jwt.TokenDto;
 import com.sdy.bbbb.repository.AccountRepository;
+import com.sdy.bbbb.repository.BookmarkRepository;
 import com.sdy.bbbb.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TestService {
     private final AccountRepository accountRepository;
-
+    private final BookmarkRepository bookmarkRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
 
