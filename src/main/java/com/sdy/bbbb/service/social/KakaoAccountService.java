@@ -53,12 +53,9 @@ public class KakaoAccountService {
 
     @Value("${kakao.rest.api.key}")
     private String kakaoApiKey;
-
-    private final RefreshTokenRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final AccountRepository accountRepository;
-    private final RedisTemplate<String, String> redisTemplate;
     private final RedisRepository redisRepository;
     private final BookmarkRepository bookmarkRepository;
 
