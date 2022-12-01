@@ -117,17 +117,17 @@ public class KakaoAccountService {
 
 
 //        //안 레디스의 영역
-        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(kakaoUserInfo.getEmail());
-        //레디스에서 찾아와야함
-
-        // 로그아웃한 후 로그인을 다시 하는가?
-        if (refreshToken.isPresent()) {
-            RefreshToken refreshToken1 = refreshToken.get().updateToken(tokenDto.getRefreshToken());
-            refreshTokenRepository.save(refreshToken1);
-        } else {
-            RefreshToken newToken = new RefreshToken(tokenDto.getRefreshToken(), kakaoUserInfo.getEmail());
-            refreshTokenRepository.save(newToken);
-        }
+//        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(kakaoUserInfo.getEmail());
+//        //레디스에서 찾아와야함
+//
+//        // 로그아웃한 후 로그인을 다시 하는가?
+//        if (refreshToken.isPresent()) {
+//            RefreshToken refreshToken1 = refreshToken.get().updateToken(tokenDto.getRefreshToken());
+//            refreshTokenRepository.save(refreshToken1);
+//        } else {
+//            RefreshToken newToken = new RefreshToken(tokenDto.getRefreshToken(), kakaoUserInfo.getEmail());
+//            refreshTokenRepository.save(newToken);
+//        }
 //        //안 레디스의 영역
 
         //토큰을 header에 넣어서 클라이언트에게 전달하기
@@ -263,9 +263,9 @@ public class KakaoAccountService {
                 ()-> new CustomException(ErrorCode.NotFoundUser));
         redisRepository.deleteById(account.getEmail());
 
-        RefreshToken refreshToken = refreshTokenRepository.findByAccountEmail(account.getEmail()).orElseThrow(
-                ()-> new CustomException(ErrorCode.NotFoundUser));
-        refreshTokenRepository.deleteById(refreshToken.getRefreshId());
+//        RefreshToken refreshToken = refreshTokenRepository.findByAccountEmail(account.getEmail()).orElseThrow(
+//                ()-> new CustomException(ErrorCode.NotFoundUser));
+//        refreshTokenRepository.deleteById(refreshToken.getRefreshId());
 
         return GlobalResponseDto.ok("Success Logout", null);
     }
