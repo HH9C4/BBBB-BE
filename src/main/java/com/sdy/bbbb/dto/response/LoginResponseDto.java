@@ -2,8 +2,11 @@ package com.sdy.bbbb.dto.response;
 
 import com.sdy.bbbb.entity.Account;
 
+import com.sdy.bbbb.entity.Bookmark;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 
 @Getter
@@ -26,6 +29,8 @@ public class LoginResponseDto {
 
     private int reportedCount;
 
+    private List<Bookmark> bookmarkList;
+
 
     public LoginResponseDto(Account account) {
         this.accountName = account.getAccountName();
@@ -36,5 +41,6 @@ public class LoginResponseDto {
         this.naverUser = account.getNaverId() != null;
         this.kakaoUser = account.getKakaoId() != null;
         this.reportedCount = account.getReportedCount();
+        this.bookmarkList = account.getBookmarks();
     }
 }
