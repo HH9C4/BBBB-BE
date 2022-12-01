@@ -25,6 +25,7 @@ spring:
     port: 6379
     host:
     password:
+#    username: ''
   # 네이버 관련
   security:
     oauth2:
