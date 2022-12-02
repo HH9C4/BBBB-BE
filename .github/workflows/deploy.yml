@@ -9,9 +9,9 @@ on:
 # 리전, 버킷 이름, CodeDeploy 앱 이름, CodeDeploy 배포 그룹 이름
 env:
   AWS_REGION: ap-northeast-2
-  S3_BUCKET_NAME: younseoandchildren
-  CODE_DEPLOY_APPLICATION_NAME: bbbb-younseoandchildren
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: bbbb-younseoandchildren-group
+  S3_BUCKET_NAME: cicd-s3-bucket-boombiboombi
+  CODE_DEPLOY_APPLICATION_NAME: bbbb-codedeploy
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: codedeploy-bbbb-group
   RESOURCE_PATH: ./src/main/resources/application.yml
 
 permissions:
