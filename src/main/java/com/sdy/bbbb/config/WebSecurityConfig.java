@@ -59,6 +59,9 @@ public class WebSecurityConfig {
 
 
         corsConfiguration.setAllowedOriginPatterns(Arrays.asList("*"));
+        corsConfiguration.addAllowedOrigin("http://localhost:3000");
+        corsConfiguration.addAllowedOrigin("https://www.boombiboombi.com");
+        corsConfiguration.addAllowedOriginPattern("*");
         corsConfiguration.setAllowedMethods(Arrays.asList("POST", "GET", "DELETE", "PUT"));
         corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
         corsConfiguration.setAllowCredentials(true);
