@@ -25,19 +25,24 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String accessToken = jwtUtil.getHeaderToken(request, "Access");
         String refreshToken = jwtUtil.getHeaderToken(request, "Refresh");
-        if(accessToken != null) {
-            if(jwtUtil.validateAccessToken(accessToken) == 1){
-                setAuthentication(jwtUtil.getEmailFromToken(accessToken));
-            }else if(jwtUtil.validateAccessToken(accessToken) == 2){
-                //다른 리턴
-                jwtExceptionHandler(response, "REISSUE", HttpStatus.SEE_OTHER);
-                return;
-            }
-        }else if(refreshToken != null) {
-            if(jwtUtil.refreshTokenValidation(refreshToken)){
-                setAuthentication(jwtUtil.getEmailFromToken(refreshToken));
-            }else {
-                //1차검증 실패시
+        String requestUri = request.getRequestURI();
+
+        System.out.println(request.getRequestURI().toString()+"이거는 1번");
+        System.out.println(request.getRequestURL().toString()+"이거는 2번");
+        if(!requestUri.equalsIgnoreCase("/api/maininfo") && !requestUri.equalsIgnoreCase("/api/guinfo")) {
+            if (accessToken != null) {
+                if (jwtUtil.validateAccessToken(accessToken) == 1) {
+                    setAuthentication(jwtUtil.getEmailFromToken(accessToken));
+                } else if (jwtUtil.validateAccessToken(accessToken) == 2) {
+                    jwtExceptionHandler(response, "REISSUE", HttpStatus.SEE_OTHER);
+                    return;
+                }
+            } else if (refreshToken != null) {
+                if (jwtUtil.refreshTokenValidation(refreshToken)) {
+                    setAuthentication(jwtUtil.getEmailFromToken(refreshToken));
+                } else {
+                    //1차검증 실패시
+                }
             }
         }
 
