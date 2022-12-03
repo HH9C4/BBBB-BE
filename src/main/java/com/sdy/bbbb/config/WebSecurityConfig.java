@@ -88,8 +88,8 @@ public class WebSecurityConfig {
                 .authenticationEntryPoint(authenticationEntryPointException);
 
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/user/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/user/reissue").authenticated()
+                .antMatchers(HttpMethod.GET, "/user/signin/**").permitAll()
+//                .antMatchers(HttpMethod.GET, "/user/reissue").authenticated()
                 .antMatchers("/api/maininfo").permitAll()
                 .antMatchers("/api/guinfo").permitAll()
                 .antMatchers(PERMIT_URL_ARRAY).permitAll() //swagger 열어주기
