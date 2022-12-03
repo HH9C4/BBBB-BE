@@ -80,6 +80,8 @@
 
 ### 5. Scheduler를 통한 open api 호출
 
+### 6. Redis
+
 
 <br><br>
 
