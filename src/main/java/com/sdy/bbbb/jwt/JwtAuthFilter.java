@@ -36,6 +36,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }else if(refreshToken != null) {
             if(jwtUtil.refreshTokenValidation(refreshToken)){
                 setAuthentication(jwtUtil.getEmailFromToken(refreshToken));
+            }else {
+                //1차검증 실패시
             }
         }
 
