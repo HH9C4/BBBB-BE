@@ -26,7 +26,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String accessToken = jwtUtil.getHeaderToken(request, "Access");
         String refreshToken = jwtUtil.getHeaderToken(request, "Refresh");
         String requestUri = request.getRequestURI();
-
+        log.info(requestUri + "요청 URI !!!!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         if(!requestUri.equalsIgnoreCase("/api/maininfo") && !requestUri.equalsIgnoreCase("/api/guinfo") && !requestUri.startsWith("/ws")) {
             if (accessToken != null) {
                 if (jwtUtil.validateAccessToken(accessToken) == 1) {
