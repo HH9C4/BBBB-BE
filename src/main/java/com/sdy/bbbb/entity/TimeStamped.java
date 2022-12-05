@@ -20,6 +20,6 @@ public abstract class TimeStamped {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    LocalDateTime modifiedAt;
+    public LocalDateTime modifiedAt;
 
 }
