@@ -46,7 +46,7 @@ public class ChattingController {
 
     //채팅
     @MessageMapping("/{roomId}")
-    @SendTo("/room/{roomId}")
+    @SendTo("/sub/{roomId}")
     //@PathVariable 과 유사
     public void createChat(@DestinationVariable Long roomId,
                      ChattingDto chattingDto,
