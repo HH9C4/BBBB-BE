@@ -21,8 +21,8 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final AccountRepository accountRepository;
 
-    public GlobalResponseDto<RoomResponseDto> createRoom(Long guestId, Account host) {
-        Account guest = accountRepository.findById(guestId).orElseThrow(
+    public GlobalResponseDto<RoomResponseDto> createRoom(String guestNickName, Account host) {
+        Account guest = accountRepository.findByAccountName(guestNickName).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundUser));
 
         Optional<Room> room1 = roomRepository.findByGuestAndHost(guest, host);
