@@ -16,6 +16,8 @@ public enum ErrorCode {
     BadRequest(HttpStatus.BAD_REQUEST.value(), "P004", "잘못된 요청입니다."),
     NotFoundGu(HttpStatus.NOT_FOUND.value(), "G001", "구를 찾을 수 없습니다."),
 
+    NotFoundRoom(HttpStatus.NOT_FOUND.value(), "R001", "채팅방을 찾을 수 없습니다."),
+
     // 일치하지 않습니다
     NotMatchAuthor(HttpStatus.BAD_REQUEST.value(), "A002", "작성자가 일치하지 않습니다."),
 
