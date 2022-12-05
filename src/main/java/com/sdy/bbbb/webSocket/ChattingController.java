@@ -21,7 +21,7 @@ public class ChattingController {
 
     private final ChatService chatService;
     private final RoomService roomService;
-//    private final SimpMessagingTemplate template;
+    private final SimpMessagingTemplate template;
 
 
     //채팅방 생성
@@ -53,7 +53,7 @@ public class ChattingController {
                      @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         chatService.createChat(roomId, chattingDto, userDetails.getAccount());
-//        template.convertAndSend("/room/" + roomId, chattingDto);
+        template.convertAndSend("/sub/" + roomId, chattingDto);
     }
 
 }
