@@ -1,5 +1,6 @@
 package com.sdy.bbbb.webSocket;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.TimeStamped;
@@ -20,7 +21,7 @@ public class Chat extends TimeStamped {
 
     @ManyToOne
     @JoinColumn
-    @JsonManagedReference
+    @JsonBackReference
     private Room room;
 
     @ManyToOne
