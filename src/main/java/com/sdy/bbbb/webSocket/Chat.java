@@ -20,6 +20,7 @@ public class Chat extends TimeStamped {
 
     @ManyToOne
     @JoinColumn
+    @JsonManagedReference
     private Room room;
 
     @ManyToOne
