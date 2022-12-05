@@ -41,10 +41,10 @@ public class RoomService {
             }
             Room room = new Room(roomName.toString(), participants.size(), host, guest);
             roomRepository.save(room);
-            return GlobalResponseDto.ok("success create room", new RoomResponseDto(room));
+            return GlobalResponseDto.ok("success create room", new RoomResponseDto(room, null));
         } else {
             Room room = room1.orElseGet(room2::get);
-            return GlobalResponseDto.ok("이미 채팅방이 존재합니다.", new RoomResponseDto(room));
+            return GlobalResponseDto.ok("이미 채팅방이 존재합니다.", new RoomResponseDto(room, null));
         }
 
     }

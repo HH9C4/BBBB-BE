@@ -1,5 +1,6 @@
 package com.sdy.bbbb.webSocket;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
