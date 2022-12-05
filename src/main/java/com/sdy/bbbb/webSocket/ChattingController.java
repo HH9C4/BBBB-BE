@@ -52,7 +52,7 @@ public class ChattingController {
                      @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         chatService.createChat(roomId, chattingDto, userDetails.getAccount());
-//        template.convertAndSend("/room/" + roomId, chatResDto);
+//        template.convertAndSend("/room/" + roomId, chattingDto);
     }
 
 }
