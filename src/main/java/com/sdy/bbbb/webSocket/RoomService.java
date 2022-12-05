@@ -22,7 +22,7 @@ public class RoomService {
     private final AccountRepository accountRepository;
 
     public GlobalResponseDto<RoomResponseDto> createRoom(String guestNickName, Account host) {
-        Account guest = accountRepository.findByAccountName(guestNickName).orElseThrow(
+        Account guest = accountRepository.findAccountByAccountName(guestNickName).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundUser));
 
         Optional<Room> room1 = roomRepository.findByGuestAndHost(guest, host);
