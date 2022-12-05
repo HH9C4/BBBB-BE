@@ -41,10 +41,10 @@ public class RoomService {
             }
             Room room = new Room(roomName.toString(), participants.size(), host, guest);
             roomRepository.save(room);
-            return GlobalResponseDto.ok("success create room", new RoomResponseDto(room));
+            return GlobalResponseDto.ok("success create room", new RoomResponseDto(room, null));
         } else {
             Room room = room1.orElseGet(room2::get);
-            return GlobalResponseDto.ok("이미 채팅방이 존재합니다.", new RoomResponseDto(room));
+            return GlobalResponseDto.ok("이미 채팅방이 존재합니다.", new RoomResponseDto(room, null));
         }
 
     }
@@ -54,7 +54,11 @@ public class RoomService {
 //        Room room = roomRepository.findByIdFecthChatList(roomId).orElseThrow(
 //                ()-> new CustomException(ErrorCode.NotFoundRoom));
         Room room = roomRepository.findByIdFecthChatList1(roomId).get(0);
-        return GlobalResponseDto.ok("success", new RoomResponseDto(room));
+        List<ChatResponseDto> chatResponseDto = new ArrayList<>();
+        for(Chat chat : room.getChatList()) {
+            chatResponseDto.add(new ChatResponseDto(chat));
+        }
+        return GlobalResponseDto.ok("success", new RoomResponseDto(room, chatResponseDto));
     }
 
     // 룸 리스트 리턴 (내가 속해있는 채팅방 목록)

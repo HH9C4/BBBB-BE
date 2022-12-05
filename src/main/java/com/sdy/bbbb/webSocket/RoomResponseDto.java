@@ -1,5 +1,6 @@
 package com.sdy.bbbb.webSocket;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,13 +18,14 @@ public class RoomResponseDto {
 
     private String guestName;
 
-    private List<Chat> chatList;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<ChatResponseDto> chatList;
 
-    public RoomResponseDto(Room room) {
+    public RoomResponseDto(Room room, List<ChatResponseDto> chatResponseDto) {
         this.roomId = room.getId();
         this.roomName = room.getRoomName();
         this.hostName = room.getHost().getAccountName();
         this.guestName = room.getGuest().getAccountName();
-        this.chatList = room.getChatList();
+        this.chatList = chatResponseDto;
     }
 }
