@@ -1,5 +1,6 @@
 package com.sdy.bbbb.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sdy.bbbb.dto.request.PostRequestDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
