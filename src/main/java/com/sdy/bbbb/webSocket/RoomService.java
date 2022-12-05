@@ -77,4 +77,5 @@ public class RoomService {
     }
 
     // 방 나가기
+
 }
