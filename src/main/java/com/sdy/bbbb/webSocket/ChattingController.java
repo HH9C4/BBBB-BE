@@ -49,10 +49,9 @@ public class ChattingController {
     @SendTo("/sub/{roomId}")
     //@PathVariable 과 유사
     public void createChat(@DestinationVariable Long roomId,
-                     ChattingDto chattingDto,
-                     @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                     ChattingDto chattingDto) {
 
-        chatService.createChat(roomId, chattingDto, userDetails.getAccount());
+        chatService.createChat(roomId, chattingDto);
         template.convertAndSend("/sub/" + roomId, chattingDto);
     }
 
