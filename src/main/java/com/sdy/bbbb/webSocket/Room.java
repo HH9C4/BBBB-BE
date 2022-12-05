@@ -1,5 +1,6 @@
 package com.sdy.bbbb.webSocket;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.TimeStamped;
 import lombok.Getter;
@@ -32,6 +33,7 @@ public class Room extends TimeStamped {
     @ManyToOne(fetch = FetchType.LAZY)
     private Account guest;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "room", cascade = CascadeType.REMOVE)
     private List<Chat> chatList = new ArrayList<>();
 
