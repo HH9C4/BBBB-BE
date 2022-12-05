@@ -25,9 +25,9 @@ public class ChattingController {
 
     //채팅방 생성
     @PostMapping("/room")
-    public GlobalResponseDto<RoomResponseDto> createRoom(@RequestBody Long guestId,
+    public GlobalResponseDto<RoomResponseDto> createRoom(@RequestBody String otherUserNickname,
                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return roomService.createRoom(guestId, userDetails.getAccount());
+        return roomService.createRoom(otherUserNickname, userDetails.getAccount());
     }
 
     //채팅방 입장
