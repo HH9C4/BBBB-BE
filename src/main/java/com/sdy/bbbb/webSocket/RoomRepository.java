@@ -17,6 +17,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     Optional<Room> findByGuestAndHost(Account account1, Account account2);
 
 
-    @Query(value = "Select r From Room r join fetch r.chatList")
+    @Query(value = "Select r From Room r left join r.chatList")
     Optional<Room> findByIdFecthChatList(Long roomId);
 }
