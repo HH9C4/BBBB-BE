@@ -23,6 +23,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws-stomp") //SockJS 연결주소
+//                .setAllowedOrigins()
+                .setAllowedOriginPatterns("*")
                 .withSockJS(); //버전 낮은 브라우저에서도 적용 가능
         // 주소 : ws://localhost:8080/ws-stomp
     }
