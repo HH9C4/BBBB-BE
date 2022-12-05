@@ -54,7 +54,11 @@ public class RoomService {
 //        Room room = roomRepository.findByIdFecthChatList(roomId).orElseThrow(
 //                ()-> new CustomException(ErrorCode.NotFoundRoom));
         Room room = roomRepository.findByIdFecthChatList1(roomId).get(0);
-        return GlobalResponseDto.ok("success", new RoomResponseDto(room));
+        List<ChatResponseDto> chatResponseDto = new ArrayList<>();
+        for(Chat chat : room.getChatList()) {
+            chatResponseDto.add(new ChatResponseDto(chat));
+        }
+        return GlobalResponseDto.ok("success", new RoomResponseDto(room, chatResponseDto));
     }
 
     // 룸 리스트 리턴 (내가 속해있는 채팅방 목록)
