@@ -10,7 +10,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     Optional<Account> findByKakaoId(Long kakaoId);
     Optional<Account> findByEmail(String email);
     Optional<Account> findByNaverId(String naverId);
-    Optional<Account> findByAccountName(String accountName);
+    Optional<Account> findAccountByAccountName(String accountName);
     boolean existsAccountByAccountName(String accountName);
     int countByAccountName(String accountName);
 
