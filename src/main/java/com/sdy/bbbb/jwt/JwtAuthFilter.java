@@ -27,7 +27,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String refreshToken = jwtUtil.getHeaderToken(request, "Refresh");
         String requestUri = request.getRequestURI();
 
-        if(!requestUri.equalsIgnoreCase("/api/maininfo") && !requestUri.equalsIgnoreCase("/api/guinfo")) {
+        if(!requestUri.equalsIgnoreCase("/api/maininfo") && !requestUri.equalsIgnoreCase("/api/guinfo") && !requestUri.startsWith("/ws")) {
             if (accessToken != null) {
                 if (jwtUtil.validateAccessToken(accessToken) == 1) {
                     setAuthentication(jwtUtil.getEmailFromToken(accessToken));
