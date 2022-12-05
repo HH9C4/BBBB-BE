@@ -53,7 +53,7 @@ public class ChattingController {
                      @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         chatService.createChat(roomId, chattingDto, userDetails.getAccount());
-//        template.convertAndSend("/room/" + roomId, chattingDto);
+        template.convertAndSend("/sub/" + roomId, chattingDto);
     }
 
 }
