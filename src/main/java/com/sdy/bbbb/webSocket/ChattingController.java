@@ -4,6 +4,7 @@ import com.sdy.bbbb.config.UserDetailsImpl;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import io.sentry.protocol.User;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -25,7 +26,7 @@ public class ChattingController {
 
     //채팅방 생성
     @PostMapping("/room")
-    public GlobalResponseDto<RoomResponseDto> createRoom(@RequestBody String otherUserNickname,
+    public GlobalResponseDto<RoomResponseDto> createRoom(@RequestBody RoomRequestDto roomRequestDto,
                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return roomService.createRoom(otherUserNickname, userDetails.getAccount());
     }
