@@ -36,24 +36,20 @@ public class ServiceUtil {
     public static boolean amILikedPost(Post post, List<Like> likeList) {
         //한번에 가져오고 엔티티로 찾는다?
         for (Like like : likeList){
-            System.out.println("포문돈다 post");
             if (like.getPost() != null && like.getPost().getId().equals(post.getId())){
                 return true;
             }
         }
-        System.out.println("다돌았다 post");
         return false;
     }
 
     //좋아요 여부 (comment)
     public static boolean amILikedComment(Comment comment, List<Like> likeList) {
         for (Like like : likeList){
-            System.out.println("포문돈다 comment");
             if (like.getComment() != null && like.getComment().getId().equals(comment.getId())){
                 return true;
             }
         }
-        System.out.println("다돌았다 comment");
         return false;
     }
 

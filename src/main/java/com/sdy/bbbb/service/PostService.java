@@ -149,7 +149,6 @@ public class PostService {
         List<Like> likeList = likeRepository.findLikesByAccount(account);
         for (Post post : postList) {
             //좋아요 확인
-            System.out.println("포문도는 횟수++++++++++++++++++++++++++++++++++++++++++++++++++++");
             postResponseDtoList.add(
                     new PostResponseDto(post, ServiceUtil.getImgUrl(post), ServiceUtil.getTag(post), ServiceUtil.amILikedPost(post, likeList)));
         }
