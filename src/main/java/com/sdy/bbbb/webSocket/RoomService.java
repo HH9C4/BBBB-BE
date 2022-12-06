@@ -71,7 +71,7 @@ public class RoomService {
             if(room.getChatList().size()>0) {
                 Chat lastChat = room.getChatList().get(room.getChatList().size() - 1);
                 String lastMessage = lastChat.getMessage();
-                String lastMessageTime = Chrono.timesAgo(lastChat.getCreatedAt());
+                String lastMessageTime = Chrono.timesAgoForRoom(lastChat.getCreatedAt());
                 rldList.add(new RoomListResponseDto(room.getRoomName(), other.getProfileImage(), lastMessage, lastMessageTime));
             }else {
                 rldList.add(new RoomListResponseDto(room.getRoomName(), other.getProfileImage(), null, null));

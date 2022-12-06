@@ -33,9 +33,8 @@ public class ChattingController {
 
     //채팅방 입장
     @GetMapping("/room/{roomId}")
-    public GlobalResponseDto<RoomResponseDto> joinRoom(@PathVariable Long roomId,
-                                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return roomService.joinRoom(roomId, userDetails.getAccount());
+    public GlobalResponseDto<RoomResponseDto> joinRoom(@PathVariable Long roomId) {
+        return roomService.joinRoom(roomId);
     }
 
     //채팅방 목록 조회
