@@ -55,6 +55,32 @@ public class TestService {
         return GlobalResponseDto.ok("tester 로그인" , new LoginResponseDto(account, bookmarkList));
     }
 
+    public GlobalResponseDto<LoginResponseDto> login2(HttpServletResponse response) {
+
+        TokenDto tokenDto = jwtUtil.createAllToken("tester2");
+
+
+        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail("tester");
+        if (refreshToken.isPresent()) {
+            RefreshToken refreshToken1 = refreshToken.get().updateToken(tokenDto.getRefreshToken());
+            refreshTokenRepository.save(refreshToken1);
+        } else {
+            RefreshToken newToken = new RefreshToken(tokenDto.getRefreshToken(), "tester");
+            refreshTokenRepository.save(newToken);
+        }
+
+        setHeader(response, tokenDto);
+        Account account = accountRepository.findByEmail("tester").orElseThrow(()-> new CustomException(ErrorCode.NotFoundUser));
+
+        List<String> bookmarkList = new ArrayList<>();
+        List<Bookmark> bookmarks = bookmarkRepository.findBookmarksByAccountId(account.getId());
+        for(Bookmark bookmark : bookmarks) {
+            bookmarkList.add(bookmark.getGu().getGuName());
+        }
+
+        return GlobalResponseDto.ok("tester2 로그인" , new LoginResponseDto(account, bookmarkList));
+    }
+
     private void setHeader(HttpServletResponse response, TokenDto tokenDto) {
             response.addHeader(JwtUtil.ACCESS_TOKEN, tokenDto.getAccessToken());
             response.addHeader(JwtUtil.REFRESH_TOKEN, tokenDto.getRefreshToken());

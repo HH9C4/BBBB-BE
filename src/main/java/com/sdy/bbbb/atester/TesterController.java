@@ -17,4 +17,9 @@ public class TesterController {
     public GlobalResponseDto<LoginResponseDto> login(HttpServletResponse response) {
         return testService.login(response);
     }
+
+    @GetMapping("/user/tester2")
+    public GlobalResponseDto<LoginResponseDto> login2(HttpServletResponse response) {
+        return testService.login2(response);
+    }
 }
