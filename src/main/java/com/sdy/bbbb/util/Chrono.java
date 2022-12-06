@@ -34,6 +34,20 @@ public class Chrono {
         return word;
     }
 
+    public static String timesAgoForRoom(LocalDateTime localDateTime) {
+        String word = "";
+        LocalDate day = localDateTime.toLocalDate();
+        if (day.compareTo(LocalDate.now()) == 0) {
+            word = localDateTime.format(DateTimeFormatter.ofPattern("a h:mm"));
+        }else if(day.compareTo(LocalDate.now()) == -1){
+            word = "어제";
+        }else{
+            word = localDateTime.format(DateTimeFormatter.ofPattern("M월 d일"));
+        }
+
+        return word;
+    }
+
     public static String customForm(LocalDateTime date) {
         return date.format(DateTimeFormatter.ofPattern("MM월 dd일"));
     }

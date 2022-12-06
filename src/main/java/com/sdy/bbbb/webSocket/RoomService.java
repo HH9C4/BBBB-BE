@@ -50,10 +50,10 @@ public class RoomService {
     }
 
     // 채팅방 입장(원래 있던 채팅내역 보내주는 것)
-    public GlobalResponseDto<RoomResponseDto> joinRoom(Long roomId, Account account) {
-//        Room room = roomRepository.findByIdFecthChatList(roomId).orElseThrow(
-//                ()-> new CustomException(ErrorCode.NotFoundRoom));
-        Room room = roomRepository.findByIdFecthChatList1(roomId).get(0);
+    public GlobalResponseDto<RoomResponseDto> joinRoom(Long roomId) {
+        Room room = roomRepository.findByIdFecthChatList(roomId).orElseThrow(
+                ()-> new CustomException(ErrorCode.NotFoundRoom));
+//        Room room = roomRepository.findByIdFecthChatList1(roomId).get(0);
         List<ChatResponseDto> chatResponseDto = new ArrayList<>();
         for(Chat chat : room.getChatList()) {
             chatResponseDto.add(new ChatResponseDto(chat));
