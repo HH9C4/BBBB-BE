@@ -66,9 +66,9 @@ public class PostRepositoryImpl {
                 .orderBy(eqSort(sort), post.createdAt.desc())
                 //페이징 할 때 수정해야 할것이다!
 //                .orderBy(post.createdAt.desc())
-                .distinct()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
+//                .distinct()
                 .fetch()
                 .stream().distinct().collect(Collectors.toList());
 
