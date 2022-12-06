@@ -67,14 +67,15 @@ public class RoomService {
         List<RoomListResponseDto> rldList = new ArrayList<>();
         for(Room room : roomList){
             Account other = room.getHost().getId().equals(account.getId()) ? room.getGuest() : room.getHost();
-
+            String roomName = other.getAccountName();
             if(room.getChatList().size()>0) {
                 Chat lastChat = room.getChatList().get(room.getChatList().size() - 1);
                 String lastMessage = lastChat.getMessage();
                 String lastMessageTime = Chrono.timesAgoForRoom(lastChat.getCreatedAt());
-                rldList.add(new RoomListResponseDto(room.getRoomName(), other.getProfileImage(), lastMessage, lastMessageTime));
+
+                rldList.add(new RoomListResponseDto(room.getId(), roomName, other.getProfileImage(), lastMessage, lastMessageTime));
             }else {
-                rldList.add(new RoomListResponseDto(room.getRoomName(), other.getProfileImage(), null, null));
+                rldList.add(new RoomListResponseDto(room.getId(), roomName, other.getProfileImage(), null, null));
             }
         }
 
