@@ -67,7 +67,7 @@ public class RoomService {
         List<RoomListResponseDto> rldList = new ArrayList<>();
         for(Room room : roomList){
             Account other = room.getHost().getId().equals(account.getId()) ? room.getGuest() : room.getHost();
-
+            String roomName = other.getAccountName();
             if(room.getChatList().size()>0) {
                 Chat lastChat = room.getChatList().get(room.getChatList().size() - 1);
                 String lastMessage = lastChat.getMessage();
