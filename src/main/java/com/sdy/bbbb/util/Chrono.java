@@ -1,5 +1,6 @@
 package com.sdy.bbbb.util;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -30,6 +31,20 @@ public class Chrono {
         }else {
             word = dayBefore.format(DateTimeFormatter.ofPattern("MM월 dd일"));
         }
+        return word;
+    }
+
+    public static String timesAgoForRoom(LocalDateTime localDateTime) {
+        String word = "";
+        LocalDate day = localDateTime.toLocalDate();
+        if (day.compareTo(LocalDate.now()) == 0) {
+            word = localDateTime.format(DateTimeFormatter.ofPattern("a h:mm"));
+        }else if(day.compareTo(LocalDate.now()) == -1){
+            word = "어제";
+        }else{
+            word = localDateTime.format(DateTimeFormatter.ofPattern("M월 d일"));
+        }
+
         return word;
     }
 
