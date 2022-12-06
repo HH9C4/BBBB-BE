@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RoomListResponseDto {
 
+    private Long roomId;
+
     private String roomName;
 
     private String otherProfilePic;

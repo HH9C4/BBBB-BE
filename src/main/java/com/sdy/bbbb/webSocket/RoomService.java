@@ -72,9 +72,10 @@ public class RoomService {
                 Chat lastChat = room.getChatList().get(room.getChatList().size() - 1);
                 String lastMessage = lastChat.getMessage();
                 String lastMessageTime = Chrono.timesAgoForRoom(lastChat.getCreatedAt());
-                rldList.add(new RoomListResponseDto(room.getRoomName(), other.getProfileImage(), lastMessage, lastMessageTime));
+
+                rldList.add(new RoomListResponseDto(room.getId(), roomName, other.getProfileImage(), lastMessage, lastMessageTime));
             }else {
-                rldList.add(new RoomListResponseDto(room.getRoomName(), other.getProfileImage(), null, null));
+                rldList.add(new RoomListResponseDto(room.getId(), roomName, other.getProfileImage(), null, null));
             }
         }
 
