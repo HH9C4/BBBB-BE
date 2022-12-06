@@ -59,7 +59,7 @@ public class PostRepositoryImpl {
                 .from(post)
 //                .leftJoin(hashTag).on(post.id.eq(hashTag.post.id)).fetchJoin()
                 .join(post.account).fetchJoin()
-                .leftJoin(post.tagList).fetchJoin()
+//                .leftJoin(post.tagList).fetchJoin()
                 .where(post.guName.eq(gu), category(category))
 //                .where(category(category))
 //                .leftJoin(post.likeList)
@@ -68,9 +68,9 @@ public class PostRepositoryImpl {
 //                .orderBy(post.createdAt.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
-//                .distinct()
-                .fetch()
-                .stream().distinct().collect(Collectors.toList());
+                .distinct()
+                .fetch();
+//                .stream().distinct().collect(Collectors.toList());
 
         Long totalCount = queryFactory.select(post.id.countDistinct())
                 .from(post)
