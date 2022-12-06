@@ -60,17 +60,17 @@ public class TestService {
         TokenDto tokenDto = jwtUtil.createAllToken("tester2");
 
 
-        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail("tester");
+        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail("tester2");
         if (refreshToken.isPresent()) {
             RefreshToken refreshToken1 = refreshToken.get().updateToken(tokenDto.getRefreshToken());
             refreshTokenRepository.save(refreshToken1);
         } else {
-            RefreshToken newToken = new RefreshToken(tokenDto.getRefreshToken(), "tester");
+            RefreshToken newToken = new RefreshToken(tokenDto.getRefreshToken(), "tester2");
             refreshTokenRepository.save(newToken);
         }
 
         setHeader(response, tokenDto);
-        Account account = accountRepository.findByEmail("tester").orElseThrow(()-> new CustomException(ErrorCode.NotFoundUser));
+        Account account = accountRepository.findByEmail("tester2").orElseThrow(()-> new CustomException(ErrorCode.NotFoundUser));
 
         List<String> bookmarkList = new ArrayList<>();
         List<Bookmark> bookmarks = bookmarkRepository.findBookmarksByAccountId(account.getId());
