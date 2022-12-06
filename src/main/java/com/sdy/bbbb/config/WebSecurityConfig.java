@@ -89,6 +89,7 @@ public class WebSecurityConfig {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/user/signin/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/user/tester/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/user/tester2/**").permitAll()
 //                .antMatchers(HttpMethod.GET, "/user/reissue").authenticated()
                 .antMatchers("/api/maininfo").permitAll()
                 .antMatchers("/api/guinfo").permitAll()

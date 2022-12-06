@@ -22,4 +22,5 @@ public class TesterController {
     public GlobalResponseDto<LoginResponseDto> login2(HttpServletResponse response) {
         return testService.login2(response);
     }
+
 }
