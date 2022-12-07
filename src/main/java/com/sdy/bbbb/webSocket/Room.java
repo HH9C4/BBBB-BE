@@ -21,18 +21,7 @@ public class Room extends TimeStamped {
     private Long id;
 
     @Column(nullable = false)
-    private String roomName;
-
-    @Column(nullable = false)
     private Integer participantsNum;
-
-    @JoinColumn(nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Account host;
-
-    @JoinColumn(nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Account guest;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "room", cascade = CascadeType.REMOVE)

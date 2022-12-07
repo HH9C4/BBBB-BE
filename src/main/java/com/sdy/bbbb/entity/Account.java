@@ -66,6 +66,7 @@ public class Account extends TimeStamped {
     List<Bookmark> bookmarks = new ArrayList<>();
 
 
+
     public Account(String nickname, String password, String email, String profileImage, Long kakaoId, String gender, String ageRange) {
         this.accountName = nickname;
         this.password = password;

@@ -21,6 +21,7 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final AccountRepository accountRepository;
 
+    @Transactional
     public GlobalResponseDto<RoomResponseDto> createRoom(String guestNickName, Account host) {
         Account guest = accountRepository.findAccountByAccountName(guestNickName).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundUser));
@@ -28,18 +29,18 @@ public class RoomService {
         Optional<Room> room1 = roomRepository.findByGuestAndHost(guest, host);
         Optional<Room> room2 = roomRepository.findByGuestAndHost(host, guest);
 
-        if (room1.isEmpty() && room2.isEmpty()){
+        if (room1.isEmpty() && room2.isEmpty()) {
             List<Account> participants = new ArrayList<>();
             participants.add(guest);
             participants.add(host);
-            StringBuilder roomName = new StringBuilder();
-            for(int i = 0; i < participants.size(); i ++){
-                roomName.append(participants.get(i).getAccountName());
-                if(i != participants.size() - 1) {
-                    roomName.append(", ");
-                }
-            }
-            Room room = new Room(roomName.toString(), participants.size(), host, guest);
+//            StringBuilder roomName = new StringBuilder();
+//            for(int i = 0; i < participants.size(); i ++){
+//                roomName.append(participants.get(i).getAccountName());
+//                if(i != participants.size() - 1) {
+//                    roomName.append(", ");
+//                }
+//            }
+            Room room = new Room(participants.size(), host, guest);
             roomRepository.save(room);
             return GlobalResponseDto.ok("success create room", new RoomResponseDto(room, null));
         } else {
@@ -47,9 +48,10 @@ public class RoomService {
             return GlobalResponseDto.ok("이미 채팅방이 존재합니다.", new RoomResponseDto(room, null));
         }
 
-    }
+
 
     // 채팅방 입장(원래 있던 채팅내역 보내주는 것)
+    @Transactional(readOnly = true)
     public GlobalResponseDto<RoomResponseDto> joinRoom(Long roomId) {
         Room room = roomRepository.findByIdFecthChatList(roomId).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundRoom));
@@ -62,6 +64,7 @@ public class RoomService {
     }
 
     // 룸 리스트 리턴 (내가 속해있는 채팅방 목록)
+    @Transactional(readOnly = true)
     public GlobalResponseDto<List<RoomListResponseDto>> getMyRooms(Account account) {
         List<Room> roomList = roomRepository.findRoomsByHostOrGuest(account, account);
         List<RoomListResponseDto> rldList = new ArrayList<>();
@@ -82,6 +85,34 @@ public class RoomService {
         return GlobalResponseDto.ok("조회완료", rldList);
     }
 
+
     // 방 나가기
+    @Transactional
+    public GlobalResponseDto<?> leaveRoom(Long roomId, Account account) {
+        Room room = roomRepository.findByIdFetchHostAndGuest(roomId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundRoom));
+        if (amIGuest(room, account)) {
+            room.setGuestLeave(true);
+            Chat lastChat = room.getChatList().get(room.getChatList().size() - 1);
+            lastChat.setIsLast(true);
+        } else {
+            room.setHostLeave(true);
+            Chat lastChat = room.getChatList().get(room.getChatList().size() - 1);
+            lastChat.setIsLast(true);
+        }
+        if (room.isGuestLeave() && room.isHostLeave()){
+            roomRepository.delete(room);
+        }
+
+        return GlobalResponseDto.ok("success exit", null);
+    }
+
+
+    // 내가 guest인지 host인지 확인하는 함수
+    private Boolean amIGuest(Room room, Account me) {
+        return room.getGuest().getId().equals(me.getId());
+    }
+
+
+
 
 }
