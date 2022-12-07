@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -117,8 +118,10 @@ public class MyPageService {
                 return GlobalResponseDto.fail("이미 존재하는 닉네임입니다.");
             } else if (!Objects.equals(updateRequestDto.getNickname(), "") && !Objects.equals(updateRequestDto.getNickname(), null)) {
                 account1.setAccountName(updateRequestDto.getNickname());
+
             }
         }
+        account1.setModifiedAt(LocalDateTime.now());
 
         return GlobalResponseDto.ok("수정완료", new LoginResponseDto(account1));
     }

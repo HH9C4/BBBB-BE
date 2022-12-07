@@ -8,6 +8,7 @@ import com.sdy.bbbb.repository.AccountRepository;
 import com.sdy.bbbb.util.Chrono;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -24,8 +25,7 @@ public class RoomService {
     @Transactional
     public GlobalResponseDto<RoomResponseDto> createRoom(String guestNickName, Account host) {
         Account guest = accountRepository.findAccountByAccountName(guestNickName).orElseThrow(
-                ()-> new CustomException(ErrorCode.NotFoundUser));
-
+                () -> new CustomException(ErrorCode.NotFoundUser));
         Optional<Room> room1 = roomRepository.findByGuestAndHost(guest, host);
         Optional<Room> room2 = roomRepository.findByGuestAndHost(host, guest);
 
@@ -47,6 +47,7 @@ public class RoomService {
             Room room = room1.orElseGet(room2::get);
             return GlobalResponseDto.ok("이미 채팅방이 존재합니다.", new RoomResponseDto(room, null));
         }
+    }
 
 
 
@@ -66,20 +67,26 @@ public class RoomService {
     // 룸 리스트 리턴 (내가 속해있는 채팅방 목록)
     @Transactional(readOnly = true)
     public GlobalResponseDto<List<RoomListResponseDto>> getMyRooms(Account account) {
+
         List<Room> roomList = roomRepository.findRoomsByHostOrGuest(account, account);
         List<RoomListResponseDto> rldList = new ArrayList<>();
         for(Room room : roomList){
-            Account other = room.getHost().getId().equals(account.getId()) ? room.getGuest() : room.getHost();
-            String roomName = other.getAccountName();
-            if(room.getChatList().size()>0) {
-                Chat lastChat = room.getChatList().get(room.getChatList().size() - 1);
-                String lastMessage = lastChat.getMessage();
-                String lastMessageTime = Chrono.timesAgoForRoom(lastChat.getCreatedAt());
+            Boolean amIGuest = amIGuest(room, account);
+            if(!(amIGuest && room.isGuestLeave()) && !(!amIGuest && room.isHostLeave())) {
+                Account other = amIGuest ? room.getHost() : room.getGuest();
+                String roomName = other.getAccountName();
 
-                rldList.add(new RoomListResponseDto(room.getId(), roomName, other.getProfileImage(), lastMessage, lastMessageTime));
-            }else {
-                rldList.add(new RoomListResponseDto(room.getId(), roomName, other.getProfileImage(), null, null));
+                if(room.getChatList().size()>0) {
+                    Chat lastChat = room.getChatList().get(room.getChatList().size() - 1);
+                    String lastMessage = lastChat.getMessage();
+                    String lastMessageTime = Chrono.timesAgoForRoom(lastChat.getCreatedAt());
+
+                    rldList.add(new RoomListResponseDto(room.getId(), roomName, other.getProfileImage(), lastMessage, lastMessageTime));
+                }else {
+                    rldList.add(new RoomListResponseDto(room.getId(), roomName, other.getProfileImage(), null, null));
+                }
             }
+
         }
 
         return GlobalResponseDto.ok("조회완료", rldList);

@@ -37,6 +37,13 @@ public class ChattingController {
         return roomService.joinRoom(roomId);
     }
 
+    //채팅방 나가기
+    @PutMapping("/room/{roomId}")
+    public GlobalResponseDto<?> leaveRoom(@PathVariable Long roomId,
+                                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return roomService.leaveRoom(roomId, userDetails.getAccount());
+    }
+
     //채팅방 목록 조회
     @GetMapping("/myrooms")
     public GlobalResponseDto<List<RoomListResponseDto>> myRooms(@AuthenticationPrincipal UserDetailsImpl userDetails) {
