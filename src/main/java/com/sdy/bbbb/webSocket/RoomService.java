@@ -22,6 +22,7 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final AccountRepository accountRepository;
 
+    // 채팅방 생성
     @Transactional
     public GlobalResponseDto<RoomResponseDto> createRoom(String guestNickName, Account host) {
         Account guest = accountRepository.findAccountByAccountName(guestNickName).orElseThrow(
@@ -45,10 +46,10 @@ public class RoomService {
             roomRepository.save(room);
 
 
-            return GlobalResponseDto.ok("success create room", new RoomResponseDto(room, guestNickName, null));
+            return GlobalResponseDto.ok("success create room", new RoomResponseDto(room));
         } else {
             Room room = room1.orElseGet(room2::get);
-            return GlobalResponseDto.ok("이미 채팅방이 존재합니다.", new RoomResponseDto(room, guestNickName, null));
+            return GlobalResponseDto.ok("이미 채팅방이 존재합니다.", new RoomResponseDto(room));
         }
     }
 
@@ -67,9 +68,8 @@ public class RoomService {
 
         Boolean amIGuest = amIGuest(room, host);
         Account other = amIGuest ? room.getHost() : room.getGuest();
-        String roomName = other.getAccountName();
 
-        return GlobalResponseDto.ok("success", new RoomResponseDto(room, roomName, chatResponseDto));
+        return GlobalResponseDto.ok("success", new RoomResponseDto(room, host, other, chatResponseDto));
     }
 
     // 룸 리스트 리턴 (내가 속해있는 채팅방 목록)
