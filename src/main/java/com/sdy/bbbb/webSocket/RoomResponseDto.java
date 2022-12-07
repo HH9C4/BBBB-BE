@@ -12,6 +12,7 @@ public class RoomResponseDto {
 
     private Long roomId;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String roomName;
 
     private String hostName;
@@ -31,4 +32,13 @@ public class RoomResponseDto {
         this.guestProfile = room.getGuest().getProfileImage();
         this.chatList = chatResponseDto;
     }
+
+//    public RoomResponseDto(Room room, List<ChatResponseDto> chatResponseDto) {
+//        this.roomId = room.getId();
+//        this.hostName = room.getHost().getAccountName();
+//        this.guestName = room.getGuest().getAccountName();
+//        this.guestProfile = room.getGuest().getProfileImage();
+//        this.chatList = chatResponseDto;
+//    }
+
 }

@@ -29,6 +29,7 @@ public class RoomService {
         Optional<Room> room1 = roomRepository.findByGuestAndHost(guest, host);
         Optional<Room> room2 = roomRepository.findByGuestAndHost(host, guest);
 
+
         if (room1.isEmpty() && room2.isEmpty()) {
             List<Account> participants = new ArrayList<>();
             participants.add(guest);
@@ -42,10 +43,12 @@ public class RoomService {
 //            }
             Room room = new Room(participants.size(), host, guest);
             roomRepository.save(room);
-            return GlobalResponseDto.ok("success create room", new RoomResponseDto(room, null));
+
+
+            return GlobalResponseDto.ok("success create room", new RoomResponseDto(room, guestNickName, null));
         } else {
             Room room = room1.orElseGet(room2::get);
-            return GlobalResponseDto.ok("이미 채팅방이 존재합니다.", new RoomResponseDto(room, null));
+            return GlobalResponseDto.ok("이미 채팅방이 존재합니다.", new RoomResponseDto(room, guestNickName, null));
         }
     }
 
@@ -53,7 +56,7 @@ public class RoomService {
 
     // 채팅방 입장(원래 있던 채팅내역 보내주는 것)
     @Transactional(readOnly = true)
-    public GlobalResponseDto<RoomResponseDto> joinRoom(Long roomId) {
+    public GlobalResponseDto<RoomResponseDto> joinRoom(Long roomId, Account host) {
         Room room = roomRepository.findByIdFecthChatList(roomId).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundRoom));
 //        Room room = roomRepository.findByIdFecthChatList1(roomId).get(0);
@@ -61,7 +64,12 @@ public class RoomService {
         for(Chat chat : room.getChatList()) {
             chatResponseDto.add(new ChatResponseDto(chat));
         }
-        return GlobalResponseDto.ok("success", new RoomResponseDto(room, chatResponseDto));
+
+        Boolean amIGuest = amIGuest(room, host);
+        Account other = amIGuest ? room.getHost() : room.getGuest();
+        String roomName = other.getAccountName();
+
+        return GlobalResponseDto.ok("success", new RoomResponseDto(room, roomName, chatResponseDto));
     }
 
     // 룸 리스트 리턴 (내가 속해있는 채팅방 목록)
