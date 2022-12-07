@@ -45,7 +45,7 @@ public class ReportService {
             Account account1 = accountRepository.findById(reportedId).orElseThrow(
                     () -> new CustomException(ErrorCode.NotFoundUser));
             if(account1.getReportedCount() > 2) {
-                account1.setAccountName("부적절한닉네임");
+                account1.setAccountName("불량유저");
                 reportRepository.deleteAllByLevelAndReportedId(level, reportedId);
             }else {
                 account1.setReportedCount(account1.getReportedCount() + 1);
