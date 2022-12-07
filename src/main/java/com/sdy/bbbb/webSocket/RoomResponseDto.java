@@ -23,9 +23,9 @@ public class RoomResponseDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<ChatResponseDto> chatList;
 
-    public RoomResponseDto(Room room, List<ChatResponseDto> chatResponseDto) {
+    public RoomResponseDto(Room room,String roomName, List<ChatResponseDto> chatResponseDto) {
         this.roomId = room.getId();
-        this.roomName = room.getRoomName();
+        this.roomName = roomName;
         this.hostName = room.getHost().getAccountName();
         this.guestName = room.getGuest().getAccountName();
         this.guestProfile = room.getGuest().getProfileImage();
