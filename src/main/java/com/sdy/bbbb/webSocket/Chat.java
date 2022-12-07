@@ -6,6 +6,7 @@ import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.TimeStamped;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @Getter
+@Setter
 public class Chat extends TimeStamped {
 
     @Id
@@ -31,10 +33,14 @@ public class Chat extends TimeStamped {
     @Column(columnDefinition = "TEXT")
     private String message;
 
+    @Column
+    private Boolean isLast;
+
     public Chat(Room room, Account sender, String message) {
         this.room = room;
         this.account = sender;
         this.message = message;
         this.modifiedAt = LocalDateTime.now();
+        this.isLast = false;
     }
 }

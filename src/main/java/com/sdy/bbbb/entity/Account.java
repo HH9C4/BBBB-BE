@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +67,7 @@ public class Account extends TimeStamped {
     List<Bookmark> bookmarks = new ArrayList<>();
 
 
+
     public Account(String nickname, String password, String email, String profileImage, Long kakaoId, String gender, String ageRange) {
         this.accountName = nickname;
         this.password = password;
@@ -75,6 +77,7 @@ public class Account extends TimeStamped {
         this.gender = gender;
         this.ageRange = ageRange;
         this.reportedCount = 0;
+        this.modifiedAt = LocalDateTime.now();
     }
 
     public Account(String nickname, String password, String email, String profileImage, String naverId, String gender, String ageRange) {
@@ -86,6 +89,7 @@ public class Account extends TimeStamped {
         this.gender = gender;
         this.ageRange = ageRange;
         this.reportedCount = 0;
+        this.modifiedAt = LocalDateTime.now();
     }
 
 }
