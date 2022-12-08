@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-public class RedisCont {
+public class RedisController {
 
     private final RedisTest redisTest;
     private final RedisRepository redisRepository;

@@ -93,6 +93,7 @@ public class WebSecurityConfig {
 //                .antMatchers(HttpMethod.GET, "/user/reissue").authenticated()
                 .antMatchers("/api/maininfo").permitAll()
                 .antMatchers("/api/guinfo").permitAll()
+                .antMatchers("/api/guinfo2").permitAll()
                 .antMatchers(PERMIT_URL_ARRAY).permitAll() //swagger 열어주기
                 .antMatchers ( "/ws/**" ).permitAll()
                 .anyRequest().authenticated()
