@@ -1,5 +1,7 @@
 package com.sdy.bbbb.service;
 
+import com.sdy.bbbb.SSE.AlarmType;
+import com.sdy.bbbb.SSE.SseService2;
 import com.sdy.bbbb.dto.request.CommentRequestDto;
 import com.sdy.bbbb.dto.response.CommentResponseDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
@@ -21,7 +23,10 @@ import javax.transaction.Transactional;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
+    private final SseService2 sseService;
 
+
+    // 댓글 작성
     @Transactional
     public GlobalResponseDto<CommentResponseDto> createComment(Long postId, CommentRequestDto requestDto, Account account){
         Post post = postRepository.findById(postId).orElseThrow(
@@ -36,6 +41,7 @@ public class CommentService {
         postRepository.save(post);
         // 게시글 저장
         CommentResponseDto responseDto = new CommentResponseDto(comment);
+        sseService.send(post.getAccount(), AlarmType.eventPostComment, post.getAccount().getAccountName() + "님이 " + account.getAccountName() + "님의 게시물에 댓글을 작성하였습니다.", "boombiboombi.com");
         return GlobalResponseDto.created("댓글이 생성되었습니다", responseDto);
     }
   
