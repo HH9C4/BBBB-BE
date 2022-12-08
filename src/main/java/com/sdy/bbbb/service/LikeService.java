@@ -69,7 +69,7 @@ public class LikeService {
                 // 좋아요 저장
                 comment.setLikeCount(comment.getLikeCount() + 1);
                 // 댓글 좋아요 수 변경
-                sseService.send(comment.getAccount(), AlarmType.eventCommentLike, account.getAccountName() + "님이 " + comment.getAccount().getAccountName()+"님의 댓글에 좋아요를 눌렀습니다.", "commentId: " + comment.getId());
+                sseService.send(comment.getAccount(), AlarmType.eventCommentLike, account.getAccountName() + "님이 " + comment.getAccount().getAccountName()+"님의 댓글에 좋아요를 눌렀습니다.", "commentId: " + comment.getId() + "postId: " + comment.getPost().getId());
                 return GlobalResponseDto.created("success Likes!", new LikeResponseDto(myLikedComment(comment, account), comment.getLikeCount()));
             }
         }
