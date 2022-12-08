@@ -1,5 +1,6 @@
 package com.sdy.bbbb.service.data;
 
+import com.sdy.bbbb.config.UserDetailsImpl;
 import com.sdy.bbbb.dto.response.BookmarkResponseDto;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.Bookmark;
@@ -16,6 +17,7 @@ import com.sdy.bbbb.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -145,7 +147,7 @@ public class DataService {
 
 
     // 구별 데이터 조회
-    public GlobalResponseDto<BaseGuInfoDto> getGuInformation2(String gu, Account account) {
+    public GlobalResponseDto<BaseGuInfoDto> getGuInformation2(String gu, UserDetailsImpl userDetails) {
         gu = ServiceUtil.decoding(gu);
         //구valid 해야함(준비중)
 
@@ -183,14 +185,16 @@ public class DataService {
             }
             spotInfoDtoList.add(new SpotInfoDto(guBaseInfo,new HourDataDto(lastPopByHour, todayPopByHour)));
         }
-
-        List<BookmarkResponseDto> bookmarkList = new ArrayList<>();
-        List<Bookmark> bookmarks = bookmarkRepository.findBookmarksByAccountId(account.getId());
-        for(Bookmark bookmark : bookmarks) {
-            bookmarkList.add(new BookmarkResponseDto(bookmark));
+        if(userDetails != null) {
+            List<BookmarkResponseDto> bookmarkList = new ArrayList<>();
+            List<Bookmark> bookmarks = bookmarkRepository.findBookmarksByAccountId(userDetails.getAccount().getId());
+            for (Bookmark bookmark : bookmarks) {
+                bookmarkList.add(new BookmarkResponseDto(bookmark));
+            }
+            return GlobalResponseDto.ok("조회 성공", new BaseGuInfoDto(guBaseInfos, bookmarkList, spotInfoDtoList));
         }
 
-        return GlobalResponseDto.ok("조회 성공", new BaseGuInfoDto(guBaseInfos, bookmarkList, spotInfoDtoList));
+        return GlobalResponseDto.ok("조회 성공", new BaseGuInfoDto(guBaseInfos, spotInfoDtoList));
     }
 
 }
