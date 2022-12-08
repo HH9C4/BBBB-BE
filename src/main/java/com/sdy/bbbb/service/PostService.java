@@ -59,7 +59,7 @@ public class PostService {
         createTagIfNotNull(postRequestDto.getTagList(), post);
 
         //구를 북마크한 사람들에게 알림 전송
-        sendNotice(postRequestDto, post);
+        sendNotice(postRequestDto, post, account);
 
         return GlobalResponseDto.created("게시글이 등록 되었습니다.",
                 new PostResponseDto(post, ServiceUtil.getImgUrl(post), ServiceUtil.getTag(post),false));
@@ -263,12 +263,14 @@ public class PostService {
 
 
     //알림 전송
-    private void sendNotice(PostRequestDto postRequestDto, Post post){
+    private void sendNotice(PostRequestDto postRequestDto, Post post, Account account){
         //해당 구를 북마크한 어카운트를 찾아와라.
         List<Bookmark> bookmarks = bookmarkRepository.findByGuFetchAccount(postRequestDto.getGu());
-        for(Bookmark bookmark : bookmarks) {
 
-            sseService.send(bookmark.getAccount(), AlarmType.eventGuPost, "북마크하신 " + bookmark.getGu().getGuName()+"에 새로운 글이 올라왔습니다!", "guName : " + postRequestDto.getGu()+ ", postId: " + post.getId());
+        for(Bookmark bookmark : bookmarks) {
+            if (!Objects.equals(bookmark.getAccount().getId(), account.getId())) {
+                sseService.send(bookmark.getAccount(), AlarmType.eventGuPost, "북마크하신 " + bookmark.getGu().getGuName() + "에 새로운 글이 올라왔습니다!", "guName : " + postRequestDto.getGu() + ", postId: " + post.getId());
+            }
         }
     }
 
