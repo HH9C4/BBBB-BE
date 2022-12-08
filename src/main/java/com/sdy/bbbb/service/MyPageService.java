@@ -116,7 +116,7 @@ public class MyPageService {
         if (updateRequestDto != null) {
             if (accountRepository.existsAccountByAccountName(updateRequestDto.getNickname())) {
                 return GlobalResponseDto.fail("이미 존재하는 닉네임입니다.");
-            } else if (!Objects.equals(updateRequestDto.getNickname(), "") && !Objects.equals(updateRequestDto.getNickname(), null)) {
+            } else {
                 account1.setAccountName(updateRequestDto.getNickname());
 
             }
