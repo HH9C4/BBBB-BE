@@ -16,7 +16,8 @@ public class SseService2 {
     private final NotificationRepository notificationRepository;
     private static final Long DEFAULT_TIMEOUT = 60 * 1000L;
 
-    public SseEmitter subscribe(Long memberId, String lastEventId) {
+    public SseEmitter subscribe(Long memberId) {
+//        lastEventId = "";
         String emitterId = makeTimeIncludeId(memberId);
         SseEmitter emitter = emitterRepository.save(emitterId, new SseEmitter(DEFAULT_TIMEOUT));
         emitter.onCompletion(() -> emitterRepository.deleteById(emitterId));
@@ -28,9 +29,9 @@ public class SseService2 {
 
         // 클라이언트가 미수신한 Event 목록이 존재할 경우 전송하여 Event 유실을 예방
 
-        if (hasLostData(lastEventId)) {
-            sendLostData(lastEventId, memberId, emitterId, emitter);
-        }
+//        if (hasLostData(lastEventId)) {
+//            sendLostData(lastEventId, memberId, emitterId, emitter);
+//        }
 
         return emitter;
     }
