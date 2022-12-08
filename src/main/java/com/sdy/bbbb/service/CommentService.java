@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
@@ -41,7 +42,9 @@ public class CommentService {
         postRepository.save(post);
         // 게시글 저장
         CommentResponseDto responseDto = new CommentResponseDto(comment);
-        sseService.send(post.getAccount(), AlarmType.eventPostComment, account.getAccountName() + "님이 " + post.getAccount().getAccountName() + "님의 게시물에 댓글을 작성하였습니다.", "postId: " + post.getId());
+        if(!Objects.equals(post.getAccount().getId(), account.getId())) {
+            sseService.send(post.getAccount(), AlarmType.eventPostComment, account.getAccountName() + "님이 " + post.getAccount().getAccountName() + "님의 게시물에 댓글을 작성하였습니다.", "postId: " + post.getId());
+        }
         return GlobalResponseDto.created("댓글이 생성되었습니다", responseDto);
     }
   
