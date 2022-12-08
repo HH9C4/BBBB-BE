@@ -1,5 +1,7 @@
 package com.sdy.bbbb.atester;
 
+import com.sdy.bbbb.SSE.AlarmType;
+import com.sdy.bbbb.SSE.SseService2;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.dto.response.LoginResponseDto;
 import com.sdy.bbbb.entity.Account;
@@ -28,6 +30,7 @@ public class TestService {
     private final BookmarkRepository bookmarkRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
+    private final SseService2 sseService;
 
     public GlobalResponseDto<LoginResponseDto> login(HttpServletResponse response) {
 
@@ -51,7 +54,7 @@ public class TestService {
         for(Bookmark bookmark : bookmarks) {
             bookmarkList.add(bookmark.getGu().getGuName());
         }
-
+        sseService.send(account2, AlarmType.eventPostComment, account.getAccountName() + "님이 로그인하셨습니다.", "boombiboombi.com");
         return GlobalResponseDto.ok("tester 로그인" , new LoginResponseDto(account, bookmarkList));
     }
 
