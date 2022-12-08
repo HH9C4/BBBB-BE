@@ -24,7 +24,7 @@ public class DataController {
     public GlobalResponseDto<DataResponseDto> getMainInfo() {
         return dataService.getMainInfo();
     }
-    
+
     @GetMapping("/api/guinfo")
     @ApiOperation(value = "구 별 정보", notes = "내용입니다")
     public GlobalResponseDto<BaseGuInfoDto> getGuInformation(@RequestParam String gu,
