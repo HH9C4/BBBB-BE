@@ -27,7 +27,7 @@ public class SseController {
     //구독 요청
     @GetMapping(value = "/connect", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter connect(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                 @RequestParam String lastEventId) {
+                                                 @RequestParam(required = false) String lastEventId) {
 
         return sseService.subscribe(userDetails.getAccount().getId(), lastEventId);
 //        //들어온 요청에 대한 새로운 emitter 생성
