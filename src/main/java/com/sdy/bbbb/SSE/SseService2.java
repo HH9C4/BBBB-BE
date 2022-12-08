@@ -16,7 +16,8 @@ public class SseService2 {
     private final NotificationRepository notificationRepository;
     private static final Long DEFAULT_TIMEOUT = 60 * 1000L;
 
-    public SseEmitter subscribe(Long memberId, String lastEventId) {
+    public SseEmitter subscribe(Long memberId) {
+//        lastEventId = "";
         String emitterId = makeTimeIncludeId(memberId);
         SseEmitter emitter = emitterRepository.save(emitterId, new SseEmitter(DEFAULT_TIMEOUT));
         emitter.onCompletion(() -> emitterRepository.deleteById(emitterId));
