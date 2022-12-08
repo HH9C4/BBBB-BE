@@ -35,7 +35,7 @@ public class DataController {
     @ApiOperation(value = "구 별 정보", notes = "내용입니다")
     public GlobalResponseDto<BaseGuInfoDto> getGuInformation2(@RequestParam String gu,
                                                               @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return dataService.getGuInformation2(gu, userDetails.getAccount());
+        return dataService.getGuInformation2(gu, userDetails);
     }
 
 }
