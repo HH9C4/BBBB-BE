@@ -118,7 +118,6 @@ public class MyPageService {
                 return GlobalResponseDto.fail("이미 존재하는 닉네임입니다.");
             } else {
                 account1.setAccountName(updateRequestDto.getNickname());
-
             }
         }
         account1.setModifiedAt(LocalDateTime.now());
