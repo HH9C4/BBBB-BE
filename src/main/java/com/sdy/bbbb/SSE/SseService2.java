@@ -27,6 +27,7 @@ public class SseService2 {
         sendNotification(emitter, eventId, emitterId, "EventStream Created. [userId=" + memberId + "]");
 
         // 클라이언트가 미수신한 Event 목록이 존재할 경우 전송하여 Event 유실을 예방
+
         if (hasLostData(lastEventId)) {
             sendLostData(lastEventId, memberId, emitterId, emitter);
         }
