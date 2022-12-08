@@ -19,19 +19,16 @@ public class NotificationResponseDto {
 
     private AlarmType alarmType;
 
-    private String title;
-
     private String createdAt;
 
 
     @Builder
     public NotificationResponseDto(Long id, String message, String articlesId, Boolean readStatus,
-                                   AlarmType alarmType, String title,String createdAt) {
+                                   AlarmType alarmType, String createdAt) {
         this.notificationId = id;
         this.message = message;
         this.articlesId = articlesId;
         this.readStatus = readStatus;
-        this.title = title;
         this.alarmType = alarmType;
         this.createdAt = createdAt;
     }
@@ -39,9 +36,8 @@ public class NotificationResponseDto {
     public NotificationResponseDto(Notification notification) {
         this.notificationId = notification.getId();
         this.message = notification.getMessage();
-        this.articlesId = notification.getUrl();
+        this.articlesId = notification.getData();
         this.readStatus = notification.getIsRead();
-        this.title = notification.getTitle();
         this.alarmType = notification.getAlarmType();
         this.createdAt = Chrono.timesAgo(notification.getCreatedAt());
     }
@@ -53,8 +49,7 @@ public class NotificationResponseDto {
                 .id(notification.getId())
                 .message(notification.getMessage())
                 .alarmType(notification.getAlarmType())
-                .articlesId(notification.getUrl())
-                .title(notification.getTitle())
+                .articlesId(notification.getData())
                 .readStatus(notification.getIsRead())
                 .createdAt(createdAt)
                 .build();
