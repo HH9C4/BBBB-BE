@@ -113,7 +113,7 @@ public class MyPageService {
         if (multipartFile != null) {
             account1.setProfileImage(s3Uploader.upload(multipartFile, "dir1"));
         }
-        if (updateRequestDto != null) {
+        if (updateRequestDto != null && !updateRequestDto.getNickname().equalsIgnoreCase("")) {
             if (accountRepository.existsAccountByAccountName(updateRequestDto.getNickname())) {
                 return GlobalResponseDto.fail("이미 존재하는 닉네임입니다.");
             } else {
