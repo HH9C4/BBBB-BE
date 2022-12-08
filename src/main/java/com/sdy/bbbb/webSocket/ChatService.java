@@ -1,5 +1,7 @@
 package com.sdy.bbbb.webSocket;
 
+import com.sdy.bbbb.SSE.AlarmType;
+import com.sdy.bbbb.SSE.SseService2;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
@@ -14,7 +16,8 @@ public class ChatService {
 
     private final ChatRepository chatRepository;
     private final RoomRepository roomRepository;
-    private  final AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
+    private final SseService2 sseService;
 
     @Transactional
     public void createChat(Long roomId, ChattingDto chattingDto) {
@@ -24,7 +27,17 @@ public class ChatService {
             room.setGuestLeave(false);
             room.setHostLeave(false);
         }
+
+        Boolean amIGuest = amIGuest(room, account);
+        Account other = amIGuest ? room.getHost() : room.getGuest();
+
         Chat chat = new Chat(room, account, chattingDto.getMessage());
+
+        sseService.send(other, AlarmType.eventNewChat, account.getAccountName() + "님이 " + other.getAccountName() + "님에게 새로운 채팅을 보냈습니다.", "roomId: " + room.getId());
         chatRepository.save(chat);
+    }
+
+    private Boolean amIGuest(Room room, Account me) {
+        return room.getGuest().getId().equals(me.getId());
     }
 }

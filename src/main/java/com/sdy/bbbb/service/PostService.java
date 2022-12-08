@@ -1,5 +1,7 @@
 package com.sdy.bbbb.service;
 
+import com.sdy.bbbb.SSE.AlarmType;
+import com.sdy.bbbb.SSE.SseService2;
 import com.sdy.bbbb.dto.request.PostRequestDto;
 import com.sdy.bbbb.dto.response.*;
 import com.sdy.bbbb.entity.*;
@@ -33,6 +35,8 @@ public class PostService {
     private final GuRepository guRepository;
     private final S3Uploader s3Uploader;
 
+    private final SseService2 sseService;
+
 //    private final String[] guList = {"강남구", "강동구", "강북구", "강서구", "관악구", "광진구",
 //            "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구",
 //            "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"};
@@ -53,6 +57,9 @@ public class PostService {
         createImageIfNotNull(multipartFile, post);
         //태그 있다면
         createTagIfNotNull(postRequestDto.getTagList(), post);
+
+        //구를 북마크한 사람들에게 알림 전송
+        sendNotice(postRequestDto, post);
 
         return GlobalResponseDto.created("게시글이 등록 되었습니다.",
                 new PostResponseDto(post, ServiceUtil.getImgUrl(post), ServiceUtil.getTag(post),false));

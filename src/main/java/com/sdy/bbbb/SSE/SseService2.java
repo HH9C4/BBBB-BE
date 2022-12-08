@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -82,8 +83,10 @@ public class SseService2 {
                 .receiver(receiver)
                 .alarmType(notificationType)
                 .message(content)
-                .url(url)
+                .data(data)
                 .readState(false)
                 .build();
     }
+
+
 }

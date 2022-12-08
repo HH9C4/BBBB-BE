@@ -34,7 +34,7 @@ public class Notification extends TimeStamped {
     private Boolean isRead;
 
     @Column(nullable = false)
-    private String url;
+    private String data;
 
     @ManyToOne
     @JsonBackReference
@@ -51,7 +51,7 @@ public class Notification extends TimeStamped {
         this.alarmType = alarmType;
         this.message = message;
         this.isRead = readState;
-        this.url = url;
+        this.data = data;
         this.account = receiver;
         this.title = title;
     }
