@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 public class ChatService {
@@ -33,7 +35,9 @@ public class ChatService {
 
         Chat chat = new Chat(room, account, chattingDto.getMessage());
 
-        sseService.send(other, AlarmType.eventNewChat, account.getAccountName() + "님이 " + other.getAccountName() + "님에게 새로운 채팅을 보냈습니다.", "roomId: " + room.getId());
+        if(!Objects.equals(other.getId(), account.getId())) {
+            sseService.send(other, AlarmType.eventNewChat, account.getAccountName() + "님이 " + other.getAccountName() + "님에게 새로운 채팅을 보냈습니다.", "roomId: " + room.getId());
+        }
         chatRepository.save(chat);
     }
 
