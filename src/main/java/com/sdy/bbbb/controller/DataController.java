@@ -24,18 +24,12 @@ public class DataController {
     public GlobalResponseDto<DataResponseDto> getMainInfo() {
         return dataService.getMainInfo();
     }
-
+    
     @GetMapping("/api/guinfo")
     @ApiOperation(value = "구 별 정보", notes = "내용입니다")
-    public GlobalResponseDto<BaseGuInfoDto> getGuInformation(@RequestParam String gu) {
-        return dataService.getGuInformation(gu);
-    }
-
-    @GetMapping("/api/guinfo2")
-    @ApiOperation(value = "구 별 정보", notes = "내용입니다")
-    public GlobalResponseDto<BaseGuInfoDto> getGuInformation2(@RequestParam String gu,
+    public GlobalResponseDto<BaseGuInfoDto> getGuInformation(@RequestParam String gu,
                                                               @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return dataService.getGuInformation2(gu, userDetails);
+        return dataService.getGuInformation(gu, userDetails);
     }
 
 }

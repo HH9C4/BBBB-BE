@@ -100,54 +100,54 @@ public class DataService {
 
 
     // 구별 데이터 조회
-    public GlobalResponseDto<BaseGuInfoDto> getGuInformation(String gu) {
-        gu = ServiceUtil.decoding(gu);
-        //구valid 해야함(준비중)
-
-        List<GuBaseInfo> guBaseInfoList = dataRepository.getGuBaseInfo(gu);
-
-        GuBaseInfo guBaseInfos;
-        if (guBaseInfoList.size() != 0) {
-            guBaseInfos = guBaseInfoList.get(0);
-        }else {
-            throw new CustomException(ErrorCode.NotReadyForData);
-        }
-
-
-        //지난주 0요일
-        List<SpotCalculated> spotCalculateds = dataRepository.getGuInfo(gu);
-        //오늘
-        List<SpotCalculated> todaySpotCalculatedList = dataRepository.getGuInfoToday(gu);
-
-
-//        기존
-        List<SpotInfoDto> spotInfoDtoList = new ArrayList<>();
-        for(GuBaseInfo guBaseInfo : guBaseInfoList){
-            Map<String, Long> lastPopByHour =  new HashMap();
-            for(SpotCalculated spot1 : spotCalculateds) {
-                if (guBaseInfo.getArea_nm().equals(spot1.getArea_Nm())) {
-                    lastPopByHour.put("L" + spot1.getThat_Hour(), (long)Double.parseDouble(spot1.getPopulation_By_Hour()));
-                }
-            }
-
-            Map<String, Long> todayPopByHour = new HashMap<>();
-            for(SpotCalculated spot2 : todaySpotCalculatedList) {
-                if (guBaseInfo.getArea_nm().equals(spot2.getArea_Nm())) {
-                    todayPopByHour.put("T" + spot2.getThat_Hour(), (long)Double.parseDouble(spot2.getPopulation_By_Hour()));
-                }
-            }
-            spotInfoDtoList.add(new SpotInfoDto(guBaseInfo,new HourDataDto(lastPopByHour, todayPopByHour)));
-        }
-
-        return GlobalResponseDto.ok("조회 성공", new BaseGuInfoDto(guBaseInfos, spotInfoDtoList));
-    }
+//    public GlobalResponseDto<BaseGuInfoDto> getGuInformation(String gu) {
+//        gu = ServiceUtil.decoding(gu);
+//        //구valid 해야함(준비중)
+//
+//        List<GuBaseInfo> guBaseInfoList = dataRepository.getGuBaseInfo(gu);
+//
+//        GuBaseInfo guBaseInfos;
+//        if (guBaseInfoList.size() != 0) {
+//            guBaseInfos = guBaseInfoList.get(0);
+//        }else {
+//            throw new CustomException(ErrorCode.NotReadyForData);
+//        }
+//
+//
+//        //지난주 0요일
+//        List<SpotCalculated> spotCalculateds = dataRepository.getGuInfo(gu);
+//        //오늘
+//        List<SpotCalculated> todaySpotCalculatedList = dataRepository.getGuInfoToday(gu);
+//
+//
+////        기존
+//        List<SpotInfoDto> spotInfoDtoList = new ArrayList<>();
+//        for(GuBaseInfo guBaseInfo : guBaseInfoList){
+//            Map<String, Long> lastPopByHour =  new HashMap();
+//            for(SpotCalculated spot1 : spotCalculateds) {
+//                if (guBaseInfo.getArea_nm().equals(spot1.getArea_Nm())) {
+//                    lastPopByHour.put("L" + spot1.getThat_Hour(), (long)Double.parseDouble(spot1.getPopulation_By_Hour()));
+//                }
+//            }
+//
+//            Map<String, Long> todayPopByHour = new HashMap<>();
+//            for(SpotCalculated spot2 : todaySpotCalculatedList) {
+//                if (guBaseInfo.getArea_nm().equals(spot2.getArea_Nm())) {
+//                    todayPopByHour.put("T" + spot2.getThat_Hour(), (long)Double.parseDouble(spot2.getPopulation_By_Hour()));
+//                }
+//            }
+//            spotInfoDtoList.add(new SpotInfoDto(guBaseInfo,new HourDataDto(lastPopByHour, todayPopByHour)));
+//        }
+//
+//        return GlobalResponseDto.ok("조회 성공", new BaseGuInfoDto(guBaseInfos, spotInfoDtoList));
+//    }
 
 
 
 
 
     // 구별 데이터 조회
-    public GlobalResponseDto<BaseGuInfoDto> getGuInformation2(String gu, UserDetailsImpl userDetails) {
+    public GlobalResponseDto<BaseGuInfoDto> getGuInformation(String gu, UserDetailsImpl userDetails) {
         gu = ServiceUtil.decoding(gu);
         //구valid 해야함(준비중)
 
