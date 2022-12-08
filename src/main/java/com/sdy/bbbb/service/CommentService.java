@@ -41,7 +41,7 @@ public class CommentService {
         postRepository.save(post);
         // 게시글 저장
         CommentResponseDto responseDto = new CommentResponseDto(comment);
-        sseService.send(post.getAccount(), AlarmType.eventPostComment, post.getAccount().getAccountName() + "님이 " + account.getAccountName() + "님의 게시물에 댓글을 작성하였습니다.", "boombiboombi.com");
+        sseService.send(post.getAccount(), AlarmType.eventPostComment, post.getAccount().getAccountName() + "님이 " + account.getAccountName() + "님의 게시물에 댓글을 작성하였습니다.", "postId: " + post.getId());
         return GlobalResponseDto.created("댓글이 생성되었습니다", responseDto);
     }
   

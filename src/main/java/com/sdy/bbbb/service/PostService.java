@@ -1,5 +1,7 @@
 package com.sdy.bbbb.service;
 
+import com.sdy.bbbb.SSE.AlarmType;
+import com.sdy.bbbb.SSE.SseService2;
 import com.sdy.bbbb.dto.request.PostRequestDto;
 import com.sdy.bbbb.dto.response.*;
 import com.sdy.bbbb.entity.*;
@@ -33,6 +35,8 @@ public class PostService {
     private final GuRepository guRepository;
     private final S3Uploader s3Uploader;
 
+    private final SseService2 sseService;
+
 //    private final String[] guList = {"강남구", "강동구", "강북구", "강서구", "관악구", "광진구",
 //            "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구",
 //            "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"};
@@ -54,9 +58,14 @@ public class PostService {
         //태그 있다면
         createTagIfNotNull(postRequestDto.getTagList(), post);
 
+        //구를 북마크한 사람들에게 알림 전송
+        sendNotice(postRequestDto, post);
+
         return GlobalResponseDto.created("게시글이 등록 되었습니다.",
                 new PostResponseDto(post, ServiceUtil.getImgUrl(post), ServiceUtil.getTag(post),false));
     }
+
+
 
     //게시글 전체 조회(구별)
     @Transactional(readOnly = true)
@@ -253,6 +262,15 @@ public class PostService {
     }
 
 
+    //알림 전송
+    private void sendNotice(PostRequestDto postRequestDto, Post post){
+        //해당 구를 북마크한 어카운트를 찾아와라.
+        List<Bookmark> bookmarks = bookmarkRepository.findByGuFetchAccount(postRequestDto.getGu());
+        for(Bookmark bookmark : bookmarks) {
+
+            sseService.send(bookmark.getAccount(), AlarmType.eventGuPost, "북마크하신 " + bookmark.getGu().getGuName()+"에 새로운 글이 올라왔습니다!", "guName : " + postRequestDto.getGu()+ ", postId: " + post.getId());
+        }
+    }
 
     //등록 할 이미지가 있다면 사용
     public void createImageIfNotNull(List<MultipartFile> multipartFile, Post post) {

@@ -22,4 +22,7 @@ BookmarkRepository extends JpaRepository<Bookmark, Long> {
 
     @Query(value = "select b from Bookmark b join fetch b.gu where b.account.id = ?1")
     List<Bookmark> findBookmarksByAccountId(Long id);
+
+    @Query(value = "select b from Bookmark b join fetch b.account where b.gu.guName = ?1")
+    List<Bookmark> findByGuFetchAccount(String guName);
 }
