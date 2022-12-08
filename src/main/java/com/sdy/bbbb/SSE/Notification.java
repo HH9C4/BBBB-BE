@@ -47,7 +47,7 @@ public class Notification extends TimeStamped {
 
     @Builder
     public Notification(AlarmType alarmType, String message, Boolean readState,
-                        String url, Account receiver, String title) {
+                        String data, Account receiver, String title) {
         this.alarmType = alarmType;
         this.message = message;
         this.isRead = readState;

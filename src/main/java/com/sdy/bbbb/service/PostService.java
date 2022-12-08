@@ -65,6 +65,8 @@ public class PostService {
                 new PostResponseDto(post, ServiceUtil.getImgUrl(post), ServiceUtil.getTag(post),false));
     }
 
+
+
     //게시글 전체 조회(구별)
     @Transactional(readOnly = true)
     public GlobalResponseDto<PostListResponseDto> getPost(String guName,
@@ -260,6 +262,15 @@ public class PostService {
     }
 
 
+    //알림 전송
+    private void sendNotice(PostRequestDto postRequestDto, Post post){
+        //해당 구를 북마크한 어카운트를 찾아와라.
+        List<Bookmark> bookmarks = bookmarkRepository.findByGuFetchAccount(postRequestDto.getGu());
+        for(Bookmark bookmark : bookmarks) {
+
+            sseService.send(bookmark.getAccount(), AlarmType.eventGuPost, "북마크하신 " + bookmark.getGu().getGuName()+"에 새로운 글이 올라왔습니다!", "guName : " + postRequestDto.getGu()+ ", postId: " + post.getId());
+        }
+    }
 
     //등록 할 이미지가 있다면 사용
     public void createImageIfNotNull(List<MultipartFile> multipartFile, Post post) {

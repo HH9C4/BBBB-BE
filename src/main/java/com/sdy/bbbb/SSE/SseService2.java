@@ -64,8 +64,8 @@ public class SseService2 {
                 .forEach(entry -> sendNotification(emitter, entry.getKey(), emitterId, entry.getValue()));
     }
 
-    public void send(Account receiver, AlarmType notificationType, String content, String url) {
-        Notification notification = notificationRepository.save(createNotification(receiver, notificationType, content, url));
+    public void send(Account receiver, AlarmType notificationType, String content, String data) {
+        Notification notification = notificationRepository.save(createNotification(receiver, notificationType, content, data));
 
         String receiverId = String.valueOf(receiver.getId());
         String eventId = receiverId + "_" + System.currentTimeMillis();
@@ -78,7 +78,7 @@ public class SseService2 {
         );
     }
 
-    private Notification createNotification(Account receiver, AlarmType notificationType, String content, String url) {
+    private Notification createNotification(Account receiver, AlarmType notificationType, String content, String data) {
         return Notification.builder()
                 .receiver(receiver)
                 .alarmType(notificationType)
