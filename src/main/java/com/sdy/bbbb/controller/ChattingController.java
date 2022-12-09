@@ -1,10 +1,14 @@
-package com.sdy.bbbb.webSocket;
+package com.sdy.bbbb.controller;
 
 import com.sdy.bbbb.config.UserDetailsImpl;
+import com.sdy.bbbb.dto.request.ChattingDto;
+import com.sdy.bbbb.dto.request.RoomRequestDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
-import io.sentry.protocol.User;
+import com.sdy.bbbb.dto.response.RoomListResponseDto;
+import com.sdy.bbbb.dto.response.RoomResponseDto;
+import com.sdy.bbbb.service.ChatService;
+import com.sdy.bbbb.service.RoomService;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -27,7 +31,7 @@ public class ChattingController {
     //채팅방 생성
     @PostMapping("/room")
     public GlobalResponseDto<RoomResponseDto> createRoom(@RequestBody RoomRequestDto roomRequestDto,
-                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return roomService.createRoom(roomRequestDto.getOtherUserNickname(), userDetails.getAccount());
     }
 

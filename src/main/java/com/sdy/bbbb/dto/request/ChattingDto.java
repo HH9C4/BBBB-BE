@@ -1,4 +1,4 @@
-package com.sdy.bbbb.webSocket;
+package com.sdy.bbbb.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

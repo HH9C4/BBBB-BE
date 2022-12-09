@@ -1,12 +1,8 @@
-package com.sdy.bbbb.webSocket;
+package com.sdy.bbbb.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.sdy.bbbb.entity.Account;
+import com.sdy.bbbb.entity.Chat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor

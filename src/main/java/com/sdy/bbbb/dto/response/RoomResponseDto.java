@@ -1,7 +1,9 @@
-package com.sdy.bbbb.webSocket;
+package com.sdy.bbbb.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.sdy.bbbb.dto.response.ChatResponseDto;
 import com.sdy.bbbb.entity.Account;
+import com.sdy.bbbb.entity.Room;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

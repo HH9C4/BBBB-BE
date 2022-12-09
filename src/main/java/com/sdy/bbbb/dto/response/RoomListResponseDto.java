@@ -1,4 +1,4 @@
-package com.sdy.bbbb.webSocket;
+package com.sdy.bbbb.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

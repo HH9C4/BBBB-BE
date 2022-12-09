@@ -1,6 +1,7 @@
-package com.sdy.bbbb.webSocket;
+package com.sdy.bbbb.repository;
 
 import com.sdy.bbbb.entity.Account;
+import com.sdy.bbbb.entity.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
