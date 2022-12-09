@@ -1,7 +1,7 @@
 package com.sdy.bbbb.atester;
 
 import com.sdy.bbbb.SSE.AlarmType;
-import com.sdy.bbbb.SSE.SseService2;
+import com.sdy.bbbb.SSE.SseService;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.dto.response.LoginResponseDto;
 import com.sdy.bbbb.entity.Account;
@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
-import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +29,7 @@ public class TestService {
     private final BookmarkRepository bookmarkRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
-    private final SseService2 sseService;
+    private final SseService sseService;
 
     public GlobalResponseDto<LoginResponseDto> login(HttpServletResponse response) {
 

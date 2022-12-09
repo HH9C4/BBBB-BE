@@ -1,7 +1,6 @@
 package com.sdy.bbbb.SSE;
 
 import com.sdy.bbbb.config.UserDetailsImpl;
-import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -10,15 +9,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.io.IOException;
-
 @RestController
 @Slf4j
 @RequiredArgsConstructor
 public class SseController {
 
     private final SseEmitterList sseEmitterList;
-    private final SseService2 sseService;
+    private final SseService sseService;
     //다른 컨트롤러에서 얘를 호출해야하나?
 
 

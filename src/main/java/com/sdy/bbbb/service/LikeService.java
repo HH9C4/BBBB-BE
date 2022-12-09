@@ -1,7 +1,7 @@
 package com.sdy.bbbb.service;
 
 import com.sdy.bbbb.SSE.AlarmType;
-import com.sdy.bbbb.SSE.SseService2;
+import com.sdy.bbbb.SSE.SseService;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.dto.response.LikeResponseDto;
 import com.sdy.bbbb.entity.Account;
@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.Objects;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -27,7 +26,7 @@ public class LikeService {
     private final LikeRepository likeRepository;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
-    private final SseService2 sseService;
+    private final SseService sseService;
 
     @Transactional
     public GlobalResponseDto<LikeResponseDto> like(Long id, Integer level, Account account) {
