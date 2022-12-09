@@ -186,12 +186,8 @@ public class DataService {
             spotInfoDtoList.add(new SpotInfoDto(guBaseInfo,new HourDataDto(lastPopByHour, todayPopByHour)));
         }
         if(userDetails != null) {
-            List<BookmarkResponseDto> bookmarkList = new ArrayList<>();
-            List<Bookmark> bookmarks = bookmarkRepository.findBookmarksByAccountId(userDetails.getAccount().getId());
-            for (Bookmark bookmark : bookmarks) {
-                bookmarkList.add(new BookmarkResponseDto(bookmark));
-            }
-            return GlobalResponseDto.ok("조회 성공", new BaseGuInfoDto(guBaseInfos, bookmarkList, spotInfoDtoList));
+            boolean isBookMarked = bookmarkRepository.existsByGu_GuNameAndAccount(gu, userDetails.getAccount());
+            return GlobalResponseDto.ok("조회 성공", new BaseGuInfoDto(guBaseInfos, isBookMarked, spotInfoDtoList));
         }
 
         return GlobalResponseDto.ok("조회 성공", new BaseGuInfoDto(guBaseInfos, spotInfoDtoList));
