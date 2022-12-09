@@ -15,7 +15,7 @@ logging:
     org:
       apache:
         coyote:
-          http11: debug
+          http11: error
     com:
       example: debug
 
