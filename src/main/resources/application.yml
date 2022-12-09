@@ -93,4 +93,5 @@ server:
     key-store-type: PKCS12
     key-store:  classpath:keystore.p12
 
-
+security:
+  require-ssl: 'true'
