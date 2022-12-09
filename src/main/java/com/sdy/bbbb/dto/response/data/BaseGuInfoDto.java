@@ -16,7 +16,7 @@ public class BaseGuInfoDto {
     private String gu_confirmed;
     private List<SpotInfoDto> spotInfoList;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<BookmarkResponseDto> bookmarkList;
+    private Boolean isBookmarked;
 
 
     public BaseGuInfoDto(GuBaseInfo guBaseInfo, List<SpotInfoDto> spotInfoList) {
@@ -26,11 +26,11 @@ public class BaseGuInfoDto {
         this.spotInfoList = spotInfoList;
     }
 
-    public BaseGuInfoDto(GuBaseInfo guBaseInfo,List<BookmarkResponseDto> bookmarkList, List<SpotInfoDto> spotInfoList) {
+    public BaseGuInfoDto(GuBaseInfo guBaseInfo, Boolean isBookmarked, List<SpotInfoDto> spotInfoList) {
         this.gu_nm = guBaseInfo.getGu_nm();
         this.gu_added = guBaseInfo.getGu_added();
         this.gu_confirmed = guBaseInfo.getGu_confirmed();
-        this.bookmarkList = bookmarkList;
+        this.isBookmarked = isBookmarked;
         this.spotInfoList = spotInfoList;
     }
 }
