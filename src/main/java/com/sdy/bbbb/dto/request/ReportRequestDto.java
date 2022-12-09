@@ -14,7 +14,7 @@ public class ReportRequestDto {
     private Long level;
 
     @NotNull(message = "신고할 id는 공백일 수 없습니다.")
-    private Long reportedId;
+    private String reportedId;
 
     @NotBlank(message = "내용은 공백일 수 없습니다.")
     private String content;
