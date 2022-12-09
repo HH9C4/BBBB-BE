@@ -60,9 +60,13 @@ public class WebSecurityConfig {
 
         corsConfiguration.setAllowedOriginPatterns(Arrays.asList("*"));
 //        corsConfiguration.addAllowedOrigin("*");
-        corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
-//        corsConfiguration.addAllowedOrigin("http://localhost:3000");
-//        corsConfiguration.addAllowedOrigin("https://www.boombiboombi.com");
+//        corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
+        corsConfiguration.addAllowedOrigin("http://localhost:3000");
+        corsConfiguration.addAllowedOrigin("https://www.boombiboombi.com");
+        corsConfiguration.addAllowedOrigin("http://boombiboombi.o-r.kr");
+        corsConfiguration.addAllowedOrigin("https://boombiboombi.o-r.kr");
+        corsConfiguration.addAllowedOrigin("127.0.0.1");
+
 //        corsConfiguration.addAllowedOrigin("*");
 //        corsConfiguration.addAllowedOrigin("http://3.36.98.254/");
         corsConfiguration.addAllowedOriginPattern("*");
