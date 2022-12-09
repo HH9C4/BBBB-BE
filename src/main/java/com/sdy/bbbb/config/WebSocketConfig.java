@@ -1,4 +1,4 @@
-package com.sdy.bbbb.webSocket;
+package com.sdy.bbbb.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;

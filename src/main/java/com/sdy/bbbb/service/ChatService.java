@@ -1,11 +1,16 @@
-package com.sdy.bbbb.webSocket;
+package com.sdy.bbbb.service;
 
 import com.sdy.bbbb.SSE.AlarmType;
 import com.sdy.bbbb.SSE.SseService2;
 import com.sdy.bbbb.entity.Account;
+import com.sdy.bbbb.entity.Chat;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.repository.AccountRepository;
+import com.sdy.bbbb.repository.ChatRepository;
+import com.sdy.bbbb.dto.request.ChattingDto;
+import com.sdy.bbbb.entity.Room;
+import com.sdy.bbbb.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
