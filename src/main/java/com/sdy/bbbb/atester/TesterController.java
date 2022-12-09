@@ -23,7 +23,7 @@ public class TesterController {
         return testService.login2(response);
     }
 
-    @GetMapping("/healthtest")
+    @GetMapping("/coffee")
     public String test() {
         return "hi";
     }
