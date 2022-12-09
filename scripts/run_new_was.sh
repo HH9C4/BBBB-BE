@@ -1,6 +1,6 @@
 # run_new_was.sh
 
-#!/bin/bash
+
 
 PROJECT_ROOT="/home/ubuntu"
 JAR_FILE="$PROJECT_ROOT/yghh-0.0.1-SNAPSHOT.jar"
