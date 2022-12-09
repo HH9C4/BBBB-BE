@@ -1,7 +1,7 @@
 package com.sdy.bbbb.service;
 
 import com.sdy.bbbb.SSE.AlarmType;
-import com.sdy.bbbb.SSE.SseService2;
+import com.sdy.bbbb.SSE.SseService;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.Chat;
 import com.sdy.bbbb.exception.CustomException;
@@ -24,7 +24,7 @@ public class ChatService {
     private final ChatRepository chatRepository;
     private final RoomRepository roomRepository;
     private final AccountRepository accountRepository;
-    private final SseService2 sseService;
+    private final SseService sseService;
 
     @Transactional
     public void createChat(Long roomId, ChattingDto chattingDto) {

@@ -1,7 +1,7 @@
 package com.sdy.bbbb.service;
 
 import com.sdy.bbbb.SSE.AlarmType;
-import com.sdy.bbbb.SSE.SseService2;
+import com.sdy.bbbb.SSE.SseService;
 import com.sdy.bbbb.dto.request.CommentRequestDto;
 import com.sdy.bbbb.dto.response.CommentResponseDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
@@ -24,7 +24,7 @@ import java.util.Objects;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
-    private final SseService2 sseService;
+    private final SseService sseService;
 
 
     // 댓글 작성

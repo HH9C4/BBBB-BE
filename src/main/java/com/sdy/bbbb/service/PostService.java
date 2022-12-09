@@ -1,7 +1,7 @@
 package com.sdy.bbbb.service;
 
 import com.sdy.bbbb.SSE.AlarmType;
-import com.sdy.bbbb.SSE.SseService2;
+import com.sdy.bbbb.SSE.SseService;
 import com.sdy.bbbb.dto.request.PostRequestDto;
 import com.sdy.bbbb.dto.response.*;
 import com.sdy.bbbb.entity.*;
@@ -35,7 +35,7 @@ public class PostService {
     private final GuRepository guRepository;
     private final S3Uploader s3Uploader;
 
-    private final SseService2 sseService;
+    private final SseService sseService;
 
 //    private final String[] guList = {"강남구", "강동구", "강북구", "강서구", "관악구", "광진구",
 //            "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구",
