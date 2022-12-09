@@ -24,8 +24,9 @@ public class TesterController {
     }
 
     @GetMapping("/healthtest")
-    public void test() {
-
+    public String test() {
+        System.out.println("테스트중=================================================");
+        return "hi";
     }
 
 }
