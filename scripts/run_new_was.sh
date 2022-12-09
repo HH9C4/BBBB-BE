@@ -6,7 +6,7 @@ PROJECT_ROOT="/home/ubuntu"
 JAR_FILE="$PROJECT_ROOT/yghh-0.0.1-SNAPSHOT.jar"
 
 # service_url.inc 에서 현재 서비스를 하고 있는 WAS의 포트 번호 가져오기
-CURRENT_PORT=$(cat /home/ubuntu/service_url.inc | grep -Po '[0-9]+' | tail -1)
+CURRENT_PORT=$(cat /home/ec2-user/service_url.inc | grep -Po '[0-9]+' | tail -1)
 TARGET_PORT=0
 
 echo "> Current port of running WAS is ${CURRENT_PORT}."
