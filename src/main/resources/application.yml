@@ -56,7 +56,7 @@ spring:
     url: ''
   jpa:
     hibernate:
-      ddl-auto:
+      ddl-auto: ''
     properties:
       hibernate:
         default_batch_fetch_size: 1000
