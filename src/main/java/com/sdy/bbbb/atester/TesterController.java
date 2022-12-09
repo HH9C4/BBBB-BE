@@ -23,4 +23,9 @@ public class TesterController {
         return testService.login2(response);
     }
 
+    @GetMapping("/healthtest")
+    public void test() {
+
+    }
+
 }
