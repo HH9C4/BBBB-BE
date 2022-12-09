@@ -66,7 +66,7 @@ public class WebSecurityConfig {
         corsConfiguration.addAllowedOrigin("http://boombiboombi.o-r.kr");
         corsConfiguration.addAllowedOrigin("https://boombiboombi.o-r.kr");
         corsConfiguration.addAllowedOrigin("127.0.0.1");
-        
+
 //        corsConfiguration.addAllowedOrigin("*");
 //        corsConfiguration.addAllowedOrigin("http://3.36.98.254/");
         corsConfiguration.addAllowedOriginPattern("*");
