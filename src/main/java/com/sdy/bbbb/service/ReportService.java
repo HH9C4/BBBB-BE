@@ -31,7 +31,7 @@ public class ReportService {
     public GlobalResponseDto<?> report(Account account, ReportRequestDto reportRequestDto){
         Long level = reportRequestDto.getLevel();
         Long reporterId = account.getId();
-        Long reportedId = reportRequestDto.getReportedId();
+        String reportedId = reportRequestDto.getReportedId();
 
         if (reportRepository.existsByLevelAndReporterIdAndReportedId(level, reporterId, reportedId)){
             throw new CustomException(ErrorCode.AlreadyReported);
@@ -42,7 +42,7 @@ public class ReportService {
         reportRepository.save(report);
 
         if(level.equals(1L)){
-            Account account1 = accountRepository.findById(reportedId).orElseThrow(
+            Account account1 = accountRepository.findAccountByAccountName(reportedId).orElseThrow(
                     () -> new CustomException(ErrorCode.NotFoundUser));
             if(account1.getReportedCount() > 2) {
                 account1.setAccountName("불량유저");
@@ -52,7 +52,8 @@ public class ReportService {
             }
 
         }else if(level.equals(2L)){
-            Post post = postRepository.findById(report.getReportedId()).orElseThrow(
+            Long postId = Long.parseLong(report.getReportedId());
+            Post post = postRepository.findById(postId).orElseThrow(
                     () -> new CustomException(ErrorCode.NotFoundPost));
             if(post.getReportedCount() > 9) {
                 post.setHide(true);
@@ -62,7 +63,8 @@ public class ReportService {
             }
 
         }else if (level.equals(3L)) {
-            Comment comment = commentRepository.findById(report.getReportedId()).orElseThrow(
+            Long commentId = Long.parseLong(report.getReportedId());
+            Comment comment = commentRepository.findById(commentId).orElseThrow(
                     ()-> new CustomException(ErrorCode.NotFoundComment));
             if(comment.getReportedCount() > 9) {
                 comment.setHide(true);
