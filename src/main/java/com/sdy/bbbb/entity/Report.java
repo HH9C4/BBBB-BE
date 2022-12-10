@@ -31,12 +31,6 @@ public class Report {
     private String content;
 
 
-    public Report(ReportRequestDto reportRequestDto, Account account) {
-        this.level = reportRequestDto.getLevel();
-        this.reporterId = account.getId();
-        this.reportedId = reportRequestDto.getReportedId();
-        this.content = reportRequestDto.getContent();
-    }
 
     public Report(ReportRequestDto reportRequestDto, Long reporterId, Long reportedId) {
         this.level = reportRequestDto.getLevel();
