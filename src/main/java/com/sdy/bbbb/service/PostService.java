@@ -269,7 +269,7 @@ public class PostService {
 
         for(Bookmark bookmark : bookmarks) {
             if (!Objects.equals(bookmark.getAccount().getId(), account.getId())) {
-                sseService.send(bookmark.getAccount(), AlarmType.eventGuPost, "\uD83D\uDCCC북마크한 " + bookmark.getGu().getGuName() + "에 새로운 게시글이 추가되었어요!", "guName : " + postRequestDto.getGu() + ", postId: " + post.getId());
+                sseService.send(bookmark.getAccount(), AlarmType.eventGuPost, "북마크한 " + bookmark.getGu().getGuName() + "에 새로운 게시글이 추가되었어요!", "guName : " + postRequestDto.getGu() + ", postId: " + post.getId());
             }
         }
     }
