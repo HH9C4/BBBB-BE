@@ -4,6 +4,7 @@ import com.sdy.bbbb.entity.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import org.yaml.snakeyaml.emitter.Emitter;
 
 import java.io.IOException;
 import java.util.Map;
