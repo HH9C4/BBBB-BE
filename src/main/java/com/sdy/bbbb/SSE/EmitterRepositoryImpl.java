@@ -16,7 +16,6 @@ public class EmitterRepositoryImpl implements EmitterRepository {
     @Override
     public SseEmitter save(String emitterId, SseEmitter sseEmitter) {
         emitters.put(emitterId, sseEmitter);
-        log.info("이미터 저장 개수 " + emitters.size());
         return sseEmitter;
     }
 
