@@ -9,6 +9,8 @@ APP_LOG="$PROJECT_ROOT/application.log"
 ERROR_LOG="$PROJECT_ROOT/error.log"
 DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
 
+TIME_NOW=$(date +%c)
+
 ## build 파일 복사
 echo "$TIME_NOW > $JAR_FILE 파일 복사" >> $DEPLOY_LOG
 cp $PROJECT_ROOT/build/libs/*.jar $JAR_FILE
@@ -37,7 +39,7 @@ if [ ! -z ${TARGET_PID} ]; then
 fi
 
 # 타켓 포트에 jar파일을 이용해 새로운 서버 실행
-nohup java -jar -Dserver.port=${TARGET_PORT} ${JAR_FILE} > $APP_LOG > $ERROR_LOG > /home/ubuntu/nohup.out 2>&1 &
+nohup java -jar -Dserver.port=${TARGET_PORT} ${JAR_FILE} > /home/ubuntu/nohup.out 2>&1 &
 echo "> Now new WAS runs at ${TARGET_PORT}."
 exit 0
 
