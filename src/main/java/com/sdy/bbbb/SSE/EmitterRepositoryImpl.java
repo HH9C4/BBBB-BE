@@ -1,5 +1,6 @@
 package com.sdy.bbbb.SSE;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.Arrays;
@@ -7,6 +8,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class EmitterRepositoryImpl implements EmitterRepository {
     private final Map<String, SseEmitter> emitters = new ConcurrentHashMap<>();
     private final Map<String, Object> eventCache = new ConcurrentHashMap<>();
@@ -14,6 +16,7 @@ public class EmitterRepositoryImpl implements EmitterRepository {
     @Override
     public SseEmitter save(String emitterId, SseEmitter sseEmitter) {
         emitters.put(emitterId, sseEmitter);
+        log.info("이미터 저장 개수 " + emitters.size());
         return sseEmitter;
     }
 
