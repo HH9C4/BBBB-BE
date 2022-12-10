@@ -39,8 +39,6 @@ public class ReportService {
 
         Report report = new Report(reportRequestDto, account);
 
-        reportRepository.save(report);
-
         if(level.equals(1L)){
             Account account1 = accountRepository.findAccountByAccountName(reportedId).orElseThrow(
                     () -> new CustomException(ErrorCode.NotFoundUser));
@@ -73,6 +71,8 @@ public class ReportService {
                 comment.setReportedCount(comment.getReportedCount() + 1);
             }
         }
+
+        reportRepository.save(report);
 
         return GlobalResponseDto.ok("신고 완료", reportRequestDto);
 
