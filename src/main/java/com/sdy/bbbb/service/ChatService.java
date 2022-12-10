@@ -41,7 +41,7 @@ public class ChatService {
         Chat chat = new Chat(room, account, chattingDto.getMessage());
 
         if(!Objects.equals(other.getId(), account.getId())) {
-            sseService.send(other, AlarmType.eventNewChat, account.getAccountName() + "님이 " + other.getAccountName() + "님에게 새로운 채팅을 보냈습니다.", "roomId: " + room.getId());
+            sseService.send(other, AlarmType.eventNewChat, account.getAccountName() + "님이 새로운 채팅을 보냈어요!\uD83D\uDC8C", "roomId: " + room.getId());
         }
         chatRepository.save(chat);
     }

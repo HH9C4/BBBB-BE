@@ -43,7 +43,8 @@ public class CommentService {
         // 게시글 저장
         CommentResponseDto responseDto = new CommentResponseDto(comment);
         if(!Objects.equals(post.getAccount().getId(), account.getId())) {
-            sseService.send(post.getAccount(), AlarmType.eventPostComment, account.getAccountName() + "님이 " + post.getAccount().getAccountName() + "님의 게시물에 댓글을 작성하였습니다.", "postId: " + post.getId());
+            String message = comment.getPost().getContent().length() > 10 ? comment.getPost().getContent().substring(0 ,9) + "..." : comment.getPost().getContent();
+            sseService.send(post.getAccount(), AlarmType.eventPostComment, message + " 게시글에 댓글\uD83D\uDCAC이 달렸습니다.", "postId: " + post.getId());
         }
         return GlobalResponseDto.created("댓글이 생성되었습니다", responseDto);
     }
