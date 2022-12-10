@@ -2,6 +2,7 @@ package com.sdy.bbbb.SSE;
 
 import com.sdy.bbbb.entity.Account;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.yaml.snakeyaml.emitter.Emitter;
@@ -11,6 +12,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SseService {
 
     private final EmitterRepository emitterRepository = new EmitterRepositoryImpl();
@@ -21,9 +23,10 @@ public class SseService {
 //        lastEventId = "";
         String emitterId = makeTimeIncludeId(memberId);
         SseEmitter emitter = emitterRepository.save(emitterId, new SseEmitter(DEFAULT_TIMEOUT));
+        log.info("이미터 저장해따2222222222222222222222222222222222222222222222222222222222222222222222");
         emitter.onCompletion(() -> emitterRepository.deleteById(emitterId));
         emitter.onTimeout(() -> emitterRepository.deleteById(emitterId));
-
+        log.info("지웠다444444444444444444444444444444444444444444444444444444444444444444444444444444444");
         // 503 에러를 방지하기 위한 더미 이벤트 전송
         String eventId = makeTimeIncludeId(memberId);
         sendNotification(emitter, eventId, emitterId, "EventStream Created. [userId=" + memberId + "]");
