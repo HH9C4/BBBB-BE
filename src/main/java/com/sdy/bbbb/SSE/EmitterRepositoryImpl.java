@@ -2,6 +2,7 @@ package com.sdy.bbbb.SSE;
 
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -21,12 +22,22 @@ public class EmitterRepositoryImpl implements EmitterRepository {
         eventCache.put(eventCacheId, event);
     }
 
+//    @Override
+//    public Map<String, SseEmitter> findAllEmitterStartWithByMemberId(String memberId) {
+//        return emitters.entrySet().stream()
+//                .filter(entry -> entry.getKey().startsWith(memberId))
+//                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+//    }
+
     @Override
     public Map<String, SseEmitter> findAllEmitterStartWithByMemberId(String memberId) {
+
         return emitters.entrySet().stream()
-                .filter(entry -> entry.getKey().startsWith(memberId))
+                .filter(entry -> Arrays.stream(entry.getKey().split("_")).findFirst().get().equals(memberId))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
+
+
 
     @Override
     public Map<String, Object> findAllEventCacheStartWithByMemberId(String memberId) {
