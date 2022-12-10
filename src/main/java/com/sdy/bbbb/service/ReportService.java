@@ -33,7 +33,6 @@ public class ReportService {
         Long reporterId = account.getId();
         String reportedId = reportRequestDto.getReportedId();
 
-
         if(level.equals(1L)){
             Account account1 = accountRepository.findAccountByAccountName(reportedId).orElseThrow(
                     () -> new CustomException(ErrorCode.NotFoundUser));
@@ -78,6 +77,7 @@ public class ReportService {
     }
 
 
+    // report 검증 + 저장하는 함수
     private void saveReport(ReportRequestDto reportRequestDto,Long reporterId, Long reportedId) {
         if (reportRepository.existsByLevelAndReporterIdAndReportedId(reportRequestDto.getLevel(), reporterId, reportedId)){
             throw new CustomException(ErrorCode.AlreadyReported);
