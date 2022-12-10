@@ -49,10 +49,10 @@ public class LikeService {
 //                // 좋아요 시 조회수 보정
                 post.setLikeCount(post.getLikeCount() + 1);
                 // 게시글 좋아요 수 변경
-
+                String message =post.getContent().length() > 10 ? post.getContent().substring(0 ,9) + "..." : post.getContent();
                 // SSE 알림 전송
                 if(!Objects.equals(post.getAccount().getId(), account.getId())) {
-                    sseService.send(post.getAccount(), AlarmType.eventPostLike, account.getAccountName() + "님이 " + post.getAccount().getAccountName() + "님의 게시글에 좋아요를 눌렀습니다.", "postId: " + post.getId());
+                    sseService.send(post.getAccount(), AlarmType.eventPostLike, message + " 게시글에 좋아요❤가 추가되었어요", "postId: " + post.getId());
                 }
                 return GlobalResponseDto.created("success Likes!", new LikeResponseDto(amILiked(post, account), post.getLikeCount()));
             }
