@@ -15,8 +15,8 @@ public class JamOfWeek {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Column
-//    private Long ranking;
+    @Column
+    private Long ranking;
 
     @Column
     private Long sumOfScore;
