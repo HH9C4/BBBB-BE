@@ -1,8 +1,6 @@
 package com.sdy.bbbb.config;
 
 import com.sdy.bbbb.entity.Account;
-import com.sdy.bbbb.exception.CustomException;
-import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

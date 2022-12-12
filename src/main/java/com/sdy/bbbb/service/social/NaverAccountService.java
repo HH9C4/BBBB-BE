@@ -1,5 +1,7 @@
 package com.sdy.bbbb.service.social;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.sdy.bbbb.config.UserDetailsImpl;
 import com.sdy.bbbb.dto.request.loginRequestDto.NaverUserInfoDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
@@ -7,14 +9,12 @@ import com.sdy.bbbb.dto.response.LoginResponseDto;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.Bookmark;
 import com.sdy.bbbb.entity.MyPage;
-import com.sdy.bbbb.entity.RefreshToken;
 import com.sdy.bbbb.jwt.JwtUtil;
 import com.sdy.bbbb.jwt.TokenDto;
 import com.sdy.bbbb.redis.RedisEntity;
 import com.sdy.bbbb.redis.RedisRepository;
 import com.sdy.bbbb.repository.AccountRepository;
 import com.sdy.bbbb.repository.BookmarkRepository;
-import com.sdy.bbbb.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,8 +24,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -115,32 +113,21 @@ public class NaverAccountService {
         Optional<RedisEntity> refreshToken3 = redisRepository.findById(naverAccount.getEmail());
         long expiration = JwtUtil.REFRESH_TIME / 1000;
         //레디스의 영역**
-        if(refreshToken3.isPresent()){
+        if (refreshToken3.isPresent()) {
             RedisEntity savedRefresh = refreshToken3.get().updateToken(tokenDto.getRefreshToken(), expiration);
             redisRepository.save(savedRefresh);
-        }else{
+        } else {
             RedisEntity refreshToSave = new RedisEntity(naverAccount.getEmail(), tokenDto.getRefreshToken(), expiration);
             redisRepository.save(refreshToSave);
         }
 
-
-//        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(naverAccount.getEmail());
-//
-//        // 로그아웃한 후 로그인을 다시 하는가?
-//        if (refreshToken.isPresent()) {
-//            RefreshToken refreshToken1 = refreshToken.get().updateToken(tokenDto.getRefreshToken());
-//            refreshTokenRepository.save(refreshToken1);
-//        } else {
-//            RefreshToken newToken = new RefreshToken(tokenDto.getRefreshToken(), naverAccount.getEmail());
-//            refreshTokenRepository.save(newToken);
-//        }
 
         //토큰을 header에 넣어서 클라이언트에게 전달하기
         setHeader(response, tokenDto);
 
         List<String> bookmarkList = new ArrayList<>();
         List<Bookmark> bookmarks = bookmarkRepository.findBookmarksByAccountId(naverAccount.getId());
-        for(Bookmark bookmark : bookmarks) {
+        for (Bookmark bookmark : bookmarks) {
             bookmarkList.add(bookmark.getGu().getGuName());
         }
 
@@ -219,12 +206,12 @@ public class NaverAccountService {
         String gender = String.valueOf(userInfoElement.getAsJsonObject().get("response")
                 .getAsJsonObject().get("gender"));
 
-        naverId = naverId.substring(1, naverId.length()-1);
-        userEmail = userEmail.substring(1, userEmail.length()-1);
-        nickName = nickName.substring(1, nickName.length()-1);
-        profileImage = profileImage.substring(1, profileImage.length()-1);
-        age = age.substring(1, age.length()-1).replace('-', '~');
-        gender = gender.substring(1, gender.length()-1).equals("M") ? "male" : "female";
+        naverId = naverId.substring(1, naverId.length() - 1);
+        userEmail = userEmail.substring(1, userEmail.length() - 1);
+        nickName = nickName.substring(1, nickName.length() - 1);
+        profileImage = profileImage.substring(1, profileImage.length() - 1);
+        age = age.substring(1, age.length() - 1).replace('-', '~');
+        gender = gender.substring(1, gender.length() - 1).equals("M") ? "male" : "female";
 
         return new NaverUserInfoDto(naverId, nickName, userEmail, profileImage, age, gender, access_Token, refresh_token);
     }

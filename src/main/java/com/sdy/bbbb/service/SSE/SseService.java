@@ -1,11 +1,16 @@
-package com.sdy.bbbb.SSE;
+package com.sdy.bbbb.service.SSE;
 
+import com.sdy.bbbb.dto.response.NotificationResponseDto;
 import com.sdy.bbbb.entity.Account;
+import com.sdy.bbbb.entity.Notification;
+import com.sdy.bbbb.repository.EmitterRepository;
+import com.sdy.bbbb.repository.EmitterRepositoryImpl;
+import com.sdy.bbbb.repository.NotificationRepository;
+import com.sdy.bbbb.util.AlarmType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
-import org.yaml.snakeyaml.emitter.Emitter;
 
 import java.io.IOException;
 import java.util.Map;

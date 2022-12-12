@@ -1,4 +1,4 @@
-package com.sdy.bbbb.SSE;
+package com.sdy.bbbb.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -24,13 +24,6 @@ public class EmitterRepositoryImpl implements EmitterRepository {
         eventCache.put(eventCacheId, event);
     }
 
-//    @Override
-//    public Map<String, SseEmitter> findAllEmitterStartWithByMemberId(String memberId) {
-//        return emitters.entrySet().stream()
-//                .filter(entry -> entry.getKey().startsWith(memberId))
-//                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-//    }
-
     @Override
     public Map<String, SseEmitter> findAllEmitterStartWithByMemberId(String memberId) {
 
@@ -38,8 +31,6 @@ public class EmitterRepositoryImpl implements EmitterRepository {
                 .filter(entry -> Arrays.stream(entry.getKey().split("_")).findFirst().get().equals(memberId))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
-
-
 
     @Override
     public Map<String, Object> findAllEventCacheStartWithByMemberId(String memberId) {

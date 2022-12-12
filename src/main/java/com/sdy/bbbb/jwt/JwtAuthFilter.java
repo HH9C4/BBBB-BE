@@ -27,7 +27,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String refreshToken = jwtUtil.getHeaderToken(request, "Refresh");
         String requestUri = request.getRequestURI();
 
-        if(!requestUri.equalsIgnoreCase("/api/maininfo") && !requestUri.startsWith("/ws")) {
+        if (!requestUri.equalsIgnoreCase("/api/maininfo") && !requestUri.startsWith("/ws")) {
             if (accessToken != null) {
                 if (jwtUtil.validateAccessToken(accessToken) == 1) {
                     setAuthentication(jwtUtil.getEmailFromToken(accessToken));
@@ -42,7 +42,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             }
         }
 
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 
     public void setAuthentication(String email) {
@@ -54,7 +54,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         response.setStatus(status.value());
         response.setContentType("application/json;charset=UTF-8");
         try {
-            String json = new ObjectMapper().writeValueAsString(new GlobalResponseDto(status.toString(), msg,null));
+            String json = new ObjectMapper().writeValueAsString(new GlobalResponseDto(status.toString(), msg, null));
             response.getWriter().write(json);
         } catch (Exception e) {
             log.error(e.getMessage());

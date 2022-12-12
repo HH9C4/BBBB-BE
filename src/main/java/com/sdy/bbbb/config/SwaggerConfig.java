@@ -32,7 +32,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("BOOMBIBOOMBI Api Info")
                 .description("Swagger를 활용한 붐비붐비의 API 정보입니다.")
-                .contact(new Contact("BOOMBIBOOMBI 붐비붐비", "https://velog.io/@younseo1016", "younseojj@gmail.com"))
+                .contact(new Contact("BOOMBIBOOMBI 붐비붐비", "https://www.boombiboombi.com", "boombiboombi.official@gmail.com"))
                 .version("1.0")
                 .build();
     }

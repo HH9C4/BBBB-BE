@@ -3,7 +3,6 @@ package com.sdy.bbbb.util;
 import com.sdy.bbbb.entity.*;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
-import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -11,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServiceUtil {
-    //작성자 일치 여부 확인
 
     //Post 에서 이미지 url 추출
     public static List<String> getImgUrl(Post post) {
@@ -31,12 +29,11 @@ public class ServiceUtil {
         return tagList;
     }
 
-
     //좋아요 여부 (post)
     public static boolean amILikedPost(Post post, List<Like> likeList) {
         //한번에 가져오고 엔티티로 찾는다?
-        for (Like like : likeList){
-            if (like.getPost() != null && like.getPost().getId().equals(post.getId())){
+        for (Like like : likeList) {
+            if (like.getPost() != null && like.getPost().getId().equals(post.getId())) {
                 return true;
             }
         }
@@ -45,8 +42,8 @@ public class ServiceUtil {
 
     //좋아요 여부 (comment)
     public static boolean amILikedComment(Comment comment, List<Like> likeList) {
-        for (Like like : likeList){
-            if (like.getComment() != null && like.getComment().getId().equals(comment.getId())){
+        for (Like like : likeList) {
+            if (like.getComment() != null && like.getComment().getId().equals(comment.getId())) {
                 return true;
             }
         }
@@ -55,14 +52,14 @@ public class ServiceUtil {
 
     //작성자 확인(Post)
     public static void checkPostAuthor(Post post, Account account) {
-        if (!post.getAccount().getId().equals(account.getId())){
+        if (!post.getAccount().getId().equals(account.getId())) {
             throw new CustomException(ErrorCode.NotMatchAuthor);
         }
     }
 
     //작성자 확인(Comment)
     public static void checkCommentAuthor(Comment comment, Account account) {
-        if (!comment.getAccount().getId().equals(account.getId())){
+        if (!comment.getAccount().getId().equals(account.getId())) {
             throw new CustomException(ErrorCode.NotMatchAuthor);
         }
     }
@@ -72,12 +69,11 @@ public class ServiceUtil {
         String result = "";
         try {
             result = URLDecoder.decode(toDecode, "UTF-8");
-        }catch (UnsupportedEncodingException e){
+        } catch (UnsupportedEncodingException e) {
             throw new CustomException(ErrorCode.FailDecodeString);
         }
         return result;
     }
-
 
 
 }

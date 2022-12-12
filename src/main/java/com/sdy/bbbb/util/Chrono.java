@@ -19,17 +19,17 @@ public class Chrono {
     public static String timesAgo(LocalDateTime dayBefore) {
         long gap = ChronoUnit.MINUTES.between(dayBefore, LocalDateTime.now());
         String word = "";
-        if (gap == 0){
+        if (gap == 0) {
             word = "방금 전";
-        }else if (gap < 60) {
+        } else if (gap < 60) {
             word = gap + "분 전";
-        }else if (gap < 60 * 24){
+        } else if (gap < 60 * 24) {
             word = (gap / 60) + "시간 전";
-        }else if (gap < 60 * 24 * 10) {
+        } else if (gap < 60 * 24 * 10) {
             word = (gap / 60 / 24) + "일 전";
-        }else if (gap < 60 * 24 * 7 * 5) {
+        } else if (gap < 60 * 24 * 7 * 5) {
             word = (gap / 60 / 24 / 7) + "주 전";
-        }else {
+        } else {
             word = dayBefore.format(DateTimeFormatter.ofPattern("MM월 dd일"));
         }
         return word;
@@ -40,9 +40,9 @@ public class Chrono {
         LocalDate day = localDateTime.toLocalDate();
         if (day.compareTo(LocalDate.now()) == 0) {
             word = localDateTime.format(DateTimeFormatter.ofPattern("a h:mm").withLocale(Locale.forLanguageTag("ko")));
-        }else if(day.compareTo(LocalDate.now()) == -1){
+        } else if (day.compareTo(LocalDate.now()) == -1) {
             word = "어제";
-        }else{
+        } else {
             word = localDateTime.format(DateTimeFormatter.ofPattern("M월 d일"));
         }
 

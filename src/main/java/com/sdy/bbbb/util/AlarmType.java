@@ -1,4 +1,4 @@
-package com.sdy.bbbb.SSE;
+package com.sdy.bbbb.util;
 
 public enum AlarmType {
     eventPostComment,

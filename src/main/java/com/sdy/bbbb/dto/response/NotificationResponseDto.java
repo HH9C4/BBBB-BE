@@ -1,5 +1,7 @@
-package com.sdy.bbbb.SSE;
+package com.sdy.bbbb.dto.response;
 
+import com.sdy.bbbb.entity.Notification;
+import com.sdy.bbbb.util.AlarmType;
 import com.sdy.bbbb.util.Chrono;
 import lombok.Builder;
 import lombok.Getter;

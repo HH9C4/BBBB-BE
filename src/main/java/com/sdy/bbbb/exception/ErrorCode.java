@@ -43,6 +43,7 @@ public enum ErrorCode {
     //requestParam
     ParamArgumentNotValid(HttpStatus.BAD_REQUEST.value(), "R001", "요청 인자를 확인해주세요."),
 
+    //신고 관련
     AlreadyReported(HttpStatus.BAD_REQUEST.value(), "R002", "이미 신고하셨습니다.");
 
 

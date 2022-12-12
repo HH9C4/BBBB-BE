@@ -10,7 +10,6 @@ import com.sdy.bbbb.service.social.NaverAccountService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +33,7 @@ public class AccountController {
     @ApiOperation(value = "kakao login api info", notes = "For login, using kakao open api. Need to get authorization code.")
     @GetMapping("/user/signin/kakao")
     public GlobalResponseDto<LoginResponseDto> kakaoLogin(@RequestParam String code,
-                                           HttpServletResponse response) throws JsonProcessingException {
+                                                          HttpServletResponse response) throws JsonProcessingException {
 
         return kakaoAccountService.kakaoLogin(code, response);
     }
@@ -43,8 +42,8 @@ public class AccountController {
     @ApiOperation(value = "naver login api info", notes = "For login using naver open api")
     @GetMapping("/user/signin/naver")
     public GlobalResponseDto<LoginResponseDto> naverLogin(@RequestParam String code,
-                                           @RequestParam String state,
-                                           HttpServletResponse response) throws IOException {
+                                                          @RequestParam String state,
+                                                          HttpServletResponse response) throws IOException {
         return naverAccountService.naverLogin(code, state, response);
     }
 
@@ -58,17 +57,10 @@ public class AccountController {
 
     @ApiOperation(value = "reissue", notes = "토큰재발급")
     @GetMapping("/user/reissue") // access token이 만료됐을 경우
-    public GlobalResponseDto issuedToken(@AuthenticationPrincipal UserDetailsImpl userDetails, HttpServletResponse response){
+    public GlobalResponseDto issuedToken(@AuthenticationPrincipal UserDetailsImpl userDetails, HttpServletResponse response) {
         response.addHeader(JwtUtil.ACCESS_TOKEN, JwtUtil.BEARER_PREFIX + " " + jwtUtil.createToken(userDetails.getAccount().getEmail(), "Access"));
 
         return GlobalResponseDto.ok("재발급", null);
     }
-
-//    //카카오 회원탈퇴
-//    @ApiOperation(value = "", notes = "")
-//    @DeleteMapping("api/kakaowithdrawal")
-//    public GlobalResponseDto<?> withdrawal(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        return kakaoAccountService.kakaoWithdrawal(userDetails.getAccount());
-//    }
 
 }

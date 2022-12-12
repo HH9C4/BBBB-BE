@@ -40,13 +40,6 @@ public class RoomService {
             List<Account> participants = new ArrayList<>();
             participants.add(guest);
             participants.add(host);
-//            StringBuilder roomName = new StringBuilder();
-//            for(int i = 0; i < participants.size(); i ++){
-//                roomName.append(participants.get(i).getAccountName());
-//                if(i != participants.size() - 1) {
-//                    roomName.append(", ");
-//                }
-//            }
             Room room = new Room(participants.size(), host, guest);
             roomRepository.save(room);
 
@@ -65,7 +58,6 @@ public class RoomService {
     public GlobalResponseDto<RoomResponseDto> joinRoom(Long roomId, Account host) {
         Room room = roomRepository.findByIdFecthChatList(roomId).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundRoom));
-//        Room room = roomRepository.findByIdFecthChatList1(roomId).get(0);
         List<ChatResponseDto> chatResponseDto = new ArrayList<>();
         for(Chat chat : room.getChatList()) {
             chatResponseDto.add(new ChatResponseDto(chat));
