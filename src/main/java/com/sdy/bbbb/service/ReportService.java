@@ -37,7 +37,7 @@ public class ReportService {
             Long accountId = account1.getId();
             saveReport(reportRequestDto, reporterId, accountId);
             if (account1.getReportedCount() > 2) {
-                account1.setAccountName("불량유저");
+                account1.setAccountName("불량유저"+ accountId);
                 reportRepository.deleteAllByLevelAndReportedId(level, accountId);
             } else {
                 account1.setReportedCount(account1.getReportedCount() + 1);
