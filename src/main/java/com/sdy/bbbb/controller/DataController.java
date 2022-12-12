@@ -11,6 +11,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class DataController {
     @GetMapping("/api/guinfo")
     @ApiOperation(value = "구 별 정보", notes = "내용입니다")
     public GlobalResponseDto<BaseGuInfoDto> getGuInformation(@RequestParam String gu,
-                                                              @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                                             @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return dataService.getGuInformation(gu, userDetails);
     }
 

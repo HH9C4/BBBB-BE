@@ -58,7 +58,7 @@ public class AccountController {
 
     @ApiOperation(value = "reissue", notes = "토큰재발급")
     @GetMapping("/user/reissue") // access token이 만료됐을 경우
-    public GlobalResponseDto issuedToken(@AuthenticationPrincipal UserDetailsImpl userDetails, HttpServletResponse response) {
+    public GlobalResponseDto issuedToken(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails, HttpServletResponse response) {
         response.addHeader(JwtUtil.ACCESS_TOKEN, JwtUtil.BEARER_PREFIX + " " + jwtUtil.createToken(userDetails.getAccount().getEmail(), "Access"));
 
         return GlobalResponseDto.ok("재발급", null);
