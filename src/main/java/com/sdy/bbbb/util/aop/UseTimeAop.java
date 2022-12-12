@@ -1,6 +1,6 @@
 package com.sdy.bbbb.util.aop;
 
-import org.apache.catalina.security.SecurityUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
+@Slf4j
 public class UseTimeAop {
 
     //어드바이스의 동작 시점
@@ -27,7 +28,9 @@ public class UseTimeAop {
             long endTime = System.currentTimeMillis();
             // 수행시간 = 종료 시간 - 시작 시간
             long runTime = endTime - startTime;
-            System.out.println("======================================[API Use Time] UserId: " + ", Total Time: " + runTime + " ms");
+
+            //테스트시 로그활성화
+//            log.info("[API Use Time]" + " Total Time: " + runTime + " ms");
         }
     }
 }

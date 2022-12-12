@@ -25,16 +25,18 @@ public class SseService {
     private static final Long DEFAULT_TIMEOUT = 60 * 1000L;
 
     public SseEmitter subscribe(Long memberId) {
-//        lastEventId = "";
+
         String emitterId = makeTimeIncludeId(memberId);
         SseEmitter emitter = emitterRepository.save(emitterId, new SseEmitter(DEFAULT_TIMEOUT));
+
         emitter.onCompletion(() -> emitterRepository.deleteById(emitterId));
         emitter.onTimeout(() -> emitterRepository.deleteById(emitterId));
+
         // 503 에러를 방지하기 위한 더미 이벤트 전송
         String eventId = makeTimeIncludeId(memberId);
         sendNotification(emitter, eventId, emitterId, "EventStream Created. [userId=" + memberId + "]");
-        // 클라이언트가 미수신한 Event 목록이 존재할 경우 전송하여 Event 유실을 예방
 
+        // 클라이언트가 미수신한 Event 목록이 존재할 경우 전송하여 Event 유실을 예방
 //        if (hasLostData(lastEventId)) {
 //            sendLostData(lastEventId, memberId, emitterId, emitter);
 //        }

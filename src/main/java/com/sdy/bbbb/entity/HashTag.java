@@ -1,6 +1,5 @@
 package com.sdy.bbbb.entity;
 
-import com.sdy.bbbb.dto.request.PostRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

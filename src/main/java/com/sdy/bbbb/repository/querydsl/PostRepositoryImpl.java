@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.sdy.bbbb.entity.QHashTag.hashTag;
 import static com.sdy.bbbb.entity.QPost.post;

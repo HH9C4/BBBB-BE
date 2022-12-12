@@ -5,8 +5,8 @@ import com.sdy.bbbb.dto.response.*;
 import com.sdy.bbbb.entity.*;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
-import com.sdy.bbbb.repository.querydsl.CommentRepositoryImpl;
 import com.sdy.bbbb.repository.*;
+import com.sdy.bbbb.repository.querydsl.CommentRepositoryImpl;
 import com.sdy.bbbb.s3.S3Uploader;
 import com.sdy.bbbb.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor

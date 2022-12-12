@@ -79,24 +79,11 @@ public class PostService {
         guName = ServiceUtil.decoding(guName);
         category = ServiceUtil.decoding(category);
         validateGu(guName);
-//        List<Post> postList;
+
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 
         PageImpl<Post> postList1 = postRepositoryImpl.test2(guName, category, sort, pageable);
-//        Set.copyOf(List)
 
-//        postList = postRepository.customSortByGu(gu);
-//        List<Post> postList;
-
-//        if (sort.equals("new")) {
-//            postList = List.copyOf(postRepository.findPostsByGuNameOrderByCreatedAtDesc(guName));
-////            postList = postRepository.customSortByGu(gu);
-//        } else if (sort.equals("hot")) {
-////            postList = postRepository.customSortByGu2(gu);
-//            postList = postRepository.findPostsByGuNameOrderByLikeCountDescCreatedAtDesc(guName);
-//        } else {
-//            throw new CustomException(ErrorCode.BadRequest);//잘못된 요청
-//        }
         List<Like> likeList = likeRepository.findLikesByAccount(account);
         for (Post post : postList1) {
             postResponseDtoList.add(
@@ -116,45 +103,12 @@ public class PostService {
                                                              Account account) {
 
         searchWord = ServiceUtil.decoding(searchWord);
-//        Page<Post> pp = new Page;
-//        pp.add(postRepositoryImpl.searchByTag(type, searchWord, sort, pageable));
         PageImpl<Post> postList = postRepositoryImpl.searchByTag(type, searchWord, sort, pageable);
 
         System.out.println(postList.isLast());
         System.out.println(postList.getTotalElements());
 
-//        System.out.println("================================================");
-//        System.out.println(postList.getTotalElements());
-//        System.out.println("================================================");
-//        System.out.println(postList.getSize());
-//        System.out.println("================================================");
-//        System.out.println(postList.getTotalPages());
-//        System.out.println("================================================");
-//        System.out.println(postList.getContent());
-//        System.out.println("================================================");
-//        List<Post> postList1 = new ArrayList<>();
-//        for (Post post2 : postList) {
-//            postList1.add(post2);
-//        }
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
-//        postResponseDtoList.add((PostResponseDto) postList);
-
-//        if (type == 0) {
-//            postRepository.test(type, searchWord, sort);
-//        }else if (type == 1) {
-//            String a = "where asdf";
-//            postRepository.test(type, searchWord, sort);
-//        }else {
-//            throw new CustomException(ErrorCode.BadRequest);
-//        }
-//        if (sort.equals("new")) {
-//            postList = postRepository.findPostsByContentContainsOrderByCreatedAtDesc(searchWord);
-//        } else if (sort.equals("hot")) {
-//            postList = postRepository.findPostsByContentContainsOrderByLikeCountDescCreatedAtDesc(searchWord);
-//        } else {
-//            throw new CustomException(ErrorCode.BadRequest);//잘못된 요청
-//        }
-
         List<Like> likeList = likeRepository.findLikesByAccount(account);
         for (Post post : postList) {
             //좋아요 확인
@@ -167,8 +121,6 @@ public class PostService {
     //게시글 상세 조회
     @Transactional
     public GlobalResponseDto<OnePostResponseDto> getOnePost(Long postId, Account account) {
-//        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
-//        Post post = postRepository.searchOneById(postId);
         Post post = postRepository.searchOneByIdWithCommentList(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
 
         post.setViews(post.getViews() + 1);
@@ -287,15 +239,6 @@ public class PostService {
         }
     }
 
-    //Post 의 Image 의 url (string)추출
-//    private List<String> getImgUrl(Post post){
-//        List<String> imageUrl = new ArrayList<>();
-//        for(Image img : post.getImageList()){
-//            imageUrl.add(img.getImageUrl());
-//        }
-//        return imageUrl;
-//    }
-
     //태그가 있다면 태그 저장
     private void createTagIfNotNull(List<String> tagList, Post post) {
         if (tagList != null && tagList.size() > 0) {
@@ -318,60 +261,5 @@ public class PostService {
         }
         throw new CustomException(ErrorCode.NotFoundGu);
     }
-
-
-
-
-//    private List<String> getTag(Post post){
-//        List<String> tagList = new ArrayList<>();
-//        for(HashTag hashTag : post.getTagList()){
-//            tagList.add(hashTag.getTag());
-//        }
-//        return tagList;
-//    }
-
-    //작성자 확인
-//    private void checkPostAuthor(Post post, Account account) {
-//        if (!post.getAccount().getId().equals(account.getId())){
-//            throw new CustomException(ErrorCode.NotMatchAuthor);
-//        }
-//    }
-
-    //좋아요 여부
-//    private boolean amILikedPost(Post post, List<Like> likeList) {
-//        //한번에 가져오고 엔티티로 찾는다?
-//        for (Like like : likeList){
-//            System.out.println("포문돈다1111111");
-//            if (like.getPost() != null && like.getPost().getId().equals(post.getId())){
-//                return true;
-//            }
-//        }
-//        System.out.println("다돌았다11111111");
-//        return false;
-//    }
-
-//    private boolean amILikedComment(Comment comment, List<Like> likeList) {
-//        for (Like like : likeList){
-//            System.out.println("포문돈다222222");
-//            if (like.getComment() != null && like.getComment().getId().equals(comment.getId())){
-//                return true;
-//            }
-//        }
-//        System.out.println("다돌았다2222222");
-//        return false;
-//    }
-
-    //utf-8 디코딩
-//    private String decoding(String toDecode) {
-//        String result = "";
-//        try {
-//            result = URLDecoder.decode(toDecode, "UTF-8");
-//        }catch (UnsupportedEncodingException e){
-//            throw new CustomException(ErrorCode.FailDecodeString);
-//        }
-//        return result;
-//    }
-
-
 
 }

@@ -3,7 +3,6 @@ package com.sdy.bbbb.jwt;
 import com.sdy.bbbb.config.UserDetailsServiceImpl;
 import com.sdy.bbbb.redis.RedisEntity;
 import com.sdy.bbbb.redis.RedisRepository;
-import com.sdy.bbbb.repository.RefreshTokenRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
