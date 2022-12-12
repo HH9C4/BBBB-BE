@@ -10,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 
@@ -21,7 +22,7 @@ public class ReportController {
 
     @PostMapping("/api/report")
     @ApiOperation(value = "신고 기능", notes = "")
-    public GlobalResponseDto<?> report(@AuthenticationPrincipal UserDetailsImpl userDetails,
+    public GlobalResponseDto<?> report(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails,
                                        @RequestBody @Valid ReportRequestDto reportRequestDto) {
         return reportService.report(userDetails.getAccount(), reportRequestDto);
     }
