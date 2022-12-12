@@ -47,13 +47,12 @@ public class TestService {
 
         setHeader(response, tokenDto);
         Account account = accountRepository.findByEmail("tester").orElseThrow(()-> new CustomException(ErrorCode.NotFoundUser));
-        Account account2 = accountRepository.findByEmail("tester2").orElseThrow(()-> new CustomException(ErrorCode.NotFoundUser));
         List<String> bookmarkList = new ArrayList<>();
         List<Bookmark> bookmarks = bookmarkRepository.findBookmarksByAccountId(account.getId());
         for(Bookmark bookmark : bookmarks) {
             bookmarkList.add(bookmark.getGu().getGuName());
         }
-        sseService.send(account2, AlarmType.eventPostComment, account.getAccountName() + "님이 로그인하셨습니다.", "boombiboombi.com");
+
         return GlobalResponseDto.ok("tester 로그인" , new LoginResponseDto(account, bookmarkList));
     }
 
