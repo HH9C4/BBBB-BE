@@ -10,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @Slf4j
@@ -21,7 +22,7 @@ public class SseController {
     //SSE 구독 요청
     @ApiOperation(value = "SSE 구독 요청", notes = "실시간 알림을 받기 위한 구독 신청")
     @GetMapping(value = "/connect", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public SseEmitter connect(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public SseEmitter connect(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         return sseService.subscribe(userDetails.getAccount().getId());
     }
