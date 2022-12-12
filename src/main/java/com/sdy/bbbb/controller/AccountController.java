@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -50,14 +51,14 @@ public class AccountController {
     //로그아웃
     @ApiOperation(value = "logout api info", notes = "logout")
     @DeleteMapping("api/logout")
-    public GlobalResponseDto<String> logout(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public GlobalResponseDto<String> logout(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return kakaoAccountService.logout(userDetails.getAccount());
     }
 
 
     @ApiOperation(value = "reissue", notes = "토큰재발급")
     @GetMapping("/user/reissue") // access token이 만료됐을 경우
-    public GlobalResponseDto issuedToken(@AuthenticationPrincipal UserDetailsImpl userDetails, HttpServletResponse response) {
+    public GlobalResponseDto issuedToken(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails, HttpServletResponse response) {
         response.addHeader(JwtUtil.ACCESS_TOKEN, JwtUtil.BEARER_PREFIX + " " + jwtUtil.createToken(userDetails.getAccount().getEmail(), "Access"));
 
         return GlobalResponseDto.ok("재발급", null);
