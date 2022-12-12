@@ -16,6 +16,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class ChattingController {
     @ApiOperation(value = "", notes = "")
     @PostMapping("/room")
     public GlobalResponseDto<RoomResponseDto> createRoom(@RequestBody RoomRequestDto roomRequestDto,
-                                                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                                         @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return roomService.createRoom(roomRequestDto.getOtherUserNickname(), userDetails.getAccount());
     }
 
@@ -41,7 +42,7 @@ public class ChattingController {
     @ApiOperation(value = "", notes = "")
     @GetMapping("/room/{roomId}")
     public GlobalResponseDto<RoomResponseDto> joinRoom(@PathVariable Long roomId,
-                                                       @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                                       @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return roomService.joinRoom(roomId, userDetails.getAccount());
     }
 
@@ -49,14 +50,14 @@ public class ChattingController {
     @ApiOperation(value = "", notes = "")
     @PutMapping("/room/{roomId}")
     public GlobalResponseDto<?> leaveRoom(@PathVariable Long roomId,
-                                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                          @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return roomService.leaveRoom(roomId, userDetails.getAccount());
     }
 
     //채팅방 목록 조회
     @ApiOperation(value = "", notes = "")
     @GetMapping("/myrooms")
-    public GlobalResponseDto<List<RoomListResponseDto>> myRooms(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public GlobalResponseDto<List<RoomListResponseDto>> myRooms(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return roomService.getMyRooms(userDetails.getAccount());
     }
 
