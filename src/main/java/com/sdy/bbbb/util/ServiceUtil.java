@@ -7,6 +7,7 @@ import com.sdy.bbbb.exception.ErrorCode;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ServiceUtil {
@@ -17,6 +18,7 @@ public class ServiceUtil {
         for (Image img : post.getImageList()) {
             imageUrl.add(img.getImageUrl());
         }
+        Collections.reverse(imageUrl);
         return imageUrl;
     }
 
