@@ -130,7 +130,6 @@ public class PostRepositoryImpl {
             return post.content.contains(searchWord).or(hashTag.tag.contains(searchWord));
         }else if (type == 1) {
             return hashTag.tag.contains(searchWord);
-//                 post.tagList.getElementType().
         }else if (type == 2) {
             return post.account.accountName.contains(searchWord);
         } else {
