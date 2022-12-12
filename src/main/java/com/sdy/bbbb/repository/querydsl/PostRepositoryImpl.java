@@ -131,8 +131,9 @@ public class PostRepositoryImpl {
         }else if (type == 1) {
             return hashTag.tag.contains(searchWord);
 //                 post.tagList.getElementType().
-        }else{
-//            return post.tagList.equals(hashTag.tag.contains(searchWord));
+        }else if (type == 2) {
+            return post.account.accountName.contains(searchWord);
+        } else {
             throw new CustomException(ErrorCode.BadRequest);
         }
     }

@@ -105,9 +105,6 @@ public class PostService {
         searchWord = ServiceUtil.decoding(searchWord);
         PageImpl<Post> postList = postRepositoryImpl.searchByTag(type, searchWord, sort, pageable);
 
-        System.out.println(postList.isLast());
-        System.out.println(postList.getTotalElements());
-
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
         List<Like> likeList = likeRepository.findLikesByAccount(account);
         for (Post post : postList) {

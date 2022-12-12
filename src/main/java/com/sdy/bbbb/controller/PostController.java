@@ -41,7 +41,6 @@ public class PostController {
     public GlobalResponseDto<PostResponseDto> createPost(@RequestPart(name = "contents") @Valid PostRequestDto postRequestDto,
                                                          @RequestPart(name = "imageList", required = false) List<MultipartFile> multipartFile,
                                                          @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        log.info("= = = = 게시글 생성 = = = = ");
         return postService.createPost(postRequestDto, multipartFile, userDetails.getAccount());
     }
 
@@ -53,7 +52,6 @@ public class PostController {
                                                           @RequestParam("sort") @ValidEnum(enumClass = SortEnum.class) String sort,
                                                           @PageableDefault(size = 5) Pageable pageable,
                                                           @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        log.info("= = = = 게시글 조회 = = = = ");
         return postService.getPost(gu, category, sort, pageable, userDetails.getAccount());
     }
 
@@ -62,22 +60,18 @@ public class PostController {
     @GetMapping("/{postId}")
     public GlobalResponseDto<OnePostResponseDto> getOnePost(@PathVariable Long postId,
                                                             @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        log.info("= = = = 게시글 상세 조회 = = = = ");
         return postService.getOnePost(postId, userDetails.getAccount());
     }
 
     //게시글 검색
     @ApiOperation(value = "게시글 검색", notes = "설명")
     @GetMapping("/search")
-    public GlobalResponseDto<PostListResponseDto> searchPost(@RequestParam ("type") @Range(min = 0, max = 1) Integer type,
+    public GlobalResponseDto<PostListResponseDto> searchPost(@RequestParam ("type") @Range(min = 0, max = 2) Integer type,
                                                                @RequestParam("searchWord") @NotBlank String searchWord,
                                                                @RequestParam("sort") @ValidEnum(enumClass = SortEnum.class) String sort,
                                                                @PageableDefault(size = 5) Pageable pageable,
                                                                @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        log.info("= = = = 게시글 검색 = = = = ");
-        log.info(String.valueOf(pageable.getPageSize()));
-        log.info(String.valueOf(pageable.getOffset()));
-        log.info(String.valueOf(pageable.getPageNumber()));
+
         return postService.searchPost(type, searchWord, sort, pageable, userDetails.getAccount());
     }
 
