@@ -50,12 +50,17 @@
 
 ### 1. OAuth를 통한 로그인 기능 (kakao, naver)
 
+![ezgif com-gif-maker (2)](https://user-images.githubusercontent.com/99253403/206972300-97f3aaea-a615-4020-9cb5-8c174a2a8896.gif)
+
+
 ### 2. 서울시 open api를 활용한 실시간 정보제공 기능
  2-1. 전체 데이터의 누적 통계를 활용한 정보제공 기능
  
  2-2. 구 별 코로나 정보, spot 별 날씨 정보 제공
  
  2-3. spot 별 누적 + 실시간 정보제공 기능
+ 
+ ![ezgif com-gif-maker](https://user-images.githubusercontent.com/99253403/206971558-3b3b2120-6fad-42aa-9063-0e22a580dc90.gif)
  
 ### 3. 구 별 커뮤니티 (CRUD)
 
