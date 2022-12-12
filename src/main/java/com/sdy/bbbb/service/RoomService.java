@@ -16,7 +16,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,7 +75,7 @@ public class RoomService {
     @Transactional(readOnly = true)
     public GlobalResponseDto<List<RoomListResponseDto>> getMyRooms(Account account) {
 
-        List<Room> roomList = roomRepository.findRoomsByHostOrGuest(account, account);
+        List<Room> roomList = orderRoom(roomRepository.findRoomsByHostOrGuest(account, account));
         List<RoomListResponseDto> rldList = new ArrayList<>();
         for(Room room : roomList){
             Boolean amIGuest = amIGuest(room, account);
@@ -127,4 +129,33 @@ public class RoomService {
 
 
 
+    private List<Room> orderRoom(List<Room> roomList){
+        List<Room> orderdRoomList = new ArrayList<>();
+        for(int i = 0; i < roomList.size(); i++){
+            for (int j = i+1; j < roomList.size(); j++) {
+                List<Chat> chatList1 = roomList.get(i).getChatList();
+                LocalDateTime lastTime1 = LocalDateTime.now();
+                if(chatList1.size() > 0) {
+                    Chat lastChat1 = chatList1.get(chatList1.size() - 1);
+                    lastTime1 = lastChat1.getCreatedAt();
+                }else {
+
+                }
+
+                List<Chat> chatList2 = roomList.get(j).getChatList();
+                LocalDateTime lastTime2 = LocalDateTime.now();
+                if(chatList2.size() > 0) {
+                    Chat lastChat2 = chatList2.get(chatList2.size() - 1);
+                    lastTime2 = lastChat2.getCreatedAt();
+                }
+                    if (lastTime1.isBefore(lastTime2)) {
+                        Room temp = roomList.get(i);
+                        roomList.set(i, roomList.get(j));
+                        roomList.set(j, temp);
+                    }
+            }
+
+        }
+        return roomList;
+    }
 }
