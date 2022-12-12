@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.sdy.bbbb.entity.QHashTag.hashTag;
 import static com.sdy.bbbb.entity.QPost.post;
@@ -21,24 +20,7 @@ import static com.sdy.bbbb.entity.QPost.post;
 @RequiredArgsConstructor
 public class PostRepositoryImpl {
 
-
     private final JPAQueryFactory queryFactory;
-
-//    /**
-//     * Creates a new {@link QuerydslRepositorySupport} instance for the given domain type.
-//     *
-//     * @param domainClass must not be {@literal null}.
-//     */
-//    public PostRepositoryImpl(JPAQueryFactory queryFactory) {
-//        super(Post.class);
-//        this.queryFactory = queryFactory;
-//    }
-//    public EventPostRepositoryImpl(JPAQueryFactory queryFactory, EventPostLikeRepository eventPostLikeRepository) {
-//        super(EventPost.class);
-//        this.queryFactory = queryFactory;
-//        this.eventPostLikeRepository = eventPostLikeRepository;
-//    }
-
 
     // 게시글 단건 조회
     public Post searchOneById(Long postId) {
@@ -163,72 +145,4 @@ public class PostRepositoryImpl {
         }
     }
 
-//    private PageImpl toPage(List<Post> postList, Pageable pageable, Account account) {
-//        List<Post> eventPostAllResDtos = new ArrayList<>();
-//        for (Post post : postList) {
-//            boolean bookmark;
-//            if (member != null) {
-//                bookmark = eventPostLikeRepository.existsByMemberAndEventPost(member, eventPost);
-//            } else {
-//                bookmark = false;
-//            }
-//
-//            eventPostAllResDtos.add(EventPostAllResDto.toEPARD(eventPost, bookmark));
-//        }
-//        return new PageImpl<>(eventPostAllResDtos, pageable, eventPostList.size());
-
-
-    //        private OrderSpecifier eqSort2(String sort, Expression<T> target) {
-//        if(sort.equals("hot")) {
-//            post.likeCount.desc();
-//            post.createdAt.desc();
-//        } else if(sort.equals("new")) {
-//            post.createdAt.desc();
-//        } else {
-//            throw new CustomException(ErrorCode.NotFoundPost);
-//        }
-//        return new OrderSpecifier<>();
-//    }
-//
-//    PathBuilder orderByExpression = new PathBuilder(Post.class, "post");
-//    private JPAQuery eqSort3(String sort) {
-//        if(sort.equals("new")) {
-//            return queryFactory.selectZero().orderBy(post.createdAt.desc());
-//        } else if (sort.equals("hot")) {
-//            return queryFactory.selectZero().orderBy(post.likeCount.desc()).orderBy(post.createdAt.desc());
-//        } else {
-//            throw new CustomException(ErrorCode.NotFoundUser);
-//        }
-//    }
-
-
-
-
-
-    // 게시글 전체 조회
-//    @Override
-//    public List<Post> customSortByGu(String guName) {
-//        List<Post> result = queryFactory
-//                .selectFrom(post)
-//                .join(image)
-//                .on(post.id.eq(image.post.id))
-//                .where(post.guName.eq(guName))
-//                .orderBy(post.createdAt.desc())
-//                .fetch();
-//        return result;
-//    }
-
-
-
-//    @Override
-//    public List<Post> customSortByGu2(String guName) {
-//        List<Post> result = queryFactory
-//                .selectFrom(post)
-//                .join(image)
-//                .on(post.id.eq(image.post.id))
-//                .where(post.guName.eq(guName))
-//                .orderBy(post.likeCount.desc())
-//                .fetch();
-//        return result;
-//    }
 }

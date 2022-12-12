@@ -1,9 +1,6 @@
 package com.sdy.bbbb.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.sdy.bbbb.entity.Account;
-import com.sdy.bbbb.entity.Chat;
-import com.sdy.bbbb.entity.TimeStamped;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

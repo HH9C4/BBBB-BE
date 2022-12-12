@@ -12,8 +12,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidEnum {
     String message() default "잘못된 요청입니다.";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
+
     Class<? extends java.lang.Enum<?>> enumClass();
 
     boolean ignoreCase() default false;

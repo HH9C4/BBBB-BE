@@ -7,8 +7,6 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 public class RedisConfig {
@@ -45,7 +43,7 @@ public class RedisConfig {
 //    public LettuceConnectionFactory redisConnectionFactory() {
 //        return new LettuceConnectionFactory(redisHost, redisPort);
 //    }
-//
+
 //    @Bean
 //    public RedisTemplate<String, Object> redisTemplate() {
 //        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
@@ -54,7 +52,6 @@ public class RedisConfig {
 //        redisTemplate.setConnectionFactory(redisConnectionFactory());
 //        return redisTemplate;
 //    }
-
 
 //
 //    @Bean
@@ -65,4 +62,5 @@ public class RedisConfig {
 //        stringRedisTemplate.setConnectionFactory(redisConnectionFactory());
 //        return stringRedisTemplate;
 //    }
+
 }

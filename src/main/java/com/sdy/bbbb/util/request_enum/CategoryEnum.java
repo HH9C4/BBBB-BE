@@ -1,6 +1,5 @@
 package com.sdy.bbbb.util.request_enum;
 
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor

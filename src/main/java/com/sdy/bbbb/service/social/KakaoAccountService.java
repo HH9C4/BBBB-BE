@@ -10,7 +10,6 @@ import com.sdy.bbbb.dto.response.LoginResponseDto;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.Bookmark;
 import com.sdy.bbbb.entity.MyPage;
-import com.sdy.bbbb.entity.RefreshToken;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.jwt.JwtUtil;
@@ -19,12 +18,8 @@ import com.sdy.bbbb.redis.RedisEntity;
 import com.sdy.bbbb.redis.RedisRepository;
 import com.sdy.bbbb.repository.AccountRepository;
 import com.sdy.bbbb.repository.BookmarkRepository;
-import com.sdy.bbbb.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -41,11 +36,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -58,16 +52,6 @@ public class KakaoAccountService {
     private final AccountRepository accountRepository;
     private final RedisRepository redisRepository;
     private final BookmarkRepository bookmarkRepository;
-
-
-//    @Autowired
-//    public KakaoAccountService(RefreshTokenRepository refreshTokenRepository, JwtUtil jwtUtil, AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
-//        this.refreshTokenRepository = refreshTokenRepository;
-//        this.jwtUtil = jwtUtil;
-//        this.accountRepository = accountRepository;
-//        this.passwordEncoder = passwordEncoder;
-//
-//    }
 
     @Transactional
     public GlobalResponseDto<LoginResponseDto> kakaoLogin(String code, HttpServletResponse response) throws JsonProcessingException {
@@ -82,7 +66,7 @@ public class KakaoAccountService {
         // 3. "카카오 사용자 정보"로 필요시 회원가입
         Account kakaoUser = registerKakaoUserIfNeeded(kakaoUserInfo);
 
-        if(kakaoUser.getNaverId() != null){
+        if (kakaoUser.getNaverId() != null) {
             message += " 기존에 가입하신 네이버 계정과 연동되었습니다!";
         }
 
@@ -99,41 +83,20 @@ public class KakaoAccountService {
 
         long expiration = JwtUtil.REFRESH_TIME / 1000;
         //레디스의 영역**
-        if(refreshToken3.isPresent()){
+        if (refreshToken3.isPresent()) {
             RedisEntity savedRefresh = refreshToken3.get().updateToken(tokenDto.getRefreshToken(), expiration);
             redisRepository.save(savedRefresh);
-        }else{
+        } else {
             RedisEntity refreshToSave = new RedisEntity(kakaoUser.getEmail(), tokenDto.getRefreshToken(), expiration);
             redisRepository.save(refreshToSave);
         }
-
-//        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-//        valueOperations.set(kakaoUser.getEmail(), refreshToken2, gap, TimeUnit.SECONDS);
-//        valueOperations.get()
-//        토큰 -> 만료시간 -> now() -> 초로 환산해 -> eamil + 만료시간 +
-//        레디스의 영역**
-
-
-//        //안 레디스의 영역
-//        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(kakaoUserInfo.getEmail());
-//        //레디스에서 찾아와야함
-//
-//        // 로그아웃한 후 로그인을 다시 하는가?
-//        if (refreshToken.isPresent()) {
-//            RefreshToken refreshToken1 = refreshToken.get().updateToken(tokenDto.getRefreshToken());
-//            refreshTokenRepository.save(refreshToken1);
-//        } else {
-//            RefreshToken newToken = new RefreshToken(tokenDto.getRefreshToken(), kakaoUserInfo.getEmail());
-//            refreshTokenRepository.save(newToken);
-//        }
-//        //안 레디스의 영역
 
         //토큰을 header에 넣어서 클라이언트에게 전달하기
         setHeader(response, tokenDto);
 
         List<String> bookmarkList = new ArrayList<>();
         List<Bookmark> bookmarks = bookmarkRepository.findBookmarksByAccountId(kakaoUser.getId());
-        for(Bookmark bookmark : bookmarks) {
+        for (Bookmark bookmark : bookmarks) {
             bookmarkList.add(bookmark.getGu().getGuName());
         }
 
@@ -264,7 +227,7 @@ public class KakaoAccountService {
     public GlobalResponseDto<String> logout(Account account) {
 
         RedisEntity redisEntity = redisRepository.findById(account.getEmail()).orElseThrow(
-                ()-> new CustomException(ErrorCode.NotFoundUser));
+                () -> new CustomException(ErrorCode.NotFoundUser));
         redisRepository.deleteById(account.getEmail());
 
 //        RefreshToken refreshToken = refreshTokenRepository.findByAccountEmail(account.getEmail()).orElseThrow(
@@ -274,9 +237,4 @@ public class KakaoAccountService {
         return GlobalResponseDto.ok("Success Logout", null);
     }
 
-    // 카카오 회원 탈퇴 기능
-//    @Transactional
-//    public GlobalResponseDto<?> kakaoWithdrawal(Account account) {
-//
-//    }
 }

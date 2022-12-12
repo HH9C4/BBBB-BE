@@ -33,6 +33,7 @@ public class S3Uploader {
         String uploadImageUrl = putS3(uploadFile, fileName);
         return uploadImageUrl;
     }
+
     public void deleteFileFromS3(String key) {
         //key는 경로, 파일이름 풀로 ex) static/test.txt
         deleteFile(key);
@@ -45,7 +46,7 @@ public class S3Uploader {
         try {
             amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile.getInputStream(), metadata).withCannedAcl(CannedAccessControlList.PublicRead));
 
-        }catch (IOException e) {
+        } catch (IOException e) {
             // TODO: handle exception
             e.printStackTrace();
         }
@@ -56,9 +57,9 @@ public class S3Uploader {
         DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucket, key);
         try {
             amazonS3Client.deleteObject(deleteObjectRequest);
-        }catch(AmazonServiceException e) {
+        } catch (AmazonServiceException e) {
             e.printStackTrace();
-        }catch (SdkClientException e) {
+        } catch (SdkClientException e) {
             e.printStackTrace();
         }
     }

@@ -43,12 +43,5 @@ public class RoomResponseDto {
         this.chatList = chatResponseDto;
     }
 
-//    public RoomResponseDto(Room room, List<ChatResponseDto> chatResponseDto) {
-//        this.roomId = room.getId();
-//        this.hostName = room.getHost().getAccountName();
-//        this.guestName = room.getGuest().getAccountName();
-//        this.guestProfile = room.getGuest().getProfileImage();
-//        this.chatList = chatResponseDto;
-//    }
 
 }

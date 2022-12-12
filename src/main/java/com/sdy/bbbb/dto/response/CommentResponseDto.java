@@ -17,7 +17,6 @@ public class CommentResponseDto {
     private Integer likeCount;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean isChecked;
-
     private Boolean isLiked;
 
     public CommentResponseDto(Comment comment) {

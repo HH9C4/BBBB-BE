@@ -3,7 +3,6 @@ package com.sdy.bbbb.exception;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;

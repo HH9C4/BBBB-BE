@@ -59,17 +59,9 @@ public class WebSecurityConfig {
 
 
         corsConfiguration.setAllowedOriginPatterns(Arrays.asList("*"));
-//        corsConfiguration.addAllowedOrigin("*");
-//        corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
-        corsConfiguration.addAllowedOrigin("http://localhost:3000");
         corsConfiguration.addAllowedOrigin("http://localhost:3000");
         corsConfiguration.addAllowedOrigin("https://www.boombiboombi.com");
         corsConfiguration.addAllowedOrigin("http://boombiboombi.o-r.kr");
-        corsConfiguration.addAllowedOrigin("https://boombiboombi.o-r.kr");
-//        corsConfiguration.addAllowedOrigin("127.0.0.1");
-
-//        corsConfiguration.addAllowedOrigin("*");
-//        corsConfiguration.addAllowedOrigin("http://3.36.98.254/");
         corsConfiguration.addAllowedOriginPattern("*");
         corsConfiguration.setAllowedMethods(Arrays.asList("POST", "GET", "DELETE", "PUT"));
         corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
@@ -97,14 +89,12 @@ public class WebSecurityConfig {
                 .antMatchers(HttpMethod.GET, "/user/signin/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/user/tester/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/user/tester2/**").permitAll()
-//                .antMatchers(HttpMethod.GET, "/user/reissue").authenticated()
                 .antMatchers("/api/maininfo").permitAll()
                 .antMatchers("/api/guinfo").permitAll()
-                .antMatchers(HttpMethod.GET,"/coffee").permitAll()
+                .antMatchers(HttpMethod.GET, "/coffee").permitAll()
                 .antMatchers(PERMIT_URL_ARRAY).permitAll() //swagger 열어주기
-                .antMatchers ( "/ws/**" ).permitAll()
+                .antMatchers("/ws/**").permitAll()
                 .anyRequest().authenticated()
-//                .anyRequest().authenticated() //permitAll을 제외한 API는 모두 인증 필요
                 .and()
                 .addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 

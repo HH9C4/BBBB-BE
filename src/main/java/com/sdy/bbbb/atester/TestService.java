@@ -1,7 +1,7 @@
 package com.sdy.bbbb.atester;
 
-import com.sdy.bbbb.SSE.AlarmType;
-import com.sdy.bbbb.SSE.SseService;
+import com.sdy.bbbb.util.AlarmType;
+import com.sdy.bbbb.service.SSE.SseService;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.dto.response.LoginResponseDto;
 import com.sdy.bbbb.entity.Account;

@@ -1,8 +1,7 @@
-package com.sdy.bbbb.SSE;
+package com.sdy.bbbb.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.sdy.bbbb.entity.Account;
-import com.sdy.bbbb.entity.TimeStamped;
+import com.sdy.bbbb.util.AlarmType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

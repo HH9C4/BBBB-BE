@@ -26,7 +26,6 @@ public class Report {
     @Column
     private Long reportedId;
 
-    // 우리가 관리해 줄 목적이 있어야 하는거 아닌가?
     @Column
     private String content;
 

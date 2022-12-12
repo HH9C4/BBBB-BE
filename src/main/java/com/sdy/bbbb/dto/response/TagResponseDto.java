@@ -14,4 +14,5 @@ public class TagResponseDto {
     public TagResponseDto(List<String> tagList) {
         this.tagList = tagList;
     }
+
 }
