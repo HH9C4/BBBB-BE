@@ -226,14 +226,10 @@ public class KakaoAccountService {
     @Transactional
     public GlobalResponseDto<String> logout(Account account) {
 
-        RedisEntity redisEntity = redisRepository.findById(account.getEmail()).orElseThrow(
-                () -> new CustomException(ErrorCode.NotFoundUser));
-        redisRepository.deleteById(account.getEmail());
-
-//        RefreshToken refreshToken = refreshTokenRepository.findByAccountEmail(account.getEmail()).orElseThrow(
-//                ()-> new CustomException(ErrorCode.NotFoundUser));
-//        refreshTokenRepository.deleteById(refreshToken.getRefreshId());
-
+        Optional<RedisEntity> redisEntity = redisRepository.findById(account.getEmail());
+        if (redisEntity.isPresent()) {
+            redisRepository.deleteById(account.getEmail());
+        }
         return GlobalResponseDto.ok("Success Logout", null);
     }
 
