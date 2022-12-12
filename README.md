@@ -155,9 +155,25 @@
 </div>
 </details>
 
+<details>
+<summary>7. 신고 기능 (사용자, 닉네임, 게시글, 댓글)</summary>
+<div markdown="1">
+
+(댓글 알림 클릭 시 알림 아이콘이 없어지는것 보여주면 될듯, 수정도 가능하다정도만)
+ 
+ - 악성 사용자, 불건전한 닉네임, 게시글, 댓글을 내용과 함께 신고할 수 있습니다.
+ 
+   - 본인은 본인을 신고할 수 없으며 같은 건의 신고에 대해서는 계정 하나당 1회로 제한됩니다.
+   
+   - 항목별 일정 횟수가 지나게 되면 강제로 닉네임을 변경하거나, 내용을 비공개 처리하여 보여주게 됩니다.
+
+ <br>
+</div>
+</details>
+
 
 <details>
-<summary>7. 무한스크롤</summary>
+<summary>8. 무한스크롤</summary>
 <div markdown="1">
 
 (게시글목록 쭉내리기)
@@ -168,7 +184,7 @@
 
 
 <details>
-<summary>8. WebSocket을 활용한 실시간 채팅</summary>
+<summary>9. WebSocket을 활용한 실시간 채팅</summary>
 <div markdown="1">
 
 (메인에서 알림떠서 채팅방 이동해서 소통하는 그림)
@@ -189,7 +205,7 @@
 
 
 <details>
-<summary>9. SSE를 활용한 실시간 알림</summary>
+<summary>10. SSE를 활용한 실시간 알림</summary>
 <div markdown="1">
 
 (메인에서 알림떠서 게시글로 이동하는 그림)
