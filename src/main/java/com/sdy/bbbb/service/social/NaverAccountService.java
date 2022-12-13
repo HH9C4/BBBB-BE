@@ -10,6 +10,8 @@ import com.sdy.bbbb.dto.response.LoginResponseDto;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.Bookmark;
 import com.sdy.bbbb.entity.MyPage;
+import com.sdy.bbbb.exception.CustomException;
+import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.jwt.JwtUtil;
 import com.sdy.bbbb.jwt.TokenDto;
 import com.sdy.bbbb.redis.RedisEntity;
@@ -244,9 +246,9 @@ public class NaverAccountService {
         String result = deleteReq.getAsJsonObject().get("result").getAsString();
 
         if(result.equals("success")){
-            account.signOut();
+            return 1;
         } else {
-            return GlobalResponseDto.fail("탈퇴 실패");
+            throw new CustomException(ErrorCode.FailKakaoSignout);
         }
 
     }

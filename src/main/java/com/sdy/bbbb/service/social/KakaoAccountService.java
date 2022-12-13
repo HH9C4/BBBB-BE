@@ -239,7 +239,7 @@ public class KakaoAccountService {
 
     // 카카오 연결끊기
     @Transactional
-    public GlobalResponseDto<?> kakaoSignout(Account account) throws JsonProcessingException {
+    public Integer kakaoSignout(Account account) throws JsonProcessingException {
 
         // HTTP Header 생성
         HttpHeaders headers = new HttpHeaders();
