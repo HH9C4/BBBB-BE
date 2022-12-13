@@ -63,15 +63,17 @@ public class AccountController {
     }
 
     //카카오 연결끊기
+    @ApiOperation(value = "카카오 회원탈퇴", notes = "카카오 회원탈퇴기능")
     @GetMapping(value="/signout/kakao")
-    public GlobalResponseDto<?> kakaoSignout(@AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
+    public GlobalResponseDto<?> kakaoSignout(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
         return kakaoAccountService.kakaoSignout(userDetails.getAccount());
     }
 
     //네이버 연결끊기
+    @ApiOperation(value = "네이버 회원탈퇴", notes = "네이버 회원탈퇴기능")
     @GetMapping(value = "/signout/naver")
     public GlobalResponseDto<?> naverSignout(@RequestParam String access_token,
-                                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                             @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return naverAccountService.naverSignout(access_token, userDetails.getAccount());
     }
 
