@@ -37,6 +37,9 @@ public class Account extends TimeStamped {
     private String naverId;
 
     @Column(nullable = true)
+    private String naverRefreshToken;
+
+    @Column(nullable = true)
     private String profileImage;
 
     @Column(nullable = true)
@@ -78,12 +81,13 @@ public class Account extends TimeStamped {
         this.modifiedAt = LocalDateTime.now();
     }
 
-    public Account(String nickname, String password, String email, String profileImage, String naverId, String gender, String ageRange) {
+    public Account(String nickname, String password, String email, String profileImage, String naverId, String refreshToken, String gender, String ageRange) {
         this.accountName = nickname;
         this.password = password;
         this.profileImage = profileImage;
         this.email = email;
         this.naverId = naverId;
+        this.naverRefreshToken = refreshToken;
         this.gender = gender;
         this.ageRange = ageRange;
         this.reportedCount = 0;
