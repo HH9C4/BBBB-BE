@@ -270,6 +270,7 @@ public class NaverAccountService {
         String responseTokenType = jsonNode.get("token_type").asText();
         String responseExpires = jsonNode.get("expires_in").asText();
 
+
         // 2. 재발급 받은 엑세스 토큰으로 네이버 연결끊기 요청
         // HTTP Header 생성
         HttpHeaders headers2 = new HttpHeaders();
