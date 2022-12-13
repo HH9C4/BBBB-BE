@@ -225,7 +225,7 @@
 ### :four: Github Actions & Code Deploy (CI/CD)
 
  - 자동 빌드/배포를 위하여 깃허브 액션과 코드디플로이를 활용하여 CI/CD 를 구축했습니다.
- - [AWS CodeDeploy](https://github.com/HH9C4/BBBB-BE/wiki/%5BTect%5D-AWS-CodeDeploy)
+ - [AWS CodeDeploy](https://github.com/HH9C4/BBBB-BE/wiki/%5BTech%5D-AWS-CodeDeploy)
 
 
 ### :five: Scheduler를 통한 open api 호출
