@@ -270,7 +270,7 @@ public class KakaoAccountService {
 
         if(account.getKakaoId().toString().equals(responseId)){
             //네이버가 있으면 네이버 연결끊기 메소드도 태우기
-            account.signOut();
+            account1.signOut();
         } else {
             throw new CustomException(ErrorCode.FailKakaoSignout);
         }
