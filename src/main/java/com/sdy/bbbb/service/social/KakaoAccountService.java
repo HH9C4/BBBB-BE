@@ -47,6 +47,10 @@ public class KakaoAccountService {
 
     @Value("${kakao.rest.api.key}")
     private String kakaoApiKey;
+
+    @Value("${kakao.admin.key}")
+    private String kakaoAdminKey;
+
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final AccountRepository accountRepository;
@@ -233,4 +237,9 @@ public class KakaoAccountService {
         return GlobalResponseDto.ok("Success Logout", null);
     }
 
+    // 카카오 연결끊기
+    @Transactional
+    public GlobalResponseDto<?> kakaoSignout(Account account) {
+        return GlobalResponseDto.ok("탈퇴완료", null);
+    }
 }

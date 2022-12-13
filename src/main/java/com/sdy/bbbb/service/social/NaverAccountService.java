@@ -229,6 +229,10 @@ public class NaverAccountService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
+    // 네이버 연결끊기
+    public GlobalResponseDto<?> naverSignout(String access_token, Account account) {
+        return GlobalResponseDto.ok("탈퇴완료", null);
+    }
 }
 
 

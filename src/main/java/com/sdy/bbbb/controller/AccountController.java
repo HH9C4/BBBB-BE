@@ -11,13 +11,11 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Slf4j
@@ -62,6 +60,19 @@ public class AccountController {
         response.addHeader(JwtUtil.ACCESS_TOKEN, JwtUtil.BEARER_PREFIX + " " + jwtUtil.createToken(userDetails.getAccount().getEmail(), "Access"));
 
         return GlobalResponseDto.ok("재발급", null);
+    }
+
+    //카카오 연결끊기
+    @GetMapping(value="/signout/kakao")
+    public GlobalResponseDto<?> kakaoSignout(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return kakaoAccountService.kakaoSignout(userDetails.getAccount());
+    }
+
+    //네이버 연결끊기
+    @GetMapping(value = "/signout/naver")
+    public GlobalResponseDto<?> naverSignout(@RequestParam String access_token,
+                                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return naverAccountService.naverSignout(access_token, userDetails.getAccount());
     }
 
 }
