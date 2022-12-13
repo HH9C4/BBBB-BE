@@ -3,7 +3,8 @@
 
 # 👀 welcome to ![image](https://user-images.githubusercontent.com/99253403/203619462-fcef5c78-16ad-4dc7-8a57-46dade14ab80.png) 👀
 
-## "서울시 도시 데이터 공공 API 기반 정보제공형 커뮤니티"
+## [ 서울시 도시 데이터 공공 API 기반 정보제공형 커뮤니티 ](https://www.boombiboombi.com/)
+
 </div>
 
 
