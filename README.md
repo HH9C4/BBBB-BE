@@ -64,7 +64,8 @@
 <summary> 1. OAuth2 소셜로그인 (kakao, naver)</summary>
 <div markdown="1">
 
-![ezgif com-gif-maker (2)](https://user-images.githubusercontent.com/99253403/206972300-97f3aaea-a615-4020-9cb5-8c174a2a8896.gif)
+![로그인1](https://user-images.githubusercontent.com/99253403/207301154-bf2cfd83-49d1-474d-9980-69d1d41a64f8.gif)
+
  
  - Kakao와 Naver계정을 통한 간편 로그인이 가능합니다.
  
@@ -85,9 +86,7 @@
 <summary>2. 서울시 open api를 활용한 실시간 정보제공 기능</summary>
 <div markdown="1">
  
- ![ezgif com-gif-maker](https://user-images.githubusercontent.com/99253403/206971558-3b3b2120-6fad-42aa-9063-0e22a580dc90.gif)
- 
- (정보들 대충 슥 보여주고(기본) 우리가 통계낸거 호버 해서 수치나오는거 보여주면 좋을듯)
+![데이터 보여주기](https://user-images.githubusercontent.com/99253403/207301175-8c1b24aa-4b91-4de5-9e08-29afdbedf8ff.gif)
  
  - 스케쥴러를 활용하여 5분마다 데이터를 수집합니다.
  
@@ -112,7 +111,10 @@
 <summary>3. 구 별 커뮤니티 (CRUD)</summary>
 <div markdown="1">
 
-(커뮤니티 이동해서 글쓰기 하나 하고)
+![글쓰기1](https://user-images.githubusercontent.com/99253403/207301193-a4957b80-66b4-49ef-ab55-0f180fa0b806.gif)
+ 
+![글쓰기2](https://user-images.githubusercontent.com/99253403/207301224-b89ad772-209f-4557-ae20-d6064610d649.gif)
+
  
  - 서울시 25개 구 별 커뮤니티를 제공합니다.
  
@@ -137,11 +139,13 @@
 <summary>4. 검색 기능(내용+태그, 태그 검색기능)</summary>
 <div markdown="1">
 
-(검색하는거 하나 태그클릭하는거 하나)
+![검색기능](https://user-images.githubusercontent.com/99253403/207301257-6c59f8b5-ad66-4cd9-927c-4e0f11d30663.gif)
  
  - QueryDSL을 활용하여 동적 쿼리작성이 가능하도록 구현하였습니다.
  
    - 게시글의 내용을 검색하거나 태그로 검색이 가능합니다.
+ 
+   - 작성자 검색도 가능합니다.
 
  <br>
 </div>
