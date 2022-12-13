@@ -5,6 +5,7 @@ import com.sdy.bbbb.config.UserDetailsImpl;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.dto.response.LoginResponseDto;
 import com.sdy.bbbb.jwt.JwtUtil;
+import com.sdy.bbbb.service.social.AccountService;
 import com.sdy.bbbb.service.social.KakaoAccountService;
 import com.sdy.bbbb.service.social.NaverAccountService;
 import io.swagger.annotations.ApiOperation;
@@ -25,6 +26,7 @@ public class AccountController {
 
     private final KakaoAccountService kakaoAccountService;
     private final NaverAccountService naverAccountService;
+    private final AccountService accountService;
     private final JwtUtil jwtUtil;
 
 
@@ -70,10 +72,16 @@ public class AccountController {
     }
 
     //네이버 연결끊기
-    @ApiOperation(value = "네이버 회원탈퇴", notes = "네이버 회원탈퇴기능")
-    @GetMapping(value = "/signout/naver")
-    public GlobalResponseDto<?> naverSignout(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
-        return naverAccountService.naverSignout(userDetails.getAccount());
+//    @ApiOperation(value = "네이버 회원탈퇴", notes = "네이버 회원탈퇴기능")
+//    @GetMapping(value = "/signout/naver")
+//    public GlobalResponseDto<?> naverSignout(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
+//        return naverAccountService.naverSignout(userDetails.getAccount());
+//    }
+
+    @ApiOperation(value = "회원탈퇴", notes = "회원탈퇴기능")
+    @GetMapping(value="/user/signout")
+    public GlobalResponseDto<?> signOut(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return accountService.signOut(userDetails.getAccount());
     }
 
 }
