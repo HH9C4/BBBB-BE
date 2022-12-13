@@ -101,6 +101,7 @@ public class Account extends TimeStamped {
         this.gender = "비공개";
         this.kakaoId = null;
         this.naverId = null;
+        this.naverRefreshToken = null;
         this.profileImage = "https://s3bbbb.s3.ap-northeast-2.amazonaws.com/dir1/10bbdb2c-0fb6-4070-b34d-cb16ac1b8464.png";
         this.modifiedAt = LocalDateTime.now();
     }
