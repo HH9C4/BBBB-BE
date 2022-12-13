@@ -33,8 +33,8 @@
 
 <br>
 
-## [👊 프로젝트 노션 바로가기](https://joyfive.notion.site/C-4-SA-9407bb7a0897420782b957a25036b092)
-## [👊 원페이지 노션 바로가기](https://joyfive.notion.site/ee0519f495c74049ac3a7c4a7691d8d3)
+### [👊 프로젝트 노션 바로가기](https://joyfive.notion.site/C-4-SA-9407bb7a0897420782b957a25036b092)
+### [👊 원페이지 노션 바로가기](https://joyfive.notion.site/ee0519f495c74049ac3a7c4a7691d8d3)
 
 <br><br>
 
@@ -44,7 +44,7 @@
 
 ### 💫 프로젝트 기능
 
-#### :one: OAuth2 소셜로그인 (kakao, naver)
+### :one: OAuth2 소셜로그인 (kakao, naver)
 <details>
 <summary>미리보기</summary>
 <div markdown="1">
@@ -67,9 +67,7 @@
 
  <br>
 
-
-
-#### :two: 서울시 open api를 활용한 실시간 정보제공 기능
+### :two: 서울시 open api를 활용한 실시간 정보제공 기능
 <details>
 <summary>미리보기</summary>
 <div markdown="1">
@@ -90,7 +88,7 @@
  
  <br>
 
-#### :three: 구 별 커뮤니티 (CRUD)
+### :three: 구 별 커뮤니티 (CRUD)
 
 <details>
 <summary>미리보기</summary>
@@ -114,7 +112,7 @@
 
  <br>
 
-#### :four: 검색 기능(내용+태그, 태그 검색기능)
+### :four: 검색 기능(내용+태그, 태그 검색기능)
 
 <details>
 <summary>미리보기</summary>
@@ -132,7 +130,7 @@
 
  <br>
 
-#### :five: 마이페이지 기능 (내가 작성한 글, 내가 좋아요한 글, 내 게시글에 달린 댓글, 내 정보 수정)
+### :five: 마이페이지 기능 (내가 작성한 글, 내가 좋아요한 글, 내 게시글에 달린 댓글, 내 정보 수정)
 
 <details>
 <summary>미리보기</summary>
@@ -150,7 +148,7 @@
 
 <br>
 
-#### :six: 신고 기능 (사용자, 닉네임, 게시글, 댓글)
+### :six: 신고 기능 (사용자, 닉네임, 게시글, 댓글)
 
 <details>
 <summary>미리보기</summary>
@@ -170,7 +168,7 @@
 
  <br>
 
-#### :seven: 무한스크롤
+### :seven: 무한스크롤
 
 <details>
 <summary>미리보기</summary>
@@ -182,7 +180,7 @@
 
  <br>
 
-#### :eight: WebSocket을 활용한 실시간 채팅
+### :eight: WebSocket을 활용한 실시간 채팅
 
 <details>
 <summary>미리보기</summary>
@@ -205,7 +203,7 @@
  
  <br>
 
-#### :nine: SSE를 활용한 실시간 알림
+### :nine: SSE를 활용한 실시간 알림
 
 <details>
 <summary>미리보기</summary>
@@ -230,35 +228,35 @@
 
 ### 💫 적용 기술
 
-#### :one: QueryDSL
+### :one: QueryDSL
 
  - 정렬, 검색어 등에 따른 동적 쿼리 작성을 위하여 QueryDSL 도입하여 활용했습니다.
 
 
-#### :two: Swagger
+### :two: Swagger
 
  - 프론트엔드와 정확하고 원활한 소통을 위하여 스웨거를 도입하여 적용하였습니다.
  - [BoombiBoombi Swagger](https://boombiboombi.o-r.kr/swagger-ui/index.html#/)
 
 
-#### :three: Sentry를 통한 에러 로그 확인 및 공유
+### :three: Sentry를 통한 에러 로그 확인 및 공유
 
  - Sentry를 활용하여 에러로그를 쉽게 확인/공유 할 수 있었습니다.
  - [Sentry Image](https://github.com/HH9C4/BBBB-BE/wiki/%5BTech%5D-Sentry)
 
 
-#### :four: Github Actions & Code Deploy (CI/CD)
+### :four: Github Actions & Code Deploy (CI/CD)
 
  - 자동 빌드/배포를 위하여 깃허브 액션과 코드디플로이를 활용하여 CI/CD 를 구축했습니다.
  - [AWS CodeDeploy](https://github.com/HH9C4/BBBB-BE/wiki/%5BTect%5D-AWS-CodeDeploy)
 
 
-#### :five: Scheduler를 통한 open api 호출
+### :five: Scheduler를 통한 open api 호출
  
  - 5분마다 변동되는 데이터를 수집/제공/관리 하기 위하여 스케쥴러를 활용하였습니다.
 
 
-#### :six: Redis
+### :six: Redis
 
  - 연속된 요청으로 인한 DB병목을 해소하고 RefreshToken 등 소멸기간이 존재하는 데이터의 TimeToLive 관리를 용이하게 할 수 있도록 Redis를 도입하였습니다.
 
