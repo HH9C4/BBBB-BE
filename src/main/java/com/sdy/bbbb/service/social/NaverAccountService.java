@@ -10,6 +10,8 @@ import com.sdy.bbbb.dto.response.LoginResponseDto;
 import com.sdy.bbbb.entity.Account;
 import com.sdy.bbbb.entity.Bookmark;
 import com.sdy.bbbb.entity.MyPage;
+import com.sdy.bbbb.exception.CustomException;
+import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.jwt.JwtUtil;
 import com.sdy.bbbb.jwt.TokenDto;
 import com.sdy.bbbb.redis.RedisEntity;
@@ -235,75 +237,20 @@ public class NaverAccountService {
     }
 
     // 네이버 연결끊기
-    public GlobalResponseDto<?> naverSignout(Account account) throws IOException {
-        // 1. 리프레시 토큰으로 엑세스 토큰 재발급
-        // HTTP Header 생성
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add("client_id", clientId);
-//        headers.add("client_secret", clientSecret);
-//        headers.add("refresh_token", account.getNaverRefreshToken());
-//        headers.add("grant_type", "refresh_token");
-//        // HTTP 요청 보내기
-//        HttpEntity<MultiValueMap<String, String>> naverAccessTokenReissue =
-//                new HttpEntity<>(headers);
-//        RestTemplate rt = new RestTemplate();
-//        ResponseEntity<String> response = rt.exchange(
-//                "https://nid.naver.com/oauth2.0/token",
-//                HttpMethod.POST,
-//                naverAccessTokenReissue,
-//                String.class
-//        );
+    public Integer naverSignout(Account account) throws IOException {
+
         String reqUrl = "https://nid.naver.com/oauth2.0/token";
         JsonElement reissued = reissueOrDelete(reqUrl, account.getNaverRefreshToken(), "reissue");
         String access_Token = reissued.getAsJsonObject().get("access_token").getAsString();
         JsonElement deleteReq = reissueOrDelete(reqUrl, access_Token, "delete");
         String result = deleteReq.getAsJsonObject().get("result").getAsString();
 
-        // HTTP 응답 (JSON) -> 액세스 토큰 파싱
-//        String responseBody = response.getBody();
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        JsonNode jsonNode = objectMapper.readTree(responseBody);
-//        String responseAccessToken = jsonNode.get("access_token").asText();
-//        String responseTokenType = jsonNode.get("token_type").asText();
-//        String responseExpires = jsonNode.get("expires_in").asText();
-
-
-        // 2. 재발급 받은 엑세스 토큰으로 네이버 연결끊기 요청
-        // HTTP Header 생성
-//        HttpHeaders headers2 = new HttpHeaders();
-//        headers2.add("client_id", clientId);
-//        headers2.add("client_secret", clientSecret);
-//        headers2.add("access_token", responseAccessToken);
-//        headers2.add("grant_type", "delete");
-//        // HTTP 요청 보내기
-//        HttpEntity<MultiValueMap<String, String>> naverSignout =
-//                new HttpEntity<>(headers2);
-//        RestTemplate rt2 = new RestTemplate();
-//        ResponseEntity<String> response2 = rt.exchange(
-//                "https://nid.naver.com/oauth2.0/token",
-//                HttpMethod.POST,
-//                naverSignout,
-//                String.class
-//        );
-//        // HTTP 응답 (JSON) -> 액세스 토큰 파싱
-//        String responseBody2 = response2.getBody();
-//        ObjectMapper objectMapper2 = new ObjectMapper();
-//        JsonNode jsonNode2 = objectMapper2.readTree(responseBody2);
-//        String responseAccessToken2 = jsonNode2.get("access_token").asText();
-//        String result = jsonNode2.get("result").asText();
-
-
-        // 3. 카카오연동 되어 있는지 확인? 있으면 같이 탈퇴 처리
-
-
-        // 4. DB에서 정보 바꿔주기
         if(result.equals("success")){
-            account.signOut();
+            return 1;
         } else {
-            return GlobalResponseDto.fail("탈퇴 실패");
+            throw new CustomException(ErrorCode.FailKakaoSignout);
         }
 
-        return GlobalResponseDto.ok("탈퇴완료", null);
     }
 
     public JsonElement reissueOrDelete(String reqURL, String token, String type) throws IOException {
