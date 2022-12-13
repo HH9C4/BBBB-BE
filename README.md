@@ -250,17 +250,17 @@
 
 ## 🚨 Trouble Shooting
 
-#### Join Fetch 순서 보장 문제 [WIKI보기](https://github.com/HH9C4/BBBB-BE/wiki/%5BTrouble-Shooting%5D-Fetch-Join)
+#### Join Fetch 순서 보장 문제 [WIKI보기](https://github.com/HH9C4/BBBB-BE/wiki/%5BTrouble-Shooting%5D-Join-Fetch-%EC%88%9C%EC%84%9C-%EB%B3%B4%EC%9E%A5-%EB%AC%B8%EC%A0%9C)
 
-#### NGINX ReverseProxy를 활용한 무중단배포 시 Cors, SSE 설정 [WIKI보기](https://github.com/HH9C4/BBBB-BE/wiki/%5BTrouble-Shooting%5D-NGINX-ReverseProxy%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-%EB%AC%B4%EC%A4%91%EB%8B%A8%EB%B0%B0%ED%8F%AC-%EC%8B%9C-Cors,-SSE-%EC%84%A4%EC%A0%95)
+#### NGINX ReverseProxy를 활용한 무중단배포 시 Cors, SSE 설정 [WIKI보기](https://github.com/HH9C4/BBBB-BE/wiki/%5BTrouble-Shooting%5D-NGINX-ReverseProxy%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-%EB%AC%B4%EC%A4%91%EB%8B%A8%EB%B0%B0%ED%8F%AC-%EC%8B%9C-CORS,-SSL%EC%9D%B8%EC%A6%9D%EC%84%9C-,-SSE-%EC%84%A4%EC%A0%95)
 
-#### JPA N+1 문제 [WIKI보기](https://github.com/HH9C4/BBBB-BE/wiki/%5BTrouble-Shooting%5D-N%E2%9E%951)
+#### JPA N+1 문제 [WIKI보기](https://github.com/HH9C4/BBBB-BE/wiki/%5BTrouble-Shooting%5D-JPA-N%E2%9E%951-%EB%AC%B8%EC%A0%9C)
 
-#### Open Api data [WIKI보기](https://github.com/HH9C4/BBBB-BE/wiki/%5BTrouble-Shooting%5D-Open-Api-Data)
+#### Open Api data [WIKI보기](https://github.com/HH9C4/BBBB-BE/wiki/%5BTrouble-Shooting%5D-Open-Api-Data-Handling)
 
 #### Token Reissue [WIKI보기](https://github.com/HH9C4/BBBB-BE/wiki/%5BTrouble-Shooting%5D-Token-Reissue)
 
-#### Redis 크롤러 봇 및 인증설정 [WIKI보기](https://github.com/HH9C4/BBBB-BE/wiki/%5BTrouble-Shooting%5D-Redis)
+#### Redis 크롤러 봇 및 인증설정 [WIKI보기](https://github.com/HH9C4/BBBB-BE/wiki/%5BTrouble-Shooting%5D-Redis-%ED%81%AC%EB%A1%A4%EB%9F%AC-%EB%B4%87-%EB%B0%8F-%EC%9D%B8%EC%A6%9D%EC%84%A4%EC%A0%95)
 
 
 <br>
