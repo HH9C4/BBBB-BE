@@ -6,21 +6,6 @@
 ## "서울시 도시 데이터 공공 API 기반 정보제공형 커뮤니티"
 </div>
 
-<br>
-
-서울시 구별 실시간 정보를 확인하고, 다양한 소식을 공유해보세요!
-
-서울시에 얼마나 많은 사람이 모였을까요? 🤔
-
-방문 전 지역 별 실시간 인구 혼잡도를 확인하고, 구 별 커뮤니티를 통해 소식을 확인해보세요!
-
-처음 방문하는 지역에 어떤 곳이 🔥HOT🔥한지 궁금하신가요?
-
-크리스마스🎄 에 내가 갈 지역에 사람이 얼마나 모였는지 확인하고 싶으신가요?
-
-출퇴근 시간에 행사가 있다던데..🤦 상황이 궁금하신가요?
-
-🥳 붐비는 곳을 찾는 파티피플들도 😐 피하고 싶은 사람들도 모두 붐비붐비에서 만나요!
 
 <br><br>
 
@@ -65,7 +50,6 @@
    
   - 작성한 게시글, 댓글 등은 사라지지 않으며 탈퇴한계정으로 표시됩니다(회원 정보는 삭제됨).
 
- <br>
 
 ### :two: 서울시 open api를 활용한 실시간 정보제공 기능
 <details>
@@ -86,7 +70,6 @@
  
  - 2-3. spot 별 누적 + 실시간 정보제공 기능 : 지난주 같은 요일의 혼잡도, 인구수를 비교하여 실시간 인구 추이를 제공합니다.
  
- <br>
 
 ### :three: 구 별 커뮤니티 (CRUD)
 
@@ -110,8 +93,6 @@
  
  - 3.북마크 : 내가 자주 사용하는 구를 북마크 할 수 있습니다. 북마크한 지역의 게시글이 추가되면 실시간 알림을 제공합니다.
 
- <br>
-
 ### :four: 검색 기능(내용+태그, 태그 검색기능)
 
 <details>
@@ -128,7 +109,6 @@
  
  - 게시글의 내용을 검색하거나 태그로 검색이 가능합니다. 작성자 검색도 가능합니다.
 
- <br>
 
 ### :five: 마이페이지 기능 (내가 작성한 글, 내가 좋아요한 글, 내 게시글에 달린 댓글, 내 정보 수정)
 
@@ -146,7 +126,6 @@
  
  - 내 게시글에 새로운 댓글이 달리면 새로운 알림이 등록됩니다.
 
-<br>
 
 ### :six: 신고 기능 (사용자, 닉네임, 게시글, 댓글)
 
@@ -166,7 +145,6 @@
    
  - 항목별 일정 횟수가 지나게 되면 강제로 닉네임을 변경하거나, 내용을 비공개 처리하여 보여주게 됩니다.
 
- <br>
 
 ### :seven: 무한스크롤
 
@@ -178,7 +156,6 @@
 </div>
 </details>
 
- <br>
 
 ### :eight: WebSocket을 활용한 실시간 채팅
 
@@ -201,7 +178,6 @@
  
  - 채팅방에서 모두 나가게 되면 채팅 내역은 삭제되며 다시 대화를 시작하면 새로운 채팅방이 생성됩니다.
  
- <br>
 
 ### :nine: SSE를 활용한 실시간 알림
 
@@ -264,7 +240,7 @@
 
 ---
 
-## [📋 ERD Diagram](https://github.com/HH9C4/BBBB-BE/wiki/%5BTech%5D-ERD-Diagram)
+
 
 
 
@@ -283,6 +259,8 @@
 
 #### Token Reissue [WIKI보기](https://github.com/HH9C4/BBBB-BE/wiki/%5BTrouble-Shooting%5D-Token-Reissue)
 
+#### Redis [WIKI보기](https://github.com/HH9C4/BBBB-BE/wiki/%5BTrouble-Shooting%5D-Redis)
+
 
 <br>
 
@@ -298,6 +276,10 @@
 
 <br>
 
+## [📋 ERD Diagram](https://github.com/HH9C4/BBBB-BE/wiki/%5BTech%5D-ERD-Diagram)
+
+<br>
+
 ## 📝 Technologies & Tools (BE) 📝
 
 <br>
@@ -310,6 +292,7 @@
 
 <img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black"/>  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"/>  <img src="https://img.shields.io/badge/Sentry-362D59?style=for-the-badge&logo=sentry&logoColor=white"/>  <img src="https://img.shields.io/badge/JiraSoftware-0052CC?style=for-the-badge&logo=jirasoftware&logoColor=white"/>  <img src="https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white"/>  <img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=nginx&logoColor=white"/>  <img src="https://img.shields.io/badge/LINUX-FCC624?style=for-the-badge&logo=linux&logoColor=black"/>  <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white"/>
 
+<br>
 
 <div align=center>
 
