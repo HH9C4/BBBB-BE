@@ -103,6 +103,8 @@ public class NaverAccountService {
 
             }
             accountRepository.save(naverAccount);
+        } else {
+            naverAccount.setNaverRefreshToken(naverRefreshToken);
         }
 
         // 강제 로그인
