@@ -239,7 +239,42 @@ public class KakaoAccountService {
 
     // 카카오 연결끊기
     @Transactional
-    public GlobalResponseDto<?> kakaoSignout(Account account) {
+    public GlobalResponseDto<?> kakaoSignout(Account account) throws JsonProcessingException {
+
+        // HTTP Header 생성
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-type", "application/x-www-form-urlencoded");
+        headers.add("Authorization", "KakaoAK " + kakaoAdminKey);
+
+        // HTTP Body 생성
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+        body.add("target_id_type", "user_id");
+        body.add("target_id", String.valueOf(account.getKakaoId())); //Rest API 키
+
+        // HTTP 요청 보내기
+        HttpEntity<MultiValueMap<String, String>> kakaoSignoutRequest =
+                new HttpEntity<>(body, headers);
+        RestTemplate rt = new RestTemplate();
+        ResponseEntity<String> response = rt.exchange(
+                "https://kauth.kakao.com/oauth/token",
+                HttpMethod.POST,
+                kakaoSignoutRequest,
+                String.class
+        );
+
+        // HTTP 응답 (JSON) -> 액세스 토큰 파싱
+        String responseBody = response.getBody();
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(responseBody);
+        String responseId = jsonNode.get("id").asText();
+
+        if(account.getKakaoId().toString().equals(responseId)){
+            //네이버가 있으면 네이버 연결끊기 메소드도 태우기
+            accountRepository.delete(account);
+        } else {
+            throw new CustomException(ErrorCode.FailKakaoSignout);
+        }
+
         return GlobalResponseDto.ok("탈퇴완료", null);
     }
 }

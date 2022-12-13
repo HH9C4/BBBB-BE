@@ -64,7 +64,7 @@ public class AccountController {
 
     //카카오 연결끊기
     @GetMapping(value="/signout/kakao")
-    public GlobalResponseDto<?> kakaoSignout(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public GlobalResponseDto<?> kakaoSignout(@AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
         return kakaoAccountService.kakaoSignout(userDetails.getAccount());
     }
 

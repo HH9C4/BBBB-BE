@@ -40,6 +40,8 @@ public enum ErrorCode {
     //디코딩 실패
     FailDecodeString(HttpStatus.BAD_REQUEST.value(), "D001", "디코딩 실패."),
 
+    FailKakaoSignout(HttpStatus.BAD_REQUEST.value(), "A004", "카카오 회원탈퇴 실패"),
+
     //requestParam
     ParamArgumentNotValid(HttpStatus.BAD_REQUEST.value(), "R001", "요청 인자를 확인해주세요."),
 
