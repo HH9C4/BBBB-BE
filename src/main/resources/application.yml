@@ -72,6 +72,8 @@ jwt:
 
 # 카카오 rest api key
 kakao:
+  admin:
+    key: ''
   rest:
     api:
       key: ''
@@ -92,7 +94,7 @@ server:
     key-store-password: ''
     key-store-type: PKCS12
     key-store:  classpath:keystore.p12
-    enabled: false
+#    enabled: false
 
 security:
   require-ssl: 'true'
