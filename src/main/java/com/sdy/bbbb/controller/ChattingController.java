@@ -31,7 +31,7 @@ public class ChattingController {
 
 
     //채팅방 생성
-    @ApiOperation(value = "", notes = "")
+    @ApiOperation(value = "채팅방 생성", notes = "채팅방 생성")
     @PostMapping("/room")
     public GlobalResponseDto<RoomResponseDto> createRoom(@RequestBody RoomRequestDto roomRequestDto,
                                                          @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -39,7 +39,7 @@ public class ChattingController {
     }
 
     //채팅방 입장
-    @ApiOperation(value = "", notes = "")
+    @ApiOperation(value = "채팅방 입장", notes = "채팅방 입장")
     @GetMapping("/room/{roomId}")
     public GlobalResponseDto<RoomResponseDto> joinRoom(@PathVariable Long roomId,
                                                        @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -47,7 +47,7 @@ public class ChattingController {
     }
 
     //채팅방 나가기
-    @ApiOperation(value = "", notes = "")
+    @ApiOperation(value = "채팅방 나가기", notes = "채팅방 나가기")
     @PutMapping("/room/{roomId}")
     public GlobalResponseDto<?> leaveRoom(@PathVariable Long roomId,
                                           @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -55,14 +55,14 @@ public class ChattingController {
     }
 
     //채팅방 목록 조회
-    @ApiOperation(value = "", notes = "")
+    @ApiOperation(value = "채팅방 목록 조회", notes = "채팅방 목록 조회")
     @GetMapping("/myrooms")
     public GlobalResponseDto<List<RoomListResponseDto>> myRooms(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return roomService.getMyRooms(userDetails.getAccount());
     }
 
     //채팅
-    @ApiOperation(value = "", notes = "")
+    @ApiOperation(value = "채팅", notes = "체팅 보내기")
     @MessageMapping("/{roomId}")
     @SendTo("/sub/{roomId}")
     //@PathVariable 과 유사

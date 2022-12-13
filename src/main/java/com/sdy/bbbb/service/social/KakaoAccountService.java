@@ -256,7 +256,7 @@ public class KakaoAccountService {
                 new HttpEntity<>(body, headers);
         RestTemplate rt = new RestTemplate();
         ResponseEntity<String> response = rt.exchange(
-                "https://kauth.kakao.com/oauth/token",
+                "https://kapi.kakao.com/v1/user/unlink",
                 HttpMethod.POST,
                 kakaoSignoutRequest,
                 String.class
