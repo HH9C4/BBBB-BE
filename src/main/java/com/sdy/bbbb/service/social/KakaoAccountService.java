@@ -268,6 +268,9 @@ public class KakaoAccountService {
         JsonNode jsonNode = objectMapper.readTree(responseBody);
         String responseId = jsonNode.get("id").asText();
 
+        Account account1 = accountRepository.findById(account.getId()).orElseThrow(
+                ()-> new CustomException(ErrorCode.NotFoundUser));
+
         if(account.getKakaoId().toString().equals(responseId)){
             //네이버가 있으면 네이버 연결끊기 메소드도 태우기
             account1.signOut();
