@@ -239,7 +239,7 @@ public class KakaoAccountService {
 
     // 카카오 연결끊기
     @Transactional
-    public GlobalResponseDto<?> kakaoSignout(Account account) throws JsonProcessingException {
+    public Integer kakaoSignout(Account account) throws JsonProcessingException {
 
         // HTTP Header 생성
         HttpHeaders headers = new HttpHeaders();
@@ -271,13 +271,11 @@ public class KakaoAccountService {
         Account account1 = accountRepository.findById(account.getId()).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundUser));
 
-//        if(account.getKakaoId().toString().equals(responseId)){
-//            //네이버가 있으면 네이버 연결끊기 메소드도 태우기
-//            account1.signOut();
-//        } else {
-//            throw new CustomException(ErrorCode.FailKakaoSignout);
-//        }
+        if(account.getKakaoId().toString().equals(responseId)){
+            return 1;
+        } else {
+            throw new CustomException(ErrorCode.FailKakaoSignout);
+        }
 
-        return GlobalResponseDto.ok("탈퇴완료", null);
     }
 }

@@ -64,20 +64,6 @@ public class AccountController {
         return GlobalResponseDto.ok("재발급", null);
     }
 
-    //카카오 연결끊기
-    @ApiOperation(value = "카카오 회원탈퇴", notes = "카카오 회원탈퇴기능")
-    @GetMapping(value="/signout/kakao")
-    public GlobalResponseDto<?> kakaoSignout(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
-        return kakaoAccountService.kakaoSignout(userDetails.getAccount());
-    }
-
-    //네이버 연결끊기
-//    @ApiOperation(value = "네이버 회원탈퇴", notes = "네이버 회원탈퇴기능")
-//    @GetMapping(value = "/signout/naver")
-//    public GlobalResponseDto<?> naverSignout(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
-//        return naverAccountService.naverSignout(userDetails.getAccount());
-//    }
-
     @ApiOperation(value = "회원탈퇴", notes = "회원탈퇴기능")
     @GetMapping(value="/user/signout")
     public GlobalResponseDto<?> signOut(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
