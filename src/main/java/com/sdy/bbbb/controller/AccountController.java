@@ -72,9 +72,8 @@ public class AccountController {
     //네이버 연결끊기
     @ApiOperation(value = "네이버 회원탈퇴", notes = "네이버 회원탈퇴기능")
     @GetMapping(value = "/signout/naver")
-    public GlobalResponseDto<?> naverSignout(@RequestParam String access_token,
-                                             @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return naverAccountService.naverSignout(access_token, userDetails.getAccount());
+    public GlobalResponseDto<?> naverSignout(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
+        return naverAccountService.naverSignout(userDetails.getAccount());
     }
 
 }
