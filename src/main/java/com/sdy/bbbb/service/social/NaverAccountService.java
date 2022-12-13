@@ -59,6 +59,7 @@ public class NaverAccountService {
         // 재가입 방지
         // 네이버 ID로 유저 정보 DB 에서 조회
         String naverId = naverUser.getSocialId();
+        String naverRefreshToken = naverUser.getRefreshToken();
         Account naverAccount = accountRepository.findByNaverId(naverId).orElse(null);
         // (1) 네이버 아이디로 db조회했을 때 null이라면
         if (naverAccount == null) {
@@ -69,6 +70,7 @@ public class NaverAccountService {
             if (sameEmailUser != null) {
                 naverAccount = sameEmailUser;
                 naverAccount.setNaverId(naverId);
+                naverAccount.setNaverRefreshToken(naverRefreshToken);
                 message += " 기존에 가입하신 카카오 계정과 연동되었습니다!";
             } else { //(1-1-2) null이라면
                 // 신규 회원가입
@@ -94,7 +96,7 @@ public class NaverAccountService {
                 String ageRange = naverUser.getAge();
 
                 // 회원가입
-                naverAccount = new Account(nickname, encodedPassword, email, profileImage, naverId, gender, ageRange);
+                naverAccount = new Account(nickname, encodedPassword, email, profileImage, naverId, naverRefreshToken, gender, ageRange);
 
                 //마이페이지 생성
                 naverAccount.setMyPage(new MyPage(naverAccount));
