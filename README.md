@@ -250,7 +250,7 @@
 
 ## ⚙ 개발환경
 
-`Java 11` `SpringBoot 2.7.5` `Ubuntu 20.04.5 LTS` 
+`Java 11` `SpringBoot 2.7.5` `Ubuntu 20.04.5 LTS` `QueryDSL 5.0`  
 
 
 <br>
