@@ -286,6 +286,8 @@
 
 ## [📋 ERD Diagram](https://github.com/HH9C4/BBBB-BE/wiki/%5BTech%5D-ERD-Diagram)
 
+![75KzfBPRqYgYoW9qT](https://user-images.githubusercontent.com/99253403/207629321-2ea906b5-c211-43d5-ab27-41ed4d250eff.png)
+
 <br>
 
 ## 📝 Technologies & Tools (BE) 📝
