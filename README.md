@@ -1,7 +1,7 @@
 
 <div align=center>
 
-# 👀 welcome to ![image](https://user-images.githubusercontent.com/99253403/203619462-fcef5c78-16ad-4dc7-8a57-46dade14ab80.png) 👀
+# 👀 welcome to  ![로고_가로형](https://user-images.githubusercontent.com/99253403/207518657-a3bb405d-9b46-4a8d-8c16-923fa7038427.png) 👀
 
 ## [ 서울시 도시 데이터 공공 API 기반 정보제공형 커뮤니티 ](https://www.boombiboombi.com/)
 
@@ -100,7 +100,7 @@
 <summary>미리보기</summary>
 <div markdown="1">
 
-![검색기능](https://user-images.githubusercontent.com/99253403/207301257-6c59f8b5-ad66-4cd9-927c-4e0f11d30663.gif)
+![검색기능 찐](https://user-images.githubusercontent.com/99253403/207519598-ecea29d3-4a91-4815-a23f-8edb3c83e7bd.gif)
 
  <br>
 </div>
@@ -117,6 +117,8 @@
 <summary>미리보기</summary>
 <div markdown="1">
 
+![마이페이지](https://user-images.githubusercontent.com/99253403/207517662-42b7834c-b9a3-4e75-95fe-f770b1f71718.gif)
+
  <br>
 </div>
 </details>
@@ -132,6 +134,8 @@
 <details>
 <summary>미리보기</summary>
 <div markdown="1">
+
+![신고기능](https://user-images.githubusercontent.com/99253403/207518162-3aeb68d6-3b4b-48e0-987c-139fc9bf2447.gif)
 
  <br>
 </div>
@@ -186,6 +190,10 @@
 <details>
 <summary>미리보기</summary>
 <div markdown="1">
+
+![실시간알림1](https://user-images.githubusercontent.com/99253403/207517096-7f1574bb-0843-4ca4-a58b-e2b90082d691.gif)
+
+![실시간알림2](https://user-images.githubusercontent.com/99253403/207517107-8ebb8235-e153-44c2-b79d-23cb465f2083.gif)
 
  <br>
 </div>
@@ -298,7 +306,10 @@
 
 <div align=center>
 
-![image](https://user-images.githubusercontent.com/99253403/203619879-c68ee5ad-b7c6-496c-a0ca-d72fd19fafd2.png)
+![로고_세로형](https://user-images.githubusercontent.com/99253403/207518245-d2398b14-f4ac-417d-b542-f8a3308588cb.png)
 
 
 </div>
+
+
+Copyright ©2022 Hang-Hae99 9th Final : C team 4 all rights reserved.
