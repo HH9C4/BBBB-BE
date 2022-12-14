@@ -75,7 +75,7 @@ public class RoomService {
     @Transactional(readOnly = true)
     public GlobalResponseDto<List<RoomListResponseDto>> getMyRooms(Account account) {
 
-        List<Room> roomList = orderRoom(roomRepository.findRoomsByHostOrGuest(account, account));
+        List<Room> roomList = orderRoom(roomRepository.findRoomsByHostOrGuest(account.getId(), account.getId()));
         List<RoomListResponseDto> rldList = new ArrayList<>();
         for(Room room : roomList){
             Boolean amIGuest = amIGuest(room, account);
