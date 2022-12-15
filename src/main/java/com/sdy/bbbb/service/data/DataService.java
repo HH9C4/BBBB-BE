@@ -54,17 +54,27 @@ public class DataService {
     @Scheduled(cron = "0 0 1 * * MON")
     @Transactional
     public void saveWeekendData2() {
-        //새 주말 데이터
+
+//        //새 주말 데이터
+//        List<JamDto> jamDtos = dataRepository.getJamWeekendFromDb();
+//
+//        List<JamTop5Dto> jamTop5DtoList = new ArrayList<>();
+//
+//        // 오래된 주말 데이터
+//        List<JamOfWeek> oldList = jamRepository.findByIsWeekend(true);
+//        // 새 데이터 업데이트
+//        for (int i = 0; i < jamDtos.size(); i++) {
+//            oldList.get(i).update(jamDtos.get(i));
+//        }
+
+        List<JamTop5Dto> jamTop5Dtos = new ArrayList<>();
         List<JamDto> jamDtos = dataRepository.getJamWeekendFromDb();
-
-        List<JamTop5Dto> jamTop5DtoList = new ArrayList<>();
-
-        // 오래된 주말 데이터
-        List<JamOfWeek> oldList = jamRepository.findByIsWeekend(true);
-        // 새 데이터 업데이트
-        for (int i = 0; i < jamDtos.size(); i++) {
-            oldList.get(i).update(jamDtos.get(i));
+        Long j = 1L;
+        for (JamDto jamDto : jamDtos){
+            jamTop5Dtos.add(new JamTop5Dto(j++, jamDto, true));
         }
+        RedisData redisData2 = new RedisData("weekend", jamTop5Dtos);
+        redisDataRepository.save(redisData2);
 
     }
 
@@ -72,14 +82,24 @@ public class DataService {
     @Transactional
     @Scheduled(cron = "0 0 1 * * SAT")
     public void saveWeekdayData() {
-        // 새 주중 데이터
-        List<JamDto> jamWeekdays = dataRepository.getJamWeekDayFromDb();
-        // 오래된 주중 데이터
-        List<JamOfWeek> oldList = jamRepository.findByIsWeekend(false);
-        // 새 데이터 업데이트
-        for (int i = 0; i < oldList.size(); i++) {
-            oldList.get(i).update(jamWeekdays.get(i));
+
+//        // 새 주중 데이터
+//        List<JamDto> jamWeekdays = dataRepository.getJamWeekDayFromDb();
+//        // 오래된 주중 데이터
+//        List<JamOfWeek> oldList = jamRepository.findByIsWeekend(false);
+//        // 새 데이터 업데이트
+//        for (int i = 0; i < oldList.size(); i++) {
+//            oldList.get(i).update(jamWeekdays.get(i));
+//        }
+
+        List<JamTop5Dto> jamTop5Dtos = new ArrayList<>();
+        List<JamDto> jamDtos = dataRepository.getJamWeekDayFromDb();
+        Long i = 1L;
+        for (JamDto jamDto : jamDtos){
+            jamTop5Dtos.add(new JamTop5Dto(i++, jamDto, false));
         }
+        RedisData redisData = new RedisData("weekday", jamTop5Dtos);
+        redisDataRepository.save(redisData);
 
     }
 
