@@ -56,7 +56,7 @@ public class TesterController {
         for (JamDto jamDto : jamDtos2){
             jamTop5Dtos2.add(new JamTop5Dto(j++, jamDto, true));
         }
-        RedisData redisData2 = new RedisData("weekend", jamTop5Dtos);
+        RedisData redisData2 = new RedisData("weekend", jamTop5Dtos2);
         redisDataRepository.save(redisData2);
         RedisData asdf1 = redisDataRepository.findById("weekend").get();
         return asdf1;
