@@ -14,7 +14,7 @@
 |정성우|장윤서|유도원|오기쁨|임효진|이지혜|
 |:---:|:---:|:---:|:---:|:---:|:---:|
 |[@anfrosus](https://github.com/anfrosus)|[@Younddo](https://github.com/Younddo)|[@dwon5001](https://github.com/dwon5001)|[@joyfive](https://github.com/joyfive)|[@BLAKE198492](https://github.com/BLAKE198492)|aksjdffg@naver.com|
-|VL💛BE|BE💛|BE💛|TL💚FE|FE💚|DS💙|
+|VL / BE|BE|BE|TL / FE|FE|DS|
 
 <br>
 
@@ -188,37 +188,37 @@
 
 ### ◻ QueryDSL
 
-> * 정렬, 검색어 등에 따른 동적 쿼리 작성을 위하여 QueryDSL 도입하여 활용했습니다.
+> 정렬, 검색어 등에 따른 동적 쿼리 작성을 위하여 QueryDSL 도입하여 활용했습니다.
 
 
 ### ◻ Swagger
 
-> * 프론트엔드와 정확하고 원활한 소통을 위하여 스웨거를 도입하여 적용하였습니다.
-> * [BoombiBoombi Swagger](https://boombiboombi.o-r.kr/swagger-ui/index.html#/)
+> 프론트엔드와 정확하고 원활한 소통을 위하여 스웨거를 도입하여 적용하였습니다.         
+> [BoombiBoombi Swagger](https://boombiboombi.o-r.kr/swagger-ui/index.html#/)
 
 
 ### ◻ Sentry를 통한 에러 로그 확인 및 공유
 
-> * Sentry를 활용하여 에러로그를 쉽게 확인/공유 할 수 있었습니다.
-> * [Sentry Image](https://github.com/HH9C4/BBBB-BE/wiki/%5BTech%5D-Sentry)
+> Sentry를 활용하여 에러로그를 쉽게 확인/공유 할 수 있었습니다.         
+> [Sentry Image](https://github.com/HH9C4/BBBB-BE/wiki/%5BTech%5D-Sentry)
 
 
 ### ◻ Github Actions & Code Deploy (CI/CD)
 
-> * 자동 빌드/배포를 위하여 깃허브 액션과 코드디플로이를 활용하여 CI/CD 를 구축했습니다.
-> * [AWS CodeDeploy](https://github.com/HH9C4/BBBB-BE/wiki/%5BTech%5D-AWS-CodeDeploy)
+> 자동 빌드/배포를 위하여 깃허브 액션과 코드디플로이를 활용하여 CI/CD 를 구축했습니다.         
+> [AWS CodeDeploy](https://github.com/HH9C4/BBBB-BE/wiki/%5BTech%5D-AWS-CodeDeploy)
 
 
 ### ◻ Scheduler를 통한 open api 호출
  
-> * 5분마다 변동되는 데이터를 수집/제공/관리 하기 위하여 스케쥴러를 활용하였습니다.
+> 5분마다 변동되는 데이터를 수집/제공/관리 하기 위하여 스케쥴러를 활용하였습니다.
 
 
 ### ◻ Redis
 
-> * 연속된 요청으로 인한 DB병목을 해소하고 RefreshToken 등 소멸기간이 존재하는 데이터의 TimeToLive 관리를 용이하게 할 수 있도록 Redis를 도입하였습니다.
+> 연속된 요청으로 인한 DB병목을 해소하고 RefreshToken 등 소멸기간이 존재하는 데이터의 TimeToLive 관리를 용이하게 할 수 있도록 Redis를 도입하였습니다.
 
-<br><br><br>
+<br><br>
 
 
 
@@ -227,7 +227,7 @@
 `Java 11` `SpringBoot 2.7.5` `Ubuntu 20.04.5 LTS` `QueryDSL 5.0`  
 
 
-<br>
+<br><br>
 
 ## 🚨 Trouble Shooting
 
@@ -244,7 +244,7 @@
 #### Redis 크롤러 봇 및 인증설정 [WIKI보기](https://github.com/HH9C4/BBBB-BE/wiki/%5BTrouble-Shooting%5D-Redis-%ED%81%AC%EB%A1%A4%EB%9F%AC-%EB%B4%87-%EB%B0%8F-%EC%9D%B8%EC%A6%9D%EC%84%A4%EC%A0%95)
 
 
-<br>
+<br><br>
 
 ## :raising_hand::thought_balloon: Concern
 
@@ -256,7 +256,7 @@
 
 #### Validation Logic [WIKI보기](https://github.com/HH9C4/BBBB-BE/wiki/%5BConcern%5D-Validation-Logic)
 
-<br>
+<br><br>
 
 ## 🌐 Architecture
 
@@ -271,8 +271,6 @@
 <br>
 
 ## 📝 Technologies & Tools (BE) 📝
-
-<br>
 
 <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"/> <img src="https://img.shields.io/badge/SpringSecurity-6DB33F?style=for-the-badge&logo=SpringSecurity&logoColor=white"/> <img src="https://img.shields.io/badge/JSONWebToken-000000?style=for-the-badge&logo=JSONWebTokens&logoColor=white"/> <img src="https://img.shields.io/badge/WebSocket-010101?style=for-the-badge&logo=&logoColor=white"/> <img src="https://img.shields.io/badge/Stomp-000000?style=for-the-badge&logo=&logoColor=white"/> <img src="https://img.shields.io/badge/SSE-000000?style=for-the-badge&logo=&logoColor=white"/>
 
