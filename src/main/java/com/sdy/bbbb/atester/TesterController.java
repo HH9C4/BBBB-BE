@@ -49,7 +49,17 @@ public class TesterController {
         RedisData redisData = new RedisData("weekday", jamTop5Dtos);
         redisDataRepository.save(redisData);
         RedisData asdf = redisDataRepository.findById("weekday").get();
-        return asdf;
+
+        List<JamTop5Dto> jamTop5Dtos2 = new ArrayList<>();
+        List<JamDto> jamDtos2 = dataRepository.getJamWeekendFromDb();
+        Long j = 1L;
+        for (JamDto jamDto : jamDtos2){
+            jamTop5Dtos2.add(new JamTop5Dto(j++, jamDto, true));
+        }
+        RedisData redisData2 = new RedisData("weekend", jamTop5Dtos);
+        redisDataRepository.save(redisData2);
+        RedisData asdf1 = redisDataRepository.findById("weekend").get();
+        return asdf1;
     }
 
 }

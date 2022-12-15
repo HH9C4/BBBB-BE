@@ -4,6 +4,7 @@ import com.sdy.bbbb.dto.request.ChattingDto;
 import com.sdy.bbbb.dto.response.data.JamTop5Dto;
 import com.sdy.bbbb.entity.data.JamOfWeek;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Getter
+@NoArgsConstructor
 @RedisHash("data")
 public class RedisData {
 
