@@ -36,7 +36,7 @@ public class DataService {
 
 
     // 데이터 1 - 주말 데이터 저장 로직
-    @Scheduled(cron = "0 0 1 * * MON")
+    @Scheduled(cron = "0 2 1 * * MON")
     @Transactional
     public void saveWeekendData() {
         //새 주말 데이터
