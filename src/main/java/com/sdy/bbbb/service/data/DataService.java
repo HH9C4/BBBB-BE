@@ -6,6 +6,8 @@ import com.sdy.bbbb.dto.response.data.*;
 import com.sdy.bbbb.entity.data.JamOfWeek;
 import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
+import com.sdy.bbbb.redis.RedisData;
+import com.sdy.bbbb.redis.RedisDataRepository;
 import com.sdy.bbbb.repository.BookmarkRepository;
 import com.sdy.bbbb.repository.GuRepository;
 import com.sdy.bbbb.repository.data.DataRepository;
@@ -29,6 +31,8 @@ public class DataService {
 
     private final GuRepository guRepository;
     private final BookmarkRepository bookmarkRepository;
+
+    private final RedisDataRepository redisDataRepository;
 
 
     // 데이터 1 - 주말 데이터 저장 로직
@@ -90,6 +94,13 @@ public class DataService {
         for (JamOfWeek jam : jamList) {
             jamDtoList.add(new JamTop5Dto(jam));
         }
+
+        // data 1 from redis
+        RedisData weekdayData = redisDataRepository.findById("weekday").orElseThrow(() -> new CustomException(ErrorCode.NotFoundGu));
+        RedisData weekendData = redisDataRepository.findById("weekend").orElseThrow(() -> new CustomException(ErrorCode.NotFoundGu));
+        List<JamTop5Dto> jamTop5Dtos = new ArrayList<>();
+        jamTop5Dtos.addAll(weekdayData.getJamTop5DtoList());
+        jamTop5Dtos.addAll(weekendData.getJamTop5DtoList());
 
         // data 2
         List<PopulationDto> popList = dataRepository.getPopulationFromDb();
