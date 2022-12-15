@@ -1,6 +1,7 @@
 package com.sdy.bbbb.redis;
 
 import com.sdy.bbbb.dto.request.ChattingDto;
+import com.sdy.bbbb.dto.response.data.JamTop5Dto;
 import com.sdy.bbbb.entity.data.JamOfWeek;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
@@ -16,11 +17,11 @@ public class RedisData {
 
     @Id
     private String id;
-    private List<ChattingDto> obj;
+    private List<JamTop5Dto> jamTop5DtoList;
 
-    public RedisData(String id, List<ChattingDto> obj) {
+    public RedisData(String id, List<JamTop5Dto> obj) {
         this.id = id;
-        this.obj = obj;
+        this.jamTop5DtoList = obj;
     }
 
 }
