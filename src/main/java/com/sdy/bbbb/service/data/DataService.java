@@ -49,6 +49,24 @@ public class DataService {
 
     }
 
+    // 데이터 1 - 주말 데이터 레디스 저장 로직
+    @Scheduled(cron = "0 0 1 * * MON")
+    @Transactional
+    public void saveWeekendData2() {
+        //새 주말 데이터
+        List<JamDto> jamDtos = dataRepository.getJamWeekendFromDb();
+
+        List<JamTop5Dto> jamTop5DtoList = new ArrayList<>();
+
+        // 오래된 주말 데이터
+        List<JamOfWeek> oldList = jamRepository.findByIsWeekend(true);
+        // 새 데이터 업데이트
+        for (int i = 0; i < jamDtos.size(); i++) {
+            oldList.get(i).update(jamDtos.get(i));
+        }
+
+    }
+
     // 데이터 1 - 주중 데이터 저장 로직
     @Transactional
     @Scheduled(cron = "0 0 1 * * SAT")

@@ -3,9 +3,13 @@ package com.sdy.bbbb.atester;
 import com.sdy.bbbb.dto.request.ChattingDto;
 import com.sdy.bbbb.dto.response.GlobalResponseDto;
 import com.sdy.bbbb.dto.response.LoginResponseDto;
+import com.sdy.bbbb.dto.response.data.JamDto;
+import com.sdy.bbbb.dto.response.data.JamTop5Dto;
+import com.sdy.bbbb.entity.data.JamOfWeek;
 import com.sdy.bbbb.redis.RedisData;
 import com.sdy.bbbb.redis.RedisDataRepository;
 import com.sdy.bbbb.redis.RedisRepository;
+import com.sdy.bbbb.repository.data.DataRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +25,7 @@ import java.util.Optional;
 public class TesterController {
 
     private final RedisDataRepository redisDataRepository;
+    private final DataRepository dataRepository;
 
     private final TestService testService;
     @GetMapping("/user/tester")
@@ -35,18 +40,15 @@ public class TesterController {
 
     @GetMapping("/coffee")
     public RedisData test() {
-        List<ChattingDto> chattingDtoList = new ArrayList<>();
-        ChattingDto chattingDto = new ChattingDto();
-        chattingDto.setMessage("테스트입니다111111");
-        chattingDto.setSender("테스트라구용111111");
-        ChattingDto chattingDto2 = new ChattingDto();
-        chattingDto2.setMessage("테스트입니다222222");
-        chattingDto2.setSender("테스트라구용222222");
-        chattingDtoList.add(chattingDto);
-        chattingDtoList.add(chattingDto2);
-        RedisData redisData = new RedisData("test1", chattingDtoList);
+        List<JamTop5Dto> jamTop5Dtos = new ArrayList<>();
+        List<JamDto> jamDtos = dataRepository.getJamWeekDayFromDb();
+        Long i = 1L;
+        for (JamDto jamDto : jamDtos){
+            jamTop5Dtos.add(new JamTop5Dto(i++, jamDto, false));
+        }
+        RedisData redisData = new RedisData("weekday", jamTop5Dtos);
         redisDataRepository.save(redisData);
-        RedisData asdf = redisDataRepository.findById("test1").get();
+        RedisData asdf = redisDataRepository.findById("weekday").get();
         return asdf;
     }
 
