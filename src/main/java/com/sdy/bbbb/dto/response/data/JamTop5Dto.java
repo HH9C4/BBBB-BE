@@ -18,7 +18,7 @@ public class JamTop5Dto {
 
     private String guNm;
 
-    private boolean isWeekend;
+    private Boolean isWeekend;
 
 
     public JamTop5Dto(JamOfWeek jamOfWeek) {
@@ -29,7 +29,7 @@ public class JamTop5Dto {
         this.isWeekend = jamOfWeek.getIsWeekend();
     }
 
-    public JamTop5Dto(Long ranking, JamDto jamDto, boolean isWeekend) {
+    public JamTop5Dto(Long ranking, JamDto jamDto, Boolean isWeekend) {
         this.ranking = ranking;
         this.areaNm = jamDto.getArea_Nm();
         this.scoreSum = jamDto.getScore_Sum();
