@@ -120,7 +120,7 @@ public class DataService {
         RedisData weekendData = redisDataRepository.findById("weekend").orElseThrow(() -> new CustomException(ErrorCode.NotFoundGu));
 
         for(JamTop5Dto jam : weekendData.getJamTop5DtoList()){
-            jam.setWeekend(true);
+            jam.setIsWeekend(true);
         }
 
         List<JamTop5Dto> jamTop5Dtos = new ArrayList<>();
