@@ -17,10 +17,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -102,7 +99,7 @@ public class DataService {
             dtoList.add(new PopulationChangesDto(pop, i++));
         }
 
-        return GlobalResponseDto.ok("조회 성공", new DataResponseDto(jamDtoList, dtoList));
+        return GlobalResponseDto.ok("조회 성공", new DataResponseDto(jamTop5Dtos, dtoList));
     }
 
     // 데이터 삭제 로직
