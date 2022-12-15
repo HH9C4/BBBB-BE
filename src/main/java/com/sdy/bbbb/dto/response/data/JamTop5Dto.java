@@ -18,7 +18,7 @@ public class JamTop5Dto {
 
     private String guNm;
 
-    private Boolean isWeekend;
+    private boolean isWeekend;
 
 
     public JamTop5Dto(JamOfWeek jamOfWeek) {
