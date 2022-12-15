@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Getter
@@ -23,9 +24,9 @@ public class RedisData {
     private Long sumOfScore;
     private ChattingDto testObj;
 
-    public RedisData(String id, ChattingDto testObj) {
+    public RedisData(String id, List<ChattingDto> obj) {
         this.id = id;
-        this.testObj = testObj;
+        this.obj = obj;
     }
 
 }
