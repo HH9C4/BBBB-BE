@@ -37,9 +37,14 @@ public class TesterController {
     public RedisData test() {
         List<ChattingDto> chattingDtoList = new ArrayList<>();
         ChattingDto chattingDto = new ChattingDto();
-        chattingDto.setMessage("테스트입니다");
-        chattingDto.setSender("테스트라구용");
-        RedisData redisData = new RedisData("test1", chattingDto);
+        chattingDto.setMessage("테스트입니다111111");
+        chattingDto.setSender("테스트라구용111111");
+        ChattingDto chattingDto2 = new ChattingDto();
+        chattingDto2.setMessage("테스트입니다222222");
+        chattingDto2.setSender("테스트라구용222222");
+        chattingDtoList.add(chattingDto);
+        chattingDtoList.add(chattingDto2);
+        RedisData redisData = new RedisData("test1", chattingDtoList);
         redisDataRepository.save(redisData);
         RedisData asdf = redisDataRepository.findById("test1").get();
         return asdf;

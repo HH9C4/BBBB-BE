@@ -16,13 +16,7 @@ public class RedisData {
 
     @Id
     private String id;
-    private String ranking;
-    private String area_nm;
-    private String gu_nm;
-    private Boolean isWeekend;
-    private String saved_week;
-    private Long sumOfScore;
-    private ChattingDto testObj;
+    private List<ChattingDto> obj;
 
     public RedisData(String id, List<ChattingDto> obj) {
         this.id = id;
