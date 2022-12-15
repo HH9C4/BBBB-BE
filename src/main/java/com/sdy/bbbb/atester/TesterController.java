@@ -46,7 +46,7 @@ public class TesterController {
         chattingDtoList.add(chattingDto2);
         RedisData redisData = new RedisData("test1", chattingDtoList);
         redisDataRepository.save(redisData);
-        RedisData asdf = redisDataRepository.findById("test1").get();
+        RedisData asdf = redisDataRepository.findById("weekday").get();
         return asdf;
     }
 
