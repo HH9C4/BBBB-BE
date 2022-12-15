@@ -1,6 +1,5 @@
 package com.sdy.bbbb.service.social;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.sdy.bbbb.config.UserDetailsImpl;
@@ -14,7 +13,7 @@ import com.sdy.bbbb.exception.CustomException;
 import com.sdy.bbbb.exception.ErrorCode;
 import com.sdy.bbbb.jwt.JwtUtil;
 import com.sdy.bbbb.jwt.TokenDto;
-import com.sdy.bbbb.redis.RedisEntity;
+import com.sdy.bbbb.entity.RedisRefreshToken;
 import com.sdy.bbbb.redis.RedisRepository;
 import com.sdy.bbbb.repository.AccountRepository;
 import com.sdy.bbbb.repository.BookmarkRepository;
@@ -117,14 +116,14 @@ public class NaverAccountService {
         TokenDto tokenDto = jwtUtil.createAllToken(naverAccount.getEmail());
 
         //레디스에서 옵셔널로 받아오기
-        Optional<RedisEntity> refreshToken3 = redisRepository.findById(naverAccount.getEmail());
+        Optional<RedisRefreshToken> refreshToken3 = redisRepository.findById(naverAccount.getEmail());
         long expiration = JwtUtil.REFRESH_TIME / 1000;
         //레디스의 영역**
         if (refreshToken3.isPresent()) {
-            RedisEntity savedRefresh = refreshToken3.get().updateToken(tokenDto.getRefreshToken(), expiration);
+            RedisRefreshToken savedRefresh = refreshToken3.get().updateToken(tokenDto.getRefreshToken(), expiration);
             redisRepository.save(savedRefresh);
         } else {
-            RedisEntity refreshToSave = new RedisEntity(naverAccount.getEmail(), tokenDto.getRefreshToken(), expiration);
+            RedisRefreshToken refreshToSave = new RedisRefreshToken(naverAccount.getEmail(), tokenDto.getRefreshToken(), expiration);
             redisRepository.save(refreshToSave);
         }
 

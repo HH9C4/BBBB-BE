@@ -2,12 +2,13 @@ package com.sdy.bbbb.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 public class ChattingDto {
 
