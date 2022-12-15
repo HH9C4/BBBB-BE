@@ -19,9 +19,9 @@ public class RedisData {
     private String id;
     private List<JamTop5Dto> jamTop5DtoList;
 
-    public RedisData(String id, List<JamTop5Dto> obj) {
+    public RedisData(String id, List<JamTop5Dto> jamTop5DtoList) {
         this.id = id;
-        this.jamTop5DtoList = obj;
+        this.jamTop5DtoList = jamTop5DtoList;
     }
 
 }
