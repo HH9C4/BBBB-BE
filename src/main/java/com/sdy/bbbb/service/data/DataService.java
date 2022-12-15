@@ -47,7 +47,6 @@ public class DataService {
             oldList.get(i).update(jamDtos.get(i));
         }
 
-        log.info("주말 데이터 저장완료");
     }
 
     // 데이터 1 - 주중 데이터 저장 로직
@@ -63,7 +62,6 @@ public class DataService {
             oldList.get(i).update(jamWeekdays.get(i));
         }
 
-        log.info("주중 데이터 저장완료");
     }
 
 
@@ -101,7 +99,6 @@ public class DataService {
     // 구별 데이터 조회
     public GlobalResponseDto<BaseGuInfoDto> getGuInformation(String gu, UserDetailsImpl userDetails) {
         gu = ServiceUtil.decoding(gu);
-        //구valid 해야함(준비중)
 
         List<GuBaseInfo> guBaseInfoList = dataRepository.getGuBaseInfo(gu);
 
@@ -112,12 +109,10 @@ public class DataService {
             throw new CustomException(ErrorCode.NotReadyForData);
         }
 
-
         //지난주 0요일
         List<SpotCalculated> spotCalculateds = dataRepository.getGuInfo(gu);
         //오늘
         List<SpotCalculated> todaySpotCalculatedList = dataRepository.getGuInfoToday(gu);
-
 
         // 기존
         List<SpotInfoDto> spotInfoDtoList = new ArrayList<>();

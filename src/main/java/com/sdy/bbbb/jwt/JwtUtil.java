@@ -1,7 +1,7 @@
 package com.sdy.bbbb.jwt;
 
 import com.sdy.bbbb.config.UserDetailsServiceImpl;
-import com.sdy.bbbb.redis.RedisEntity;
+import com.sdy.bbbb.entity.RedisRefreshToken;
 import com.sdy.bbbb.redis.RedisRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -110,7 +110,7 @@ public class JwtUtil {
 
         // DB에 저장한 토큰 비교
 //        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(getEmailFromToken(token));
-        Optional<RedisEntity> refreshToken = redisRepository.findById(getEmailFromToken(token));
+        Optional<RedisRefreshToken> refreshToken = redisRepository.findById(getEmailFromToken(token));
 
         return refreshToken.isPresent() && token.equals(refreshToken.get().getRefreshToken().substring(7));
     }
