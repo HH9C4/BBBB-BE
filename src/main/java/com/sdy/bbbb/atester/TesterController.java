@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.html.Option;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,13 +32,14 @@ public class TesterController {
     }
 
     @GetMapping("/coffee")
-    public String test() {
+    public RedisData test() {
         ChattingDto chattingDto = new ChattingDto();
         chattingDto.setMessage("테스트입니다");
         chattingDto.setSender("테스트라구용");
         RedisData redisData = new RedisData("test1", chattingDto);
         redisDataRepository.save(redisData);
-        return "hi";
+        RedisData asdf = redisDataRepository.findById("test1").get();
+        return asdf;
     }
 
 }
