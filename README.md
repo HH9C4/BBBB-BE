@@ -208,6 +208,10 @@
 > 자동 빌드/배포를 위하여 깃허브 액션과 코드디플로이를 활용하여 CI/CD 를 구축했습니다.         
 > [AWS CodeDeploy](https://github.com/HH9C4/BBBB-BE/wiki/%5BTech%5D-AWS-CodeDeploy)
 
+### ◻ Nginx ReverseProxy (무중단배포)
+
+> 서비스 운영중 업데이트를 위한 재배포시 중단없는 서비스 제공을 위하여 Nginx ReverseProxy를 활용해 무중단배포를 구현하였습니다.       
+
 
 ### ◻ Scheduler를 통한 open api 호출
  
