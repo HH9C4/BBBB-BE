@@ -295,6 +295,8 @@
 
 </div>
 
+Email : boombiboombi.official@gmail.com
+Instagram : @boombiboombi.official
 
 <br>
 
