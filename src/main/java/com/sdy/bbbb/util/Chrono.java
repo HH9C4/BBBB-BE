@@ -40,7 +40,7 @@ public class Chrono {
         LocalDate day = localDateTime.toLocalDate();
         if (day.compareTo(LocalDate.now()) == 0) {
             word = localDateTime.format(DateTimeFormatter.ofPattern("a h:mm").withLocale(Locale.forLanguageTag("ko")));
-        } else if (day == LocalDate.now().minusDays(1L)) {
+        } else if (day.equals(LocalDate.now().minusDays(1))) {
             word = "어제";
         } else {
             word = localDateTime.format(DateTimeFormatter.ofPattern("M월 d일"));
