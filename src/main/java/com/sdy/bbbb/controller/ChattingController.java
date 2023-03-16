@@ -62,7 +62,7 @@ public class ChattingController {
     }
 
     //채팅
-    @ApiOperation(value = "채팅", notes = "체팅 보내기")
+    @ApiOperation(value = "채팅", notes = "채팅 보내기")
     @MessageMapping("/{roomId}")
     @SendTo("/sub/{roomId}")
     //@PathVariable 과 유사
