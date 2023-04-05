@@ -11,8 +11,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 @Configuration
 public class RedisConfig {
 
-    @Value("${spring.redis.host}")
-    private String redisHost;
+//    @Value("${spring.redis.host}")
+//    private String redisHost;
 
     @Value("${spring.redis.port}")
     private int redisPort;
@@ -24,7 +24,7 @@ public class RedisConfig {
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
-        redisStandaloneConfiguration.setHostName(redisHost);
+//        redisStandaloneConfiguration.setHostName(redisHost);
         redisStandaloneConfiguration.setPort(redisPort);
 //        redisStandaloneConfiguration.setPassword(password);
 
