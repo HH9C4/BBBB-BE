@@ -39,7 +39,7 @@ public class AccountController {
         return kakaoAccountService.kakaoLogin(code, response);
     }
 
-    //소셜 네이버 로그인
+    //네이버 소셜 로그인
     @ApiOperation(value = "naver login api info", notes = "For login using naver open api")
     @GetMapping("/user/signin/naver")
     public GlobalResponseDto<LoginResponseDto> naverLogin(@RequestParam String code,
